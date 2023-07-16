@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('descripcion', 100);
             $table->string('imagen', 100)->nullable();
             $table->date('fecha_registro');
+            $table->string('observacion',200)->nullable();
             $table->string('estado', 100);
             $table->boolean('eliminado')->default(false);
             
