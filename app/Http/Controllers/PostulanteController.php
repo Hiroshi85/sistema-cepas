@@ -217,5 +217,21 @@ class PostulanteController extends Controller
         $alumno->nro_hermanos = $postulante->nro_hermanos;
         $alumno->estado = "No matriculado";
         $alumno->save();
+
+
+        \App\Models\User::factory()->create([
+            'name' => $postulante->nombre_apellidos,
+             'dni' => $postulante->dni,
+             'email' => 'a'. $postulante->dni . '@gmail.com',
+             'password' => bcrypt('password'),
+        ])->assignRole('Alumno');
+
+        // $tabla = DB::table('users');
+        // $tabla->insert([
+        //     'name' => $postulante->nombre_apellidos,
+        //     'dni' => $postulante->dni,
+        //     'email' => 'a'. $postulante->dni . '@gmail.com',
+        //     'password' => bcrypt($postulante->dni),
+        // ]);
     }
 }

@@ -39,5 +39,8 @@ class CursoAsignado extends Model
         return $this->hasOne(Evaluacion::class,'idcurso','idcurso');
     }
 
+    public function calificacion(){
+        return $this->hasMany(Calificacion::class,'idcurso','iddetalle');
+    }
     
 }
