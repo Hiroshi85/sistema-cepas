@@ -48,6 +48,9 @@
                     @include('apoderados.layouts.nav')
                 @endif
             @break
+            @case('seguimiento')
+                @include('layouts.seguimiento.navigation')
+            @break
             @case('desempeño')
                 @include('layouts.desempeño.navigation')
             @break

@@ -18,5 +18,9 @@ class DatabaseSeeder extends Seeder
         $this->call(ContratoSeeder::class);
         $this->call(AsignaturaSeeder::class);
         $this->call(CandidatoSeeder::class);
+
+        $this->call(TipoAsistenciaSeeder::class);
+        $this->call(TipoPruebaSeeder::class);
+        $this->call(ConductaSeeder::class);
     }
 }
