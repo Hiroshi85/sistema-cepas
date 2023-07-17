@@ -105,11 +105,10 @@ Route::middleware('auth')->group(function () {
             return redirect()->route($ruta);
         })->middleware('auth')->name('cancelar');
 
-        // Sistema apoderados
-        Route::get('/apoderados/register',[ApoderadoController::class,'crear'])->name('apoderados.crear');
-        Route::post('/apoderados/register',[ApoderadoController::class,'registerApoderado'])->name('apoderados.register');
     });
 });
-
+// Sistema apoderados
+Route::get('/apoderados/register',[ApoderadoController::class,'crear'])->name('apoderados.crear');
+Route::post('/apoderados/register',[ApoderadoController::class,'registerApoderado'])->name('apoderados.register');
 
 require __DIR__ . '/auth.php';
