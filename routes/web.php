@@ -1,14 +1,27 @@
 <?php
 
+use App\Http\Controllers\AdmisionController;
+use App\Http\Controllers\AlumnoController;
+use App\Http\Controllers\ApoderadoController;
+use App\Http\Controllers\AulaController;
 use App\Http\Controllers\CandidatoController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DocumentoAlumnoController;
+use App\Http\Controllers\DocumentoApoderadoController;
+use App\Http\Controllers\DocumentoPostulanteController;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\EntrevistaController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\HorarioController;
+use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\NominaController;
+use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PlazaController;
 use App\Http\Controllers\PostulacionController;
+use App\Http\Controllers\PostulanteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PuestoController;
+use App\Http\Controllers\VoucherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,6 +76,40 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+Route::middleware('auth')->group(function () {
+    Route::prefix('admision-matriculas')->group(function () {
+        Route::get('/',[DashboardController::class, 'index'])->name('admision-matriculas.dashboard');
+        // Apoderados
+        Route::resource('/apoderado',ApoderadoController::class)->middleware('auth');
+        //Postulantes
+        Route::resource('/postulante',PostulanteController::class)->middleware('auth');
+        //Estudiantes
+        Route::resource('/alumno',AlumnoController::class)->middleware('auth');
+        //Aulas
+        Route::resource('/aula',AulaController::class)->middleware('auth');
+        //Entrevistas
+        Route::resource('/entrevista',EntrevistaController::class)->middleware('auth');
+        //Matrícula
+        Route::resource('/matricula',MatriculaController::class)->middleware('auth');
+        //Admision
+        Route::resource('/admision', AdmisionController::class)->middleware('auth');
+        //Pagos
+        Route::resource('/pago', PagoController::class)->middleware('auth');
+        Route::resource('/voucher', VoucherController::class)->middleware('auth');
+        //Documentos
+        Route::resource('/alumno/docsalumno', DocumentoAlumnoController::class)->middleware('auth');
+        Route::resource('/apoderado/docsapoderado', DocumentoApoderadoController::class)->middleware('auth');
+        Route::resource('/postulante/docspostulante',DocumentoPostulanteController::class)->middleware('auth');
+        //Cancel
+        Route::get('cancelar/{ruta}', function($ruta) {
+            return redirect()->route($ruta);
+        })->middleware('auth')->name('cancelar');
+
+        // Sistema apoderados
+        Route::get('/apoderados/register',[ApoderadoController::class,'crear'])->name('apoderados.crear');
+        Route::post('/apoderados/register',[ApoderadoController::class,'registerApoderado'])->name('apoderados.register');
+    });
+});
 
 
 require __DIR__ . '/auth.php';

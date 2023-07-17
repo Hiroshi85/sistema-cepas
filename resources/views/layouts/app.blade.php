@@ -3,6 +3,8 @@
         $module = 'rrhh';
     } elseif (request()->is('*seguimiento*')) {
         $module = 'seguimiento';
+    } elseif (request()->is('*admision-matriculas*')) {
+        $module= 'admision-matriculas';
     } else {
         $module = '';
     }
@@ -20,20 +22,35 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://kit.fontawesome.com/04a4547f2b.js" crossorigin="anonymous"></script>
+    {{-- <script type="text/javascript" src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></script> --}}
+    <script type="text/javascript" src="{{ asset('assets') }}/js/functions.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- Styles --}}
     @livewireStyles
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-950">
+    @if ($module == 'admision-matriculas')
+        @if (!Auth::user()->hasRole('apoderado'))
+            @include('layouts.admision-matriculas.sidenav')
+        @endif
+    @endif
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-950" id="content">
         @switch($module)
             @case('rrhh')
                 @include('layouts.rrhh.navigation')
             @break
-
+            @case('admision-matriculas')
+                @if (!Auth::user()->hasRole('apoderado'))
+                    @include('layouts.admision-matriculas.navigation')
+                @else
+                    @include('apoderados.layouts.nav')
+                @endif
+            @break
             @default
                 @include('layouts.navigation')
         @endswitch

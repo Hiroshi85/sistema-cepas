@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -18,5 +20,10 @@ class UserSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => bcrypt('12341234'),
         ]);
+
+        $adminUser = User::where('email', 'admin@gmail.com')->first();
+        // Asignar el rol 'admin' al usuario
+        $adminRole = Role::create(['name' => 'admin']);
+        $adminUser->assignRole($adminRole);
     }
 }
