@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Empleado;
 use App\Models\Puesto;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 
 class EmpleadoController extends Controller
 {
@@ -94,6 +96,7 @@ class EmpleadoController extends Controller
         $data['esDocente'] = $data['puesto_id'] == 4;
 
         $newEmpleado = Empleado::crearEmpleado($data);
+        $this->createUser($newEmpleado);
         session()->flash(
             'toast',
             [
@@ -158,5 +161,39 @@ class EmpleadoController extends Controller
             ]
         );
         return redirect()->route('empleados.index');
+    }
+
+    //
+
+    private function createUser(Empleado $empleado): void{
+        $user = null;
+        $idp = $empleado->puesto_id;
+
+        if(($idp >=9 && $idp<=19) || $idp == 5 || $idp == 6 || $idp == 24){
+            $user = User::create([
+                'name' => $empleado->nombre,
+                'email' => $empleado->email,
+                'password' => Hash::make($empleado->telefono),
+            ]);
+        }
+
+        if(($idp >=10 && $idp<=19)){
+            $user->assignRole('Docente');
+        }
+
+        if($idp == 9){
+            $user->assignRole('Coordinador Academico');
+        }
+
+        if($idp == 5){
+            $user->assignRole('secretario(a)');
+        }
+
+        if($idp == 6){
+            $user->assignRole('auxiliar');
+        }
+        if($idp == 24){
+            $user->assignRole('psicologo');
+        }
     }
 }
