@@ -10,6 +10,7 @@
             'Candidatos' => 'candidatos.index',
             'Plazas' => 'plazas.index',
             'Postulaciones' => 'postulaciones.index',
+            'Evaluaciones' => 'rrhh.evaluaciones.index',
         ],
         'Nómina' => 'nomina.index',
         'Horarios' => 'horarios.index',
