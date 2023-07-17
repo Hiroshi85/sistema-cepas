@@ -34,11 +34,6 @@
 </head>
 
 <body class="font-sans antialiased">
-    @if ($module == 'admision-matriculas')
-        @if (!Auth::user()->hasRole('apoderado'))
-            @include('layouts.admision-matriculas.sidenav')
-        @endif
-    @endif
     <div class="min-h-screen bg-gray-100 dark:bg-gray-950" id="content">
         @switch($module)
             @case('rrhh')
