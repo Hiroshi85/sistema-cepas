@@ -56,13 +56,19 @@ class EvaluacionCandidato extends Model
             ->paginate($paginate);
     }
 
+    public static function obtenerEvaluacion($id)
+    {
+        return EvaluacionCandidato::find($id);
+    }
+
     public static function crearEvaluacion($data)
     {
         return EvaluacionCandidato::create($data);
     }
 
-    public static function actualizarEvaluacion($evaluacion, $data)
+    public static function actualizarEvaluacion($id, $data)
     {
+        $evaluacion = EvaluacionCandidato::find($id);
         return $evaluacion->update($data);
     }
 

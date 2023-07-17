@@ -116,17 +116,42 @@ class EvaluacionCandidatoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(EvaluacionCandidato $evaluacionCandidato)
+    public function edit($id)
     {
-        //
+        return view(
+            'evaluaciones-candidato.edit',
+            [
+                'evaluacion' => EvaluacionCandidato::obtenerEvaluacion($id),
+            ]
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, EvaluacionCandidato $evaluacionCandidato)
+    public function update(Request $request, $id)
     {
-        //
+
+        $validator = Validator::make($request->all(), $this->rules(), $this->messages());
+
+        if ($validator->fails()) {
+
+            foreach ($validator->errors()->all() as $error) {
+                session()->flash('toast', [
+                    'type' => 'error',
+                    'message' => $error
+                ]);
+            }
+            return redirect()->back()->withErrors($validator->errors())->withInput();
+        }
+
+        EvaluacionCandidato::actualizarEvaluacion($id, $validator->validated());
+        session()->flash('toast', [
+            'type' => 'success',
+            'message' => 'Evaluación actualizada correctamente.'
+        ]);
+
+        return redirect()->route('rrhh.evaluaciones.index');
     }
 
     /**

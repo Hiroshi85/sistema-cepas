@@ -1,6 +1,9 @@
-@props(['evaluacion' => null, 'postulacion'])
+@props(['evaluacion' => null, 'postulacion' => null])
 @php
     use Carbon\Carbon;
+    if (!$postulacion) {
+        $postulacion = $evaluacion->postulacion;
+    }
 @endphp
 <form method="POST"
     action="{{ $evaluacion ? route('rrhh.evaluaciones.update', $evaluacion) : route('rrhh.evaluaciones.store') }}"
@@ -21,7 +24,7 @@
                     <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">Candidato
                     </dt>
                     <dd class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
-                        {{ $postulacion->candidato->nombre }}
+                        {{ $postulacion->candidato->nombre }} - {{ $postulacion->candidato->edad() }} años
                     </dd>
                 </div>
                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
