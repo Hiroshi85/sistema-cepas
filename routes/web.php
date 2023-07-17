@@ -24,7 +24,7 @@ use App\Http\Controllers\PuestoController;
 use App\Http\Controllers\VoucherController;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\AsistenciaController;
+use App\Http\Controllers\AsistenciaXDiaController;
 use App\Http\Controllers\PruebaPsicologicaController;
 use App\Http\Controllers\BuscarController;
 use App\Http\Controllers\PruebaArchivoController;
@@ -86,7 +86,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', function () {
             return view('seguimiento-dashboard');
         })->name('seguimiento.dashboard');
-        Route::resource('asistencias', AsistenciaController::class);
+        Route::resource('asistenciaxdias', AsistenciaXDiaController::class);
         Route::resource('pruebas', PruebaPsicologicaController::class);
         Route::resource('conductas', ConductaController::class);
         Route::get('buscar/asistencias', [BuscarController::class, 'buscarAsistencia'])->name('asist.buscar');

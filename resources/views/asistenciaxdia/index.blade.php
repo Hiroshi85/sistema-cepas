@@ -11,7 +11,7 @@
                 <div class="px-6 py-4 text-gray-900 dark:text-gray-100 flex justify-between">
                     <p class="font-xl text-gray-800 dark:text-white font-semibold py-2 px-4">Toma de Asistencia</p>
                     <a class="text-gray-800 dark:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow hover:bg-gray-200 transition duration-300 ease-in-out"
-                    href="{{ route('asistencias.create') }}">
+                    href="{{ route('asistenciaxdias.create') }}">
                         Otros días
                     </a>                    
                 </div>
@@ -21,7 +21,7 @@
                             <p>{{Str::title($day)}}, {{$today}}</p>
                         </div>
                         @if ($enable)
-                            <form id="myForm" method="POST" action="{{ route('asistencias.store') }}" class="max-w-7xl mx-auto">
+                            <form id="myForm" method="POST" action="{{ route('asistenciaxdias.store') }}" class="max-w-7xl mx-auto">
                                 @csrf
                                 <div class="grid grid-cols-2 gap-4 lg:grid-cols-3">
                                     <input type="hidden" name="fecha" value="{{$today}}">

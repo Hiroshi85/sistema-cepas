@@ -11,7 +11,7 @@
                 <div class="px-6 py-4 text-gray-900 dark:text-gray-100 flex justify-between">
                     <p class="font-xl text-gray-800 dark:text-white font-semibold py-2 px-4">Editar asistencias</p>
                     <a class="text-gray-800 dark:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow hover:bg-gray-200 transition duration-300 ease-in-out"
-                    href="{{ route('asistencias.index') }}">
+                    href="{{ route('asistenciaxdias.index') }}">
                         Atrás
                     </a>                    
                 </div>
@@ -122,7 +122,7 @@
           }
       }
       
-      myForm.action = "/seguimiento/asistencias/"+ data.id_asistencia
+      myForm.action = "/seguimiento/asistenciaxdias/"+ data.id_asistencia
     })
     .catch(error => {
       tipoInput.disabled = true;

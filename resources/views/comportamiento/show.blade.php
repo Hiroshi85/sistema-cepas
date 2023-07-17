@@ -121,7 +121,7 @@
   const nota = document.getElementById('nota');
 
   function eliminarReg(id){
-    fetch("/dashboard/comportamientos/delete/"+id)
+    fetch("/seguimiento/comportamientos/delete/"+id)
         .then(response => response.json())
         .then(data => buscarDatos())
         .catch(error => {

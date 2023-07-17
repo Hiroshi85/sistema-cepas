@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Alumno;
-use App\Models\Asistencia;
+use App\Models\AsistenciaXDia;
 use App\Models\TipoAsistencia;
 
-class AsistenciaController extends Controller
+class AsistenciaXDiaController extends Controller
 {
     public function __construct()
     {
@@ -25,17 +25,17 @@ class AsistenciaController extends Controller
         $today_f = Carbon::now()->format('Y-m-d');
         $day = now()->dayName;
         $enable = Carbon::now()->isWeekday();
-        $num = Asistencia::whereDate('fecha', Carbon::today())->with('tipo')->get()->count();
+        $num = AsistenciaXDia::whereDate('fecha', Carbon::today())->with('tipo')->get()->count();
         if($num <= 0 && $enable){
             foreach($alumnos as $it){
-                Asistencia::create([
+                AsistenciaXDia::create([
                     'fecha' => $today_f,
                     'alumno_id' => $it->idalumno,
                     'tipo_id' => 2,
                 ]);
             }
         }
-        return view('asistencia.index', ['today'=>$today, 'day'=>$day, 'enable'=>$enable]);
+        return view('asistenciaxdia.index', ['today'=>$today, 'day'=>$day, 'enable'=>$enable]);
     }
 
     /**
@@ -45,7 +45,7 @@ class AsistenciaController extends Controller
     {
         $today = Carbon::now()->format('Y-m-d');
         error_log("estoy aqui");
-        return view('asistencia.edit', ['today'=>$today]);
+        return view('asistenciaxdia.edit', ['today'=>$today]);
     }
 
     /**
@@ -55,11 +55,11 @@ class AsistenciaController extends Controller
     {
         $tipo = $req->input('tipo');
         
-        Asistencia::where('alumno_id',$req->input("alumno"))
+        AsistenciaXDia::where('alumno_id',$req->input("alumno"))
                     ->where('fecha', Carbon::parse($req->input("fecha"))->format('Y-m-d'))
                     ->update(['tipo_id'=>$tipo]);
         
-        return redirect()->route('asistencias.index');
+        return redirect()->route('asistenciaxdias.index');
     }
 
     /**
@@ -78,11 +78,11 @@ class AsistenciaController extends Controller
     {
         $tipo = $req->input('tipo');
         
-        $as = Asistencia::find($id);
+        $as = AsistenciaXDia::find($id);
         $as->tipo_id=$tipo;
         $as->save();
         
-        return redirect()->route('asistencias.create');
+        return redirect()->route('asistenciaxdias.create');
     }
 
     /**

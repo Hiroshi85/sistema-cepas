@@ -19,7 +19,7 @@
                     {{-- <x-nav-link :href="route('apoderados.index')" :active="request()->routeIs('apoderado.index')">
                         {{ __('Apoderado') }}
                     </x-nav-link> --}}
-                    <x-nav-link :href="route('asistencias.index')" :active="request()->routeIs('asistencia.index')">
+                    <x-nav-link :href="route('asistenciaxdias.index')" :active="request()->routeIs('asistencia.index')">
                         {{ __('Asistencia') }}
                     </x-nav-link>
                     <x-nav-link :href="route('conductas.index')" :active="request()->routeIs('conducta.index')">
@@ -89,7 +89,7 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('asistencias.index')" :active="request()->routeIs('asistencia.index')">
+            <x-responsive-nav-link :href="route('asistenciaxdias.index')" :active="request()->routeIs('asistencia.index')">
                 {{ __('Asistencia') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('conductas.index')" :active="request()->routeIs('conducta.index')">

@@ -15,6 +15,6 @@ class TipoAsistencia extends Model
 
     public function asistencia()
     {
-        return $this->hasMany(Asistencia::class, 'tipo_id');
+        return $this->hasMany(AsistenciaXDia::class, 'tipo_id');
     }
 }
