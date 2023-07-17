@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('postulacion_id');
             $table->integer('experiencia_laboral');
-            $table->string('educacion');
-            $table->string('habilidades');
-            $table->string('conocimiento_materias')->nullable(); // si es docente
+            $table->text('educacion');
+            $table->text('habilidades');
+            $table->text('conocimiento_materias')->nullable(); // si es docente
             $table->double('puntaje_total')->nullable();
             $table->foreign('postulacion_id')->references('id')->on('postulaciones');
             $table->timestamps();
