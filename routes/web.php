@@ -37,6 +37,9 @@ Route::middleware('auth')->group(function () {
 
 
     Route::prefix('rrhh')->group(function () {
+        Route::get('/', function () {
+            return view('rrhh-dashboard');
+        })->name('rrhh.dashboard');
         Route::resource('/empleados', EmpleadoController::class);
         Route::controller(PostulacionController::class)->group(
             function () {

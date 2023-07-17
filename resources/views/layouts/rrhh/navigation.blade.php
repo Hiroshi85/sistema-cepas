@@ -1,7 +1,18 @@
 @php
     $navigation = [
-        'Dashboard' => 'dashboard',
-        'RRHH' => 'rrhh.dashboard',
+        'Dashboard' => 'rrhh.dashboard',
+        'Personal' => [
+            'Empleados' => 'empleados.index',
+            'Puestos' => 'puestos.index',
+            'Equipos' => 'equipos.index',
+        ],
+        'Reclutamiento' => [
+            'Candidatos' => 'candidatos.index',
+            'Plazas' => 'plazas.index',
+            'Postulaciones' => 'postulaciones.index',
+        ],
+        'Nómina' => 'nomina.index',
+        'Horarios' => 'horarios.index',
     ];
 @endphp
 

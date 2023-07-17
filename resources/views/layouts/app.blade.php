@@ -1,3 +1,5 @@
+@props(['module' => ''])
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -6,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ 'Sistema de Gestión CEPAS' }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -20,7 +22,14 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100 dark:bg-gray-950">
-        @include('layouts.navigation')
+        @switch($module)
+            @case('rrhh')
+                @include('layouts.rrhh.navigation')
+            @break
+
+            @default
+                @include('layouts.navigation')
+        @endswitch
 
         <!-- Page Heading -->
         @if (isset($header))
