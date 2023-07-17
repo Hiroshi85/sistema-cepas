@@ -22,6 +22,14 @@ use App\Http\Controllers\PostulanteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PuestoController;
 use App\Http\Controllers\VoucherController;
+// DESEMPEÑO
+use App\Http\Controllers\AsignaturaController;
+use App\Http\Controllers\CursoAsignadoController;
+use App\Http\Controllers\SilaboController;
+use App\Http\Controllers\EvaluacionController;
+use App\Http\Controllers\EvaluacionDocenteController;
+use App\Http\Controllers\AsistenciaController;
+use App\Http\Controllers\CalificacionController;
 use Illuminate\Support\Facades\Route;
 
 /*
