@@ -50,6 +50,15 @@ class DocumentoAlumnoController extends Controller
 
         $documento->estado = "Registrado";
         $documento->save();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Documento registrado correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->route('alumno.edit', ['alumno' => $documento->idalumno])->with('datos','stored');
     }
 
@@ -98,6 +107,15 @@ class DocumentoAlumnoController extends Controller
             $documento->observacion = $request->get('observacion');
         }
         $documento->save();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Documento actualizado correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->back()->with('datos','updated');
     }
 
@@ -108,6 +126,15 @@ class DocumentoAlumnoController extends Controller
     {
         $document = DocumentoAlumno::findOrFail($id);
         $document->delete();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Documento eliminado correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->back()->with('datos','deleted');
     }
 }

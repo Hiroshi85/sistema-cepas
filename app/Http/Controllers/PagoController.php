@@ -77,6 +77,14 @@ class PagoController extends Controller
         $pago->eliminado = 0;
         $pago->save();
 
+        session()->flash(
+            'toast',
+            [
+                'message' => "Pago registrado correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->route('pago.index')->with('datos','stored');
     }
 
@@ -135,11 +143,13 @@ class PagoController extends Controller
         $pago->fecha_vencimiento = $request->get('fecha_vencimiento');
         $pago->estado = $request->get('estado');
 
-        // if ($request->get('concepto') == "Matrícula" && ($pago->idalumno != null || $request->get('idalumno') != null)) 
-        // {
-        //     if ($request->get('estado') == "Verificado") $this->updateMatriculaPagada($pago);
-        // }
-
+        session()->flash(
+            'toast',
+            [
+                'message' => "Registro actualizado correctamente",
+                'type' => 'success',
+            ]
+        );
         $pago->save();
         
         return redirect()->route('pago.index')->with('datos','updated');
@@ -153,6 +163,15 @@ class PagoController extends Controller
         $pago = Pago::findOrFail($idapoderado);
         $pago->eliminado = 1;
         $pago->save();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Registro eliminado correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->route('pago.index')->with('datos','deleted');
     }
 

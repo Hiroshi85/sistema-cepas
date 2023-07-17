@@ -39,4 +39,13 @@ class Alumno extends Model
     {
         return $this->hasMany(Comportamiento::class);
     }
+
+    public function asistencia(){
+        return $this->hasMany(Asistencia::class,'idalumno','idalumno');
+    }
+    
+    public function aula(){
+        return $this->hasOne(Aula::class,'idaula','idaula');
+    }
+
 }

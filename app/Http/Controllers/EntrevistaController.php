@@ -6,9 +6,14 @@ use App\Models\Entrevista;
 use App\Models\Postulante;
 use DateTime;
 use Illuminate\Http\Request;
+use Spatie\Permission\Traits\HasRoles;
 
 class EntrevistaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:secretario(a)|admin');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -75,6 +80,15 @@ class EntrevistaController extends Controller
             $entrevista->save();
             $hora->modify('+' . $request->get('tiempo') . ' minutes'); //Sumarle el tiempo en minutos a la hora 
         }
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Entrevistas programadas correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->route('entrevista.index')->with('datos','stored');
     }
 
@@ -112,6 +126,15 @@ class EntrevistaController extends Controller
         }
 
         $entrevista->save();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Entrevista actualizada correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->route('entrevista.index')->with('datos','updated');
     }
 
@@ -122,6 +145,15 @@ class EntrevistaController extends Controller
     {
         $entrevista = Entrevista::findOrFail($id);
         $entrevista->delete();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Entrevista eliminada correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->route('entrevista.index')->with('datos','deleted');
     }
 }

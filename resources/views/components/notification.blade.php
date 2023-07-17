@@ -8,7 +8,7 @@
     @endif
 
     <div
-      class="flex items-center justify-center rounded-lg px-2 py-2 text-center text-white shadow-lg dark:text-gray-200">
+      class="flex items-center justify-center rounded-lg px-2 py-2 text-center dark:text-white shadow-lg dark:text-gray-200">
       <i class="fas fa-bell"></i>
     </div>
 </div>

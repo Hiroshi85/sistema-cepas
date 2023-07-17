@@ -45,7 +45,15 @@ class ApoderadoController extends Controller
             'nombre_apellidos.required' => 'El campo apellidos y nombres es requerido',
         ]);
 
+        $user = new User();
+        $user->name = $request->get('nombre_apellidos');
+        $user->email = $request->get('correo');
+        $user->password = Hash::make($request->get('dni'));
+        $user->assignRole('apoderado');
+        $user->save();
+
         $apoderado = new Apoderado();
+        $apoderado->idusuario = $user->id;
         $apoderado->nombre_apellidos = $request->get('nombre_apellidos');
         $apoderado->fecha_nacimiento = $request->get('fecha_nacimiento');
         $apoderado->dni = $request->get('dni'); //8 digits only numbers
@@ -54,6 +62,14 @@ class ApoderadoController extends Controller
         $apoderado->centro_trabajo = $request->get('centro_trabajo');
         $apoderado->correo = $request->get('correo');
         $apoderado->save();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Apoderado registrado correctamente",
+                'type' => 'success',
+            ]
+        );
 
         return redirect()->route('apoderado.index')->with('datos','stored');
     }
@@ -97,6 +113,13 @@ class ApoderadoController extends Controller
         $apoderado->centro_trabajo = $request->get('centro_trabajo');
         $apoderado->correo = $request->get('correo');
         $apoderado->save();
+        session()->flash(
+            'toast',
+            [
+                'message' => "Apoderado actualizado correctamente",
+                'type' => 'success',
+            ]
+        );
         return redirect()->route('apoderado.index')->with('datos','updated');
     }
 
@@ -108,6 +131,15 @@ class ApoderadoController extends Controller
         $apoderado = Apoderado::findOrFail($idapoderado);
         $apoderado->eliminado = 1;
         $apoderado->save();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Apoderado eliminado correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->route('apoderado.index')->with('datos','deleted');
     }
 
@@ -117,9 +149,6 @@ class ApoderadoController extends Controller
 
     public function registerApoderado(Request $request): RedirectResponse
     {
-
-       
-
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
@@ -138,8 +167,8 @@ class ApoderadoController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $role = Role::firstOrCreate(['name' => 'apoderado']); 
-        $user->assignRole($role);
+        // $role = Role::firstOrCreate(['name' => 'apoderado']); 
+        $user->assignRole('apoderado');
         
         $apoderado = new Apoderado();
         $apoderado->nombre_apellidos = $request->get('name');

@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class AulaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role:secretario(a)|admin');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -43,6 +47,14 @@ class AulaController extends Controller
         $aula->nro_vacantes_disponibles = $request->get('vacantes');
         $aula->eliminado = 0;
         $aula->save();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Aula $aula->grado $aula->seccion registrada correctamente",
+                'type' => 'success',
+            ]
+        );
 
         return redirect()->route('aula.index')->with('datos','stored');
     }
@@ -84,7 +96,7 @@ class AulaController extends Controller
         session()->flash(
             'toast',
             [
-                'message' => "Registro actualizado correctamente",
+                'message' => "Aula actualizada correctamente",
                 'type' => 'success',
             ]
         );
@@ -100,6 +112,14 @@ class AulaController extends Controller
         $aula = Aula::findOrFail($idapoderado);
         $aula->eliminado = 1;
         $aula->save();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Aula $aula->grado $aula->seccion eliminada correctamente",
+                'type' => 'success',
+            ]
+        );
         return redirect()->route('aula.index')->with('datos','deleted');
     }
 }

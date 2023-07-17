@@ -5,6 +5,8 @@
         $module = 'seguimiento';
     } elseif (request()->is('*admision-matriculas*')) {
         $module= 'admision-matriculas';
+    } elseif (request()->is('*desempeño*')) {
+        $module = 'desempeño';
     } else {
         $module = '';
     }
@@ -34,11 +36,6 @@
 </head>
 
 <body class="font-sans antialiased">
-    @if ($module == 'admision-matriculas')
-        @if (!Auth::user()->hasRole('apoderado'))
-            @include('layouts.admision-matriculas.sidenav')
-        @endif
-    @endif
     <div class="min-h-screen bg-gray-100 dark:bg-gray-950" id="content">
         @switch($module)
             @case('rrhh')
@@ -53,6 +50,9 @@
             @break
             @case('seguimiento')
                 @include('layouts.seguimiento.navigation')
+            @break
+            @case('desempeño')
+                @include('layouts.desempeño.navigation')
             @break
             @default
                 @include('layouts.navigation')

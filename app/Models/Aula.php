@@ -13,4 +13,12 @@ class Aula extends Model
     //grado	seccion	nro_vacantes_total	nro_vacantes_disponibles	eliminado	
     protected $fillable = ['grado', 'seccion', 'nro_vacantes_total', 'nro_vacantes_disponibles', 'eliminado'];
     public $timestamps = false;
+
+    public function cursoasignado(){
+        return $this->hasMany(CursoAsignado::class,'idaula','idaula');
+    }
+
+    public function alumno(){
+        return $this->hasMany(AlumnoAsignado::class,'idaula','idaula');
+    }
 }

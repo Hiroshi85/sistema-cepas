@@ -22,6 +22,14 @@ use App\Http\Controllers\PostulanteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PuestoController;
 use App\Http\Controllers\VoucherController;
+// DESEMPEÑO
+use App\Http\Controllers\AsignaturaController;
+use App\Http\Controllers\CursoAsignadoController;
+use App\Http\Controllers\SilaboController;
+use App\Http\Controllers\EvaluacionController;
+use App\Http\Controllers\EvaluacionDocenteController;
+use App\Http\Controllers\AsistenciaController;
+use App\Http\Controllers\CalificacionController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AsistenciaXDiaController;
@@ -136,5 +144,47 @@ Route::middleware('auth')->group(function () {
 // Sistema apoderados
 Route::get('/apoderados/register',[ApoderadoController::class,'crear'])->name('apoderados.crear');
 Route::post('/apoderados/register',[ApoderadoController::class,'registerApoderado'])->name('apoderados.register');
+
+// EVALUACION DESEMPEÑO
+Route::prefix('desempeño')->group(function () {
+    Route::get('/', function () {
+        return view('desempeño-dashboard');
+    })->name('desempeño.dashboard');
+    // Curso
+    Route::resource('cursos',AsignaturaController::class)->names('cursos');
+    Route::get('asignar',[AsignaturaController::class,'indexasignar'])->name('asignar');
+    Route::POST('asignarcurso/',[AsignaturaController::class,'storeasignar'])->name('asignar.grabar');
+    Route::get('miscursos/{id}',[AsignaturaController::class,'miscursosprofesor'])->name('miscursos');
+    Route::get('micurso/{id}',[AsignaturaController::class,'micurso'])->name('micurso');
+
+    // // Silabo
+    Route::resource('silabos',SilaboController::class)->names('silabos');
+
+
+    // Evaluacion
+    Route::POST('/evaluacion', [EvaluacionController::class, 'store'])->name('evaluaciones.store');
+    Route::put('/evaluaciones/{id}', [EvaluacionController::class, 'update'])->name('evaluaciones.update');
+    Route::delete('/evaluaciones/{id}', [EvaluacionController::class, 'destroy'])->name('evaluaciones.destroy');
+
+    // Asistencia
+    Route::get('asistencia/{id}',[AsistenciaController::class,'asistenciaprofesor'])->name('asistencia');
+    Route::get('asistencia/{id1}/{id2}',[AsistenciaController::class,'listaprofesor'])->name('detalleasistencia');
+    Route::resource('asistencia',AsistenciaController::class)->names('asistencias');
+    Route::get('asistencia/pdf/{id1}/{id2}',[AsistenciaController::class,'pdf'])->name('listaasistencia.pdf');
+
+    // Calificacion 
+    Route::get('notas/{id}',[CalificacionController::class,'registrar'])->name('registrarnotas');
+    Route::put('/calificaciones/', [CalificacionController::class, 'update'])->name('calificaciones.update');
+    Route::get('miscalificaciones/{id}',[CalificacionController::class,'calificacionesporalumno'])->name('miscalificaciones');
+    Route::get('miscalificaciones/pdf/{id}',[CalificacionController::class,'pdf'])->name('calificaciones.pdf');
+
+    // Documentos
+    Route::get('documentos/',[SilaboController::class,'mostrardocs'])->name('aprobardocumentos');
+
+    //EvaluarDocentes
+    Route::resource('evaluaciondocentes',EvaluacionDocenteController::class)->names('evaluaciondocente');
+    Route::get('evaluardocentes/',[EvaluacionDocenteController::class,'mostrardocentes'])->name('evaluardocentes');
+
+});
 
 require __DIR__ . '/auth.php';

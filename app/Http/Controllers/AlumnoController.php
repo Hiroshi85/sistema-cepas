@@ -105,6 +105,14 @@ class AlumnoController extends Controller
         $alumno->estado = $request->get('estado');
         $alumno->save();
         
+        session()->flash(
+            'toast',
+            [
+                'message' => "Alumno actualizado correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->route('alumno.index')->with('datos','updated');
     }
 
@@ -120,6 +128,14 @@ class AlumnoController extends Controller
         $aula = Aula::findOrFail($alumno->idaula);
         $aula->nro_vacantes_disponibles = $aula->nro_vacantes_disponibles + 1;
         $aula->save();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Alumno eliminado correctamente",
+                'type' => 'success',
+            ]
+        );
         return redirect()->route('alumno.index')->with('datos','deleted');
     }
 }
