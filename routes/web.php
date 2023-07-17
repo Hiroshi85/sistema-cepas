@@ -83,6 +83,9 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('seguimiento')->middleware('auth')->group(function(){
+        Route::get('/', function () {
+            return view('seguimiento-dashboard');
+        })->name('seguimiento.dashboard');
         Route::resource('asistencias', AsistenciaController::class);
         Route::resource('pruebas', PruebaPsicologicaController::class);
         Route::resource('conductas', ConductaController::class);
