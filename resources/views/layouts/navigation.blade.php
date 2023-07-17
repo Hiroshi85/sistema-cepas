@@ -3,6 +3,7 @@
         'Dashboard' => 'dashboard',
         'RRHH' => 'rrhh.dashboard',
         'Admisión y Matrículas' => 'admision-matriculas.dashboard',
+        'Evaluacion Desempeño' => 'desempeño.dashboard',
     ];
 @endphp
 
