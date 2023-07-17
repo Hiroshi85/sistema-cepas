@@ -21,6 +21,13 @@ class Candidato extends Model
         'curriculum_url',
     ];
 
+    public function edad()
+    {
+        $fechaNacimiento = new \DateTime($this->fecha_nacimiento);
+        $hoy = new \DateTime();
+        $edad = $hoy->diff($fechaNacimiento);
+        return $edad->y;
+    }
 
     public function postulaciones(): HasMany
     {
