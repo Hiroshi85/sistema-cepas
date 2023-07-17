@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <img class="w-16 h-16" src="{{ asset('/images/logocepas.png') }}" alt="Logo personalizado">
+                        <img class="w-16 h-16" src="{{ asset('assets') }}/cepas_escudo.png" alt="Logo Personalizado">
                     </a>
                 </div>
 

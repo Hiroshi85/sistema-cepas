@@ -25,12 +25,12 @@
                 <th colspan="6">Reporte de Notas - Año Academico 2023 - I.E CEPAS</th>
             </tr>
             <tr>
-                <th rowspan="3" colspan="2"><img src="images/logocepas.png" height="100px" alt="Logo cepas"></th>
-                <th colspan="4">ALUMNO: {{$al->nombre}}</th>
+                <th rowspan="3" colspan="2"><img width="100px" src="assets/cepas_escudo.png" alt="Logo Personalizado"></th>
+                <th colspan="4">ALUMNO: {{$al->nombre_apellidos}}</th>
             </tr>
             <tr>
                 <th colspan="2">DNI: {{$al->dni}}</th>
-                <th colspan="2">EDAD: {{$al->edad}}</th>
+                <th colspan="2">TELEFONO: {{$al->numero_celular}}</th>
             </tr>
             <tr>
                 <th colspan="2">GRADO: {{$al->aula->grado}}</th>

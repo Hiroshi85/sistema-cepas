@@ -19,6 +19,7 @@ class ContratoSeeder extends Seeder
 
         if(($idp >=9 && $idp<=19) || $idp == 5 || $idp == 6 || $idp == 24){
             $user = User::create([
+                'dni' => $empleado->dni,
                 'name' => $empleado->nombre,
                 'email' => $empleado->email,
                 'password' => Hash::make("password"),

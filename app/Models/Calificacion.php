@@ -19,6 +19,6 @@ class Calificacion extends Model
     }
 
     public function cursoasignado(){
-        return $this->hasOne(CursoAsignado::class,'idcurso','idcurso');
+        return $this->hasOne(CursoAsignado::class,'iddetalle','idcurso');
     }
 }
