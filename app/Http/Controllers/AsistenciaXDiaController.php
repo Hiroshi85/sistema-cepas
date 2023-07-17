@@ -13,7 +13,7 @@ class AsistenciaXDiaController extends Controller
     public function __construct()
     {
         // $this->middleware('auth');
-        $this->middleware('role:auxiliar');
+        $this->middleware('role:auxiliar|admin');
     }
     /**
      * Display a listing of the resource.
