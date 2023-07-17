@@ -1,5 +1,12 @@
-@props(['module' => ''])
-
+@php
+    if (request()->is('*rrhh*')) {
+        $module = 'rrhh';
+    } elseif (request()->is('*seguimiento*')) {
+        $module = 'seguimiento';
+    } else {
+        $module = '';
+    }
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
