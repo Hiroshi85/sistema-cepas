@@ -32,6 +32,32 @@ class Postulacion extends Model
         return $this->belongsTo(Plaza::class, 'plaza_id');
     }
 
+    // setear estados
+
+    public function setEstadoPendiente()
+    {
+        $this->estado = 'pendiente';
+        $this->save();
+    }
+
+    public function setEstadoAprobado()
+    {
+        $this->estado = 'aprobado';
+        $this->save();
+    }
+
+    public function setEstadoRechazado()
+    {
+        $this->estado = 'rechazado';
+        $this->save();
+    }
+
+    public function setEstadoEnRevision()
+    {
+        $this->estado = 'en revision';
+        $this->save();
+    }
+
     // crud methods
     public static function listarPostulaciones(
         $search = '',
@@ -50,6 +76,11 @@ class Postulacion extends Model
             ->paginate($paginate);
     }
 
+    public static function obtenerTodos()
+    {
+        return Postulacion::where('estado', '=', 'pendiente')
+            ->orderBy('fecha_postulacion', 'asc')->get();
+    }
     public static function crearPostulacion($data)
     {
         $postulacion = Postulacion::create($data);
