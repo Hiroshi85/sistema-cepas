@@ -173,7 +173,7 @@ class EmpleadoController extends Controller
             $user = User::create([
                 'name' => $empleado->nombre,
                 'email' => $empleado->email,
-                'password' => Hash::make($empleado->telefono),
+                'password' => Hash::make("password"),
             ]);
         }
 
