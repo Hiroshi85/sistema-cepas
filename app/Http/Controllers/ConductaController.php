@@ -11,8 +11,8 @@ class ConductaController extends Controller
     {
         // $this->middleware('auth');
         
-        $this->middleware('role:auxiliar|psicologo')->only(['index']);
-        $this->middleware('role:auxiliar')->except(['index']);
+        $this->middleware('role:auxiliar|psicologo|admin')->only(['index']);
+        $this->middleware('role:auxiliar|admin')->except(['index']);
     }
     /**
      * Display a listing of the resource.
