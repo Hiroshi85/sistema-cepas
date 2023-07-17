@@ -5,6 +5,8 @@
         $module = 'seguimiento';
     } elseif (request()->is('*admision-matriculas*')) {
         $module= 'admision-matriculas';
+    } elseif (request()->is('*desempeño*')) {
+        $module = 'desempeño';
     } else {
         $module = '';
     }
@@ -50,6 +52,9 @@
                 @else
                     @include('apoderados.layouts.nav')
                 @endif
+            @break
+            @case('desempeño')
+                @include('layouts.desempeño.navigation')
             @break
             @default
                 @include('layouts.navigation')
