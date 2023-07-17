@@ -6,9 +6,14 @@ use App\Models\Entrevista;
 use App\Models\Postulante;
 use DateTime;
 use Illuminate\Http\Request;
+use Spatie\Permission\Traits\HasRoles;
 
 class EntrevistaController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware('role:secretario(a)|admin');
+    // }
     /**
      * Display a listing of the resource.
      */

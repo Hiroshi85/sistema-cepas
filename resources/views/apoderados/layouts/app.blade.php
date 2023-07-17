@@ -49,6 +49,31 @@
                 </script>
             @endif
         </div>
+        @livewireScripts
+        <script>
+            Livewire.onLoad(() => {
+                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia(
+                        '(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark')
+                    Livewire.emit('theme-load', {
+                        theme: 'dark'
+                    });
+                } else {
+                    document.documentElement.classList.remove('dark')
+                    Livewire.emit('theme-load', {
+                        theme: 'light'
+                    });
     
+                }
+            });
+            window.addEventListener('theme-toggle', event => {
+                localStorage.theme = event.detail.theme;
+                if (event.detail.theme === 'dark') {
+                    document.documentElement.classList.add('dark')
+                } else {
+                    document.documentElement.classList.remove('dark')
+                }
+            });
+        </script>
     </body>
 </html>

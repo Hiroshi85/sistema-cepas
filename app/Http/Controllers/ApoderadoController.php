@@ -45,7 +45,15 @@ class ApoderadoController extends Controller
             'nombre_apellidos.required' => 'El campo apellidos y nombres es requerido',
         ]);
 
+        $user = new User();
+        $user->name = $request->get('nombre_apellidos');
+        $user->email = $request->get('correo');
+        $user->password = Hash::make($request->get('dni'));
+        $user->assignRole('apoderado');
+        $user->save();
+
         $apoderado = new Apoderado();
+        $apoderado->idusuario = $user->id;
         $apoderado->nombre_apellidos = $request->get('nombre_apellidos');
         $apoderado->fecha_nacimiento = $request->get('fecha_nacimiento');
         $apoderado->dni = $request->get('dni'); //8 digits only numbers
@@ -138,8 +146,8 @@ class ApoderadoController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $role = Role::firstOrCreate(['name' => 'apoderado']); 
-        $user->assignRole($role);
+        // $role = Role::firstOrCreate(['name' => 'apoderado']); 
+        $user->assignRole('apoderado');
         
         $apoderado = new Apoderado();
         $apoderado->nombre_apellidos = $request->get('name');
