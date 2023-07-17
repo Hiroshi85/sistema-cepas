@@ -3,6 +3,7 @@
 use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\EquipoController;
+use App\Http\Controllers\EvaluacionCandidatoController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\NominaController;
 use App\Http\Controllers\PlazaController;
@@ -56,6 +57,7 @@ Route::middleware('auth')->group(function () {
         );
         Route::resource('/candidatos', CandidatoController::class);
         Route::resource('/plazas', PlazaController::class);
+        Route::resource('/evaluaciones', EvaluacionCandidatoController::class)->names('rrhh.evaluaciones');
         Route::resource('/puestos', PuestoController::class);
         Route::resource('/equipos', EquipoController::class);
         Route::resource('/horarios', HorarioController::class);
