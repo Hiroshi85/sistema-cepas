@@ -68,7 +68,7 @@ class PostulanteController extends Controller
 
         $data= request()->validate([
             'nombre_apellidos' => 'required',
-
+            
         ],[
             'nombre_apellidos.required' => 'El campo apellidos y nombres es requerido',
         ]);
@@ -117,6 +117,14 @@ class PostulanteController extends Controller
                 $apoderado_postulante->convivencia = 'no';
             $apoderado_postulante->save();
         }
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Registro creado correctamente",
+                'type' => 'success',
+            ]
+        );
 
         return redirect()->route('postulante.index')->with('datos','stored');
     }
@@ -186,6 +194,15 @@ class PostulanteController extends Controller
             if ($request->get('estado') == 'Aceptado') $this->createAlumno($postulante);
         }   
         $postulante->save();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Registro actualizado correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->route('postulante.index')->with('datos','updated');
     }
 
@@ -197,6 +214,15 @@ class PostulanteController extends Controller
         $postulante = Postulante::findOrFail($idpostulante);
         $postulante->eliminado = 1;
         $postulante->save();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Registro eliminado correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->route('postulante.index')->with('datos','deleted');
     }
 

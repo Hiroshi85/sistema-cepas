@@ -63,6 +63,14 @@ class ApoderadoController extends Controller
         $apoderado->correo = $request->get('correo');
         $apoderado->save();
 
+        session()->flash(
+            'toast',
+            [
+                'message' => "Apoderado registrado correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->route('apoderado.index')->with('datos','stored');
     }
 
@@ -105,6 +113,13 @@ class ApoderadoController extends Controller
         $apoderado->centro_trabajo = $request->get('centro_trabajo');
         $apoderado->correo = $request->get('correo');
         $apoderado->save();
+        session()->flash(
+            'toast',
+            [
+                'message' => "Apoderado actualizado correctamente",
+                'type' => 'success',
+            ]
+        );
         return redirect()->route('apoderado.index')->with('datos','updated');
     }
 
@@ -116,6 +131,15 @@ class ApoderadoController extends Controller
         $apoderado = Apoderado::findOrFail($idapoderado);
         $apoderado->eliminado = 1;
         $apoderado->save();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Apoderado eliminado correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->route('apoderado.index')->with('datos','deleted');
     }
 
@@ -125,9 +149,6 @@ class ApoderadoController extends Controller
 
     public function registerApoderado(Request $request): RedirectResponse
     {
-
-       
-
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],

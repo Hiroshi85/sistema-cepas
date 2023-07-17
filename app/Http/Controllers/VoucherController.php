@@ -52,6 +52,15 @@ class VoucherController extends Controller
 
         $voucher->estado = "Registrado";
         $voucher->save();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Voucher registrado correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->back()->with('datos','stored');
     }
 
@@ -76,7 +85,7 @@ class VoucherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $autoridad = Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('administrador');
+        $autoridad = Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin');
         $data= request()->validate([
              
         ],[
@@ -98,8 +107,18 @@ class VoucherController extends Controller
             $voucher->voucher = $path.$time;
         }
 
-        if($secretario) $voucher->estado = $request->get('estado');
+        if($autoridad) $voucher->estado = $request->get('estado');
+
         $voucher->save();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Voucher actualizado correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->back()->with('datos','updated');
     }
 
@@ -110,6 +129,15 @@ class VoucherController extends Controller
     {
         $voucher = Voucher::findOrFail($id);
         $voucher->delete();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Voucher eliminado correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->back()->with('datos','deleted');
     }
 }

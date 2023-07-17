@@ -50,6 +50,15 @@ class DocumentoPostulanteController extends Controller
 
         $documento->estado = "Registrado";
         $documento->save();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Documento registrado correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->back()->with('datos','stored');
     }
 
@@ -99,6 +108,15 @@ class DocumentoPostulanteController extends Controller
             $documento->observacion = $request->get('observacion');
         }
         $documento->save();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Documento actualizado correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->back()->with('datos','updated');
     }
 
@@ -109,6 +127,15 @@ class DocumentoPostulanteController extends Controller
     {
         $document = DocumentoPostulante::findOrFail($id);
         $document->delete();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Documento eliminado correctamente",
+                'type' => 'success',
+            ]
+        );
+
         return redirect()->back()->with('datos','deleted');
     }
 }
