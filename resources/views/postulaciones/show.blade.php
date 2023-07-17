@@ -108,9 +108,8 @@
                                 </dt>
                                 <dd
                                     class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
-                                    <a href="{{ route('candidatos.show', $postulacion->candidato->id) }}"
-                                        class="bg-indigo-700 hover:bg-indigo-800 ease-in-out text-white py-2 px-5 rounded-sm">Iniciar
-                                        Proceso de Evaluación</a>
+                                    <a href="{{ route('rrhh.evaluaciones.createForAPostulacion', $postulacion->id) }}"
+                                        class="bg-indigo-700 hover:bg-indigo-800 ease-in-out text-white py-2 px-5 rounded-sm">Evaluar</a>
                                 </dd>
                             </div>
                         @endif

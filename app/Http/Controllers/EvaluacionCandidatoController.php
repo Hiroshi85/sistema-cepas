@@ -16,11 +16,11 @@ class EvaluacionCandidatoController extends Controller
             'postulacion_id' => 'required|exists:postulaciones,id',
             'experiencia_laboral' => 'required|numeric|min:0|max:50',
             'educacion' => 'array|present',
-            'educacion.*' => 'required|string|max:25',
+            'educacion.*' => 'required|string|max:50',
             'habilidades' => 'array|present',
-            'habilidades.*' => 'required|string|max:25',
+            'habilidades.*' => 'required|string|max:50',
             'conocimiento_materias' => 'array|nullable',
-            'conocimiento_materias.*' => 'string|max:25',
+            'conocimiento_materias.*' => 'string|max:50',
         ];
     }
 
@@ -39,18 +39,18 @@ class EvaluacionCandidatoController extends Controller
             'educacion.present' => 'El campo Estudios es obligatorio.',
             'educacion.*.required' => 'El campo Estudios es obligatorio para todos los elementos.',
             'educacion.*.string' => 'El campo Estudios debe ser una cadena de caracteres.',
-            'educacion.*.max' => 'El campo Estudios debe tener como máximo 25 caracteres.',
+            'educacion.*.max' => 'El campo Estudios debe tener como máximo 50 caracteres.',
 
             'habilidades.array' => 'El campo Habilidades debe ser un arreglo.',
             'habilidades.present' => 'El campo Habilidades es obligotorio.',
             'habilidades.*.required' => 'El campo Habilidades es obligatorio para todos los elementos.',
             'habilidades.*.string' => 'El campo Habilidades debe ser una cadena de caracteres.',
-            'habilidades.*.max' => 'El campo Habilidades debe tener como máximo 25 caracteres.',
+            'habilidades.*.max' => 'El campo Habilidades debe tener como máximo 50 caracteres.',
 
             'conocimiento_materias.array' => 'El campo Materias que domina debe ser un arreglo.',
             'conocimiento_materias.*.required' => 'El campo Materias que domina es obligatorio para todos los elementos.',
             'conocimiento_materias.*.string' => 'El campo Materias que domina debe ser una cadena de caracteres.',
-            'conocimiento_materias.*.max' => 'El campo Materias que domina debe tener como máximo 25 caracteres.',
+            'conocimiento_materias.*.max' => 'El campo Materias que domina debe tener como máximo 50 caracteres.',
         ];
     }
 
@@ -70,6 +70,10 @@ class EvaluacionCandidatoController extends Controller
     {
         $postulaciones = Postulacion::obtenerTodos();
         return view('evaluaciones-candidato.create', compact('postulaciones'));
+    }
+    public function createForAPostulacion(Postulacion $postulacion)
+    {
+        return view('evaluaciones-candidato.postulacion.create', compact('postulacion'));
     }
 
     /**

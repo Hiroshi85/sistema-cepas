@@ -58,6 +58,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('/candidatos', CandidatoController::class);
         Route::resource('/plazas', PlazaController::class);
         Route::resource('/evaluaciones', EvaluacionCandidatoController::class)->names('rrhh.evaluaciones');
+        Route::get('/evaluaciones/{postulacion}/create', [EvaluacionCandidatoController::class, 'createForAPostulacion'])
+            ->name('rrhh.evaluaciones.createForAPostulacion');
         Route::resource('/puestos', PuestoController::class);
         Route::resource('/equipos', EquipoController::class);
         Route::resource('/horarios', HorarioController::class);
