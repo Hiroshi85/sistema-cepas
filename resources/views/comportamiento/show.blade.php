@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Asistencia') }}
+            {{ __('Comportamiento') }}
         </h2>
     </x-slot>
 
@@ -9,7 +9,7 @@
         <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-5">
                 <div class="px-6 py-4 text-gray-900 dark:text-gray-100 flex justify-between">
-                    <p class="font-xl text-gray-800 dark:text-white font-semibold py-2 px-4">Editar asistencias</p>
+                    <p class="font-xl text-gray-800 dark:text-white font-semibold py-2 px-4">Editar comportamiento</p>
                     <a class="text-gray-800 dark:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow hover:bg-gray-200 transition duration-300 ease-in-out"
                     href="{{ route('comportamientos.index') }}">
                         Atrás

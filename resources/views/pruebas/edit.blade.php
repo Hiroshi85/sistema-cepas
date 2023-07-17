@@ -52,10 +52,12 @@
                             <label for="archivo" class="block">Archivo</label>
                             <input type="file" id="archivo" name="archivo" class="w-full dark:text-gray-800">
                           </div>
+                          @if($prueba->file_url != null)
                           <div>
                             <label for="p-online" class="block">Archivo actual</label>
-                            <a href="{{route('files',$prueba->id)}}" class="w-full dark:text-gray-800">Archivo</a> 
+                            <a href="{{route('files',$prueba->id)}}" class="w-full text-blue-600 dark:text-blue-800 hover:underline">Descargar archivo</a> 
                           </div>
+                          @endif
                           <div class="col-span-3 lg:col-span-2">
                             <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 border border-blue-500 rounded shadow">
                               Guardar
