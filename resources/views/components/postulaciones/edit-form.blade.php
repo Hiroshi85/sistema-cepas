@@ -39,7 +39,7 @@
     <form method="POST" action="{{ route('postulaciones.update', [
         'postulacion' => $postulacion,
     ]) }}"
-        class="grid md:grid-cols-2 gap-5">
+        class="flex flex-col md:grid md:grid-cols-2 gap-5">
         @method('PUT')
         @csrf
 

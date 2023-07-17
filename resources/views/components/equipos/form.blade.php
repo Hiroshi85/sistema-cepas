@@ -1,7 +1,7 @@
 @props(['equipo' => null])
 
 <form method="POST" action="{{ $equipo ? route('equipos.update', $equipo) : route('equipos.store') }}"
-    class="grid md:grid-cols-2 gap-5">
+    class="flex flex-col md:grid md:grid-cols-2 gap-5">
     @csrf
     {{ $equipo ? method_field('PUT') : '' }}
 

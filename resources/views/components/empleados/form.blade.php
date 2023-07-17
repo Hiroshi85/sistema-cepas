@@ -25,7 +25,7 @@
 
 
 <form method="POST" action="{{ $empleado ? route('empleados.update', $empleado) : route('empleados.store') }}"
-    class="grid md:grid-cols-2 gap-5">
+    class="flex flex-col md:grid md:grid-cols-2 gap-5">
     @csrf
     {{ $empleado ? method_field('PUT') : '' }}
 

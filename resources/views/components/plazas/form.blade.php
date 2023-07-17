@@ -11,7 +11,7 @@
 
 
 <form method="POST" action="{{ $plaza ? route('plazas.update', $plaza) : route('plazas.store') }}"
-    class="grid md:grid-cols-2 gap-5">
+    class="flex flex-col md:grid md:grid-cols-2 gap-5">
     @csrf
     {{ $plaza ? method_field('PUT') : '' }}
 

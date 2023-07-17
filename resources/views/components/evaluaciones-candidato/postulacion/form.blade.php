@@ -4,7 +4,7 @@
 @endphp
 <form method="POST"
     action="{{ $evaluacion ? route('rrhh.evaluaciones.update', $evaluacion) : route('rrhh.evaluaciones.store') }}"
-    class="grid md:grid-cols-2 gap-5">
+    class="flex flex-col md:grid md:grid-cols-2 gap-5">
     @csrf
     {{ $evaluacion ? method_field('PUT') : '' }}
 

@@ -37,10 +37,10 @@
 @else
     <form method="POST"
         action="{{ $candidato ? route('postulaciones.update', $candidato) : route('postulaciones.store') }}"
-        class="grid md:grid-cols-2 gap-5">
+        class="flex flex-col md:grid md:grid-cols-2 gap-5">
         @csrf
         {{ $candidato ? method_field('PUT') : '' }}
-        <div class="p-5 border dark:border-gray-800 col-span-full grid md:grid-cols-2 gap-5">
+        <div class="p-5 border dark:border-gray-800 col-span-full flex flex-col md:grid md:grid-cols-2 gap-5">
             <h2 class="col-span-full bold dark:text-white">
                 Registrar candidato
             </h2>
@@ -71,7 +71,7 @@
         </div>
         <div class="capitalize bold flex items-center justify-center p-2 col-span-full">o</div>
 
-        <div class="p-5 border dark:border-gray-800 col-span-full grid md:grid-cols-2 gap-5">
+        <div class="p-5 border dark:border-gray-800 col-span-full flex flex-col md:grid md:grid-cols-2 gap-5">
 
             <h2 class="col-span-full bold dark:text-white">Seleccionar un candidato</h2>
             <x-input-group label="Candidato" :options="$candidatos_options" name="candidato_id" type="select"
