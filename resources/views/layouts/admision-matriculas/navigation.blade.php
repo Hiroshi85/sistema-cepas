@@ -51,6 +51,10 @@
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
                             </form>
+                            <div class="flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700">
+                                {{-- <x-darkmode-toggle /> --}}
+                                @livewire('common.theme-toggle')
+                            </div>
                         </x-slot>
                     </x-dropdown>
                 </div>

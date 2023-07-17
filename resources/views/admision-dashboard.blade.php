@@ -11,11 +11,11 @@
 
         <div class="py-12">
             <div class=" mx-auto sm:px-2 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100 flex flex-col md:flex-row gap-6">
                         {{-- CONTENT --}}
                         <div
-                            class="flex flex-col rounded-lg bg-white p-6 bg-gray-100 dark:bg-gray-900 w-full w-[50%]">
+                            class="flex flex-col rounded-lg bg-white p-6 bg-gray-100 dark:bg-gray-800 w-full w-[50%]">
                             <div class="flex md:flex-row justify-between">
                                 <h5
                                 class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
@@ -59,7 +59,8 @@
                                         data-te-toggle="modal"
                                         data-te-target="#modalEdit-Admision{{$admision->idadmision}}"
                                         data-te-ripple-init
-                                        data-te-ripple-color="light">
+                                        data-te-ripple-color="light"
+                                        >
                                         Editar
                                     </x-secondary-button>
                                 @endif
@@ -69,7 +70,7 @@
                         </div>
                         {{-- --------------------------- --}}
                         <div
-                            class="flex flex-col rounded-lg bg-white p-6 bg-gray-100 dark:bg-gray-900 w-full w-[50%]">
+                            class="flex flex-col rounded-lg bg-white p-6 bg-gray-100 dark:bg-gray-800 w-full w-[50%]">
                             <div class="flex md:flex-row justify-between">
                                 <h5
                                 class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
