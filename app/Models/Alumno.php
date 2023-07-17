@@ -30,4 +30,13 @@ class Alumno extends Model
     
     // $table->foreign('idaula')->references('idaula')->on('aulas');
     // $table->foreign('idpostulante')->references('idpostulante')->on('postulantes');
+    public function asistencias()
+    {
+        return $this->hasMany(Asistencia::class);
+    }
+
+    public function comportamientos()
+    {
+        return $this->hasMany(Comportamiento::class);
+    }
 }

@@ -20,6 +20,7 @@ class AsistenciaController extends Controller
      */
     public function index()
     {
+        $alumnos = Alumno::select('idalumno')->get();
         $today = Carbon::now()->format('d-m-Y');
         $today_f = Carbon::now()->format('Y-m-d');
         $day = now()->dayName;
@@ -29,7 +30,7 @@ class AsistenciaController extends Controller
             foreach($alumnos as $it){
                 Asistencia::create([
                     'fecha' => $today_f,
-                    'alumno_id' => $it->id,
+                    'alumno_id' => $it->idalumno,
                     'tipo_id' => 2,
                 ]);
             }

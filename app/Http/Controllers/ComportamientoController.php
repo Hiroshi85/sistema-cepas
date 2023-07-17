@@ -25,7 +25,7 @@ class ComportamientoController extends Controller
         $meritos = Conducta::where('puntaje', '>', 0)->get();
         $today = Carbon::now()->format('Y-m-d');
         $enable = Carbon::now()->isWeekday();
-        return view('comportamiento.index', ['meritos' => $meritos, 'demeritos'=> $demeritos, 'hoy'=>$today, 'alumnos'=>$alumnos, 'enable'=>$enable]);
+        return view('comportamiento.index', ['meritos' => $meritos, 'demeritos'=> $demeritos, 'hoy'=>$today, 'enable'=>$enable]);
     }
 
     /**

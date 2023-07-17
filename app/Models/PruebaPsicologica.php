@@ -15,7 +15,7 @@ class PruebaPsicologica extends Model
 
     public function psicologo()
     {
-        return $this->belongsTo(Psicologo::class);
+        return $this->belongsTo(User::class);
     }
 
     public function tipo()

@@ -50,8 +50,7 @@ class PruebaPsicologicaController extends Controller
         $pp->tipo_id = $req->input("tipo");
         $pp->edad_minima = $req->input("minima");
         $pp->edad_maxima = $req->input("maxima");
-        $psico = Empleado::where('user_id',Auth::id())->first();
-        $pp->psicologo_id = $psico->id;
+        $pp->psicologo_id = Auth::id();
         $pp->online_url = $req->input("p-online");
         if($req->hasFile('archivo')){
             $pp->file_url = $this->uploadFile($req);
