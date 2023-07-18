@@ -53,7 +53,7 @@
                                         @endphp
                                         <tr class=" border-b dark:bg-gray-800 dark:border-gray-700">
                                             <th scope="col" class="px-6 py-3 w-2/7">
-                                                {{$norden}}.- {{$cs->alumno->nombre}}
+                                                {{$norden}}.- {{$cs->alumno->nombre_apellidos}}
                                                 <input value="{{$cs->idcalificacion}}" id="idcalificacion" name="idcalificacion[]" hidden>
                                             </th>
                                             <th scope="col" class="px-6 py-3 w-1/7">

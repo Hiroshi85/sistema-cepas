@@ -25,7 +25,7 @@
                 <th colspan="10">Reporte de Asistencia - Año Academico 2023 - I.E CEPAS</th>
             </tr>
             <tr>
-                <th rowspan="3" colspan="1"><img src="images/logocepas.png" height="100px" alt="Logo cepas"></th>
+            <th rowspan="3" colspan="1"><img width="100px" src="assets/cepas_escudo.png" alt="Logo Personalizado"></th>
                 <th colspan="9">CURSO: {{$c->curso->nombre}}</th>
             </tr>
             <tr>
@@ -51,7 +51,7 @@
         <tbody>
           @foreach($asistencias as $as)
             <tr>
-                <td>{{$as->alumno->nombre}}</td>
+                <td>{{$as->alumno->nombre_apellidos}}</td>
                 <td>{{$as->s1}}</td>
                 <td>{{$as->s2}}</td>
                 <td>{{$as->s3}}</td>
