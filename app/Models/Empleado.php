@@ -85,4 +85,9 @@ class Empleado extends Model
         $empleado->delete();
         return $empleado;
     }
+
+    public static function obtenerEncargadosDeEvaluacion()
+    {
+        return Empleado::where('puesto_id', '=', '3')->get();
+    }
 }
