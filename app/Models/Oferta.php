@@ -10,22 +10,66 @@ class Oferta extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'puesto_id',
+        'postulacion_id',
         'fecha_inicio',
         'fecha_fin',
         'descripcion',
         'salario',
         'beneficios',
+        'estado'
     ];
 
     protected $casts = [
-        'fecha_inicio' => 'date',
-        'fecha_fin' => 'date',
+        'beneficios' => 'array'
     ];
 
     public function postulacion(): BelongsTo
     {
-        return $this->belongsTo(Postulacion::class, 'candidato_id')
-            ->whereInEager('plaza_id', $this->plaza_id);
+        return $this->belongsTo(Postulacion::class, 'postulacion_id');
+    }
+
+    // crud methods
+    public static function listarOfertas(
+        $search = '',
+        $sortBy = 'fecha_inicio',
+        $sortDirection = 'desc',
+        $paginate = 10
+    ) {
+        return Oferta::select('ofertas.*', 'candidatos.nombre as candidato', 'puestos.nombre as puesto')
+            ->join('postulaciones', 'postulaciones.id', '=', 'ofertas.postulacion_id')
+            ->join('candidatos', 'candidatos.id', '=', 'postulaciones.candidato_id')
+            ->join('plazas', 'plazas.id', '=', 'postulaciones.plaza_id')
+            ->join('puestos', 'puestos.id', '=', 'plazas.puesto_id')
+            ->where('candidatos.nombre', 'like', '%' . $search . '%')
+            ->orWhere('puestos.nombre', 'like', '%' . $search . '%')
+            ->orderBy($sortBy, $sortDirection)
+            ->paginate($paginate);
+    }
+
+    public static function crearOferta($data)
+    {
+        return Oferta::create($data);
+    }
+
+    public static function obtenerOferta($id)
+    {
+        return Oferta::find($id);
+    }
+
+    public static function obtenerTodo()
+    {
+        return Oferta::orderBy('fecha_inicio', 'desc')->get();
+    }
+
+    public static function actualizarOferta($id, $data)
+    {
+        $oferta = Oferta::find($id);
+        $oferta->update($data);
+        return $oferta;
+    }
+
+    public static function eliminarOferta($oferta)
+    {
+        return $oferta->delete();
     }
 }
