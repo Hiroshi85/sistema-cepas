@@ -32,6 +32,16 @@ class Postulacion extends Model
         return $this->belongsTo(Plaza::class, 'plaza_id');
     }
 
+    public function evaluacion()
+    {
+        return $this->hasOne(EvaluacionCandidato::class, 'postulacion_id');
+    }
+
+    public function ofertas()
+    {
+        return $this->hasMany(Oferta::class, 'postulacion_id');
+    }
+
     // setear estados
 
     public function setEstadoPendiente()
@@ -81,6 +91,12 @@ class Postulacion extends Model
         return Postulacion::where('estado', '=', 'pendiente')
             ->orderBy('fecha_postulacion', 'asc')->get();
     }
+
+    public static function obtenerPostulacion($id)
+    {
+        return Postulacion::find($id);
+    }
+
     public static function crearPostulacion($data)
     {
         $postulacion = Postulacion::create($data);
