@@ -18,6 +18,7 @@ class CreatePlazasTable extends Migration
             $table->date('fecha_inicio');
             $table->date('fecha_fin')->nullable();
             $table->text('descripcion')->nullable();
+            $table->boolean('abierta')->default(true);
             $table->timestamps();
         });
     }
