@@ -28,7 +28,7 @@
                                     <input type="hidden" name="alumno" id="alumno">
                                     <div class="col-span-2 lg:col-span-2">
                                         <label for="alumno_s" class="block">Alumno: </label>
-                                        <input type="text" readonly id="alumno_s" class="w-full">
+                                        <input type="text" required readonly id="alumno_s" class="w-full">
                                     </div>
                                     {{-- <div class="col-span-2 lg:col-span-2">
                                         <label for="alumno" class="block">Alumno: </label>

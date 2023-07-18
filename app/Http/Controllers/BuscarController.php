@@ -12,16 +12,13 @@ class BuscarController extends Controller
     public function buscarAsistencia(Request $req){
         $fecha = $req->query('fecha');
         $alumno_id = $req->query('alumno');
-        $num = AsistenciaXDia::where('alumno_id',$alumno_id)->where('fecha', $fecha)->get()->count();
+        $num = AsistenciaXDia::obtenerNumeroAsistenciaDeAlumno($alumno_id, $fecha);
         $enable = Carbon::now()->isWeekday();
         if($num <= 0 && $enable){
-            AsistenciaXDia::create([
-                'fecha' => $fecha,
-                'alumno_id' => $alumno_id,
-                'tipo_id' => 2,
-            ]);
+            AsistenciaXDia::crearAsistencia($fecha, 2, $alumno_id);
         }
-        $asistencia = AsistenciaXDia::where('alumno_id',$alumno_id)->where('fecha', $fecha)->with('tipo')->get();
+        
+        $asistencia =  AsistenciaXDia::obtenerAsistenciaDeAlumno($alumno_id, $fecha);
         error_log($asistencia);
         return ['tipo'=>$asistencia[0]->tipo->id, 'id_asistencia' => $asistencia[0]->id];
     }
