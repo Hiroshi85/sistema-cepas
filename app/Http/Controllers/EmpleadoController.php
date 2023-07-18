@@ -93,7 +93,12 @@ class EmpleadoController extends Controller
         $data = $this->validate($request, $this->rules(), $this->messages());
 
         // if the equipo is docentes, then the esDocente field is true
-        $data['esDocente'] = $data['puesto_id'] == 4;
+        if($data['puesto_id'] >= 10 && $data['puesto_id'] <= 19){
+            $data['esDocente'] = 1;
+        }
+        else{
+            $data['esDocente'] = 0;
+        }
 
         $newEmpleado = Empleado::crearEmpleado($data);
         $this->createUser($newEmpleado);

@@ -9,7 +9,7 @@ class Asistencia extends Model
 {
     use HasFactory;
 
-    protected $table='asistencia';
+    protected $table='asistencia_asignatura';
     protected $primaryKey = 'idasistencia';
     public $timestamps = false;
     protected $fillable=['idalumno','idaula','idcurso','bimestre','s1','s3','s3','s4','s5','s6','s7','s8'];

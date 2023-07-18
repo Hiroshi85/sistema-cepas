@@ -19,7 +19,7 @@
                 <div class="flex justify-between">
                     <br>
                     <a href="{{route('listaasistencia.pdf', ['id1' => $c->iddetalle, 'id2' => $numbim])}}" class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900">
-                        Generar reporte de notas
+                        Generar reporte de asistencia
                     </a>
                 </div>              
                 <div class="relative overflow-x-auto">
@@ -68,7 +68,7 @@
                                     @endphp
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <th scope="col" class="px-6 py-3 w-4/12">
-                                        {{$norden}}.- {{$as->alumno->nombre}}
+                                        {{$norden}}.- {{$as->alumno->nombre_apellidos}}
                                         <input value="{{$as->idasistencia}}" id="idalumno" name="idasistencia[]" hidden>
                                         </th>
                                         <th scope="col" class="px-6 py-3 w-1/12">

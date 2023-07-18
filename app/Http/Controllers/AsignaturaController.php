@@ -109,8 +109,8 @@ class AsignaturaController extends Controller
 
     public function miscursosprofesor($id)
     {
-        //$doc = Empleado::where('dni','=',$id)->first();
-        $doc = Empleado::where('dni','=',37773668)->first();
+        $doc = Empleado::where('dni','=',$id)->first();
+        // $doc = Empleado::where('dni','=',37773668)->first();
         $miscursos=CursoAsignado::where('iddocente','=',$doc->id)->get();
         return view('cursos.miscursos',compact('miscursos'));
     }
