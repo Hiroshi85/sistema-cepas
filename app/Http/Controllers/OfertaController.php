@@ -204,7 +204,7 @@ class OfertaController extends Controller
         if ($oferta->estado == 'aceptada') {
             // registrar empleado
             $candidato = $oferta->postulacion->candidato;
-            Empleado::crearEmpleado(
+            $empleado = Empleado::crearEmpleado(
                 [
                     'nombre' => $candidato->nombre,
                     'email' => $candidato->email,
@@ -217,10 +217,15 @@ class OfertaController extends Controller
                     'esDocente' => $oferta->postulacion->plaza->puesto->esDocente(),
                 ]
             );
+            // crear usuario
+            EmpleadoController::createUser($empleado);
             session()->flash('toast', [
                 'message' => 'Oferta aceptada correctamente',
                 'type' => 'success',
             ]);
+
+            // cerrar plaza
+            $oferta->postulacion->plaza->cerrar();
         } else {
 
             session()->flash('toast', [

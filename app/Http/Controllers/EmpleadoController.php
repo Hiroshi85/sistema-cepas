@@ -93,10 +93,9 @@ class EmpleadoController extends Controller
         $data = $this->validate($request, $this->rules(), $this->messages());
 
         // if the equipo is docentes, then the esDocente field is true
-        if($data['puesto_id'] >= 10 && $data['puesto_id'] <= 19){
+        if ($data['puesto_id'] >= 10 && $data['puesto_id'] <= 19) {
             $data['esDocente'] = 1;
-        }
-        else{
+        } else {
             $data['esDocente'] = 0;
         }
 
@@ -170,11 +169,12 @@ class EmpleadoController extends Controller
 
     //
 
-    private function createUser(Empleado $empleado): void{
+    public static function createUser(Empleado $empleado): void
+    {
         $user = null;
         $idp = $empleado->puesto_id;
 
-        if(($idp >=9 && $idp<=19) || $idp == 5 || $idp == 6 || $idp == 24){
+        if (($idp >= 9 && $idp <= 19) || $idp == 5 || $idp == 6 || $idp == 24) {
             $user = User::create([
                 'name' => $empleado->nombre,
                 'dni' => $empleado->dni,
@@ -183,22 +183,22 @@ class EmpleadoController extends Controller
             ]);
         }
 
-        if(($idp >=10 && $idp<=19)){
+        if (($idp >= 10 && $idp <= 19)) {
             $user->assignRole('Docente');
         }
 
-        if($idp == 9){
+        if ($idp == 9) {
             $user->assignRole('Coordinador Academico');
         }
 
-        if($idp == 5){
+        if ($idp == 5) {
             $user->assignRole('secretario(a)');
         }
 
-        if($idp == 6){
+        if ($idp == 6) {
             $user->assignRole('auxiliar');
         }
-        if($idp == 24){
+        if ($idp == 24) {
             $user->assignRole('psicologo');
         }
     }
