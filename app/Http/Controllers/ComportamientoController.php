@@ -12,7 +12,7 @@ class ComportamientoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('role:auxiliar|admin');
+        $this->middleware('role:auxiliar|admin|Docente');
     }
 
     /**
