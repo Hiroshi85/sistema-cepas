@@ -53,7 +53,7 @@ class AsistenciaXDia extends Model
         return AsistenciaXDia::where('alumno_id',$alumno_id)->where('fecha', $fecha)->get()->count();
     }
 
-    public static function obtenerAsistenciaDeAlumno($alumno_id, $fecha): AsistenciaXDia{
+    public static function obtenerAsistenciaDeAlumno($alumno_id, $fecha){
         return AsistenciaXDia::where('alumno_id',$alumno_id)->where('fecha', $fecha)->with('tipo')->get();
     }
 }
