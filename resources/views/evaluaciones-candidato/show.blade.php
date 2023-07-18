@@ -166,9 +166,8 @@
                                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                     <dd
                                         class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
-                                        <a href="{{ route('rrhh.entrevistas.createForAEvaluacion', $evaluacion->id) }}"
-                                            class="bg-indigo-700 hover:bg-indigo-800 ease-in-out text-white py-2 px-5 rounded-sm">Programar
-                                            Entrevista</a>
+
+                                        @livewire('rrhh-evaluaciones.finalizar-evaluacion-modal', ['evaluacion' => $evaluacion], key($evaluacion->id))
                                     </dd>
                                 </div>
                             @else

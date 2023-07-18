@@ -25,6 +25,11 @@ class Puesto extends Model
         return $this->hasMany(Plaza::class);
     }
 
+    public function esDocente()
+    {
+        return $this->equipo_id == 4;
+    }
+
     public static function listarPuestos(
         $search = '',
         $sortBy = 'nombre',

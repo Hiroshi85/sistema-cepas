@@ -7,7 +7,7 @@
 @endphp
 
 <div>
-    @if ($evaluacion->haFinalizado())
+    @if ($evaluacion && $evaluacion->haFinalizado())
         <p
             class="text-red-500 text-xs italic mt-4 bg-red-100 border border-red-400 rounded-sm px-4 py-3 dark:bg-red-900 dark:text-red-100 dark:border-red-900 my-5"
         >
@@ -16,7 +16,7 @@
     @endif
     <form method="POST"
         action="{{ $evaluacion ? route('rrhh.evaluaciones.update', $evaluacion) : route('rrhh.evaluaciones.store') }}"
-        class="flex flex-col md:grid md:grid-cols-2 gap-5 {{ $evaluacion->haFinalizado() ? 'pointer-events-none opacity-50' : '' }}">
+        class="flex flex-col md:grid md:grid-cols-2 gap-5 {{ $evaluacion && $evaluacion->haFinalizado() ? 'pointer-events-none opacity-50' : '' }}">
         @csrf
         {{ $evaluacion ? method_field('PUT') : '' }}
 

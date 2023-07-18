@@ -1,24 +1,24 @@
 @php
     $options = [
         (object) [
-            'value' => 'aprobada',
-            'label' => 'Aprobado',
+            'value' => 'aceptada',
+            'label' => 'Aceptar',
         ],
         (object) [
             'value' => 'rechazada',
-            'label' => 'Rechazado',
+            'label' => 'Rechazar',
         ],
     ];
 @endphp
 
 <div>
     <button wire:click="$set('modalOpen', true)"
-        class="bg-indigo-700 hover:bg-indigo-800 ease-in-out text-white py-2 px-5 rounded-sm">Finalizar
-        Evaluación</button>
+        class="bg-indigo-700 hover:bg-indigo-800 ease-in-out text-white py-2 px-5 rounded-sm">Registrar decisión del
+        candidato</button>
 
     @if ($modalOpen)
-        <x-modal width="md" name="finalizar-evaluacion-modal" :show="true">
-            <form method="post" action="{{ route('rrhh.evaluaciones.finalizarEvaluacion', $evaluacion->id) }}">
+        <x-modal width="md" name="finalizar-oferta-modal" :show="true">
+            <form method="post" action="{{ route('ofertas.decisionCandidato', $oferta->id) }}">
                 @csrf
                 @method('put')
                 <div class="relative w-full h-full">
@@ -29,10 +29,8 @@
                         </button>
                         <div class="p-6 flex flex-col gap-5">
                             <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                Finalizar Evaluación
+                                Registrar decisión del candidato
                             </h3>
-                            <x-input-group name='puntaje_total' label='Puntaje Total' required
-                                placeholder='Ingrese el puntaje total' type='text'></x-input-group>
                             <x-input-group name='estado' label='Decisión' type='select' :options="$options">
                             </x-input-group>
                             <div class="flex-gap-3">

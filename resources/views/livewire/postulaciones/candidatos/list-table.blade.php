@@ -114,6 +114,8 @@
 
                                     @case('aprobado')
                                         <x-badge color="green">Aprobado </x-badge>
+                                    @break
+
                                     @case('rechazado')
                                         <x-badge color="red">Rechazado </x-badge>
                                     @break

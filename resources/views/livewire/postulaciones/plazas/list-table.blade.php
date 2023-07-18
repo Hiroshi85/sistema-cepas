@@ -84,7 +84,6 @@
                                 {{ Carbon::parse($postulacion->fecha_postulacion)->locale('es_ES')->isoFormat('LL') }}
                             </td>
                             <td class="px-6 py-4">
-                                <span></span>
                                 @switch($postulacion->estado)
                                     @case('en revision')
                                         <x-badge color="indigo">En revisión </x-badge>
@@ -92,6 +91,8 @@
 
                                     @case('aprobado')
                                         <x-badge color="green">Aprobado </x-badge>
+                                    @break
+
                                     @case('rechazado')
                                         <x-badge color="red">Rechazado </x-badge>
                                     @break

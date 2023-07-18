@@ -65,6 +65,12 @@ class EvaluacionCandidato extends Model
     {
         return EvaluacionCandidato::whereDoesntHave('entrevista')->get();
     }
+    public static function obtenerFinalizadas()
+    {
+        return EvaluacionCandidato::whereHas('entrevista')
+            ->where('puntaje_total', '>=', 0)
+            ->get();
+    }
 
     public static function obtenerEvaluacion($id)
     {
