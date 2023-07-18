@@ -37,6 +37,11 @@ class EvaluacionCandidato extends Model
         return $this->hasOne(EntrevistaCandidato::class, 'evaluacion_id');
     }
 
+    public function haFinalizado()
+    {
+        return $this->puntaje_total != null && $this->puntaje_total >= 0;
+    }
+
     // crud methods
 
     public static function listarEvaluaciones(
@@ -54,6 +59,11 @@ class EvaluacionCandidato extends Model
             ->where('candidatos.nombre', 'like', '%' . $search . '%')
             ->orderBy($sortBy, $sortDirection)
             ->paginate($paginate);
+    }
+
+    public static function obtenerTodos()
+    {
+        return EvaluacionCandidato::whereDoesntHave('entrevista')->get();
     }
 
     public static function obtenerEvaluacion($id)

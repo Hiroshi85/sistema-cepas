@@ -11,6 +11,7 @@
             'Plazas' => 'plazas.index',
             'Postulaciones' => 'postulaciones.index',
             'Evaluaciones' => 'rrhh.evaluaciones.index',
+            'Entrevistas' => 'rrhh.entrevistas.index',
         ],
         'Nómina' => 'nomina.index',
         'Horarios' => 'horarios.index',

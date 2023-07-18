@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\EntrevistaCandidatoController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\EvaluacionCandidatoController;
 use App\Http\Controllers\HorarioController;
@@ -62,6 +63,16 @@ Route::middleware('auth')->group(function () {
             ->names('rrhh.evaluaciones');
         Route::get('/evaluaciones/{postulacion}/create', [EvaluacionCandidatoController::class, 'createForAPostulacion'])
             ->name('rrhh.evaluaciones.createForAPostulacion');
+        Route::put('/evaluaciones/{evaluacion}/finalizar', [EvaluacionCandidatoController::class, 'finalizarEvaluacion'])
+            ->name('rrhh.evaluaciones.finalizarEvaluacion');
+        Route::resource('/entrevistas', EntrevistaCandidatoController::class)
+            ->parameter('entrevistas', 'entrevista')
+            ->names('rrhh.entrevistas');
+        Route::get('/entrevistas/{evaluacion}/create', [EntrevistaCandidatoController::class, 'createForAEvaluacion'])
+            ->name('rrhh.entrevistas.createForAEvaluacion');
+        Route::put('/entrevistas/{entrevista}/finalizar', [EntrevistaCandidatoController::class, 'finalizarEntrevista'])
+            ->name('rrhh.entrevistas.finalizarEntrevista');
+
         Route::resource('/puestos', PuestoController::class);
         Route::resource('/equipos', EquipoController::class);
         Route::resource('/horarios', HorarioController::class);

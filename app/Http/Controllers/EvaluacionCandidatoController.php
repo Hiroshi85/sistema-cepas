@@ -23,6 +23,23 @@ class EvaluacionCandidatoController extends Controller
             'conocimiento_materias.*' => 'string|max:50',
         ];
     }
+    public function rulesFinalizar()
+    {
+        return [
+            'puntaje_total' => 'present|required|numeric|min:0|max:10',
+        ];
+    }
+
+    public function messagesFinalizar()
+    {
+        return [
+            'puntaje_total.present' => 'El Puntaje Total es obligatorio.',
+            'puntaje_total.required' => 'El Puntaje Total es obligatorio.',
+            'puntaje_total.numeric' => 'El Puntaje Total debe ser numérico.',
+            'puntaje_total.min' => 'El Puntaje Total debe ser mayor o igual a 0.',
+            'puntaje_total.max' => 'El Puntaje Total debe ser menor o igual a 10.',
+        ];
+    }
 
     private function messages()
     {
@@ -108,9 +125,14 @@ class EvaluacionCandidatoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(EvaluacionCandidato $evaluacionCandidato)
+    public function show($id)
     {
-        //
+        return view(
+            'evaluaciones-candidato.show',
+            [
+                'evaluacion' => EvaluacionCandidato::obtenerEvaluacion($id),
+            ]
+        );
     }
 
     /**
@@ -150,6 +172,34 @@ class EvaluacionCandidatoController extends Controller
             'type' => 'success',
             'message' => 'Evaluación actualizada correctamente.'
         ]);
+
+        return redirect()->route('rrhh.evaluaciones.index');
+    }
+
+    public function finalizarEvaluacion(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), $this->rulesFinalizar(), $this->messagesFinalizar());
+
+        if ($validator->fails()) {
+
+            foreach ($validator->errors()->all() as $error) {
+                session()->flash('toast', [
+                    'type' => 'error',
+                    'message' => $error
+                ]);
+            }
+            return redirect()->back()->withErrors($validator->errors())->withInput();
+        }
+
+        session()->flash('abrirModal');
+
+        EvaluacionCandidato::actualizarEvaluacion($id, $validator->validated());
+
+        session()->flash('toast', [
+            'type' => 'success',
+            'message' => 'Evaluacion finalizada correctamente.'
+        ]);
+        session()->flash('finalizarEvaluacion');
 
         return redirect()->route('rrhh.evaluaciones.index');
     }
