@@ -19,21 +19,27 @@
                     {{-- <x-nav-link :href="route('apoderados.index')" :active="request()->routeIs('apoderado.index')">
                         {{ __('Apoderado') }}
                     </x-nav-link> --}}
+                    @role('admin|auxiliar')
                     <x-nav-link :href="route('asistenciaxdias.index')" :active="request()->routeIs('asistencia.index')">
                         {{ __('Asistencia') }}
                     </x-nav-link>
+                    @endrole
                     <x-nav-link :href="route('conductas.index')" :active="request()->routeIs('conducta.index')">
                         {{ __('Conductas') }}
                     </x-nav-link>
+                    @role('admin|auxiliar')
                     <x-nav-link :href="route('comportamientos.index')" :active="request()->routeIs('comportamiento.index')">
                         {{ __('Comportamientos') }}
                     </x-nav-link>
+                    @endrole
                     {{-- <x-nav-link :href="route('psicologos.index')" :active="request()->routeIs('psicologo.index')">
                         {{ __('Psicólogo') }}
                     </x-nav-link> --}}
+                    @role('admin|psicologo')
                     <x-nav-link :href="route('pruebas.index')" :active="request()->routeIs('pruebas.index')">
                         {{ __('Prueba psicológica') }}
                     </x-nav-link>
+                    @endrole
                 </div>
             </div>
 

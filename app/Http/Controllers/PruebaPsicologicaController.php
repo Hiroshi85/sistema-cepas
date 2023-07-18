@@ -17,7 +17,7 @@ class PruebaPsicologicaController extends Controller
     public function __construct()
     {
         // $this->middleware('auth');
-        $this->middleware('role:psicologo');
+        $this->middleware('role:psicologo|admin');
     }
     /**
      * Display a listing of the resource.
