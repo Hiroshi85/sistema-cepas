@@ -45,19 +45,18 @@ class PruebaPsicologicaController extends Controller
      */
     public function store(Request $req)
     {
-        $pp = new PruebaPsicologica;
-        $pp->nombre = $req->input("nombre");
-        $pp->tipo_id = $req->input("tipo");
-        $pp->edad_minima = $req->input("minima");
-        $pp->edad_maxima = $req->input("maxima");
-        $pp->psicologo_id = Auth::id();
-        $pp->online_url = $req->input("p-online");
+        $file_url=null;
         if($req->hasFile('archivo')){
-            $pp->file_url = $this->uploadFile($req);
+            $file_url = $this->uploadFile($req);
         }
-        // $pp->correo = $req->input("correo");
+        $nombre = $req->input("nombre");
+        $tipo_id = $req->input("tipo");
+        $edad_minima = $req->input("minima");
+        $edad_maxima = $req->input("maxima");
+        $psicologo_id = Auth::id();
+        $online_url = $req->input("p-online");
+        PruebaPsicologica::crearPrueba($nombre, $tipo_id, $edad_minima, $edad_maxima, $psicologo_id, $online_url, $file_url);
 
-        $pp->save();
         return redirect()->route('pruebas.index');
     }
 
@@ -74,9 +73,9 @@ class PruebaPsicologicaController extends Controller
      */
     public function edit(string $id)
     {
-        $pp = PruebaPsicologica::find($id);
+        $pp = PruebaPsicologica::buscarPrueba($id);
         $psicologos = Empleado::select(['id', 'nombre'])->where('puesto_id', 24)->get();
-        $tipos = TipoPrueba::all();
+        $tipos = TipoPrueba::listarTipoPrueba();
         return view('pruebas.edit', ['prueba'=>$pp, 'psicologos' => $psicologos, 'tipos'=>$tipos]);
     }
 
@@ -85,18 +84,22 @@ class PruebaPsicologicaController extends Controller
      */
     public function update(Request $req, string $id)
     {
-        $pp = PruebaPsicologica::find($id);
-        $pp->nombre = $req->input("nombre");
-        $pp->tipo_id = $req->input("tipo");
-        $pp->edad_minima = $req->input("minima");
-        $pp->edad_maxima = $req->input("maxima");
-        // $psico = Psicologo::where('user_id',Auth::id())->first();
-        // $pp->psicologo_id = $psico->id;
-        $pp->online_url = $req->input("p-online");
+        $pp=PruebaPsicologica::buscarPrueba($id);
+
+        $file_url=null;
         if($req->hasFile('archivo')){
-            $pp->file_url = $this->uploadFile($req);
+            $file_url = $this->uploadFile($req);
         }
-        $pp->save();
+        if($file_url == null && $pp->file_url !=null){
+            $file_url = $pp->file_url;
+        }
+        $nombre = $req->input("nombre");
+        $tipo_id = $req->input("tipo");
+        $edad_minima = $req->input("minima");
+        $edad_maxima = $req->input("maxima");
+        $online_url = $req->input("p-online");
+
+        PruebaPsicologica::actualizarPrueba($id, $nombre, $tipo_id, $edad_minima, $edad_maxima, $online_url, $file_url);
         return redirect()->route('pruebas.index');
     }
 
@@ -105,7 +108,7 @@ class PruebaPsicologicaController extends Controller
      */
     public function destroy(string $id)
     {
-        PruebaPsicologica::destroy($id);
+        PruebaPsicologica::eliminarPrueba($id);
         return redirect()->route('pruebas.index');
     }
 

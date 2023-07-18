@@ -25,14 +25,10 @@ class AsistenciaXDiaController extends Controller
         $today_f = Carbon::now()->format('Y-m-d');
         $day = now()->dayName;
         $enable = Carbon::now()->isWeekday();
-        $num = AsistenciaXDia::whereDate('fecha', Carbon::today())->with('tipo')->get()->count();
+        $num = AsistenciaXDia::obtenerNumeroAsistenciaHoy();
         if($num <= 0 && $enable){
             foreach($alumnos as $it){
-                AsistenciaXDia::create([
-                    'fecha' => $today_f,
-                    'alumno_id' => $it->idalumno,
-                    'tipo_id' => 2,
-                ]);
+                AsistenciaXDia::crearAsistenciaXDia($today_f, $it->idalumno, 2);
             }
         }
         return view('asistenciaxdia.index', ['today'=>$today, 'day'=>$day, 'enable'=>$enable]);
@@ -44,7 +40,6 @@ class AsistenciaXDiaController extends Controller
     public function create()
     {
         $today = Carbon::now()->format('Y-m-d');
-        error_log("estoy aqui");
         return view('asistenciaxdia.edit', ['today'=>$today]);
     }
 
@@ -54,10 +49,9 @@ class AsistenciaXDiaController extends Controller
     public function store(Request $req)
     {
         $tipo = $req->input('tipo');
+        $alumno_id = $req->input('alumno');
         
-        AsistenciaXDia::where('alumno_id',$req->input("alumno"))
-                    ->where('fecha', Carbon::parse($req->input("fecha"))->format('Y-m-d'))
-                    ->update(['tipo_id'=>$tipo]);
+        AsistenciaXDia::marcarAsistenciaHoy($alumno_id, $tipo);
         
         return redirect()->route('asistenciaxdias.index');
     }
@@ -78,9 +72,7 @@ class AsistenciaXDiaController extends Controller
     {
         $tipo = $req->input('tipo');
         
-        $as = AsistenciaXDia::find($id);
-        $as->tipo_id=$tipo;
-        $as->save();
+        AsistenciaXDia::editarAsistencia($id, $tipo);
         
         return redirect()->route('asistenciaxdias.create');
     }

@@ -20,8 +20,8 @@ class ConductaController extends Controller
     public function index()
     {
 
-        $demeritos = Conducta::where('puntaje', '<', 0)->get();
-        $meritos = Conducta::where('puntaje', '>', 0)->get();
+        $demeritos = Conducta::listarDemeritos();
+        $meritos = Conducta::listarMeritos();
         return view('conducta.index', ['meritos' => $meritos, 'demeritos'=> $demeritos]);
     }
 
@@ -39,12 +39,10 @@ class ConductaController extends Controller
     public function store(Request $req)
     {
         $puntos = $req->input('puntaje');
-        if($puntos<-20) $puntos=-20;
-        if($puntos>20) $puntos=20;
-        Conducta::create([
-            'nombre' => $req->input('nombre'),
-            'puntaje' => $puntos,
-        ]);
+        $nombres = $req->input('nombre');
+
+        Conducta::crearConducta($nombres, $puntos);
+
         return redirect()->route('conductas.index');
     }
 
@@ -61,7 +59,7 @@ class ConductaController extends Controller
      */
     public function edit(string $id)
     {
-        $conducta = Conducta::find($id);
+        $conducta = Conducta::obtenerConducta($id);
         return view('conducta.edit', ['conducta'=>$conducta]);
     }
 
@@ -71,13 +69,8 @@ class ConductaController extends Controller
     public function update(Request $req, string $id)
     {
         $puntos = $req->input('puntaje');
-        if($puntos<-20) $puntos=-20;
-        if($puntos>20) $puntos=20;
-        Conducta::where('id', $id)
-        ->update([
-            'nombre'=>$req->input('nombre'),
-            'puntaje'=>$puntos,
-        ]);
+        $nombres = $req->input('nombre');
+        Conducta::actualizarConducta($id, $nombres, $puntos);
         return redirect()->route('conductas.index');
     }
 

@@ -27,7 +27,7 @@
                     <x-nav-link :href="route('conductas.index')" :active="request()->routeIs('conducta.index')">
                         {{ __('Conductas') }}
                     </x-nav-link>
-                    @role('admin|auxiliar')
+                    @role('admin|auxiliar|Docente')
                     <x-nav-link :href="route('comportamientos.index')" :active="request()->routeIs('comportamiento.index')">
                         {{ __('Comportamientos') }}
                     </x-nav-link>
@@ -95,21 +95,27 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @role('admin|auxiliar')
             <x-responsive-nav-link :href="route('asistenciaxdias.index')" :active="request()->routeIs('asistencia.index')">
                 {{ __('Asistencia') }}
             </x-responsive-nav-link>
+            @endrole
             <x-responsive-nav-link :href="route('conductas.index')" :active="request()->routeIs('conducta.index')">
                 {{ __('Conducta') }}
             </x-responsive-nav-link>
+            @role('admin|auxiliar|Docente')
             <x-responsive-nav-link :href="route('comportamientos.index')" :active="request()->routeIs('comportamiento.index')">
                 {{ __('Comportamiento') }}
             </x-responsive-nav-link>
+            @endrole
             {{-- <x-responsive-nav-link :href="route('psicologos.index')" :active="request()->routeIs('psicologo.index')">
                 {{ __('Psicólogo') }}
             </x-responsive-nav-link> --}}
+            @role('admin|psicologo')
             <x-responsive-nav-link :href="route('pruebas.index')" :active="request()->routeIs('pruebas.index')">
                 {{ __('Prueba psicológica') }}
             </x-responsive-nav-link>
+            @endrole
         </div>
 
         <!-- Responsive Settings Options -->
