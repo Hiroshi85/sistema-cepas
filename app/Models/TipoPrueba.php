@@ -13,6 +13,10 @@ class TipoPrueba extends Model
     public $timestamps = false;
     protected $fillable = ['tipo'];
 
+    public static function listarTipoPrueba(){
+        return TipoPrueba::all();
+    }
+
     public function prueba()
     {
         return $this->hasMany(PruebaPsicologica::class, 'tipo_id');
