@@ -67,4 +67,11 @@ class ComportamientoController extends Controller
         if($nota < 0) $nota=0;
         return ['comportamientos'=>$comportamientos, 'nota'=>$nota];
     }
+
+    public function buscarAlumno(Request $req){
+        $nom_alumno = $req->query('alumno');
+        $alumnos = Alumno::buscarAlumnoPorString($nom_alumno);
+        error_log($alumnos);
+        return ['alumnos' => $alumnos];
+    }
 }
