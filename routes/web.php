@@ -42,6 +42,12 @@ use App\Http\Controllers\ConductaController;
 use App\Http\Controllers\ComportamientoController;
 use App\Http\Controllers\OfertaController;
 
+// Materiales Escolares
+use App\Http\Controllers\FacturaController;
+use App\Http\Controllers\FacturaDetalleController;
+use App\Http\Controllers\MaterialEscolarController;
+use App\Http\Controllers\ProveedorController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -60,6 +66,7 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -207,6 +214,25 @@ Route::prefix('desempeño')->group(function () {
     //EvaluarDocentes
     Route::resource('evaluaciondocentes', EvaluacionDocenteController::class)->names('evaluaciondocente');
     Route::get('evaluardocentes/', [EvaluacionDocenteController::class, 'mostrardocentes'])->name('evaluardocentes');
+});
+
+// Materiales Escolares
+Route::middleware('auth')->group(function () {
+    Route::prefix('materiales-escolares')->group(function () {
+        Route::resource('proveedor',ProveedorController::Class);
+        Route::resource('factura',FacturaController::Class);
+        Route::resource('material_escolar',MaterialEscolarController::Class);
+        //Factura_Detalle
+        Route::get('/factura/{factura_id}/detalles', [FacturaDetalleController::class, 'index'])->name('factura_detalle.index');
+        Route::get('/factura/{factura_id}/detalles/crear', [FacturaDetalleController::class, 'create'])->name('factura_detalle.create');
+        Route::get('/factura/{factura_id}/detalles/{id}', [FacturaDetalleController::class, 'show'])->name('factura_detalle.show');
+        Route::get('/factura/{factura_id}/detalles/{id}/editar', [FacturaDetalleController::class, 'edit'])->name('factura_detalle.edit');
+        Route::post('/factura/{factura_id}/detalles', [FacturaDetalleController::class, 'store'])->name('factura_detalle.store');
+        Route::put('/factura/{factura_id}/detalles/{id}', [FacturaDetalleController::class, 'update'])->name('factura_detalle.update');
+        Route::delete('/factura/{factura_id}/detalles/{id}', [FacturaDetalleController::class, 'destroy'])->name('factura_detalle.destroy');
+        
+
+    });
 });
 
 require __DIR__ . '/auth.php';
