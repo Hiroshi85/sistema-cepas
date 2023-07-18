@@ -13,7 +13,12 @@ class Plaza extends Model
         'puesto_id',
         'fecha_inicio',
         'fecha_fin',
+        'abierta',
         'descripcion',
+    ];
+
+    protected $casts = [
+        'abierta' => 'boolean',
     ];
 
     public function puesto()
@@ -24,6 +29,12 @@ class Plaza extends Model
     public function postulaciones()
     {
         return $this->hasMany(Postulacion::class, 'plaza_id');
+    }
+
+    public function cerrar()
+    {
+        $this->abierta = false;
+        $this->save();
     }
 
     // crud methods
@@ -61,6 +72,7 @@ class Plaza extends Model
     {
         return Plaza::where('fecha_inicio', '<=', date('Y-m-d'))
             ->where('fecha_fin', '>=', date('Y-m-d'))
+            ->where('abierta', true)
             ->get();
     }
 
