@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ficha_matricula', function (Blueprint $table) {
+        Schema::create('alumno_matriculas', function (Blueprint $table) {
             $table->unsignedBigInteger('idmatricula');
             $table->unsignedBigInteger('idalumno');
+           
+            $table->char('aula', 2); //1B , 2 B ....
             $table->date('fecha_registro');
-            $table->text('observaciones')->nullable();
-            $table->boolean('eliminado')->default(false);
-            
+           
             $table->primary(['idmatricula', 'idalumno']);
             $table->foreign('idmatricula')->references('idmatricula')->on('matriculas');
             $table->foreign('idalumno')->references('idalumno')->on('alumnos');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ficha_matricula');
+        Schema::dropIfExists('alumno_matriculas');
     }
 };

@@ -1,0 +1,1 @@
+<img src="{{ asset('assets') }}/cepas_escudo.png" alt="" style="width: 75px">

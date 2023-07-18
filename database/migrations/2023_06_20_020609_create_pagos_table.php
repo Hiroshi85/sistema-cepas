@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('idpostulante')->nullable();
             $table->unsignedBigInteger('idalumno')->nullable();
             $table->date('fecha_vencimiento')->nullable();
+            $table->decimal('monto', 10, 2);
             $table->string('estado', 100);
             $table->boolean('eliminado')->default(false);
             

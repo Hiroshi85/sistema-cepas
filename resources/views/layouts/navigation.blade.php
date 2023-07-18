@@ -2,6 +2,9 @@
     $navigation = [
         'Dashboard' => 'dashboard',
         'RRHH' => 'rrhh.dashboard',
+        'Admisión y Matrículas' => 'admision-matriculas.dashboard',
+        'Seguimiento escolar' => 'seguimiento.dashboard',
+        'Evaluacion Desempeño' => 'desempeño.dashboard',
     ];
 @endphp
 
