@@ -25,9 +25,7 @@ class BuscarController extends Controller
 
     public function buscarAlumno(Request $req){
         $nom_alumno = $req->query('alumno');
-        $alumnos = Alumno::where('nombre_apellidos', 'like',"%".$nom_alumno."%")
-            ->where('eliminado', 0)
-            ->select("nombre_apellidos","idalumno")->get();
+        $alumnos = Alumno::buscarAlumnoPorString($nom_alumno);
         error_log($alumnos);
         return ['alumnos' => $alumnos];
     }

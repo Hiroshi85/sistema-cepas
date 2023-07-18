@@ -48,4 +48,9 @@ class Alumno extends Model
         return $this->hasOne(Aula::class,'idaula','idaula');
     }
 
+    public static function buscarAlumnoPorString(string $nom_alumno){
+        return Alumno::where('nombre_apellidos', 'like',"%".$nom_alumno."%")
+            ->where('eliminado', 0)
+            ->select("nombre_apellidos","idalumno")->get();
+    }
 }
