@@ -67,24 +67,26 @@
                 
                 <div class="grow">
                     <x-input-label class="px-2" for="estado" :value="__('Estado')" />
-                <select name="estado" id="estado" 
-                    class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                <select 
+                    id="estado" name="estado"
+                    class="@if($blockstate == true) {{"pointer-events-none"}} @endif w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
                     @if (Auth::user()->hasRole('apoderado'))
                         disabled
                     @endif
                     >
-                    <option value="Registrado"  @if($item->estado == 'Registrado')
-                        {{'selected'}}
+                    <option value="Registrado"  @if($postulante->estado == "Registrado")
+                        {{"selected"}}
                     @endif>Registrado</option>
-                    <option value="Pendiente" @if($item->estado == 'Pendiente')
-                        {{'selected'}}
+                    <option value="Pendiente" @if($postulante->estado == "Pendiente")
+                        {{"selected"}}
                     @endif>Pendiente</option>
-                    <option value="Aceptado" @if($item->estado == 'Aceptado')
-                      {{'selected'}}
-                    @endif>Aceptado</option>
-                    <option value="Rechazado" @if($item->estado == 'Rechazado')
-                        {{'selected'}}
-                    @endif>Rechazado</option>
+                    
+                    <option value="Aceptado" @if($postulante->estado == 'Aceptado')
+                        {{"selected"}}
+                      @endif>Aceptado</option>
+                      <option value="Rechazado" @if($postulante->estado == 'Rechazado')
+                          {{"selected"}}
+                      @endif>Rechazado</option>
                 </select>
                 </div>
             </div>

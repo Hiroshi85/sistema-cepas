@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admision;
 use App\Models\Alumno;
 use App\Models\Apoderado;
 use App\Models\ApoderadoPostulante;
 use App\Models\Aula;
 use App\Models\DocumentoPostulante;
 use App\Models\Postulante;
+use App\Models\PostulanteAdmision;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,11 +25,12 @@ class PostulanteController extends Controller
         $apoderados = null;
 
         if($autoridad){
-            $postulantes = Postulante::whereRaw('eliminado = 0 AND estado <> "Aceptado"')
+            $postulantes = Postulante::whereRaw('eliminado = 0')
                 ->orderByRaw("CASE estado 
                         WHEN 'Pendiente' THEN 1
                         WHEN 'Registrado' THEN 2
-                        WHEN 'Rechazado' THEN 3
+                        WHEN 'Aceptado' THEN 3
+                        WHEN 'Rechazado' THEN 4
                         ELSE 4 END")
                 ->orderBy('fecha_postulacion')
                 ->get();
@@ -149,7 +152,16 @@ class PostulanteController extends Controller
         $documentos = DocumentoPostulante::where('eliminado', 0)
         ->where('idpostulante', $postulante->idpostulante)
         ->get();
-        return view('postulante.edit',compact('postulante', 'aulas','documentos'));
+        $historial = PostulanteAdmision::where('idpostulante', $postulante->idpostulante)
+            ->join('admisions', 'admisions.idadmision', 'postulante_admision.idadmision')
+            ->get();
+
+        // validar si el postulante ya fue evaluado como rechazado o aceptado en el proceso de admisión actual
+        $blockstate = PostulanteAdmision::where('idpostulante', $postulante->idpostulante)
+        ->where('idadmision', Admision::where('eliminado', 0)->orderBy('idadmision', 'desc')->first()->idadmision)
+        ->first() != null ? true : false;           
+
+        return view('postulante.edit',compact('postulante', 'aulas','documentos','historial', 'blockstate'));
     }
 
     /**
@@ -171,7 +183,7 @@ class PostulanteController extends Controller
         $postulante->domicilio = $request->get('domicilio');
         $postulante->numero_celular = $request->get('numero_celular');  
         $postulante->nro_hermanos = $request->get('nro_hermanos');
-        // $postulante->fecha_postulacion = now('America/Lima')->toDateString();
+       
         if ($autoridad){
             $postulante->estado = $request->get('estado');
             
@@ -194,6 +206,8 @@ class PostulanteController extends Controller
             if ($request->get('estado') == 'Aceptado') $this->createAlumno($postulante);
         }   
         $postulante->save();
+
+        if($postulante->estado == 'Aceptado' || $postulante->estado == 'Rechazado') $this->registrarHistoriaPostulacion($postulante);
 
         session()->flash(
             'toast',
@@ -259,5 +273,22 @@ class PostulanteController extends Controller
         //     'email' => 'a'. $postulante->dni . '@gmail.com',
         //     'password' => bcrypt($postulante->dni),
         // ]);
+    }
+
+    protected function registrarHistoriaPostulacion($postulante){
+        $admision = Admision::where('eliminado', 0)->orderBy('idadmision', 'desc')->first();
+        //if it is registered return
+        if (
+            PostulanteAdmision::where('idpostulante', $postulante->idpostulante)
+            ->where('idadmision', $admision->idadmision)
+            ->first() != null            
+        ) return;
+      
+        $postulante_admision = new PostulanteAdmision();
+        $postulante_admision->idpostulante = $postulante->idpostulante;
+        $postulante_admision->idadmision = $admision->idadmision;
+        $postulante_admision->fecha_registro = now('America/Lima')->toDateString();
+        $postulante_admision->resultado = $postulante->estado;
+        $postulante_admision->save();
     }
 }

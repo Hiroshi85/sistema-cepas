@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alumno;
+use App\Models\AlumnoMatricula;
 use App\Models\Aula;
 use App\Models\DocumentoAlumno;
+use App\Models\Matricula;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -79,7 +81,11 @@ class AlumnoController extends Controller
         $documentos = DocumentoAlumno::where('eliminado', 0)
             ->where('idalumno', $alumno->idalumno)
             ->get();
-        return view('alumno.edit',compact('alumno','aulas', 'documentos'));
+
+        $historial = AlumnoMatricula::where('idalumno', $alumno->idalumno)
+            ->join('matriculas', 'matriculas.idmatricula', 'alumno_matriculas.idmatricula')
+            ->get();
+        return view('alumno.edit',compact('alumno','aulas', 'documentos', 'historial'));
     }
 
     /**
@@ -105,6 +111,9 @@ class AlumnoController extends Controller
         $alumno->estado = $request->get('estado');
         $alumno->save();
         
+        if($alumno->estado == 'Matriculado') $this->registrarHistoriaMatricula($alumno);
+      
+
         session()->flash(
             'toast',
             [
@@ -137,5 +146,24 @@ class AlumnoController extends Controller
             ]
         );
         return redirect()->route('alumno.index')->with('datos','deleted');
+    }
+
+    protected function registrarHistoriaMatricula($alumno){
+        $matricula = Matricula::where('eliminado', 0)->orderBy('idmatricula', 'desc')->first();
+        //if it is registered return
+        if (
+            AlumnoMatricula::where('idalumno', $alumno->idalumno)
+            ->where('idmatricula', $matricula->idmatricula)
+            ->first() != null            
+        ) return;
+        
+        $aula = Aula::findOrFail($alumno->idaula);
+
+        $alumno_matricula = new AlumnoMatricula();
+        $alumno_matricula->idalumno = $alumno->idalumno;
+        $alumno_matricula->idmatricula = $matricula->idmatricula;
+        $alumno_matricula->fecha_registro = now('America/Lima')->toDateString();
+        $alumno_matricula->aula = $aula->grado.''.$aula->seccion;
+        $alumno_matricula->save();
     }
 }

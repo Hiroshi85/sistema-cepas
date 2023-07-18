@@ -62,8 +62,12 @@
             <div class="flex flex-row gap-4 flex-wrap">
                 <div class="grow max-w-[50%] mt-2">
                     <x-input-label for="idaula" :value="__('Aula')" />
-                    <select data-te-select-init data-te-select-option-height="52" id="idaula" class="block mt-1 w-full" name="idaula" required
-                        @if(Auth::user()->hasRole('apoderado')) disabled @endif
+                    @if(Auth::user()->hasRole('apoderado')) 
+                        <input type="hidden" name="idaula" id="idaula" value="{{$alumno->idaula}}">
+                    @endif
+                    <select data-te-select-init data-te-select-option-height="52" id="idaula" 
+                    class="block mt-1 w-full disabled" name="idaula" required
+                    @if(Auth::user()->hasRole('apoderado')) disabled @endif
                     >
                         @foreach ($aulas as $item)
                             <option @if ($item->idaula == $alumno->idaula)
@@ -73,13 +77,26 @@
                     </select>
                     <x-input-error :messages="$errors->get('idaula')" class="mt-2" />
                 </div>
-                 @if(!Auth::user()->hasRole('apoderado')) 
+                
                     <div class="grow">
                         <x-input-label for="estado" :value="__('Estado')" />
-                        <x-text-input  id="estado" class="block mt-1 w-full" type="text" name="estado" required autofocus :value="$alumno->estado"/>
+                        {{-- <x-text-input  id="estado" class="block mt-1 w-full" type="text" name="estado" required autofocus :value="$alumno->estado"/> --}}
+                    <select 
+                    id="estado" name="estado"
+                    class="
+                    @if (Auth::user()->hasRole('apoderado')) {{"pointer-events-none"}} @endif
+                    w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                    >
+                    <option value="Matrícula pendiente"  @if($alumno->estado == "Matrícula pendiente")
+                        {{"selected"}}
+                    @endif>Matrícula pendiente</option>
+                    <option value="Matriculado" @if($alumno->estado == "Matriculado")
+                        {{"selected"}}
+                    @endif>Matriculado</option>
+                </select>
                         <x-input-error :messages="$errors->get('estado')" class="mt-2" />
                     </div>
-                @endif
+   
             </div>
 
             <div class="flex items-center gap-4">
