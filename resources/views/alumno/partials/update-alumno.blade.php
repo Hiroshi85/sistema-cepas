@@ -2,7 +2,10 @@
     <div class="basis-1/2 md:basis-9/12">
         <header>
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                {{ __('DATOS PERSONALES') }}
+                {{ __('ALUMNO') }}
+            </h2>
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                {{ __('Datos personales') }}
             </h2>
         </header>
     
