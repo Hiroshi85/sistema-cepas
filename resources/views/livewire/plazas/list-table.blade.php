@@ -29,6 +29,12 @@
                         </div>
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        <div class="flex items-center">
+                            Estado
+                            @livewire('common.sort-button', ['field' => 'abierta'], key('sort-button-fecha_fin'))
+                        </div>
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         <span class="sr-only">Actions</span>
                     </th>
                 </tr>
@@ -46,6 +52,19 @@
                         </td>
                         <td class="px-6 py-4">
                             {{ Carbon::parse($plaza->fecha_fin)->locale('es_ES')->isoFormat('ll') }}
+                        </td>
+                        <td class="px-6 py-4">
+                            @if ($plaza->abierta)
+                                <span
+                                    class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                    Abierta
+                                </span>
+                            @else
+                                <span
+                                    class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
+                                    Cerrada
+                                </span>
+                            @endif
                         </td>
                         <td class="px-6 py-4 text-right inline-flex gap-2 items-center justify-center">
                             <a href="{{ route('plazas.edit', $plaza->id) }}"
