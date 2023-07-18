@@ -123,7 +123,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/alumnos/{id}', [ComportamientoController::class, 'getByAlumno'])->name('comportamientos.get');
             Route::get('/delete/{id}', [ComportamientoController::class, 'destroy'])->name('comportamientos.destroy');
         });
-        Route::get('files/{id}', [PruebaArchivoController::class, 'download'])->middleware(['auth', 'role:psicologo'])->name('files');
+        Route::get('files/{id}', [PruebaArchivoController::class, 'download'])->name('files');
     });
 });
 

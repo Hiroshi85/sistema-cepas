@@ -25,7 +25,7 @@
                             <div class="grid grid-cols-2 gap-4 lg:grid-cols-3">
                                 <div>
                                     <label for="alumno" class="block">Alumno: </label>
-                                    <input type="text" readonly id="alumno_s" name="alumno_s" class="w-full">
+                                    <input type="text" required readonly id="alumno_s" name="alumno_s" class="w-full">
                                 </div>
                                 {{-- <div>
                                     <label for="alumno" class="block">Alumno: </label>
