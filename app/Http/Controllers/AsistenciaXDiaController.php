@@ -48,6 +48,14 @@ class AsistenciaXDiaController extends Controller
      */
     public function store(Request $req)
     {
+        $data= request()->validate([
+            'tipo' => 'required|numeric|gt:0',
+            'alumno' => 'required|numeric|gt:0',
+        ],[
+            'alumno.required' => 'Este campo es obligatorio',
+            'tipo.required' => 'Este campo es obligatorio',
+        ]);
+
         $tipo = $req->input('tipo');
         $alumno_id = $req->input('alumno');
         
@@ -70,8 +78,13 @@ class AsistenciaXDiaController extends Controller
      */
     public function update(Request $req, string $id)
     {
+        $data= request()->validate([
+            'tipo' => 'required|numeric|gt:0',
+        ],[
+            'tipo.required' => 'Este campo es obligatorio',
+        ]);
+
         $tipo = $req->input('tipo');
-        
         AsistenciaXDia::editarAsistencia($id, $tipo);
         
         return redirect()->route('asistenciaxdias.create');

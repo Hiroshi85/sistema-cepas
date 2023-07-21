@@ -10,6 +10,13 @@ use App\Models\AsistenciaXDia;
 class BuscarController extends Controller
 {
     public function buscarAsistencia(Request $req){
+        $data= request()->validate([
+            'fecha' => 'required|date',
+            'alumno' => 'required|numeric|gt:0',
+        ],[
+            'alumno.required' => 'Este campo es obligatorio',
+            'fecha.required' => 'Este campo es obligatorio',
+        ]);
         $fecha = $req->query('fecha');
         $alumno_id = $req->query('alumno');
         $num = AsistenciaXDia::obtenerNumeroAsistenciaDeAlumno($alumno_id, $fecha);
@@ -24,6 +31,11 @@ class BuscarController extends Controller
     }
 
     public function buscarAlumno(Request $req){
+        $data= request()->validate([
+            'alumno' => 'required|max:255',
+        ],[
+            'alumno.required' => 'Este campo es obligatorio',
+        ]);
         $nom_alumno = $req->query('alumno');
         $alumnos = Alumno::buscarAlumnoPorString($nom_alumno);
         error_log($alumnos);
