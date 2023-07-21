@@ -1,1 +1,1 @@
-<img src="{{ asset('assets') }}/cepas_escudo.png" alt="" style="width: 75px">
+<img src="{{ asset('assets') }}/cepas_escudo.png" alt="Logo CEPAS" class="w-16 h-auto">
