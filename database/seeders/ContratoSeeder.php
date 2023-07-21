@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Http\Controllers\EmpleadoController;
 use App\Models\Contrato;
 use App\Models\User;
 use App\Models\Empleado;
@@ -11,39 +12,14 @@ use Illuminate\Support\Facades\Hash;
 class ContratoSeeder extends Seeder
 {
     // private validos = [];
-    private function createEmpleadoAndUser(int $idp): int{
+    private function createEmpleadoAndUser(int $idp): int
+    {
         $user = null;
         $empleado = Empleado::factory()->create([
             'puesto_id' => $idp,
         ]);
 
-        if(($idp >=9 && $idp<=19) || $idp == 5 || $idp == 6 || $idp == 24){
-            $user = User::create([
-                'dni' => $empleado->dni,
-                'name' => $empleado->nombre,
-                'email' => $empleado->email,
-                'password' => Hash::make("password"),
-            ]);
-        }
-
-        if(($idp >=10 && $idp<=19)){
-            $user->assignRole('Docente');
-        }
-
-        if($idp == 9){
-            $user->assignRole('Coordinador Academico');
-        }
-
-        if($idp == 5){
-            $user->assignRole('secretario(a)');
-        }
-
-        if($idp == 6){
-            $user->assignRole('auxiliar');
-        }
-        if($idp == 24){
-            $user->assignRole('psicologo');
-        }
+        EmpleadoController::createUser($empleado);
         return $empleado->id;
     }
     /**

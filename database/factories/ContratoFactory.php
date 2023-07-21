@@ -17,8 +17,8 @@ class ContratoFactory extends Factory
      */
     public function definition(): array
     {
-        $fecha_inicio = $this->faker->dateTimeBetween('-5 years', 'now');
-        $fecha_fin = $this->faker->dateTimeBetween($fecha_inicio, 'now');
+        $fecha_inicio = $this->faker->dateTimeBetween('-1 years', '+1 week');
+        $fecha_fin = $this->faker->dateTimeBetween($fecha_inicio, '+5 years');
         return [
             'tipo_contrato' => $this->faker->randomElement(['tiempo completo', 'tiempo parcial']),
             'fecha_inicio' => $fecha_inicio,

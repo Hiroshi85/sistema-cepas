@@ -171,35 +171,33 @@ class EmpleadoController extends Controller
 
     public static function createUser(Empleado $empleado): void
     {
-        $user = null;
         $idp = $empleado->puesto_id;
 
-        if (($idp >= 9 && $idp <= 19) || $idp == 5 || $idp == 6 || $idp == 24) {
+        $roles = [
+            1 => 'Coordinador de Recursos Humanos',
+            2 => 'Especialista en Reclutamiento',
+            3 => 'Encargado de Evaluación',
+            5 => 'secretario(a)',
+            6 => 'auxiliar',
+            9 => 'Coordinador Academico',
+            24 => 'psicologo',
+        ];
+
+        if (($idp <= 3) || ($idp >= 9 && $idp <= 19) || in_array($idp, [5, 6, 24])) {
             $user = User::create([
                 'name' => $empleado->nombre,
                 'dni' => $empleado->dni,
                 'email' => $empleado->email,
                 'password' => Hash::make("password"),
             ]);
-        }
 
-        if (($idp >= 10 && $idp <= 19)) {
-            $user->assignRole('Docente');
-        }
+            if (array_key_exists($idp, $roles)) {
+                $user->assignRole($roles[$idp]);
+            }
 
-        if ($idp == 9) {
-            $user->assignRole('Coordinador Academico');
-        }
-
-        if ($idp == 5) {
-            $user->assignRole('secretario(a)');
-        }
-
-        if ($idp == 6) {
-            $user->assignRole('auxiliar');
-        }
-        if ($idp == 24) {
-            $user->assignRole('psicologo');
+            if (($idp >= 10 && $idp <= 19)) {
+                $user->assignRole('Docente');
+            }
         }
     }
 }
