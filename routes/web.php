@@ -40,6 +40,7 @@ use App\Http\Controllers\BuscarController;
 use App\Http\Controllers\PruebaArchivoController;
 use App\Http\Controllers\ConductaController;
 use App\Http\Controllers\ComportamientoController;
+use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\OfertaController;
 
 /*
@@ -103,10 +104,12 @@ Route::middleware('auth')->group(function () {
             ->name('rrhh.entrevistas.finalizarEntrevista');
 
         Route::resource('/ofertas', OfertaController::class);
-        Route::get('/ofertas/{evaluacion}/create', [OfertaController::class, 'createForAPostulacion'])
+        Route::get('/ofertas/{postulacion}/create', [OfertaController::class, 'createForAPostulacion'])
             ->name('ofertas.createForAPostulacion');
         Route::put('/ofertas/{entrevista}/finalizar', [OfertaController::class, 'decisionCandidato'])
             ->name('ofertas.decisionCandidato');
+
+        Route::resource('/contratos', ContratoController::class);
 
         Route::resource('/puestos', PuestoController::class);
         Route::resource('/equipos', EquipoController::class);

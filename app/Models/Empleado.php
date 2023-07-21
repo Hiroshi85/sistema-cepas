@@ -68,6 +68,23 @@ class Empleado extends Model
         return Empleado::orderBy('nombre', 'asc')->get();
     }
 
+
+    public static function obtenerEmpleadosSinContrato()
+    {
+        $empleadosSinContrato = Empleado::select('empleados.*')
+            ->whereNotIn('empleados.id', function ($query) {
+                $query->select('contratos.empleado_id')
+                    ->from('contratos');
+            });
+
+        $empleadosContratoFinalizado = Empleado::select('empleados.*')
+            ->join('contratos', 'contratos.empleado_id', '=', 'empleados.id')
+            ->where('contratos.fecha_fin', '<', now());
+
+        $empleados = $empleadosSinContrato->union($empleadosContratoFinalizado)->get();
+
+        return $empleados;
+    }
     public static function crearEmpleado($data)
     {
         $empleado = Empleado::create($data);

@@ -3,6 +3,7 @@
         'Dashboard' => 'rrhh.dashboard',
         'Personal' => [
             'Empleados' => 'empleados.index',
+            'Contratos' => 'contratos.index',
             'Puestos' => 'puestos.index',
             'Equipos' => 'equipos.index',
         ],
