@@ -15,8 +15,6 @@
             'Entrevistas' => 'rrhh.entrevistas.index',
             'Ofertas' => 'ofertas.index',
         ],
-        'Nómina' => 'nomina.index',
-        'Horarios' => 'horarios.index',
     ];
 @endphp
 
@@ -28,7 +26,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-100" />
+                        <x-application-logo-sm class="block h-12 w-auto fill-current" />
                     </a>
                 </div>
 
