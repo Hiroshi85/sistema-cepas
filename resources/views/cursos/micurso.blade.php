@@ -172,11 +172,11 @@
         </div>
         <div class="mx-16 py-6 lg:pl-18 lg:px-12">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg m:4 p-4">
-                <a href="{{route('asistencia',$c->idcurso)}}"><h4 class="text-3xl font-bold dark:text-white">Asistencia</h4></a>
+                <a href="{{route('asistencia',$c->iddetalle)}}"><h4 class="text-3xl font-bold dark:text-white">Asistencia</h4></a>
             </div>
             <br>
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg m:4 p-4">
-                <a href="{{route('registrarnotas',$c->idcurso)}}"><h4 class="text-3xl font-bold dark:text-white">Calificaciones</h4></a>
+                <a href="{{route('registrarnotas',$c->iddetalle)}}"><h4 class="text-3xl font-bold dark:text-white">Calificaciones</h4></a>
             </div>
         </div>
         <!-- -- Evaluaciones -->
