@@ -1,11 +1,8 @@
 @php
     $navigation = [
-        'Dashboard' => 'dashboard',
-        'RRHH' => 'rrhh.dashboard',
-        'Admisión y Matrículas' => 'admision-matriculas.dashboard',
-        'Seguimiento escolar' => 'seguimiento.dashboard',
-        'Evaluacion Desempeño' => 'desempeño.dashboard',
-        'Materiales Escolares' => 'materiales_escolares.dashboard'
+        'Proveedores' => 'proveedor.index',
+        'Materiales' => 'material_escolar.index',
+        'Facturas' => 'factura.index',
     ];
 @endphp
 
@@ -17,8 +14,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo-sm class="block h-12 w-auto fill-current" />
-
+                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-100" />
                     </a>
                 </div>
 

@@ -12,14 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('proveedor', function (Blueprint $table) {
-            $table->id("proveedor_id");
-            $table->string("correo", 100)->nullable();
-            $table->string("direccion", 200)->nullable();
-            $table->string("nombre", 100)->nullable();
-            $table->string("telefono", 9)->nullable();
-            $table->char("dni", 8)->nullable();
+            $table->id('proveedor_id');
+            $table->string('correo', 100);
+            $table->string('direccion', 200);
+            $table->string('nombre', 100);
+            $table->string('telefono', 9);
+            $table->char('dni', 8)->unique();
+            $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

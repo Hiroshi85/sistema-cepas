@@ -37,7 +37,7 @@ class Comportamiento extends Model
         Comportamiento::destroy($id);
     }
 
-    private function listarComportamientoDeAlumnoPorBimestre(string $id, string $bimestre){
+    public static function listarComportamientoDeAlumnoPorBimestre(string $id, string $bimestre){
         $comportamientos = Comportamiento::join('alumnos', 'alumno_conducta.alumno_id', '=', 'alumnos.idalumno')
         ->join('conducta', 'alumno_conducta.conducta_id', '=', 'conducta.id')
         ->where('alumnos.idalumno', $id)

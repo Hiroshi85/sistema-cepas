@@ -7,7 +7,10 @@
         $module= 'admision-matriculas';
     } elseif (request()->is('*desempeño*')) {
         $module = 'desempeño';
-    } else {
+    } elseif (request()->is('*materiales_escolares*')) {
+        $module = 'materiales_escolares';
+    } 
+    else {
         $module = '';
     }
 @endphp
@@ -40,6 +43,9 @@
         @switch($module)
             @case('rrhh')
                 @include('layouts.rrhh.navigation')
+            @break
+            @case ('materiales_escolares')
+                @include('layouts.materiales_escolares.navigation')
             @break
             @case('admision-matriculas')
                 @if (!Auth::user()->hasRole('apoderado'))

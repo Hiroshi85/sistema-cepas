@@ -28,7 +28,7 @@ class AsistenciaXDiaController extends Controller
         $num = AsistenciaXDia::obtenerNumeroAsistenciaHoy();
         if($num <= 0 && $enable){
             foreach($alumnos as $it){
-                AsistenciaXDia::crearAsistenciaXDia($today_f, $it->idalumno, 2);
+                AsistenciaXDia::crearAsistencia($today_f, $it->idalumno, 2);
             }
         }
         return view('asistenciaxdia.index', ['today'=>$today, 'day'=>$day, 'enable'=>$enable]);

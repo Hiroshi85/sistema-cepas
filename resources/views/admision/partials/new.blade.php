@@ -42,8 +42,16 @@
                 <x-input-error :messages="$errors->get('tarifa')" class="mt-2" />
                 </div>
             <div class="w-[50%]">
-            <x-input-label for="estado" :value="__('Estado')" />
-            <x-text-input id="estado" class="block mt-1 w-full dark:text-white" type="text" name="estado" required autofocus/>
+            <x-input-label for="estado" :value="__('Estado')" class="mb-1" />
+            <select name="estado" id="estado" data-te-select-init>
+                <option 
+                    value="Aperturada">Aperturada
+                </option>
+                <option 
+                    value="Cerrada">Cerrada
+                </option>
+            </select>    
+            {{-- <x-text-input id="estado" class="block mt-1 w-full dark:text-white" type="text" name="estado" required autofocus/> --}}
             <x-input-error :messages="$errors->get('estado')" class="mt-2" />
             </div>
         </div>

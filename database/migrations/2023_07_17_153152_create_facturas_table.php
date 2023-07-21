@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('factura', function (Blueprint $table) {
-            $table->id("factura_id");
-            $table->date("fecha");
-            $table->unsignedBigInteger("proveedor_id");
+            $table->id('factura_id');
+            $table->date('fecha');
+            $table->unsignedBigInteger('proveedor_id');
             $table->foreign('proveedor_id')->references('proveedor_id')->on('proveedor');
-            
+            $table->timestamps();
         });
+    
     }
 
     /**
@@ -25,6 +26,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        // Eliminar la clave foránea
+        Schema::table('factura', function (Blueprint $table) {
+            $table->dropForeign(['proveedor_id']);
+        });
         Schema::dropIfExists('factura');
     }
 };
