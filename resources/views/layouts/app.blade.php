@@ -7,8 +7,8 @@
         $module= 'admision-matriculas';
     } elseif (request()->is('*desempeño*')) {
         $module = 'desempeño';
-    } elseif (request()->is('*materiales-escolares*')) {
-        $module = 'materiales-escolares';
+    } elseif (request()->is('*materiales_escolares*')) {
+        $module = 'materiales_escolares';
     } 
     else {
         $module = '';
@@ -44,8 +44,9 @@
             @case('rrhh')
                 @include('layouts.rrhh.navigation')
             @break
-            @case ('materiales-escolares')
-                @include('layouts.materiales-escolares.navigation')
+            @case ('materiales_escolares')
+                @include('layouts.materiales_escolares.navigation')
+            @break
             @case('admision-matriculas')
                 @if (!Auth::user()->hasRole('apoderado'))
                     @include('layouts.admision-matriculas.navigation')

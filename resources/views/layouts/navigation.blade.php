@@ -5,6 +5,7 @@
         'Admisión y Matrículas' => 'admision-matriculas.dashboard',
         'Seguimiento escolar' => 'seguimiento.dashboard',
         'Evaluacion Desempeño' => 'desempeño.dashboard',
+        'Materiales Escolares' => 'materiales_escolares.dashboard'
     ];
 @endphp
 

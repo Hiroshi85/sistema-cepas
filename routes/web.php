@@ -218,7 +218,11 @@ Route::prefix('desempeño')->group(function () {
 
 // Materiales Escolares
 Route::middleware('auth')->group(function () {
-    Route::prefix('materiales-escolares')->group(function () {
+    Route::prefix('materiales_escolares')->group(function () {
+        Route::get('/', function () {
+            return view('materiales_escolares_dashboard');
+        })->name('materiales_escolares.dashboard');
+        
         Route::resource('proveedor',ProveedorController::Class);
         Route::resource('factura',FacturaController::Class);
         Route::resource('material_escolar',MaterialEscolarController::Class);
