@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Material_Escolar;
+use App\Models\Factura_Detalle;
 use Illuminate\Http\Request;
 
 class MaterialEscolarController extends Controller
@@ -79,6 +80,12 @@ class MaterialEscolarController extends Controller
      */
     public function destroy($id)
     {
+        // borrar los detalles
+        $material = Material_Escolar::findOrFail($id);
+        $factura_detalles = Factura_Detalle::where('material_id', $material->material_id)->get();
+        foreach ($factura_detalles as $factura_detalle) {
+            $factura_detalle->delete();
+        }
         Material_Escolar::destroy($id);
         return redirect()->route('material_escolar.index');
     }

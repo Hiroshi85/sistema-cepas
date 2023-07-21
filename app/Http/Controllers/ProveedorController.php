@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Proveedor;
+use App\Models\Factura;
+use App\Models\Factura_Detalle;
+use App\Models\Material_Escolar;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 class ProveedorController extends Controller
@@ -101,6 +104,18 @@ class ProveedorController extends Controller
      */
     public function destroy(Proveedor $proveedor)
     {
+        //borrar las facturas
+        $facturas = Factura::where('proveedor_id', $proveedor->proveedor_id)->get();
+        foreach ($facturas as $factura) {
+            $factura_detalles = Factura_Detalle::where('factura_id', $factura->factura_id)->get();
+            foreach ($factura_detalles as $factura_detalle) {
+                $material_escolar = Material_Escolar::find($factura_detalle->material_id);
+                $material_escolar->stock -= $factura_detalle->cantidad;
+                $factura_detalle->delete();
+            }
+        }
+        Factura::where('proveedor_id', $proveedor->proveedor_id)->delete();
+        //borrar el proveedor 
         Proveedor::destroy($proveedor->proveedor_id);
         return redirect()->route('proveedor.index');
     }

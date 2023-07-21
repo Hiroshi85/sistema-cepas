@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Factura;
 use App\Models\Proveedor;
+use App\Models\Factura_Detalle;
+use App\Models\Material_Escolar;
 use Illuminate\Http\Request;
 
 class FacturaController extends Controller
@@ -72,6 +74,18 @@ class FacturaController extends Controller
      */
     public function destroy(Factura $factura)
     {
-        //
+        //Borrar los detalles
+        $factura_detalles = Factura_Detalle::where('factura_id', $factura->factura_id)->get();
+        foreach ($factura_detalles as $factura_detalle) {
+            //Restar la cantidad de material escolar
+            $material_escolar = Material_Escolar::find($factura_detalle->material_id);
+            $material_escolar->stock -= $factura_detalle->cantidad;
+
+            $factura_detalle->delete();
+
+        }
+        $factura->delete();
+        return redirect()->route('factura.index');
+        
     }
 }

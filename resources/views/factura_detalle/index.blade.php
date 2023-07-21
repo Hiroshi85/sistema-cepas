@@ -55,11 +55,17 @@
                             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
                                 {{ $detalle->precio_unitario}} </td>
                             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4">
-                              <form action="{{url('materiales-escolares/factura/'.$detalle->factura_id.'/detalles/'.$detalle->factura_detalle_id)}}" method="POST">
+                              <form action="{{route('factura_detalle.destroy',[
+                                'factura_id' => $factura->factura_id,
+                                'id' => $detalle->factura_detalle_id
+                            ])}}" method="POST">
                                  
                                 @csrf
                                 @method('DELETE')
-                                <a href="{{ url('materiales-escolares/factura/'.$detalle->factura_id.'/detalles/'.$detalle->factura_detalle_id.'/editar') }}" class="bg-blue-500 text-white p-2 rounded-full">
+                                <a href="{{ route('factura_detalle.edit',[
+                                  'factura_id' => $factura->factura_id,
+                                  'id' => $detalle->factura_detalle_id
+                              ]) }}" class="bg-blue-500 text-white p-2 rounded-full">
                                   Editar
                                 </a>
                                 <button type="submit" class="bg-red-500 text-white p-2 rounded-full">

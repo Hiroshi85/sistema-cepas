@@ -49,7 +49,7 @@ class FacturaDetalleController extends Controller
         ]);
         //Añadir la cantidad de material al stock
         $material = Material_Escolar::find($request->get('material_id'));
-        $material->cantidad += $request->get('cantidad');
+        $material->stock += $request->get('cantidad');
         $material->save();
         $factura_detalle->save();
         return redirect()->route('factura_detalle.index', $id)->with('success', 'Detalle de factura guardado');
@@ -88,11 +88,11 @@ class FacturaDetalleController extends Controller
         $factura_detalle = Factura_Detalle::find($detalle_id);
         //Restar la cantidad de material al stock
         $material_original = Material_Escolar::find($factura_detalle->material_id);
-        $material_original->cantidad -= $factura_detalle->cantidad;
+        $material_original->stock -= $factura_detalle->cantidad;
         $material_original->save();
         //Añadir la cantidad de material al stock
         $material = Material_Escolar::find($request->get('material_id'));
-        $material->cantidad += $request->get('cantidad');
+        $material->stock += $request->get('cantidad');
         $material->save();
         $factura_detalle->material_id = $request->get('material_id');
         $factura_detalle->cantidad = $request->get('cantidad');
@@ -107,6 +107,9 @@ class FacturaDetalleController extends Controller
     public function destroy($id,$detalle_id)
     {
         $factura_detalle = Factura_Detalle::find($detalle_id);
+        //Restar la cantidad de material al stock
+        $material = Material_Escolar::find($factura_detalle->material_id);
+        $material->stock -= $factura_detalle->cantidad;
         $factura_detalle->delete();
         return redirect()->route('factura_detalle.index', $id)->with('success', 'Detalle de factura eliminado');
         

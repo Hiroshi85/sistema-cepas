@@ -27,7 +27,10 @@
                     </div>
                   </div>
                   <div class="block w-full overflow-x-auto">
-                      <form action="{{url('materiales-escolares/factura/'.$factura->factura_id.'/detalles/'.$factura_detalle->factura_detalle_id)}}" method="POST">
+                      <form action="{{route('factura_detalle.update',[
+                        'factura_id' => $factura->factura_id,
+                        'id' => $factura_detalle->factura_detalle_id
+                    ])}}" method="POST">
                           @csrf
                           @method('PUT')
                           <div class="flex flex-wrap">
