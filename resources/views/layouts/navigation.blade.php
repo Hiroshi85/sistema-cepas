@@ -5,7 +5,7 @@
         'Admisión y Matrículas' => 'admision-matriculas.dashboard',
         'Seguimiento escolar' => 'seguimiento.dashboard',
         'Evaluacion Desempeño' => 'desempeño.dashboard',
-        'Materiales Escolares' => 'materiales_escolares.dashboard'
+        'Materiales Escolares' => 'materiales_escolares.dashboard',
     ];
 @endphp
 
@@ -84,6 +84,10 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <button disabled
+                            class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 dark:text-gray-200">
+                            {{ Auth::user()->roles()->first()->name }}
+                        </button>
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>

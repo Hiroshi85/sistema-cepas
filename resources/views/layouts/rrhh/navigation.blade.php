@@ -1,21 +1,77 @@
 @php
     $navigation = [
-        'Dashboard' => 'rrhh.dashboard',
+        'Dashboard' => [
+            'route' => 'rrhh.dashboard',
+            'dropdown' => false,
+            'permissions' => [],
+        ],
         'Personal' => [
-            'Empleados' => 'empleados.index',
-            'Contratos' => 'contratos.index',
-            'Puestos' => 'puestos.index',
-            'Equipos' => 'equipos.index',
+            'items' => [
+                'Empleados' => [
+                    'route' => 'empleados.index',
+                    'dropdown' => false,
+                    'permissions' => ['gestionar empleados'],
+                ],
+                'Contratos' => [
+                    'route' => 'contratos.index',
+                    'dropdown' => false,
+                    'permissions' => ['gestionar contratos'],
+                ],
+                'Puestos' => [
+                    'route' => 'puestos.index',
+                    'dropdown' => false,
+                    'permissions' => ['gestionar puestos'],
+                ],
+                'Equipos' => [
+                    'route' => 'equipos.index',
+                    'dropdown' => false,
+                    'permissions' => ['gestionar equipos'],
+                ],
+            ],
+            'dropdown' => true,
+            'permissions' => ['gestionar empleados', 'gestionar contratos', 'gestionar puestos', 'gestionar equipos'],
+            'name' => 'personal',
         ],
         'Reclutamiento' => [
-            'Candidatos' => 'candidatos.index',
-            'Plazas' => 'plazas.index',
-            'Postulaciones' => 'postulaciones.index',
-            'Evaluaciones' => 'rrhh.evaluaciones.index',
-            'Entrevistas' => 'rrhh.entrevistas.index',
-            'Ofertas' => 'ofertas.index',
+            'items' => [
+                'Candidatos' => [
+                    'route' => 'candidatos.index',
+                    'dropdown' => false,
+                    'permissions' => ['gestionar candidatos'],
+                ],
+                'Plazas' => [
+                    'route' => 'plazas.index',
+                    'dropdown' => false,
+                    'permissions' => ['gestionar plazas'],
+                ],
+                'Postulaciones' => [
+                    'route' => 'postulaciones.index',
+                    'dropdown' => false,
+                    'permissions' => ['ver postulaciones'],
+                ],
+                'Evaluaciones' => [
+                    'route' => 'rrhh.evaluaciones.index',
+                    'dropdown' => false,
+                    'permissions' => ['gestionar evaluaciones'],
+                ],
+                'Entrevistas' => [
+                    'route' => 'rrhh.entrevistas.index',
+                    'dropdown' => false,
+                    'permissions' => ['gestionar entrevistas'],
+                ],
+                'Ofertas' => [
+                    'route' => 'ofertas.index',
+                    'dropdown' => false,
+                    'permissions' => ['gestionar ofertas'],
+                ],
+            ],
+    
+            'dropdown' => true,
+            'permissions' => [],
+            'name' => 'reclutamiento',
         ],
     ];
+    
 @endphp
 
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
@@ -32,40 +88,46 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    @foreach ($navigation as $title => $link)
-                        @if (is_array($link))
-                            <div
-                                class="{{ request()->routeIs($link) ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 dark:text-white focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-300 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out' }}">
+                    @foreach ($navigation as $nav_key => $nav_item)
+                        @if ($nav_item['dropdown'])
+                            @can($nav_item['permissions'])
+                                <div
+                                    class="{{ request()->routeIs($nav_item['name']) ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 dark:text-white focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-300 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out' }}">
 
-                                <x-dropdown align="right" width="48">
-                                    <x-slot name="trigger">
-                                        <button
-                                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-200 bg-white dark:bg-gray-900 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                                            <div>{{ $title }}</div>
+                                    <x-dropdown align="right" width="48">
+                                        <x-slot name="trigger">
+                                            <button
+                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-200 bg-white dark:bg-gray-900 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                                <div>{{ $nav_key }}</div>
 
-                                            <div class="ml-1">
-                                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20">
-                                                    <path fill-rule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clip-rule="evenodd" />
-                                                </svg>
-                                            </div>
-                                        </button>
-                                    </x-slot>
-                                    <x-slot name="content">
-                                        @foreach ($link as $title => $link)
-                                            <x-dropdown-link :href="route($link)">
-                                                {{ __($title) }}
-                                            </x-dropdown-link>
-                                        @endforeach
-                                    </x-slot>
-                                </x-dropdown>
-                            </div>
+                                                <div class="ml-1">
+                                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd"
+                                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                            clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                            </button>
+                                        </x-slot>
+                                        <x-slot name="content">
+                                            @foreach ($nav_item['items'] as $link_key => $link)
+                                                @can($link['permissions'])
+                                                    <x-dropdown-link :href="route($link['route'])">
+                                                        {{ __($link_key) }}
+                                                    </x-dropdown-link>
+                                                @endcan
+                                            @endforeach
+                                        </x-slot>
+                                    </x-dropdown>
+                                </div>
+                            @endcan
                         @else
-                            <x-nav-link :href="route($link)" :active="request()->routeIs($link)">
-                                {{ __($title) }}
-                            </x-nav-link>
+                            @can($nav_item['permissions'])
+                                <x-nav-link :href="route($nav_item['route'])" :active="request()->routeIs($nav_item['route'])">
+                                    {{ __($nav_key) }}
+                                </x-nav-link>
+                            @endcan
                         @endif
                     @endforeach
 
@@ -77,7 +139,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-200 bg-white dark:bg-gray-900 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"">
+                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-200 bg-white dark:bg-gray-900 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="ml-1">
@@ -92,6 +154,10 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <button disabled
+                            class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 dark:text-gray-200">
+                            {{ Auth::user()->roles()->first()->name }}
+                        </button>
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
@@ -133,22 +199,28 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            @foreach ($navigation as $title => $link)
-                @if (is_array($link))
-                    <x-responsive-dropdown-nav-link>
-                        <x-slot name="title">{{ __($title) }}</x-slot>
-                        <x-slot name="extraItems">
-                            @foreach ($link as $subTitle => $subLink)
-                                <x-dropdown-link :href="route($subLink)">
-                                    {{ __($subTitle) }}
-                                </x-dropdown-link>
-                            @endforeach
-                        </x-slot>
-                    </x-responsive-dropdown-nav-link>
+            @foreach ($navigation as $nav_key => $nav_item)
+                @if ($nav_item['dropdown'])
+                    @can($nav_item['permissions'])
+                        <x-responsive-dropdown-nav-link>
+                            <x-slot name="title">{{ __($nav_key) }}</x-slot>
+                            <x-slot name="extraItems">
+                                @foreach ($nav_item['items'] as $link_key => $link)
+                                    @can($link['permissions'])
+                                        <x-dropdown-link :href="route($link['route'])">
+                                            {{ __($link_key) }}
+                                        </x-dropdown-link>
+                                    @endcan
+                                @endforeach
+                            </x-slot>
+                        </x-responsive-dropdown-nav-link>
+                    @endcan
                 @else
-                    <x-responsive-nav-link :href="route($link)" :active="request()->routeIs($link)">
-                        {{ __($title) }}
-                    </x-responsive-nav-link>
+                    @can($nav_item['permissions'])
+                        <x-responsive-nav-link :href="route($nav_item['route'])" :active="request()->routeIs($nav_item['route'])">
+                            {{ __($nav_key) }}
+                        </x-responsive-nav-link>
+                    @endcan
                 @endif
             @endforeach
         </div>

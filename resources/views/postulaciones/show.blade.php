@@ -104,24 +104,28 @@
                             </dd>
                         </div>
                         @if ($postulacion->estado == 'pendiente')
-                            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                            @can('gestionar evaluaciones')
+                                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 
-                                <dd
-                                    class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
-                                    <a href="{{ route('rrhh.evaluaciones.createForAPostulacion', $postulacion->id) }}"
-                                        class="bg-indigo-700 hover:bg-indigo-800 ease-in-out text-white py-2 px-5 rounded-sm">Evaluar</a>
-                                </dd>
-                            </div>
-                        @elseif ($postulacion->evaluacion->entrevista->estado == 'aprobada')
-                            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dd
+                                        class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
+                                        <a href="{{ route('rrhh.evaluaciones.createForAPostulacion', $postulacion->id) }}"
+                                            class="bg-indigo-700 hover:bg-indigo-800 ease-in-out text-white py-2 px-5 rounded-sm">Evaluar</a>
+                                    </dd>
+                                </div>
+                            @endcan
+                        @elseif ($postulacion->evaluacion->entrevista && $postulacion->evaluacion->entrevista->estado == 'aprobada')
+                            @can('gestionar ofertas')
+                                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 
-                                <dd
-                                    class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
-                                    <a href="{{ route('ofertas.createForAPostulacion', $postulacion->id) }}"
-                                        class="bg-indigo-700 hover:bg-indigo-800 ease-in-out text-white py-2 px-5 rounded-sm">Solicitar
-                                        Oferta</a>
-                                </dd>
-                            </div>
+                                    <dd
+                                        class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
+                                        <a href="{{ route('ofertas.createForAPostulacion', $postulacion->id) }}"
+                                            class="bg-indigo-700 hover:bg-indigo-800 ease-in-out text-white py-2 px-5 rounded-sm">Solicitar
+                                            Oferta</a>
+                                    </dd>
+                                </div>
+                            @endcan
                         @endif
                     </dl>
                 </div>

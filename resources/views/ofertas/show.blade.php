@@ -97,13 +97,15 @@
                             </dd>
                         </div>
                         @if ($oferta->estado == 'pendiente')
-                            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                            @can('gestionar ofertas')
+                                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
 
-                                <dd
-                                    class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
-                                    @livewire('ofertas.decision-candidato-modal', ['oferta' => $oferta], key($oferta->id))
-                                </dd>
-                            </div>
+                                    <dd
+                                        class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
+                                        @livewire('ofertas.decision-candidato-modal', ['oferta' => $oferta], key($oferta->id))
+                                    </dd>
+                                </div>
+                            @endcan
                         @endif
                     </dl>
                 </div>

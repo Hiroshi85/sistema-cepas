@@ -134,14 +134,27 @@
                         @endif
 
                         @if (!$evaluacion->entrevista)
-                            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dd
-                                    class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
-                                    <a href="{{ route('rrhh.entrevistas.createForAEvaluacion', $evaluacion->id) }}"
-                                        class="bg-indigo-700 hover:bg-indigo-800 ease-in-out text-white py-2 px-5 rounded-sm">Programar
-                                        Entrevista</a>
-                                </dd>
-                            </div>
+                            @can('programar entrevistas')
+                                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dd
+                                        class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
+                                        <a href="{{ route('rrhh.entrevistas.createForAEvaluacion', $evaluacion->id) }}"
+                                            class="bg-indigo-700 hover:bg-indigo-800 ease-in-out text-white py-2 px-5 rounded-sm">Programar
+                                            Entrevista</a>
+                                    </dd>
+                                </div>
+                            @endcan
+                            @cannot('programar entrevistas')
+                                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+
+                                    <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">Entrevista
+                                    </dt>
+                                    <dd
+                                        class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
+                                        <x-badge color="blue">No programada </x-badge>
+                                    </dd>
+                                </div>
+                            @endcannot
                         @else
                             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">Entrevista
@@ -153,8 +166,8 @@
                                             <x-badge color="green">Aprobada </x-badge>
                                         @break
 
-                                        @case('rechazada')
-                                            <x-badge color="red">Rechazado </x-badge>
+                                        @case('reprobada')
+                                            <x-badge color="red">Reprobada </x-badge>
                                         @break
 
                                         @default
@@ -164,11 +177,13 @@
                             </div>
                             @if (!$evaluacion->haFinalizado())
                                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                    <dd
-                                        class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
+                                    @can('gestionar evaluaciones')
+                                        <dd
+                                            class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
 
-                                        @livewire('rrhh-evaluaciones.finalizar-evaluacion-modal', ['evaluacion' => $evaluacion], key($evaluacion->id))
-                                    </dd>
+                                            @livewire('rrhh-evaluaciones.finalizar-evaluacion-modal', ['evaluacion' => $evaluacion], key($evaluacion->id))
+                                        </dd>
+                                    @endcan
                                 </div>
                             @else
                                 <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
