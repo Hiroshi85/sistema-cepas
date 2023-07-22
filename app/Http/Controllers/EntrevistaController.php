@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Entrevista;
+use App\Models\Postulacion;
 use App\Models\Postulante;
 use DateTime;
 use Illuminate\Http\Request;
@@ -31,7 +32,7 @@ class EntrevistaController extends Controller
             ->get();
 
 
-            $postulantes = Postulante::select('postulantes.*')
+        $postulantes = Postulante::select('postulantes.*')
             ->leftJoin('entrevistas', 'postulantes.idpostulante', '=', 'entrevistas.idpostulante')
             ->where('postulantes.estado', 'Pendiente')
             ->where('postulantes.eliminado', 0)
@@ -42,8 +43,8 @@ class EntrevistaController extends Controller
             })
             ->whereRaw("YEAR(fecha_postulacion) = {$year}")
             ->get();
-    
-        return view ('entrevista.index', compact('entrevistas', 'postulantes'));
+
+        return view('entrevista.index', compact('entrevistas', 'postulantes'));
     }
 
     /**
@@ -59,18 +60,13 @@ class EntrevistaController extends Controller
      */
     public function store(Request $request)
     {
-        $data= request()->validate([
-            
+        $data = request()->validate([], []);
 
-        ],[
-           
-        ]);
-       
         $postulantes = $request->input('postulantes');
-        
+
         // protected $fillable = ['idpostulante', 'idapoderado', 'fecha', 'hora', 'resultado', 'estado', 'eliminado'];
         $hora = DateTime::createFromFormat('H:i', $request->get('hora'));
-       
+
         foreach ($postulantes as $postulante) {
             $entrevista  = new Entrevista();
             $entrevista->idpostulante = $postulante;
@@ -89,7 +85,7 @@ class EntrevistaController extends Controller
             ]
         );
 
-        return redirect()->route('entrevista.index')->with('datos','stored');
+        return redirect()->route('entrevista.index')->with('datos', 'stored');
     }
 
     /**
@@ -115,13 +111,13 @@ class EntrevistaController extends Controller
     {
         $entrevista  = Entrevista::findOrFail($id);
         //$entrevista->idpostulante = $request->get('postulante');
-     
+
         $entrevista->fecha = $request->get('fecha');
         $entrevista->hora = $request->get('hora');
         $entrevista->estado = $request->get('estado');
         $entrevista->resultado = $request->get('resultado');
 
-        if ($entrevista->resultado == "Aceptado"){
+        if ($entrevista->resultado == "Aceptado") {
             //Actualizar postulante aceptado
         }
 
@@ -135,7 +131,7 @@ class EntrevistaController extends Controller
             ]
         );
 
-        return redirect()->route('entrevista.index')->with('datos','updated');
+        return redirect()->route('entrevista.index')->with('datos', 'updated');
     }
 
     /**
@@ -143,7 +139,15 @@ class EntrevistaController extends Controller
      */
     public function destroy($id)
     {
+
+        // primero cambiar estado de postulacion a "Pendiente"
         $entrevista = Entrevista::findOrFail($id);
+        $postulacion = Postulacion::findOrFail($entrevista->idpostulante);
+        $postulacion->estado = "Pendiente";
+        $postulacion->save();
+
+        // luego eliminar entrevista
+
         $entrevista->delete();
 
         session()->flash(
@@ -154,6 +158,6 @@ class EntrevistaController extends Controller
             ]
         );
 
-        return redirect()->route('entrevista.index')->with('datos','deleted');
+        return redirect()->route('entrevista.index')->with('datos', 'deleted');
     }
 }
