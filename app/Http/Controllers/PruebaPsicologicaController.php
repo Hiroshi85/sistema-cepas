@@ -45,6 +45,17 @@ class PruebaPsicologicaController extends Controller
      */
     public function store(Request $req)
     {
+        $data= request()->validate([
+            'nombre' => 'required|date',
+            'tipo' => 'required|numeric|gt:0',
+            'minima' => 'required|numeric|gte:10',
+            'maxima' => 'required|numeric|gte:10',
+        ],[
+            'nombre.required' => 'Este campo es obligatorio',
+            'minima.required' => 'Este campo es obligatorio',
+            'tipo.required' => 'Este campo es obligatorio',
+            'maxima.required' => 'Este campo es obligatorio',
+        ]);
         $file_url=null;
         if($req->hasFile('archivo')){
             $file_url = $this->uploadFile($req);
@@ -84,6 +95,18 @@ class PruebaPsicologicaController extends Controller
      */
     public function update(Request $req, string $id)
     {
+        $data= request()->validate([
+            'nombre' => 'required|date',
+            'tipo' => 'required|numeric|gt:0',
+            'minima' => 'required|numeric|gte:10',
+            'maxima' => 'required|numeric|gte:10',
+        ],[
+            'nombre.required' => 'Este campo es obligatorio',
+            'minima.required' => 'Este campo es obligatorio',
+            'tipo.required' => 'Este campo es obligatorio',
+            'maxima.required' => 'Este campo es obligatorio',
+        ]);
+        
         $pp=PruebaPsicologica::buscarPrueba($id);
 
         $file_url=null;

@@ -38,6 +38,14 @@ class ConductaController extends Controller
      */
     public function store(Request $req)
     {
+        $data= request()->validate([
+            'puntaje' => 'required|numeric',
+            'nombre' => 'required|max:255',
+        ],[
+            'nombre.required' => 'Este campo es obligatorio',
+            'puntaje.required' => 'Este campo es obligatorio',
+            'nombre.max' => 'Se ha excedido el número máximo de caracteres',
+        ]);
         $puntos = $req->input('puntaje');
         $nombres = $req->input('nombre');
 
@@ -68,6 +76,14 @@ class ConductaController extends Controller
      */
     public function update(Request $req, string $id)
     {
+        $data= request()->validate([
+            'puntaje' => 'required|numeric',
+            'nombre' => 'required|max:255',
+        ],[
+            'nombre.required' => 'Este campo es obligatorio',
+            'puntaje.required' => 'Este campo es obligatorio',
+            'nombre.max' => 'Se ha excedido el número máximo de caracteres',
+        ]);
         $puntos = $req->input('puntaje');
         $nombres = $req->input('nombre');
         Conducta::actualizarConducta($id, $nombres, $puntos);

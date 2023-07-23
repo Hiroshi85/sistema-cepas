@@ -24,9 +24,11 @@
                             {{ __('Asistencia') }}
                         </x-nav-link>
                     @endrole
+                    @role('auxiliar|psicologo|admin')
                     <x-nav-link :href="route('conductas.index')" :active="request()->routeIs('conducta.index')">
                         {{ __('Conductas') }}
                     </x-nav-link>
+                    @endrole
                     @role('admin|auxiliar|Docente')
                         <x-nav-link :href="route('comportamientos.index')" :active="request()->routeIs('comportamiento.index')">
                             {{ __('Comportamientos') }}
@@ -108,9 +110,11 @@
                     {{ __('Asistencia') }}
                 </x-responsive-nav-link>
             @endrole
+            @role('auxiliar|psicologo|admin')
             <x-responsive-nav-link :href="route('conductas.index')" :active="request()->routeIs('conducta.index')">
                 {{ __('Conducta') }}
             </x-responsive-nav-link>
+            @endrole
             @role('admin|auxiliar|Docente')
                 <x-responsive-nav-link :href="route('comportamientos.index')" :active="request()->routeIs('comportamiento.index')">
                     {{ __('Comportamiento') }}
