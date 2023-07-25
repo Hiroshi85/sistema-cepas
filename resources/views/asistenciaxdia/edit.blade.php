@@ -18,7 +18,7 @@
             </div>
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form method="POST" class="max-w-7xl mx-auto" id="myForm">
+                    <form method="POST" class="max-w-7xl mx-auto" id="frmEditarAsistencia">
                       @method('put')
                       @csrf
                         <input type="hidden" name="alumno" id="alumno">
@@ -92,7 +92,7 @@
   const fechaInput = document.getElementById('fecha');
   const alumnoIdInput = document.getElementById('alumno');
   const tipoInput = document.getElementById('tipo');
-  const myForm = document.getElementById('myForm');
+  const frmEditarAsistencia = document.getElementById('frmEditarAsistencia');
   const actualizarButton = document.getElementById("actualizarButton");
 
   // Función para realizar la solicitud Fetch
@@ -122,7 +122,7 @@
           }
       }
       
-      myForm.action = "/seguimiento/asistenciaxdias/"+ data.id_asistencia
+      frmEditarAsistencia.action = "/seguimiento/asistenciaxdias/"+ data.id_asistencia
     })
     .catch(error => {
       tipoInput.disabled = true;

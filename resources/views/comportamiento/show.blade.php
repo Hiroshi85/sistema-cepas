@@ -18,7 +18,7 @@
             </div>
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-1">
                     <div class="px-6 py-2 text-gray-900 dark:text-gray-100">
-                        <form method="POST" class="max-w-7xl mx-auto" id="myForm">
+                        <form method="POST" class="max-w-7xl mx-auto" id="frmbuscarComportamientoAlumno">
                         @method('put')
                         @csrf
                             <input type="hidden" name="alumno" id="alumno">

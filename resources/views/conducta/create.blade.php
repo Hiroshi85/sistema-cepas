@@ -20,7 +20,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- Tabla --}}
                     {{-- {{ __("Mantenedor de conducta") }} --}}
-                    <form method="POST" action="{{ route('conductas.store') }}" class="max-w-7xl mx-auto">
+                    <form method="POST" action="{{ route('conductas.store') }}" class="max-w-7xl mx-auto" id="frmNuevoConducta">
                         @csrf
                         <div class="grid grid-cols-2 gap-4 lg:grid-cols-3">
                           <div>

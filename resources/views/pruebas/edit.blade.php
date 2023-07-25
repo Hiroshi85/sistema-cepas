@@ -20,7 +20,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- Tabla --}}
                     {{-- {{ __("Mantenedor de prueba") }} --}}
-                    <form method="POST" action="{{ route('pruebas.update', $prueba->id) }}" class="max-w-7xl mx-auto" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('pruebas.update', $prueba->id) }}" class="max-w-7xl mx-auto" enctype="multipart/form-data" id="frmEditarPrueba">
                         @method('put')
                         @csrf
                         <div class="grid grid-cols-2 gap-4 lg:grid-cols-3">

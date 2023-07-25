@@ -21,7 +21,7 @@
                             <p>{{Str::title($day)}}, {{$today}}</p>
                         </div>
                         @if ($enable)
-                            <form id="myForm" method="POST" action="{{ route('asistenciaxdias.store') }}" class="max-w-7xl mx-auto">
+                            <form id="frmNuevaAsistencia" method="POST" action="{{ route('asistenciaxdias.store') }}" class="max-w-7xl mx-auto">
                                 @csrf
                                 <div class="grid grid-cols-2 gap-4 lg:grid-cols-3">
                                     <input type="hidden" name="fecha" value="{{$today}}">

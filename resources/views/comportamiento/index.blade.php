@@ -21,7 +21,7 @@
                             <p>{{Str::title("Comportamientos")}}</p>
                         </div>
                         @if (true)
-                            <form id="myForm" method="POST" action="{{ route('comportamientos.store') }}" class="max-w-7xl mx-auto">
+                            <form id="frmNuevoComportamiento" method="POST" action="{{ route('comportamientos.store') }}" class="max-w-7xl mx-auto">
                                 @csrf
                                 <input type="hidden" name="alumno" id="alumno">
                                 <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
