@@ -64,7 +64,7 @@
     <x-input-group value="{{ $entrevista ? $entrevista->fecha : '' }}" label="Fecha" name="fecha" type="date"
         required>
     </x-input-group>
-    <x-input-group value="{{ $entrevista ? $entrevista->hora : '' }}" label="Fecha" name="hora" type="time"
+    <x-input-group value="{{ $entrevista ? $entrevista->hora : '' }}" label="Hora" name="hora" type="time"
         required>
     </x-input-group>
 
