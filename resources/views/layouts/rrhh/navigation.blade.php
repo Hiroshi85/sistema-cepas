@@ -80,11 +80,6 @@
             'permissions' => [],
             'name' => 'reclutamiento',
         ],
-        'Nóminas' => [
-            'route' => 'nominas.index',
-            'dropdown' => false,
-            'permissions' => [],
-        ],
     ];
     function getBaseRoute($route)
     {
