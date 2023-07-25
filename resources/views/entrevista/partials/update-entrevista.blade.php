@@ -55,7 +55,18 @@
             </div> --}}
             <div class="w-[50%]">
                 <x-input-label for="resultado" :value="__('Resultado')" />
-                <x-text-input id="resultado" class="block mt-1 w-full dark:text-white" type="text" name="resultado" required autofocus :value="$item->resultado"/>
+                {{-- <x-text-input id="resultado" class="block mt-1 w-full dark:text-white" type="text" name="resultado" required autofocus :value="$item->resultado"/> --}}
+                    <select name="resultado" id="resultado" class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                        <option value="" @if ($item->resultado == '')
+                            {{"selected"}}
+                        @endif>Seleccionar</option>
+                        <option value="Aprobado" @if ($item->resultado == 'Aprobado')
+                            {{"selected"}}
+                        @endif>Aprobado</option>
+                        <option value="Rechazado" @if ($item->resultado == 'Rechazado')
+                            {{"selected"}}
+                        @endif>Rechazado</option>
+                    </select>
                 <x-input-error :messages="$errors->get('resultado')" class="mt-2" />
             </div>
         </div>
