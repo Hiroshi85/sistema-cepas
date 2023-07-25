@@ -26,7 +26,7 @@
 
         </div>
         <div class="!visible hidden px-16" id="collapseExample" data-te-collapse-item>
-            <form method="POST" action="{{ route('docsapoderado.store') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('docsapoderado.store') }}" enctype="multipart/form-data" name="frm_nuevo_documento">
                 @csrf
                 <!-- Name -->
                 <input type="hidden" name="idapoderado" value="{{$apoderado->idapoderado}}">

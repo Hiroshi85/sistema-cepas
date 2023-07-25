@@ -27,7 +27,7 @@
 
                 </div>
                 <div class="!visible hidden px-16" id="collapseExample" data-te-collapse-item>
-                    <form method="POST" action="{{ route('pago.store') }}" id="newApoderado">
+                    <form method="POST" action="{{ route('pago.store') }}" id="frm_nuevo_pago" name="frm_nuevo_pago">
                         @csrf
                         <!-- Name -->
                         <div class="flex flex-row flex-wrap">

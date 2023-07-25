@@ -139,15 +139,7 @@ class EntrevistaController extends Controller
      */
     public function destroy($id)
     {
-
-        // primero cambiar estado de postulacion a "Pendiente"
         $entrevista = Entrevista::findOrFail($id);
-        $postulacion = Postulacion::findOrFail($entrevista->idpostulante);
-        $postulacion->estado = "Pendiente";
-        $postulacion->save();
-
-        // luego eliminar entrevista
-
         $entrevista->delete();
 
         session()->flash(

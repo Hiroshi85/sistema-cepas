@@ -27,7 +27,7 @@
 
                 </div>
                 <div class="!visible hidden px-16" id="collapseExample" data-te-collapse-item>
-                    <form method="POST" action="{{ route('aula.store') }}">
+                    <form method="POST" action="{{ route('aula.store') }}" name="frm_nueva_aula">
                         @csrf
                         <!-- Name -->
                         <div class="flex flex-row flex-wrap align-middle">
