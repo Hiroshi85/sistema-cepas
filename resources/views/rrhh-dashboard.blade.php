@@ -10,7 +10,7 @@
             <div class="bg-white dark:bg-gray-950 overflow-hidden shadow-sm sm:rounded-lg">
                 @if (Auth::user()->roles->count() > 0)
                     <div class="p-6 text-gray-900 dark:text-white">
-                        Bienvenido al modulo de RRHH,  {{ Auth::user()->roles->first()->name }}!
+                        Bienvenido al módulo de RRHH,  {{ Auth::user()->roles->first()->name }}!
                     </div>
                 @endif
             </div>

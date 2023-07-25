@@ -11,21 +11,25 @@
                     'route' => 'empleados.index',
                     'dropdown' => false,
                     'permissions' => ['gestionar empleados'],
+                    'parent' => 'personal',
                 ],
                 'Contratos' => [
                     'route' => 'contratos.index',
                     'dropdown' => false,
                     'permissions' => ['gestionar contratos'],
+                    'parent' => 'personal',
                 ],
                 'Puestos' => [
                     'route' => 'puestos.index',
                     'dropdown' => false,
                     'permissions' => ['gestionar puestos'],
+                    'parent' => 'personal',
                 ],
                 'Equipos' => [
                     'route' => 'equipos.index',
                     'dropdown' => false,
                     'permissions' => ['gestionar equipos'],
+                    'parent' => 'personal',
                 ],
             ],
             'dropdown' => true,
@@ -38,31 +42,37 @@
                     'route' => 'candidatos.index',
                     'dropdown' => false,
                     'permissions' => ['gestionar candidatos'],
+                    'parent' => 'reclutamiento',
                 ],
                 'Plazas' => [
                     'route' => 'plazas.index',
                     'dropdown' => false,
                     'permissions' => ['gestionar plazas'],
+                    'parent' => 'reclutamiento',
                 ],
                 'Postulaciones' => [
                     'route' => 'postulaciones.index',
                     'dropdown' => false,
                     'permissions' => ['ver postulaciones'],
+                    'parent' => 'reclutamiento',
                 ],
                 'Evaluaciones' => [
                     'route' => 'rrhh.evaluaciones.index',
                     'dropdown' => false,
                     'permissions' => ['gestionar evaluaciones'],
+                    'parent' => 'reclutamiento',
                 ],
                 'Entrevistas' => [
                     'route' => 'rrhh.entrevistas.index',
                     'dropdown' => false,
                     'permissions' => ['gestionar entrevistas'],
+                    'parent' => 'reclutamiento',
                 ],
                 'Ofertas' => [
                     'route' => 'ofertas.index',
                     'dropdown' => false,
                     'permissions' => ['gestionar ofertas'],
+                    'parent' => 'reclutamiento',
                 ],
             ],
     
@@ -70,7 +80,42 @@
             'permissions' => [],
             'name' => 'reclutamiento',
         ],
+        'Horarios' => [
+            'route' => 'horarios.index',
+            'dropdown' => false,
+            'permissions' => [],
+        ],
+        'Nóminas' => [
+            'route' => 'nominas.index',
+            'dropdown' => false,
+            'permissions' => [],
+        ],
     ];
+    function getBaseRoute($route)
+    {
+        $elements = explode('.', $route);
+        array_pop($elements);
+        return implode('.', $elements);
+    }
+    
+    function isDropdownActive($items)
+    {
+        $ruta_actual = request()
+            ->route()
+            ->getName();
+        $ruta_base_actual = getBaseRoute($ruta_actual);
+    
+        foreach ($items as $item) {
+            $ruta_item = $item['route'];
+            $ruta_base_item = getBaseRoute($ruta_item);
+    
+            if (request()->routeIs($item['route']) || $ruta_base_actual == $ruta_base_item) {
+                return true;
+            }
+        }
+    
+        return false;
+    }
     
 @endphp
 
@@ -92,7 +137,7 @@
                         @if ($nav_item['dropdown'])
                             @can($nav_item['permissions'])
                                 <div
-                                    class="{{ request()->routeIs($nav_item['name']) ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 dark:text-white focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-300 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out' }}">
+                                    class="{{ isDropdownActive($nav_item['items']) ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 dark:text-white focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 dark:text-gray-300 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out' }}">
 
                                     <x-dropdown align="right" width="48">
                                         <x-slot name="trigger">
@@ -202,7 +247,7 @@
             @foreach ($navigation as $nav_key => $nav_item)
                 @if ($nav_item['dropdown'])
                     @can($nav_item['permissions'])
-                        <x-responsive-dropdown-nav-link>
+                        <x-responsive-dropdown-nav-link :active="isDropdownActive($nav_item['items'])">
                             <x-slot name="title">{{ __($nav_key) }}</x-slot>
                             <x-slot name="extraItems">
                                 @foreach ($nav_item['items'] as $link_key => $link)

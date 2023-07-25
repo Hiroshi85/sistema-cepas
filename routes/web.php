@@ -121,7 +121,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/puestos', PuestoController::class);
         Route::resource('/equipos', EquipoController::class);
         Route::resource('/horarios', HorarioController::class);
-        Route::resource('/nomina', NominaController::class);
+        Route::resource('/nominas', NominaController::class);
     });
 
     Route::prefix('seguimiento')->middleware('auth')->group(function () {
