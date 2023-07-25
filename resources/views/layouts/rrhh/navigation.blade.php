@@ -80,11 +80,6 @@
             'permissions' => [],
             'name' => 'reclutamiento',
         ],
-        'Horarios' => [
-            'route' => 'horarios.index',
-            'dropdown' => false,
-            'permissions' => [],
-        ],
         'Nóminas' => [
             'route' => 'nominas.index',
             'dropdown' => false,
