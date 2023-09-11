@@ -28,7 +28,12 @@ class AsistenciaXDiaController extends Controller
         $num = AsistenciaXDia::obtenerNumeroAsistenciaHoy();
         if($num <= 0 && $enable){
             foreach($alumnos as $it){
-                AsistenciaXDia::crearAsistencia($today_f, $it->idalumno, 2);
+                try {
+                    AsistenciaXDia::crearAsistencia($today_f, $it->idalumno, 2);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                }
+
             }
         }
         return view('asistenciaxdia.index', ['today'=>$today, 'day'=>$day, 'enable'=>$enable]);
@@ -58,9 +63,9 @@ class AsistenciaXDiaController extends Controller
 
         $tipo = $req->input('tipo');
         $alumno_id = $req->input('alumno');
-        
+
         AsistenciaXDia::marcarAsistenciaHoy($alumno_id, $tipo);
-        
+
         return redirect()->route('asistenciaxdias.index');
     }
 
@@ -71,7 +76,7 @@ class AsistenciaXDiaController extends Controller
     {
         //
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -86,7 +91,7 @@ class AsistenciaXDiaController extends Controller
 
         $tipo = $req->input('tipo');
         AsistenciaXDia::editarAsistencia($id, $tipo);
-        
+
         return redirect()->route('asistenciaxdias.create');
     }
 
