@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('sesion_prueba', function (Blueprint $table) {
             $table->id();
 
+            $table->boolean('completado')->default(0);
             $table->unsignedBigInteger('prueba_psicologica_id');
             $table->foreign('prueba_psicologica_id')
                 ->references('id')
