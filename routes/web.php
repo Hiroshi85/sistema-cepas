@@ -34,6 +34,7 @@ use App\Http\Controllers\AsistenciaController;
 use App\Http\Controllers\CalificacionController;
 use Illuminate\Support\Facades\Route;
 
+//SEGUIMIENTO
 use App\Http\Controllers\AsistenciaXDiaController;
 use App\Http\Controllers\PruebaPsicologicaController;
 use App\Http\Controllers\BuscarController;
@@ -42,6 +43,7 @@ use App\Http\Controllers\ConductaController;
 use App\Http\Controllers\ComportamientoController;
 use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\OfertaController;
+use App\Http\Controllers\SesionPruebaController;
 
 // Materiales Escolares
 use App\Http\Controllers\FacturaController;
@@ -69,6 +71,29 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
+//Seguimiento Escolar
+Route::prefix('seguimiento')->middleware('auth')->group(function () {
+    Route::get('/', function () {
+        return view('seguimiento-dashboard');
+    })->name('seguimiento.dashboard');
+    Route::resource('asistenciaxdias', AsistenciaXDiaController::class);
+    Route::resource('pruebas', PruebaPsicologicaController::class);
+    Route::resource('conductas', ConductaController::class);
+    Route::get('buscar/asistencias', [BuscarController::class, 'buscarAsistencia'])->name('asist.buscar');
+    Route::get('buscar/alumnos', [BuscarController::class, 'buscarAlumno'])->name('alumn.buscar');
+    Route::prefix('comportamientos')->group(function () {
+        Route::get('/', [ComportamientoController::class, 'index'])->name('comportamientos.index');
+        Route::post('/', [ComportamientoController::class, 'store'])->name('comportamientos.store');
+        Route::get('/show', [ComportamientoController::class, 'show'])->name('comportamientos.show');
+        Route::get('/alumnos/{id}', [ComportamientoController::class, 'getByAlumno'])->name('comportamientos.get');
+        Route::get('/delete/{id}', [ComportamientoController::class, 'destroy'])->name('comportamientos.destroy');
+    });
+    Route::get('files/{id}', [PruebaArchivoController::class, 'download'])->name('files');
+
+    Route::resource('sesiones', SesionPruebaController::class);
+});
+
+//RRHH
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -124,24 +149,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/nominas', NominaController::class);
     });
 
-    Route::prefix('seguimiento')->middleware('auth')->group(function () {
-        Route::get('/', function () {
-            return view('seguimiento-dashboard');
-        })->name('seguimiento.dashboard');
-        Route::resource('asistenciaxdias', AsistenciaXDiaController::class);
-        Route::resource('pruebas', PruebaPsicologicaController::class);
-        Route::resource('conductas', ConductaController::class);
-        Route::get('buscar/asistencias', [BuscarController::class, 'buscarAsistencia'])->name('asist.buscar');
-        Route::get('buscar/alumnos', [BuscarController::class, 'buscarAlumno'])->name('alumn.buscar');
-        Route::prefix('comportamientos')->group(function () {
-            Route::get('/', [ComportamientoController::class, 'index'])->name('comportamientos.index');
-            Route::post('/', [ComportamientoController::class, 'store'])->name('comportamientos.store');
-            Route::get('/show', [ComportamientoController::class, 'show'])->name('comportamientos.show');
-            Route::get('/alumnos/{id}', [ComportamientoController::class, 'getByAlumno'])->name('comportamientos.get');
-            Route::get('/delete/{id}', [ComportamientoController::class, 'destroy'])->name('comportamientos.destroy');
-        });
-        Route::get('files/{id}', [PruebaArchivoController::class, 'download'])->name('files');
-    });
+
 });
 
 Route::middleware('auth')->group(function () {
@@ -205,7 +213,7 @@ Route::prefix('desempeño')->group(function () {
     Route::resource('asistencia', AsistenciaController::class)->names('asistencias');
     Route::get('asistencia/pdf/{id1}/{id2}', [AsistenciaController::class, 'pdf'])->name('listaasistencia.pdf');
 
-    // Calificacion 
+    // Calificacion
     Route::get('notas/{id}', [CalificacionController::class, 'registrar'])->name('registrarnotas');
     Route::put('/calificaciones/', [CalificacionController::class, 'update'])->name('calificaciones.update');
     Route::get('miscalificaciones/{id}', [CalificacionController::class, 'calificacionesporalumno'])->name('miscalificaciones');
@@ -225,7 +233,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', function () {
             return view('materiales_escolares_dashboard');
         })->name('materiales_escolares.dashboard');
-        
+
         Route::resource('proveedor',ProveedorController::Class);
         Route::resource('factura',FacturaController::Class);
         Route::resource('material_escolar',MaterialEscolarController::Class);
@@ -237,7 +245,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/factura/{factura_id}/detalles', [FacturaDetalleController::class, 'store'])->name('factura_detalle.store');
         Route::put('/factura/{factura_id}/detalles/{id}', [FacturaDetalleController::class, 'update'])->name('factura_detalle.update');
         Route::delete('/factura/{factura_id}/detalles/{id}', [FacturaDetalleController::class, 'destroy'])->name('factura_detalle.destroy');
-        
+
 
     });
 });
