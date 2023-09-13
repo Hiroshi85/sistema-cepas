@@ -42,6 +42,11 @@
                             {{ __('Prueba psicológica') }}
                         </x-nav-link>
                     @endrole
+                    @role('admin|psicologo')
+                        <x-nav-link :href="route('sesiones.index')" :active="request()->routeIs('sesiones.index')">
+                            {{ __('Sesiones') }}
+                        </x-nav-link>
+                    @endrole
                 </div>
             </div>
 
@@ -126,6 +131,11 @@
             @role('admin|psicologo')
                 <x-responsive-nav-link :href="route('pruebas.index')" :active="request()->routeIs('pruebas.index')">
                     {{ __('Prueba psicológica') }}
+                </x-responsive-nav-link>
+            @endrole
+            @role('admin|psicologo')
+                <x-responsive-nav-link :href="route('sesiones.index')" :active="request()->routeIs('sesiones.index')">
+                    {{ __('Sesiones') }}
                 </x-responsive-nav-link>
             @endrole
         </div>
