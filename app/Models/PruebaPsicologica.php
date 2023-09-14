@@ -19,7 +19,7 @@ class PruebaPsicologica extends Model
 
     public static function crearPrueba($nombre, $tipo, $minima, $maxima, $psicologo_id, $online_url, $file_url): PruebaPsicologica {
         return PruebaPsicologica::create([
-            'nombre' => $nombre, 
+            'nombre' => $nombre,
             'tipo_id' =>$tipo,
             'edad_minima' =>$minima,
             'edad_maxima'=>$maxima,
@@ -29,10 +29,10 @@ class PruebaPsicologica extends Model
         ]);
     }
 
-    public static function actualizarPrueba(string $id, string $nombre, int $tipo, int $minima, 
+    public static function actualizarPrueba(string $id, string $nombre, int $tipo, int $minima,
     int $maxima, $online_url, $file_url): void {
         PruebaPsicologica::where('id', $id)->update([
-            'nombre' => $nombre, 
+            'nombre' => $nombre,
             'tipo_id' =>$tipo,
             'edad_minima' =>$minima,
             'edad_maxima'=>$maxima,
@@ -57,5 +57,10 @@ class PruebaPsicologica extends Model
     public function tipo()
     {
         return $this->belongsTo(TipoPrueba::class);
+    }
+
+    public function sesiones()
+    {
+        return $this->hasMany(SesionPrueba::class);
     }
 }
