@@ -15,10 +15,14 @@ class SesionPrueba extends Model
     protected $fillable = ['completado','psicologo_id', 'prueba_psicologica_id', 'aula_id'];
 
     public static function listarSesiones(){
-        return SesionPrueba::with('psicologo')->with('prueba_psicologica')->with('aula')->get();
+        return SesionPrueba::select('sesion_prueba.*', 'users.name AS psicologo', 'prueba_psicologica.nombre AS prueba', 'aulas.grado AS grado', 'aulas.seccion AS seccion')
+        // ->where('sesion_prueba.psicologo_id', '=', $user_id)
+        ->join('users', 'sesion_prueba.psicologo_id', '=', 'users.id')
+        ->join('prueba_psicologica', 'sesion_prueba.prueba_psicologica_id', '=', 'prueba_psicologica.id')
+        ->join('aulas', 'sesion_prueba.aula_id', '=', 'aulas.idaula')->get();
     }
 
-    public static function buscarPrueba(int $id){
+    public static function buscarSesion(int $id){
         return SesionPrueba::find($id);
     }
 
@@ -31,7 +35,7 @@ class SesionPrueba extends Model
     }
 
     public static function actualizarSesion(string $id, int $completado,int $idpsicologo, int $idprueba,): void {
-        $sesion = SesionPrueba::buscarPrueba($id);
+        $sesion = SesionPrueba::buscarSesion($id);
         $sesion->completado = $completado;
         $sesion->psicologo_id = $idpsicologo;
         $sesion->prueba_psicologica_id = $idprueba;

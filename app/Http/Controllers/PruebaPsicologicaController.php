@@ -25,7 +25,7 @@ class PruebaPsicologicaController extends Controller
     public function index()
     {
         $pruebaps = PruebaPsicologica::with('psicologo')->with('tipo')->get();
-        
+
         return view('pruebas.index', ['pruebas' => $pruebaps]);
     }
 
@@ -46,7 +46,7 @@ class PruebaPsicologicaController extends Controller
     public function store(Request $req)
     {
         $data= request()->validate([
-            'nombre' => 'required|date',
+            'nombre' => 'required',
             'tipo' => 'required|numeric|gt:0',
             'minima' => 'required|numeric|gte:10',
             'maxima' => 'required|numeric|gte:10',
@@ -56,6 +56,7 @@ class PruebaPsicologicaController extends Controller
             'tipo.required' => 'Este campo es obligatorio',
             'maxima.required' => 'Este campo es obligatorio',
         ]);
+
         $file_url=null;
         if($req->hasFile('archivo')){
             $file_url = $this->uploadFile($req);
@@ -96,7 +97,7 @@ class PruebaPsicologicaController extends Controller
     public function update(Request $req, string $id)
     {
         $data= request()->validate([
-            'nombre' => 'required|date',
+            'nombre' => 'required',
             'tipo' => 'required|numeric|gt:0',
             'minima' => 'required|numeric|gte:10',
             'maxima' => 'required|numeric|gte:10',
@@ -106,7 +107,7 @@ class PruebaPsicologicaController extends Controller
             'tipo.required' => 'Este campo es obligatorio',
             'maxima.required' => 'Este campo es obligatorio',
         ]);
-        
+
         $pp=PruebaPsicologica::buscarPrueba($id);
 
         $file_url=null;

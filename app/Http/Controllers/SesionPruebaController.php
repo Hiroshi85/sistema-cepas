@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SesionPrueba;
+use App\Models\Empleado;
+use App\Models\PruebaPsicologica;
+use App\Models\Aula;
+use Illuminate\Support\Facades\Auth;
 
 class SesionPruebaController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware('auth');
         $this->middleware('role:psicologo|admin');
     }
 
@@ -28,15 +31,24 @@ class SesionPruebaController extends Controller
      */
     public function create()
     {
-        //
+        // $psicologos = Empleado::where('puesto_id', '=', '24')->get();
+        $pruebas = PruebaPsicologica::all();
+        $aulas = Aula::all();
+
+        return view('sesiones.create', ['pruebas' => $pruebas, 'aulas' => $aulas]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $req)
     {
-        //
+        $prueba_id = $req->prueba;
+        $psicologo_id = Auth::id();
+        $aula_id = $req->aula;
+
+        SesionPrueba::crearSesion($psicologo_id, $prueba_id, $aula_id);
+        return redirect()->route('sesiones.index');
     }
 
     /**
@@ -52,15 +64,30 @@ class SesionPruebaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
+        $sesion = SesionPrueba::buscarSesion($id);
+        $pruebas = PruebaPsicologica::all();
+
+        return view('sesiones.edit', ['pruebas' => $pruebas, 'sesion' => $sesion]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $req, string $id)
     {
-        //
+        $sesion = SesionPrueba::buscarSesion($id);
+        if($sesion->psicologo_id != Auth::id()){
+            return redirect()->route('sesiones.index');
+        }
+        if(isset($req->completado)){
+            $req->completado = 1;
+        } else {
+            $req->completado = 0;
+        }
+
+        SesionPrueba::actualizarSesion($id, $req->completado, $sesion->psicologo_id, $req->prueba);
+        return redirect()->route('sesiones.index');
     }
 
     /**
@@ -68,6 +95,7 @@ class SesionPruebaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        SesionPrueba::eliminarSesion($id);
+        return redirect()->route('sesiones.index');
     }
 }

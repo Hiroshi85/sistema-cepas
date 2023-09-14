@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="flex-1 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Sesiones de pruebas psicológicas') }}
+            {{ __('Sesiones de Pruebas psicológicas') }}
         </h2>
     </x-slot>
 
@@ -27,16 +27,21 @@
                                     <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Prueba</th>
                                     <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Psicologo</th>
                                     <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Aula</th>
+                                    <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Fecha Inicio</th>
+                                    <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Completado</th>
                                     <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Opciones</th>
+
                                 </tr>
                             </thead>
-                            <tbody class="dark:bg-gray-800 divide-y divide-gray-700 dark:bg-gray-900 dark:divide-gray-500">
+                            <tbody class=" divide-y divide-gray-700 dark:bg-gray-900 dark:divide-gray-500">
                                 @foreach ($sesiones as $item)
                                 <tr class="text-center">
                                     <td class="px-6 py-4 whitespace-nowrap">{{$item->id}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{$item->prueba_psicologica->nombre}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{$item->psicologo->name}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{$item->aula->grado.$item->aula->seccion}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{$item->prueba}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{$item->psicologo}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{$item->grado.$item->seccion}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{$item->created_at->format('d-m-Y')}}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">@if ($item->completado == 1) Si @else No @endif</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex">
                                             <a href="{{route('sesiones.edit', $item->id)}}" class="flex-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"> Editar</a>
