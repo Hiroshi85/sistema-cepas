@@ -60,4 +60,9 @@ class SesionPrueba extends Model
     {
         return $this->belongsTo(Aula::class);
     }
+
+    public function resultados()
+    {
+        return $this->hasMany(ResultadoPrueba::class, 'sesion_prueba_id', 'id');
+    }
 }
