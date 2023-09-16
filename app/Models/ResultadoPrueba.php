@@ -10,8 +10,7 @@ class ResultadoPrueba extends Model
     use HasFactory;
     protected $table ="resultado_prueba";
     protected $primaryKey ="sesion_prueba_id";
-    public $timestamps = true;
-    protected $fillable = ['sesion_prueba_id', 'alumno_id', 'puntaje', 'observacion', 'recomendacion' , 'estado_resultado_prueba_id'];
+    protected $fillable = ['sesion_prueba_id', 'alumno_id', 'puntaje', 'observacion', 'recomendacion' , 'estado_resultado_prueba_id', 'fecha_evaluado'];
 
     public static function crearResultado($puntaje, $observacion, $recomendacion, $sesion_prueba_id, $alumno_id, $estado_resultado_prueba_id): ResultadoPrueba {
         return ResultadoPrueba::create([
@@ -24,12 +23,13 @@ class ResultadoPrueba extends Model
         ]);
     }
 
-    public static function actualizarResultado(string $id, string $puntaje, string $observacion, string $recomendacion, int $estado_resultado_prueba_id){
+    public static function actualizarResultado(string $id, string $puntaje, string $observacion, string $recomendacion, int $estado_resultado_prueba_id, date $fecha_evaluado){
         $resultado = ResultadoPrueba::buscarResultado($id);
         $resultado->puntaje = $puntaje;
         $resultado->observacion = $observacion;
         $resultado->recomendacion = $recomendacion;
         $resultado->estado_resultado_prueba_id = $estado_resultado_prueba_id;
+        if($resultado->fecha_evaluado == null) $resultado->fecha_evaluado = $fecha_evaluado;
         $resultado->save();
     }
 

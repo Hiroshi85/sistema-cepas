@@ -12,11 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('resultado_prueba', function (Blueprint $table) {
-            $table->string('recomendacion');
-            $table->string('observacion');
+            $table->string('recomendacion')->nullable();
+            $table->string('observacion')->nullable();
             $table->unsignedBigInteger('sesion_prueba_id');
             $table->unsignedBigInteger('alumno_id');
-            $table->tinyInteger('estado_resultado_prueba_id')->unsigned();
+            $table->tinyInteger('estado_resultado_prueba_id')->unsigned()->nullable();
+            $table->dateTime('fecha_evaluado')->nullable();
 
             $table->primary(['sesion_prueba_id', 'alumno_id']);
 
@@ -34,10 +35,6 @@ return new class extends Migration
                 ->references('id')
                 ->on('estado_resultado_prueba')
                 ->onDelete('restrict');
-
-
-
-            $table->timestamps();
         });
     }
 
