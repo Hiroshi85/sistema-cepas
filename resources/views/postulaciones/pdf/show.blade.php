@@ -110,7 +110,7 @@
                             <strong>Fecha de postulación</strong>
                         </h6>
                         <span>
-                            {{ $postulacion->created_at->format('d/m/Y') }}
+                            {{ $postulacion->fecha_postulacion>format('d/m/Y') }}
                         </span>
                     </td>
                 </tr>
