@@ -109,6 +109,7 @@ Route::middleware('auth')->group(function () {
             function () {
                 Route::get('/postulaciones', 'index')->name('postulaciones.index');
                 Route::get('/postulaciones/create', 'create')->name('postulaciones.create');
+                Route::get('/postulaciones/{postulacion}.pdf', 'loadSinglePdf')->name('postulaciones.pdf.show');
                 Route::get('/postulaciones/{postulacion}/edit', 'edit')->name('postulaciones.edit');
                 Route::get('/postulaciones/{postulacion}', 'show')->name('postulaciones.show');
                 Route::post('/postulaciones', 'store')->name('postulaciones.store');
@@ -148,8 +149,6 @@ Route::middleware('auth')->group(function () {
         Route::resource('/horarios', HorarioController::class);
         Route::resource('/nominas', NominaController::class);
     });
-
-
 });
 
 Route::middleware('auth')->group(function () {
@@ -234,9 +233,9 @@ Route::middleware('auth')->group(function () {
             return view('materiales_escolares_dashboard');
         })->name('materiales_escolares.dashboard');
 
-        Route::resource('proveedor',ProveedorController::Class);
-        Route::resource('factura',FacturaController::Class);
-        Route::resource('material_escolar',MaterialEscolarController::Class);
+        Route::resource('proveedor', ProveedorController::class);
+        Route::resource('factura', FacturaController::class);
+        Route::resource('material_escolar', MaterialEscolarController::class);
         //Factura_Detalle
         Route::get('/factura/{factura_id}/detalles', [FacturaDetalleController::class, 'index'])->name('factura_detalle.index');
         Route::get('/factura/{factura_id}/detalles/crear', [FacturaDetalleController::class, 'create'])->name('factura_detalle.create');
@@ -245,8 +244,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/factura/{factura_id}/detalles', [FacturaDetalleController::class, 'store'])->name('factura_detalle.store');
         Route::put('/factura/{factura_id}/detalles/{id}', [FacturaDetalleController::class, 'update'])->name('factura_detalle.update');
         Route::delete('/factura/{factura_id}/detalles/{id}', [FacturaDetalleController::class, 'destroy'])->name('factura_detalle.destroy');
-
-
     });
 });
 
