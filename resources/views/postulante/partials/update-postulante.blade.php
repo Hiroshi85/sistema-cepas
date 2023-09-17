@@ -1,16 +1,16 @@
 <section class="flex gap-4">
     <div class="basis-10/12">
-        <header>
+        {{-- <header>
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                {{ __('Datos de postulante') }}
+                {{ __('Postulante') }}
             </h2>
-        </header>
+        </header> --}}
     
         <form method="post" action="{{ route('postulante.update', $postulante->idpostulante) }}" class="mt-6 space-y-6">
             @csrf
             @method('patch')
             <div class="flex flex-row gap-4 flex-wrap">
-                <div class="grow">
+                <div class="grow basis-1/2">
                     <x-input-label for="nombre" :value="__('Apellidos y Nombres')" />
                     <x-text-input id="nombre_apellidos" name="nombre_apellidos" type="text" class="mt-1 block w-full" :value="old('nombre_apellidos', $postulante->nombre_apellidos)" required autofocus autocomplete="name" />
                     <x-input-error class="mt-2" :messages="$errors->get('name')" />
@@ -105,6 +105,6 @@
     </div>
  
     <div class="basis-2/12">
-        <img src="{{ asset('assets') }}/postulante.png" class="rounded-lg" style="width: 500px">
+        <img src="{{ asset('assets') }}/postulante.png" class="rounded-lg w-full">
     </div>
 </section>

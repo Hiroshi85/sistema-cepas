@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alumno;
 use App\Models\Apoderado;
 use App\Models\DocumentoApoderado;
+use App\Models\Postulante;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -91,7 +93,32 @@ class ApoderadoController extends Controller
         $documentos = DocumentoApoderado::where('eliminado', 0)
             ->where('idapoderado', $apoderado->idapoderado)
             ->get();
-        return view('apoderado.edit',compact('apoderado', 'documentos'));
+
+        //Parentesco postulantes
+        $postulantes = Postulante::select('postulantes.*', 'apoderado_postulante.*')
+            ->join('apoderado_postulante','apoderado_postulante.idpostulante','=','postulantes.idpostulante')
+            ->join('apoderados','apoderados.idapoderado','=','apoderado_postulante.idapoderado')
+            ->whereRaw('postulantes.eliminado = 0 AND apoderado_postulante.eliminado = 0')
+            ->where('apoderados.idapoderado', $id)
+            ->orderByRaw("CASE estado 
+                        WHEN 'Pendiente' THEN 1
+                        WHEN 'Registrado' THEN 2
+                        WHEN 'Rechazado' THEN 3
+                        ELSE 4 END")
+                ->orderBy('fecha_postulacion')
+            ->get();
+        //Parentesco estudiantes
+
+        $alumnos = Alumno::select('alumnos.*', 'aulas.*','apoderado_postulante.*')->join('aulas','aulas.idaula','=','alumnos.idaula')
+        ->join('postulantes','postulantes.idpostulante','=','alumnos.idpostulante')
+        ->join('apoderado_postulante','apoderado_postulante.idpostulante','=','postulantes.idpostulante')
+        ->join('apoderados','apoderados.idapoderado','=','apoderado_postulante.idapoderado')
+        ->where('alumnos.eliminado', 0)
+        ->where('apoderados.idapoderado', $id)
+        ->orderBy('alumnos.nombre_apellidos')
+        ->get();
+        
+        return view('apoderado.edit',compact('apoderado', 'documentos', 'postulantes', 'alumnos'));
     }
     /**
      * Update the specified resource in storage.

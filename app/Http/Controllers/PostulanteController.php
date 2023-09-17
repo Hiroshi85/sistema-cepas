@@ -169,7 +169,13 @@ class PostulanteController extends Controller
         ->where('idadmision', Admision::where('eliminado', 0)->orderBy('idadmision', 'desc')->first()->idadmision)
         ->first() != null ? true : false;           
 
-        return view('postulante.edit',compact('postulante', 'aulas','documentos','historial', 'blockstate'));
+
+        //Parentesco
+        $parentescos = ApoderadoPostulante::where('idpostulante', $postulante->idpostulante)
+            ->join('apoderados','apoderados.idapoderado','=','apoderado_postulante.idapoderado')
+            ->get();
+
+        return view('postulante.edit',compact('postulante', 'aulas','documentos','historial', 'parentescos', 'blockstate'));
     }
 
     /**

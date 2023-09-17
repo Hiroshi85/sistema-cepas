@@ -1,10 +1,5 @@
-<section class="overflow-hidden">
+<section class="overflow-hidden relative">
     <div class="text-center w-full relative">
-        {{-- <header>
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                {{ __('DOCUMENTOS') }}
-            </h2>
-        </header> --}}
         <div class="hidden" id="myAlert">
             <x-alert></x-alert>
         </div>
@@ -26,10 +21,10 @@
 
         </div>
         <div class="!visible hidden px-16" id="collapseExample" data-te-collapse-item>
-            <form method="POST" action="{{ route('docspostulante.store') }}" enctype="multipart/form-data">
+            <form method="POST" action="" enctype="multipart/form-data">
                 @csrf
                 <!-- Name -->
-                <input type="hidden" name="idpostulante" value="{{$postulante->idpostulante}}">
+                {{-- <input type="hidden" name="idpostulante" value="{{$postulante->idpostulante}}"> --}}
                 <div class="flex flex-row flex-wrap">
                     <div class="mt-4 basis-1/2 px-2">
                         <x-input-label for="descripcion" :value="__('Descripción')" />
@@ -58,64 +53,32 @@
     </div>
 
     {{-- TABLE --}}
-
+    @if (count($postulantes) > 0)
     <table class="min-w-full text-left text-sm font-light pb-16 text-center text-gray-900 dark:text-gray-100">
         <thead class="border-b font-medium dark:border-neutral-500 dark:bg-slate-900">
           <tr>
             <th scope="col" class="px-6 py-4">#</th>
-            <th scope="col" class="px-6 py-4">Descripción</th>
-            <th scope="col" class="px-6 py-4">Imagen</th>
-            <th scope="col" class="px-6 py-4">Fecha de registro</th>
+            <th scope="col" class="px-6 py-4">Año</th>
+            <th scope="col" class="px-6 py-4">Nombre</th>
+            <th scope="col" class="px-6 py-4">Parentesco / Convive</th>
             <th scope="col" class="px-6 py-4">Estado</th>
             <th scope="col" class="px-6 py-4">Acciones</th>
           </tr>
         </thead>
         <tbody>
-            @if (count($documentos) == 0)
-            <tr>
-                <td colspan="2">
-                    <h6 class="mt-4 mb-0 leading-normal text-size-sm dark:text-white">No hay registros</h6>
-                </td>
-            </tr>
-            @else
             @php
                 $i = 1
             @endphp
-            @foreach ($documentos as $item)
+            @foreach ($postulantes as $item)
             <tr
             class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
                 <td class="whitespace-nowrap px-6 py-4 font-medium">
                     {{$i++}}
                 </td>
-                <td class="whitespace-nowrap px-6 py-4">{{$item->descripcion}}</td>
-                <td class="whitespace-nowrap px-6 py-4">
-                    {{-- <img src="{{ asset($item->imagen) }}" alt="document"> --}}
-                    @if ($item->imagen != null)
-                        <x-primary-button
-                            data-te-toggle="modal"
-                            data-te-target="#ModalLg-{{$item->iddocumento}}"
-                            data-te-ripple-init
-                            data-te-ripple-color="light">
-                            <i class="fa-solid fa-eye"></i>
-                        </x-primary-button>
-                    @else
-                        {{"sin imagen"}}
-                    @endif
-                </td>
-                <td class="whitespace-nowrap px-6 py-4">{{$item->fecha_registro}}</td>
-                
-                <td class="whitespace-nowrap px-6 py-4 @switch($item->estado)
-                    @case("Aceptado")
-                        {{"text-green-500"}}
-                        @break
-                    @case("Pendiente")
-                        {{"text-yellow-500"}}
-                    @break
-                    @case("Rechazado")
-                        {{"text-red-500"}}
-                        @break    
-                    @endswitch
-                ">{{$item->estado}}</td>
+                <td class="whitespace-nowrap px-6 py-4">{{Date::parse($item->fecha_postulacion)->format('Y')}}</td>
+                <td class="whitespace-nowrap px-6 py-4">{{$item->nombre_apellidos}}</td>
+                <td class="whitespace-nowrap px-6 py-4">{{$item->parentesco}} / {{$item->convivencia}} </td>
+                <td class="whitespace-nowrap px-6 py-4">{{$item->estado}}</td>
                 <td class="whitespace-nowrap px-6 py-4">
                     <x-secondary-button
                     data-te-toggle="modal"
@@ -140,13 +103,18 @@
             <x-modal-large :id="$item->iddocumento" :title="$item->descripcion">
                 <img src="{{ asset($item->imagen) }}" alt="document" class="m-2 max-h-[80vh] mx-auto border dark:border-neutral-700">
             </x-modal-large>
-            <x-modal-delete :id="$item->iddocumento" :entity="'Doc'" :route="'docspostulante.destroy'" :element="$item->descripcion"></x-modal-delete>
-            @include('postulante.partials.update-doc', ['item' => $item])
+            {{-- <x-modal-delete :id="$item->iddocumento" :entity="'Doc'" :route="" :element="$item->descripcion"></x-modal-delete> --}}
+            {{-- @include('postulante.partials.update-doc', ['item' => $item]) --}}
             {{-- ELIMINAR --}}
             
             
             @endforeach
-            @endif
+          
         </tbody>
+        @else
+            <div class="absolute top-2">
+              <h2 class="text-xs dark:text-white">Este apoderado no tiene postulantes asociados</h2>
+            </div>
+        @endif
       </table>
 </section>
