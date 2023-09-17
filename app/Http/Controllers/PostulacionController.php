@@ -7,6 +7,7 @@ use App\Models\Postulacion;
 use App\Models\Candidato;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PostulacionController extends Controller
 {
@@ -183,5 +184,12 @@ class PostulacionController extends Controller
         ]);
 
         return redirect()->route('postulaciones.index', ['mode' => 'plaza']);
+    }
+
+    public function loadSinglePdf(Request $req)
+    {
+        $postulacion = Postulacion::obtenerPostulacion($req->postulacion);
+        $pdf = Pdf::loadView('postulaciones.pdf.show', compact('postulacion'));
+        return $pdf->stream('postulacion.pdf');
     }
 }
