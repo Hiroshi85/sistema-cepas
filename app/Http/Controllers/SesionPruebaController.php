@@ -7,6 +7,9 @@ use App\Models\SesionPrueba;
 use App\Models\Empleado;
 use App\Models\PruebaPsicologica;
 use App\Models\Aula;
+use App\Models\Alumno;
+use App\Models\ResultadoPrueba;
+use App\Models\EstadoPrueba;
 use Illuminate\Support\Facades\Auth;
 
 class SesionPruebaController extends Controller
@@ -47,7 +50,13 @@ class SesionPruebaController extends Controller
         $psicologo_id = Auth::id();
         $aula_id = $req->aula;
 
-        SesionPrueba::crearSesion($psicologo_id, $prueba_id, $aula_id);
+        $sesion = SesionPrueba::crearSesion($psicologo_id, $prueba_id, $aula_id);
+        $alumnos = Alumno::select('idalumno')->where('idaula', $aula_id)->get();
+
+        foreach($alumnos as $alumno){
+            ResultadoPrueba::crearResultado($sesion->id, $alumno->idalumno);
+        }
+
         return redirect()->route('sesiones.index');
     }
 
@@ -56,7 +65,11 @@ class SesionPruebaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $resultados = ResultadoPrueba::listarResultadosDeSesion($id);
+        $sesion = SesionPrueba::obtenerSesion($id);
+        error_log($resultados);
+        // error_log($sesion);
+        return view('sesiones.show', ['resultados' => $resultados, 'sesion' => $sesion]);
     }
 
     /**
@@ -97,5 +110,9 @@ class SesionPruebaController extends Controller
     {
         SesionPrueba::eliminarSesion($id);
         return redirect()->route('sesiones.index');
+    }
+
+    public function evaluar(string $id, string $alumno_id){
+        $resultado = ResultadoPrueba::obtenerResultado($id, $alumno_id);
     }
 }

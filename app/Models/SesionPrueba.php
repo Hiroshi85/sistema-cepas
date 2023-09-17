@@ -16,7 +16,6 @@ class SesionPrueba extends Model
 
     public static function listarSesiones(){
         return SesionPrueba::select('sesion_prueba.*', 'users.name AS psicologo', 'prueba_psicologica.nombre AS prueba', 'aulas.grado AS grado', 'aulas.seccion AS seccion')
-        // ->where('sesion_prueba.psicologo_id', '=', $user_id)
         ->join('users', 'sesion_prueba.psicologo_id', '=', 'users.id')
         ->join('prueba_psicologica', 'sesion_prueba.prueba_psicologica_id', '=', 'prueba_psicologica.id')
         ->join('aulas', 'sesion_prueba.aula_id', '=', 'aulas.idaula')->get();
@@ -24,6 +23,15 @@ class SesionPrueba extends Model
 
     public static function buscarSesion(int $id){
         return SesionPrueba::find($id);
+    }
+
+    public static function obtenerSesion(int $id){
+        return SesionPrueba::select('sesion_prueba.*', 'users.name AS psicologo', 'prueba_psicologica.nombre AS prueba', 'aulas.grado AS grado', 'aulas.seccion AS seccion')
+        ->join('users', 'sesion_prueba.psicologo_id', '=', 'users.id')
+        ->join('prueba_psicologica', 'sesion_prueba.prueba_psicologica_id', '=', 'prueba_psicologica.id')
+        ->join('aulas', 'sesion_prueba.aula_id', '=', 'aulas.idaula')
+        ->where('sesion_prueba.id', $id)
+        ->first();
     }
 
     public static function crearSesion(int $idpsicologo, int $idprueba, int $idaula): SesionPrueba {

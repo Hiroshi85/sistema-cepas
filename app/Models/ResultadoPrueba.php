@@ -10,16 +10,13 @@ class ResultadoPrueba extends Model
     use HasFactory;
     protected $table ="resultado_prueba";
     protected $primaryKey ="sesion_prueba_id";
+    public $timestamps = false;
     protected $fillable = ['sesion_prueba_id', 'alumno_id', 'puntaje', 'observacion', 'recomendacion' , 'estado_resultado_prueba_id', 'fecha_evaluado'];
 
-    public static function crearResultado($puntaje, $observacion, $recomendacion, $sesion_prueba_id, $alumno_id, $estado_resultado_prueba_id): ResultadoPrueba {
+    public static function crearResultado($sesion_prueba_id, $alumno_id): ResultadoPrueba {
         return ResultadoPrueba::create([
-            'puntaje' => $puntaje,
-            'observacion' =>$observacion,
-            'recomendacion' =>$recomendacion,
             'sesion_prueba_id'=>$sesion_prueba_id,
             'alumno_id'=>$alumno_id,
-            'estado_resultado_prueba_id'=>$estado_resultado_prueba_id,
         ]);
     }
 
@@ -49,16 +46,16 @@ class ResultadoPrueba extends Model
 
     public function sesion()
     {
-        return $this->belongsTo(SesionPrueba::class);
+        return $this->belongsTo(SesionPrueba::class, 'sesion_prueba_id');
     }
 
     public function alumno()
     {
-        return $this->belongsTo(Alumno::class);
+        return $this->belongsTo(Alumno::class, 'alumno_id', 'idalumno');
     }
 
     public function estado()
     {
-        return $this->belongsTo(EstadoPrueba::class);
+        return $this->belongsTo(EstadoResultadoPrueba::class, 'estado_resultado_prueba_id', 'id');
     }
 }

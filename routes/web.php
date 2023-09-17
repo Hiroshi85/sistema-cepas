@@ -90,6 +90,7 @@ Route::prefix('seguimiento')->middleware('auth')->group(function () {
     });
     Route::get('files/{id}', [PruebaArchivoController::class, 'download'])->name('files');
 
+    Route::get('sesiones/{id}/alumno/{alumno_id}', [SesionPruebaController::class, 'evaluar'])->name('sesiones.evaluar');
     Route::resource('sesiones', SesionPruebaController::class);
 });
 
