@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -25,6 +26,15 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+        $this->renderable(function (HttpException $exception) {
+            if(request()->is('seguimiento/*')){
+                error_log('403 convertido a 404');
+                if ($exception->getStatusCode() === 403) {
+                    abort(404);
+                }
+            }
+
         });
     }
 }
