@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('resultado_prueba', function (Blueprint $table) {
             $table->string('recomendacion')->nullable();
             $table->string('observacion')->nullable();
+            $table->double('puntaje')->default(0);
             $table->unsignedBigInteger('sesion_prueba_id');
             $table->unsignedBigInteger('alumno_id');
             $table->tinyInteger('estado_resultado_prueba_id')->unsigned()->nullable();
