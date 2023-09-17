@@ -7,7 +7,11 @@ use App\Models\SesionPrueba;
 use App\Models\Empleado;
 use App\Models\PruebaPsicologica;
 use App\Models\Aula;
+use App\Models\Alumno;
+use App\Models\ResultadoPrueba;
+use App\Models\EstadoResultadoPrueba;
 use Illuminate\Support\Facades\Auth;
+use \Datetime;
 
 class SesionPruebaController extends Controller
 {
@@ -47,7 +51,13 @@ class SesionPruebaController extends Controller
         $psicologo_id = Auth::id();
         $aula_id = $req->aula;
 
-        SesionPrueba::crearSesion($psicologo_id, $prueba_id, $aula_id);
+        $sesion = SesionPrueba::crearSesion($psicologo_id, $prueba_id, $aula_id);
+        $alumnos = Alumno::select('idalumno')->where('idaula', $aula_id)->get();
+
+        foreach($alumnos as $alumno){
+            ResultadoPrueba::crearResultado($sesion->id, $alumno->idalumno);
+        }
+
         return redirect()->route('sesiones.index');
     }
 
@@ -56,7 +66,11 @@ class SesionPruebaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $resultados = ResultadoPrueba::listarResultadosDeSesion($id);
+        $sesion = SesionPrueba::obtenerSesion($id);
+        error_log($resultados);
+        // error_log($sesion);
+        return view('sesiones.show', ['resultados' => $resultados, 'sesion' => $sesion]);
     }
 
     /**
@@ -95,7 +109,25 @@ class SesionPruebaController extends Controller
      */
     public function destroy(string $id)
     {
+        ResultadoPrueba::eliminarResultadosPorSesion($id);
         SesionPrueba::eliminarSesion($id);
         return redirect()->route('sesiones.index');
+    }
+
+    public function evaluar(string $id, string $alumno_id){
+        $resultado = ResultadoPrueba::obtenerResultadoDeAlumno($id, $alumno_id);
+        $estados = EstadoResultadoPrueba::listarEstados();
+        $sesion = SesionPrueba::obtenerSesion($id);
+        error_log($resultado);
+        return view('sesiones.evaluar', ['resultado' => $resultado, 'estados' => $estados, 'sesion' => $sesion]);
+    }
+
+    public function evaluarPut(Request $req, string $id, string $alumno_id){
+        $estado = $req->estado;
+        $puntaje = $req->puntaje;
+        $observacion = $req->observacion;
+        $recomendacion = $req->recomendacion;
+        ResultadoPrueba::actualizarResultado($id, $alumno_id, $puntaje, $observacion, $recomendacion, $estado,new DateTime('now'));
+        return redirect()->route('sesiones.show', $id);
     }
 }

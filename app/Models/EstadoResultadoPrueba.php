@@ -12,4 +12,14 @@ class EstadoResultadoPrueba extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
     protected $fillable=['estado'];
+
+    public static function listarEstados(){
+        return EstadoResultadoPrueba::all();
+    }
+
+    public function resultados(){
+        return $this->hasMany(ResultadoPrueba::class,'estado_prueba_id','id');
+    }
+
+
 }
