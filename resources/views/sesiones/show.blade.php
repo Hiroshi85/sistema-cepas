@@ -43,7 +43,7 @@
 
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">@if ($item->fecha_evaluado != null)
-                                        {{$item->fecha_evaluado->format('d-m-Y')}}
+                                        {{$item->fecha_evaluado}}
                                     @else
                                         -
                                     @endif</td>
