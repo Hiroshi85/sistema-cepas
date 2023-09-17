@@ -44,6 +44,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap">@if ($item->completado == 1) Si @else No @endif</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex">
+                                            <a href="{{route('sesiones.show', $item->id)}}" class="flex-1 font-medium text-green-600 dark:text-green-500 hover:underline"> Ver</a>
                                             <a href="{{route('sesiones.edit', $item->id)}}" class="flex-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"> Editar</a>
                                             <form class="flex-1" action="{{ route('sesiones.destroy', $item->id) }}" method="POST">
                                                 @csrf

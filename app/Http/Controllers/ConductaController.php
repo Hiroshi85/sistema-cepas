@@ -10,8 +10,8 @@ class ConductaController extends Controller
     public function __construct()
     {
         // $this->middleware('auth');
-        
-        $this->middleware('role:auxiliar|psicologo|admin')->only(['index']);
+
+        $this->middleware('role:auxiliar|psicologo|admin|Docente')->only(['index']);
         $this->middleware('role:auxiliar|admin')->except(['index']);
     }
     /**
