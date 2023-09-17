@@ -13,9 +13,13 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-12">
         <div class="bg-white dark:bg-gray-950 overflow-hidden shadow-sm sm:rounded-lg p-5">
             <div class="flex flex-col">
-                <div class="px-4 sm:px-0">
+                <div class="px-4 sm:px-0 flex justify-between items-center">
                     <h3 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">Información del
                         Candidato</h3>
+                    <a href="{{ route('postulaciones.pdf.show', ['postulacion' => $postulacion->id]) }}"
+                        class="bg-emerald-500 p-2 rounded text-center text-slate-100 dark:text-slate-900">
+                        @livewire('icons.pdf')
+                    </a>
                 </div>
                 <div class="mt-6 border-t border-gray-100 dark:border-gray-800">
                     <dl class="divide-y divide-gray-100 dark:divide-gray-800">
