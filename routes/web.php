@@ -121,6 +121,8 @@ Route::middleware('auth')->group(function () {
         );
         Route::resource('/candidatos', CandidatoController::class);
         Route::resource('/plazas', PlazaController::class);
+        Route::get('/evaluaciones/{evaluacion}.pdf', [EvaluacionCandidatoController::class, 'loadSinglePdf'])
+            ->name('rrhh.evaluaciones.pdf.show');
         Route::resource('/evaluaciones', EvaluacionCandidatoController::class)
             ->parameter('evaluaciones', 'evaluacion')
             ->names('rrhh.evaluaciones');
