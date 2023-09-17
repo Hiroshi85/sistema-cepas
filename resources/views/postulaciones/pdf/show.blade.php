@@ -110,7 +110,7 @@
                             <strong>Fecha de postulación</strong>
                         </h6>
                         <span>
-                            {{ $postulacion->created_at->format('d/m/Y') }}
+                            {{ $postulacion->fecha_postulacion }}
                         </span>
                     </td>
                 </tr>
@@ -137,7 +137,7 @@
                         </td>
                         <td style="font-size: 0.8rem;text-align: right">
                             <a href="https://rrhh.edu.pe" target="_blank">
-                            rrhh.edu.pe
+                            rrhh.cepas.edu.pe
                             </a>
                         </td>
                     </tr>
