@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Apoderado;
 use App\Models\DocumentoApoderado;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Validation\Rules;
+use App\Providers\AppServiceProvider;
 
 class ApoderadoController extends Controller
 {
@@ -21,7 +21,7 @@ class ApoderadoController extends Controller
      */
     public function index()
     {
-        $apoderados = Apoderado::where('eliminado', 0)->get();
+        $apoderados = Apoderado::where('eliminado', 0)->paginate(10);
         return view ('apoderado.index', compact('apoderados'));
     }
 
