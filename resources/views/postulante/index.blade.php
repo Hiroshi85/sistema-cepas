@@ -13,9 +13,14 @@
         
         <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="pt-4 pr-4 text-gray-900 dark:text-gray-100 flex flex-row-reverse">
+                <div class="pt-4 pr-4 text-gray-900 dark:text-gray-100 flex justify-between">
+                    <div class="ml-4 w-[30%]">
+                        <x-text-input id="buscar" class="w-full">
+                           
+                        </x-text-input>
+                    </div>
                     <x-secondary-button
-         
+                    class="h-[75%]"
                     type="button"
                     data-te-collapse-init
                     data-te-ripple-init
@@ -124,15 +129,15 @@
                                 <thead class="border-b font-medium dark:border-neutral-500 dark:bg-slate-900">
                                   <tr>
                                     <th scope="col" class="px-6 py-4">#</th>
-                                    <th scope="col" class="px-6 py-4">Año de postulación</th>
-                                    <th scope="col" class="px-6 py-4">DNI</th>
-                                    <th scope="col" class="px-6 py-4">Nombre</th>
+                                    <th scope="col" class="px-2 py-4">Año de postulación</th>
+                                    <th scope="col" class="py-4">DNI</th>
+                                    <th scope="col" class="px-2 py-4">Nombre</th>
                                     <th scope="col" class="px-6 py-4">Fecha de nacimiento</th>
                                     <th scope="col" class="px-6 py-4">Domicilio</th>
                                     <th scope="col" class="px-6 py-4">Celular</th>
                                     {{-- <th scope="col" class="px-6 py-4">Hermanos</th> --}}
                                     <th scope="col" class="px-6 py-4">Estado</th>
-                                    <th scope="col" class="px-6 py-4">Acciones</th>
+                                    <th scope="col" class="px-6 py-4" data-te-fixed="true">Acciones</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -152,9 +157,9 @@
                                         <td class="whitespace-nowrap px-6 py-4 font-medium">
                                             {{$i++}}
                                         </td>
-                                        <td class="whitespace-nowrap px-6 py-4">{{Date::parse($item->fecha_postulacion)->format('Y')}}</td>
-                                        <td class="whitespace-nowrap px-6 py-4">{{$item->dni}}</td>
-                                        <td class="whitespace-nowrap px-6 py-4">{{$item->nombre_apellidos}}</td>
+                                        <td class="whitespace-nowrap px-2 py-4">{{Date::parse($item->fecha_postulacion)->format('Y')}}</td>
+                                        <td class="whitespace-nowrap py-4">{{$item->dni}}</td>
+                                        <td class="whitespace-nowrap pl-2 py-4">{{$item->nombre_apellidos}}</td>
                                         <td class="whitespace-nowrap px-6 py-4">{{$item->fecha_nacimiento}}</td>     
                                         
                                         <td class="whitespace-nowrap px-6 py-4">{{$item->domicilio}}</td>
@@ -172,7 +177,8 @@
                                                 {{"text-red-500"}}
                                                 @break    
                                             @endswitch
-                                        ">{{$item->estado}}</td>
+                                        "
+                                        >{{$item->estado}}</td>
                                         <td class="whitespace-nowrap px-6 py-4">
                                             <a href="{{ route('postulante.edit', $item->idpostulante)}}"><x-secondary-button><i class="fas fa-edit"></i></x-secondary-button></a>
                                             @if(!Auth::user()->hasRole('apoderado'))
@@ -192,8 +198,14 @@
                                     @endif
                                 </tbody>
                               </table>
+                          
                             </div>
+                           
                           </div>
+                          <div class="mx-5 mb-4">
+                            {{ $postulantes->links() }}
+                          </div>
+                          
                         </div>
                       </div>
                 </div>

@@ -1,9 +1,9 @@
 <section class="overflow-hidden">
     <div class="text-center w-full relative">
         <header>
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 uppercase">
+            {{-- <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 uppercase">
                 {{ __('Historial de postulaciones') }}
-            </h2>
+            </h2> --}}
         </header>
         <div class="hidden" id="myAlert">
             <x-alert></x-alert>
@@ -51,7 +51,7 @@
       </table>
     @else   
       <div class="m-2">
-            <h2 class="text-xl dark:text-white">No hay registros de historial de postulaciones</h2>
+            <h2 class="text-xs dark:text-white">No hay registros de historial de postulaciones</h2>
       </div>
     @endif
     

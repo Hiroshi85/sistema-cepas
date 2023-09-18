@@ -22,16 +22,19 @@ class AlumnoController extends Controller
         $autoridad = Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin');
         $aulas = null; 
         $grado = null;
+        $seccion = null;
+
         if ($autoridad){
-            $grado = $request->get('grado') ?? 1;
-        
-            $aulas = Aula::selectRaw('DISTINCT grado')->where('eliminado', 0)->get();  
+            $grado = $request->get('grado');
+            $grado != null ? explode('|',$grado) : $grado = ['1','|', 'A'];
+         
+            $aulas = Aula::where('eliminado', 0)->get();  
 
             $alumnos = Alumno::join('aulas','aulas.idaula','=','alumnos.idaula')
             ->where('alumnos.eliminado', 0)
-            ->where('aulas.grado', $grado)
+            ->whereRaw('aulas.grado = ? AND aulas.seccion = ?', [$grado[0], $grado[2]])
             ->orderBy('alumnos.nombre_apellidos')
-            ->get();
+            ->paginate(30);
             
         }else{
             $alumnos = Alumno::select('alumnos.*', 'aulas.*')->join('aulas','aulas.idaula','=','alumnos.idaula')
@@ -40,8 +43,10 @@ class AlumnoController extends Controller
             ->join('apoderados','apoderados.idapoderado','=','apoderado_postulante.idapoderado')
             ->where('alumnos.eliminado', 0)
             ->where('apoderados.idusuario', Auth::user()->id)
+            ->orderBy('aulas.grado')
+            ->orderBy('aulas.seccion')
             ->orderBy('alumnos.nombre_apellidos')
-            ->get();
+            ->paginate(30);
         }
       
         return view('alumno.index', compact('alumnos', 'aulas', 'grado'));        

@@ -68,7 +68,7 @@
                                     <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Opción</th>
                                 </tr>
                             </thead>
-                            <tbody class="dark:bg-gray-800 divide-y divide-gray-700 dark:bg-gray-900 dark:divide-gray-500">
+                            <tbody class=" divide-y divide-gray-700 dark:bg-gray-900 dark:divide-gray-500">
 
                             </tbody>
                         </table>

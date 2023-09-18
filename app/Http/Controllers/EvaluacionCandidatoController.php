@@ -6,6 +6,8 @@ use App\Models\EvaluacionCandidato;
 use App\Models\Postulacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class EvaluacionCandidatoController extends Controller
 {
@@ -217,5 +219,11 @@ class EvaluacionCandidatoController extends Controller
         ]);
 
         return redirect()->route('rrhh.evaluaciones.index');
+    }
+    public function loadSinglePdf(Request $req)
+    {
+        $evaluacion = EvaluacionCandidato::obtenerEvaluacion($req->evaluacion);
+        $pdf = Pdf::loadView('evaluaciones-candidato.pdf.show', compact('evaluacion'));
+        return $pdf->stream('evaluacion.pdf');
     }
 }

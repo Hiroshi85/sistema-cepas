@@ -26,14 +26,14 @@
                         <select name="grado" id="grado" data-te-select-init>
                             @foreach ($aulas as $item)
                                 <option 
-                                    @if ($grado == $item->grado)
+                                    @if ($grado[0] == $item->grado && $grado[2] == $item->seccion)
                                         selected
                                     @endif
-                                    value="{{$item->grado}}">{{$item->grado}}</option>
+                                    value="{{$item->grado}}|{{$item->seccion}}">{{$item->grado}} {{$item->seccion}}</option>
                             @endforeach
                         </select>
                     </div>
-                   
+
                      <x-primary-button
                         class="max-h-8 self-end"
                      >
@@ -53,12 +53,12 @@
                                 <thead class="border-b font-medium dark:border-neutral-500 dark:bg-slate-900">
                                   <tr>
                                     <th scope="col" class="px-6 py-4">#</th>
-                                    <th scope="col" class="px-6 py-4">Aula</th>
-                                    <th scope="col" class="px-6 py-4">DNI</th>
+                                    {{-- <th scope="col" class="px-6 py-4">Aula</th> --}}
+                                    <th scope="col" class="px-1 py-4">DNI</th>
                                     <th scope="col" class="px-6 py-4">Nombre</th>
                                     <th scope="col" class="px-6 py-4">Fecha de nacimiento</th>
-                                    <th scope="col" class="px-6 py-4">Domicilio</th>
-                                    <th scope="col" class="px-6 py-4">Celular</th>
+                                    <th scope="col" class="px-2 py-4">Domicilio</th>
+                                    <th scope="col" class="px-2 py-4">Celular</th>
                                     {{-- <th scope="col" class="px-6 py-4">Hermanos</th> --}}
                                     <th scope="col" class="px-6 py-4">Estado</th>
                                     <th scope="col" class="px-6 py-4">Acciones</th>
@@ -81,13 +81,13 @@
                                         <td class="whitespace-nowrap px-6 py-4 font-medium">
                                             {{$i++}}
                                         </td>
-                                        <td class="whitespace-nowrap px-6 py-4">{{$item->grado}} {{$item->seccion}}</td>
-                                        <td class="whitespace-nowrap px-6 py-4">{{$item->dni}}</td>
+                                        {{-- <td class="whitespace-nowrap px-6 py-4">{{$item->grado}} {{$item->seccion}}</td> --}}
+                                        <td class="whitespace-nowrap px-1 py-4">{{$item->dni}}</td>
                                         <td class="whitespace-nowrap px-6 py-4">{{$item->nombre_apellidos}}</td>
                                         <td class="whitespace-nowrap px-6 py-4">{{$item->fecha_nacimiento}}</td>     
                                         
-                                        <td class="whitespace-nowrap px-6 py-4">{{$item->domicilio}}</td>
-                                        <td class="whitespace-nowrap px-6 py-4">{{$item->numero_celular}}</td>
+                                        <td class="whitespace-nowrap py-4">{{$item->domicilio}}</td>
+                                        <td class="whitespace-nowrap px-2 py-4">{{$item->numero_celular}}</td>
                                         {{-- <td class="whitespace-nowrap px-6 py-4">{{$item->nro_hermanos}}</td> --}}
                                         
                                         <td class="whitespace-nowrap px-6 py-4 @switch($item->estado)
@@ -123,6 +123,7 @@
                                     @endif
                                 </tbody>
                               </table>
+                           
                             </div>
                           </div>
                         </div>

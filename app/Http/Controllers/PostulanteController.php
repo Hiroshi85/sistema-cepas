@@ -18,6 +18,19 @@ class PostulanteController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+     protected function validateFields($request)
+     {
+         return $this->validate($request, [
+             'nombre_apellidos' => 'required|string|max:100',
+             'fecha_nacimiento' => 'required|date',
+             'dni' => 'required|numeric|digits:8', //8 digits only numbers
+             'domicilio' => 'required|string|max:100',
+             'numero_celular' => 'required|numeric|digits:9',
+             'nro_hermanos' => 'required|integer|min:0',
+         ]);
+     }
+
     public function index()
     {   
         $autoridad = Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin');
@@ -33,7 +46,7 @@ class PostulanteController extends Controller
                         WHEN 'Rechazado' THEN 4
                         ELSE 4 END")
                 ->orderBy('fecha_postulacion')
-                ->get();
+                ->paginate(15);
             $apoderados = Apoderado::where('eliminado',0)->get();
         }else{
             $postulantes = Postulante::select('postulantes.*')
@@ -47,7 +60,7 @@ class PostulanteController extends Controller
                         WHEN 'Rechazado' THEN 3
                         ELSE 4 END")
                 ->orderBy('fecha_postulacion')
-            ->get();
+            ->paginate(15);    
         }
 
         return view ('postulante.index', compact('postulantes', 'apoderados', 'aulas'));
@@ -69,12 +82,7 @@ class PostulanteController extends Controller
     {
         $autoridad = Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin');
 
-        $data= request()->validate([
-            'nombre_apellidos' => 'required',
-            
-        ],[
-            'nombre_apellidos.required' => 'El campo apellidos y nombres es requerido',
-        ]);
+        $data = $this->validateFields($request);
        
         $postulante = new Postulante();
         $postulante->nombre_apellidos = $request->get('nombre_apellidos');
@@ -146,7 +154,7 @@ class PostulanteController extends Controller
     public function edit($id)
     {
         // if(!Auth::user()->hasRole('secretario(a)')) return abort(403, 'Acceso denegado');
-
+        
         $aulas = Aula::where('nro_vacantes_disponibles', '>', 0)->orderBy('seccion')->orderBy('grado')->get();
         $postulante = Postulante::findOrFail($id);
         $documentos = DocumentoPostulante::where('eliminado', 0)
@@ -161,7 +169,14 @@ class PostulanteController extends Controller
         ->where('idadmision', Admision::where('eliminado', 0)->orderBy('idadmision', 'desc')->first()->idadmision)
         ->first() != null ? true : false;           
 
-        return view('postulante.edit',compact('postulante', 'aulas','documentos','historial', 'blockstate'));
+
+        //Parentesco
+        $parentescos = ApoderadoPostulante::where('idpostulante', $postulante->idpostulante)
+            ->join('apoderados','apoderados.idapoderado','=','apoderado_postulante.idapoderado')
+            ->get();
+        //Apoderados
+        $apoderados = Apoderado::where('eliminado','0')->get();
+        return view('postulante.edit',compact('postulante', 'aulas','documentos','historial', 'parentescos', 'blockstate', 'apoderados'));
     }
 
     /**
@@ -170,11 +185,9 @@ class PostulanteController extends Controller
     public function update(Request $request, $id)
     {
         $autoridad = Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin');
-        $data= request()->validate([
-           
-        ],[
-          
-        ]);
+        
+        $data = $this->validateFields($request);
+
         $postulante = Postulante::findOrFail($id);
         
         $postulante->nombre_apellidos = $request->get('nombre_apellidos');

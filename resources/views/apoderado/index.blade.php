@@ -12,9 +12,14 @@
         </div>
         <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="pt-4 pr-4 text-gray-900 dark:text-gray-100 flex flex-row-reverse">
+                <div class="pt-4 pr-4 text-gray-900 dark:text-gray-100 flex justify-between">
+                    <div class="ml-4 w-[30%]">
+                        <x-text-input id="buscar" class="w-full">
+                           
+                        </x-text-input>
+                    </div>
                     <x-secondary-button
-         
+                    class="h-[75%]"
                     type="button"
                     data-te-collapse-init
                     data-te-ripple-init
@@ -94,12 +99,13 @@
                                 <thead class="border-b font-medium dark:border-neutral-500 dark:bg-slate-900">
                                   <tr>
                                     <th scope="col" class="px-6 py-4">#</th>
-                                    <th scope="col" class="px-6 py-4">Nombre</th>
                                     <th scope="col" class="px-6 py-4">DNI</th>
-                                    <th scope="col" class="px-6 py-4">Fecha de nacimiento</th>
+                                    <th scope="col" class="px-6 py-4">Nombre</th>
+                                  
+                                    {{-- <th scope="col" class="px-6 py-4">Fecha de nacimiento</th> --}}
                                     <th scope="col" class="px-6 py-4">Celular</th>
-                                    <th scope="col" class="px-6 py-4">Ocupación</th>
-                                    <th scope="col" class="px-6 py-4">Centro de trabajo</th>
+                                    {{-- <th scope="col" class="px-6 py-4">Ocupación</th>
+                                    <th scope="col" class="px-6 py-4">Centro de trabajo</th> --}}
                                     <th scope="col" class="px-6 py-4">Correo</th>
                                     <th scope="col" class="px-6 py-4">Acciones</th>
                                   </tr>
@@ -113,7 +119,7 @@
                                     </tr>
                                     @else
                                     @php
-                                        $i = 1
+                                        $i = $apoderados->firstItem();
                                     @endphp
                                     @foreach ($apoderados as $item)
                                     <tr
@@ -121,13 +127,14 @@
                                         <td class="whitespace-nowrap px-6 py-4 font-medium">
                                             {{$i++}}
                                         </td>
-                                        <td class="whitespace-nowrap px-6 py-4">{{$item->nombre_apellidos}}</td>
                                         <td class="whitespace-nowrap px-6 py-4">{{$item->dni}}</td>
-                                        <td class="whitespace-nowrap px-6 py-4">{{$item->fecha_nacimiento}}</td>     
+                                        <td class="whitespace-nowrap px-6 py-4">{{$item->nombre_apellidos}}</td>
+                                     
+                                        {{-- <td class="whitespace-nowrap px-6 py-4">{{$item->fecha_nacimiento}}</td>      --}}
                                         
                                         <td class="whitespace-nowrap px-6 py-4">{{$item->numero_celular}}</td>
-                                        <td class="whitespace-nowrap px-6 py-4">{{$item->ocupacion}}</td>
-                                        <td class="whitespace-nowrap px-6 py-4">{{$item->centro_trabajo}}</td>
+                                        {{-- <td class="whitespace-nowrap px-6 py-4">{{$item->ocupacion}}</td>
+                                        <td class="whitespace-nowrap px-6 py-4">{{$item->centro_trabajo}}</td> --}}
                                         <td class="whitespace-nowrap px-6 py-4">{{$item->correo}}</td>
                                         <td class="whitespace-nowrap px-6 py-4">
                                             <a href="{{ route('apoderado.edit', $item->idapoderado)}}"><x-secondary-button><i class="fas fa-edit"></i></x-secondary-button></a>
@@ -146,6 +153,9 @@
                                     @endif
                                 </tbody>
                               </table>
+                              <div class="mt-4">
+                                {{ $apoderados->links() }}
+                            </div>
                             </div>
                           </div>
                         </div>

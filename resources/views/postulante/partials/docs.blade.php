@@ -1,10 +1,10 @@
 <section class="overflow-hidden">
     <div class="text-center w-full relative">
-        <header>
+        {{-- <header>
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                 {{ __('DOCUMENTOS') }}
             </h2>
-        </header>
+        </header> --}}
         <div class="hidden" id="myAlert">
             <x-alert></x-alert>
         </div>
