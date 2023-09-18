@@ -9,8 +9,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-900 shadow-sm overflow-hidden sm:rounded-lg w-full">
                 <div class="p-6 text-gray-900 dark:text-white flex flex-col gap-2 ">
-                    <x-ofertas-candidato.postulacion.form :oferta="$oferta">
-                    </x-ofertas-candidato.postulacion.form>
+                    <x-ofertas.postulacion.form :oferta="$oferta">
+                    </x-ofertas.postulacion.form>
                 </div>
             </div>
         </div>
