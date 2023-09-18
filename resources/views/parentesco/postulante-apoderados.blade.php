@@ -20,27 +20,32 @@
           </x-secondary-button>
 
         </div>
-        <div class="!visible hidden px-16" id="collapseExample" data-te-collapse-item>
-            <form method="POST" action="" enctype="multipart/form-data">
+        <div class="!visible hidden px-16 flex" id="collapseExample" data-te-collapse-item>
+            <form method="POST" action="{{ route('parentesco.store') }}" class="w-full">
                 @csrf
                 <!-- Name -->
-                <input type="hidden" name="idpostulante" value="{{$postulante->idpostulante}}">
-                <div class="flex flex-row flex-wrap">
-                    <div class="mt-4 basis-1/2 px-2">
-                        <x-input-label for="descripcion" :value="__('Descripción')" />
-                        <x-text-input id="descripcion" class="block mt-1 w-full" type="text" name="descripcion" required autofocus />
-                        <x-input-error :messages="$errors->get('descripcion')" class="mt-2" />
+                <div class="flex w-full">
+                    <input type="hidden" name="idpostul" value="{{$postulante->idpostulante}}">
+                    <div class="mt-4 px-1 grow">
+                        <x-input-label for="apoderados" class="text-lg font-semibold"  :value="__('Seleccione apoderado')" />
+                        <select id="idapoderado" name="idapoderado" data-te-select-init data-te-select-filter="true" data-te-select-option-height="52" required>
+                            @foreach ($apoderados as $item)
+                                <option value="{{$item->idapoderado}}" data-te-select-secondary-text="{{$item->dni}}">{{$item->nombre_apellidos}}</option>
+                            @endforeach                                    
+                        </select>
                     </div>
-                    <div class="mt-4 basis-1/2 px-2 h-[46px]">
-                        <x-input-label for="imagen" :value="__('Imagen')" />
-                        <input
-                        class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] font-normal leading-[2.15] text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-gray-800 file:px-3 file:py-[0.32rem] file:text-white file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-gray-800 focus:border-primary focus:text-gray-700 focus:shadow-te-primary focus:outline-none dark:border-gray-500 dark:text-neutral-200 dark:file:bg-gray-900 dark:file:text-neutral-100 dark:focus:border-primary"
-                        id="imagen"
-                        name="imagen"
-                        type="file" required />
-                        <x-input-error :messages="$errors->get('imagen')" class="mt-2" />
-                    </div>                                  
+                    <div class="mt-4 px-2 grow">
+                        <x-input-label for="parentesco" :value="__('Parentesco')" />
+                        <x-text-input id="parentesco" class="block mt-1 w-full" type="text" name="parentesco" required autofocus />
+                        <x-input-error :messages="$errors->get('parentesco')" class="mt-2" />
+                    </div>
+                    <div class="mt-4 px-2 self-center text-center">
+                        <x-input-label for="convivencia" :value="__('¿Convive?')" />
+                        <input name="convivencia" id="convivencia" type="checkbox" class="px-2 rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800">
+                        <x-input-error :messages="$errors->get('parentesco')" class="mt-2" />
+                    </div>
                 </div>
+               
                 <div class="flex items-center justify-end mt-4 px-4">
                     <x-primary-button class="ml-4">
                         {{ __('Registrar') }}
@@ -80,7 +85,7 @@
                 <td class="whitespace-nowrap px-6 py-4">
                     <x-secondary-button
                     data-te-toggle="modal"
-                    data-te-target="#modalEdit-{{$item->iddocumento}}"
+                    data-te-target="#modalEdit-{{$item->idapoderado}}{{$item->idpostulante}}"
                     data-te-ripple-init
                     data-te-ripple-color="light"
                     >
@@ -89,7 +94,7 @@
                                                        
                     <x-danger-button
                         data-te-toggle="modal"
-                        data-te-target="#exampleModalCenter-Doc{{$item->iddocumento}}"
+                        data-te-target="#exampleModalCenter-Parent{{$item->idapoderado}}"
                         data-te-ripple-init
                         data-te-ripple-color="light"
                     >
@@ -98,11 +103,9 @@
                 </td>
             </tr> 
             {{-- EDITAR --}}
-            <x-modal-large :id="$item->iddocumento" :title="$item->descripcion">
-                <img src="{{ asset($item->imagen) }}" alt="document" class="m-2 max-h-[80vh] mx-auto border dark:border-neutral-700">
-            </x-modal-large>
-            {{-- <x-modal-delete :id="$item->iddocumento" :entity="'Doc'" :route="" :element="$item->descripcion"></x-modal-delete> --}}
-            {{-- @include('postulante.partials.update-doc', ['item' => $item]) --}}
+            
+            <x-modal-delete :id="$item->idapoderado" :ids="$item->idpostulante" :entity="'Parent'" :route="'parentesco.destroy'" :element="$item->descripcion"></x-modal-delete>
+            @include('parentesco.partials.update', ['item' => $item, 'postulante' => $postulante])
             {{-- ELIMINAR --}}
             
             

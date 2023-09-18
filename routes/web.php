@@ -49,6 +49,7 @@ use App\Http\Controllers\SesionPruebaController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\FacturaDetalleController;
 use App\Http\Controllers\MaterialEscolarController;
+use App\Http\Controllers\ParentescoController;
 use App\Http\Controllers\ProveedorController;
 
 /*
@@ -179,6 +180,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/alumno/docsalumno', DocumentoAlumnoController::class)->middleware('auth');
         Route::resource('/apoderado/docsapoderado', DocumentoApoderadoController::class)->middleware('auth');
         Route::resource('/postulante/docspostulante', DocumentoPostulanteController::class)->middleware('auth');
+        Route::resource('/postulante/parentesco',ParentescoController::class)->middleware('auth');
         //Cancel
         Route::get('cancelar/{ruta}', function ($ruta) {
             return redirect()->route($ruta);

@@ -46,7 +46,7 @@ class PostulanteController extends Controller
                         WHEN 'Rechazado' THEN 4
                         ELSE 4 END")
                 ->orderBy('fecha_postulacion')
-                ->get();
+                ->paginate(15);
             $apoderados = Apoderado::where('eliminado',0)->get();
         }else{
             $postulantes = Postulante::select('postulantes.*')
@@ -60,7 +60,7 @@ class PostulanteController extends Controller
                         WHEN 'Rechazado' THEN 3
                         ELSE 4 END")
                 ->orderBy('fecha_postulacion')
-            ->get();
+            ->paginate(15);    
         }
 
         return view ('postulante.index', compact('postulantes', 'apoderados', 'aulas'));
@@ -174,8 +174,9 @@ class PostulanteController extends Controller
         $parentescos = ApoderadoPostulante::where('idpostulante', $postulante->idpostulante)
             ->join('apoderados','apoderados.idapoderado','=','apoderado_postulante.idapoderado')
             ->get();
-
-        return view('postulante.edit',compact('postulante', 'aulas','documentos','historial', 'parentescos', 'blockstate'));
+        //Apoderados
+        $apoderados = Apoderado::where('eliminado','0')->get();
+        return view('postulante.edit',compact('postulante', 'aulas','documentos','historial', 'parentescos', 'blockstate', 'apoderados'));
     }
 
     /**

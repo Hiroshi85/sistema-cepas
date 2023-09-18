@@ -1,8 +1,8 @@
-@props(['id', 'entity'=>''])
+@props(['id', 'entity'=>'', 'ids'=>''])
 <div
   data-te-modal-init
   class="fixed left-0 top-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
-  id="modalEdit-{{$entity}}{{$id}}"
+  id="modalEdit-{{$entity}}{{$id}}{{$ids}}"
   tabindex="-1"
   aria-labelledby="exampleModalCenterTitle"
   aria-modal="true"

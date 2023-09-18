@@ -28,5 +28,6 @@ class DatabaseSeeder extends Seeder
         $this->call(EstadoResultadoPruebaSeeder::class);
 
         $this->call(ApoderadoSeeder::class);
+        $this->call(PostulanteSeeder::class);
     }
 }
