@@ -1,13 +1,13 @@
 <section class="flex gap-4">
     <div class="basis-1/2 md:basis-9/12">
-        <header>
+        {{-- <header>
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                 {{ __('ALUMNO') }}
             </h2>
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                 {{ __('Datos personales') }}
             </h2>
-        </header>
+        </header> --}}
     
         <form method="post" action="{{ route('alumno.update', $alumno->idalumno) }}" class="mt-6 space-y-6">
             @csrf
