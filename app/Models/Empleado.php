@@ -107,4 +107,9 @@ class Empleado extends Model
     {
         return Empleado::where('puesto_id', '=', '3')->get();
     }
+
+    public static function obtenerCoordinadorRRHH()
+    {
+        return Empleado::where('puesto_id', '=', '1')->first();
+    }
 }
