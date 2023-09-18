@@ -52,6 +52,10 @@ use App\Http\Controllers\MaterialEscolarController;
 use App\Http\Controllers\ParentescoController;
 use App\Http\Controllers\ProveedorController;
 
+
+// ACADEMIA
+use App\Http\Controllers\Academia\SolicitudController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -252,5 +256,18 @@ Route::middleware('auth')->group(function () {
         Route::delete('/factura/{factura_id}/detalles/{id}', [FacturaDetalleController::class, 'destroy'])->name('factura_detalle.destroy');
     });
 });
+
+Route::middleware('auth')->group(function () {
+    Route::prefix('academia')->group(function () {
+        Route::get('/', function () {
+            return view('academia-dashboard');
+        })->name('academia.dashboard');
+
+        Route::resource('solicitud', SolicitudController::class)->names('solicitud');
+    });
+
+});
+// ACADEMIA
+
 
 require __DIR__ . '/auth.php';
