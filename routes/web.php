@@ -145,6 +145,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/entrevistas/{entrevista}/finalizar', [EntrevistaCandidatoController::class, 'finalizarEntrevista'])
             ->name('rrhh.entrevistas.finalizarEntrevista');
 
+        Route::get('/ofertas/{oferta}.pdf', [OfertaController::class, 'loadSinglePdf'])->name('ofertas.pdf.show');
         Route::resource('/ofertas', OfertaController::class);
         Route::get('/ofertas/{postulacion}/create', [OfertaController::class, 'createForAPostulacion'])
             ->name('ofertas.createForAPostulacion');
@@ -184,7 +185,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/alumno/docsalumno', DocumentoAlumnoController::class)->middleware('auth');
         Route::resource('/apoderado/docsapoderado', DocumentoApoderadoController::class)->middleware('auth');
         Route::resource('/postulante/docspostulante', DocumentoPostulanteController::class)->middleware('auth');
-        Route::resource('/postulante/parentesco',ParentescoController::class)->middleware('auth');
+        Route::resource('/postulante/parentesco', ParentescoController::class)->middleware('auth');
         //Cancel
         Route::get('cancelar/{ruta}', function ($ruta) {
             return redirect()->route($ruta);
@@ -265,7 +266,6 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('solicitud', SolicitudController::class)->names('solicitud');
     });
-
 });
 // ACADEMIA
 
