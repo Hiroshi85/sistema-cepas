@@ -1,4 +1,4 @@
-@props(['id', 'ids' =>'', 'entity' => '', 'element', 'route'])
+@props(['id', 'ids' =>'', 'entity' => '', 'element'=>'', 'route'])
 <div
   data-te-modal-init
   class="fixed left-0 top-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none text-center"
@@ -28,7 +28,7 @@
 
       <!--Modal body-->
       <div class="relative p-4 flex dark:text-white">
-        <p class="text-xl whitespace-normal">¿Seguro que quiere eliminar el registro "{{ $element}}"?</p>
+        <p class="text-xl whitespace-normal">¿Seguro que quiere eliminar el registro "{{ $element }}"?</p>
       </div>
 
        <!--Modal footer-->
@@ -43,7 +43,8 @@
        <form  method="POST" action="{{ route(''.$route.'',$id) }}">
         @method('delete')
         @csrf
-        <input type="text" class="hidden" value="{{$ids}}" name="{{$entity}}">
+        {{-- solo parentesco --}}
+        <input type="text" class="hidden" value="{{$ids}}" name="idpostulante">
         <x-danger-button
          data-te-ripple-init
          data-te-ripple-color="light">

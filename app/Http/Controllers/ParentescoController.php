@@ -110,7 +110,8 @@ class ParentescoController extends Controller
      */
     public function destroy(Request $request, string $id)
     {
-        $parentesco = ApoderadoPostulante::whereRaw('idpostulante = ? AND idapoderado = ?', [$request->get('Parent'), $id]);
+      
+        $parentesco = ApoderadoPostulante::whereRaw('idpostulante = ? AND idapoderado = ?', [$request->get('idpostulante'), $id]);
         $parentesco->delete();
         session()->flash(
             'toast',

@@ -65,12 +65,14 @@ class EntrevistaController extends Controller
         $data = request()->validate([], []);
 
         $postulantes = $request->input('postulantes');
-
+        array_shift($postulantes);
+       
         // protected $fillable = ['idpostulante', 'idapoderado', 'fecha', 'hora', 'resultado', 'estado', 'eliminado'];
         $hora = DateTime::createFromFormat('H:i', $request->get('hora'));
 
         foreach ($postulantes as $postulante) {
             $entrevista  = new Entrevista();
+           
             $entrevista->idpostulante = $postulante;
             $entrevista->fecha = $request->get('fecha');
             $entrevista->hora = $hora->format('H:i');

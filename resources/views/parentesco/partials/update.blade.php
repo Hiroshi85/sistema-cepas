@@ -1,4 +1,4 @@
-<x-modal-edit :id="$item->idapoderado" :ids="$item->idpostulante">
+<x-modal-edit :id="$item->idapoderado" :ids="$item->idpostulante" :entity="$entity">
     <div class="pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-gray-800">
     <div
         class="flex  items-center justify-between  rounded-t-md border-b-2 border-gray-100 border-opacity-100 p-4 dark:border-opacity-50">
@@ -21,11 +21,11 @@
         <div class="flex">
             <div class="mt-4 pl-2 grow basis-1/2">
                 <x-input-label for="apoderados" class="text-lg font-semibold"  :value="__('Apoderado')" />
-                <x-text-input :value="$item->nombre_apellidos" disabled></x-text-input>
+                <x-text-input :value="isset($postulante) ? $item->nombre_apellidos : $apoderado->nombre_apellidos" disabled></x-text-input>
             </div>
             <div class="mt-4 pr-2 grow basis-1/2">
                 <x-input-label for="postulante" class="text-lg font-semibold"  :value="__('Postulante')" />
-                <x-text-input :value="$postulante->nombre_apellidos" disabled></x-text-input>
+                <x-text-input :value="isset($postulante) ? $postulante->nombre_apellidos : $item->nombre_apellidos" disabled></x-text-input>
             </div>
         </div>
         <div class="flex">

@@ -31,12 +31,12 @@ class PostulanteController extends Controller
          ]);
      }
 
-    public function index()
+    public function index(Request $request)
     {   
         $autoridad = Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin');
         $aulas = Aula::where('nro_vacantes_disponibles', '>', 0)->orderBy('seccion')->orderBy('grado')->get();
         $apoderados = null;
-
+        $search = $request->get('search');
         if($autoridad){
             $postulantes = Postulante::whereRaw('eliminado = 0')
                 ->orderByRaw("CASE estado 
@@ -46,6 +46,7 @@ class PostulanteController extends Controller
                         WHEN 'Rechazado' THEN 4
                         ELSE 4 END")
                 ->orderBy('fecha_postulacion')
+                ->where('nombre_apellidos', 'LIKE', '%' . $search . '%')
                 ->paginate(15);
             $apoderados = Apoderado::where('eliminado',0)->get();
         }else{
@@ -60,10 +61,11 @@ class PostulanteController extends Controller
                         WHEN 'Rechazado' THEN 3
                         ELSE 4 END")
                 ->orderBy('fecha_postulacion')
+            ->where('postulantes.nombre_apellidos', 'LIKE', '%' . $search . '%')
             ->paginate(15);    
         }
 
-        return view ('postulante.index', compact('postulantes', 'apoderados', 'aulas'));
+        return view ('postulante.index', compact('postulantes', 'apoderados', 'aulas', 'search'));
        
     }
 
