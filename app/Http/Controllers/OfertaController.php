@@ -239,8 +239,12 @@ class OfertaController extends Controller
     }
     public function loadSinglePdf(Request $req)
     {
+        $coordinadorRRHH = Empleado::obtenerCoordinadorRRHH();
         $oferta = Oferta::obtenerOferta($req->oferta);
-        $pdf = Pdf::loadView('ofertas.pdf.show', compact('oferta'));
+        $pdf = Pdf::loadView('ofertas.pdf.show', [
+            'oferta' => $oferta,
+            'coordinadorRRHH' => $coordinadorRRHH
+        ]);
         return $pdf->stream('oferta.pdf');
     }
 }
