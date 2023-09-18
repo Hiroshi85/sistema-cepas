@@ -51,6 +51,10 @@ use App\Http\Controllers\FacturaDetalleController;
 use App\Http\Controllers\MaterialEscolarController;
 use App\Http\Controllers\ProveedorController;
 
+
+// ACADEMIA
+use App\Http\Controllers\Academia\SolicitudController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -249,5 +253,18 @@ Route::middleware('auth')->group(function () {
 
     });
 });
+
+Route::middleware('auth')->group(function () {
+    Route::prefix('academia')->group(function () {
+        Route::get('/', function () {
+            return view('academia-dashboard');
+        })->name('academia.dashboard');
+
+        Route::resource('solicitud', SolicitudController::class)->names('solicitud');
+    });
+
+});
+// ACADEMIA
+
 
 require __DIR__ . '/auth.php';

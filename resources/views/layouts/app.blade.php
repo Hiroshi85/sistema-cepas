@@ -9,7 +9,9 @@
         $module = 'desempeño';
     } elseif (request()->is('*materiales_escolares*')) {
         $module = 'materiales_escolares';
-    } 
+    } elseif (request()->is('*academia*')){
+        $module = 'academia';
+    }
     else {
         $module = '';
     }
@@ -59,6 +61,9 @@
             @break
             @case('desempeño')
                 @include('layouts.desempeño.navigation')
+            @break
+            @case('academia')
+                @include('layouts.academia.navigation')
             @break
             @default
                 @include('layouts.navigation')
