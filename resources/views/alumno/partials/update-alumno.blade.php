@@ -61,6 +61,14 @@
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                 {{ __('MATRÍCULA') }}
             </h2>
+            
+            @if($matricula == null)          
+                <span class="text-xs">No ha aperturado un proceso de matrícula</span>
+            @else 
+                @if($matricula->estado == "Cerrada")
+                    <span class="text-xs text-red-500">Matrícula cerrada, fecha límite - {{Date::parse($matricula->fecha_cierre)->locale('es')->isoFormat('D [de] MMMM [del] Y')}} </span>
+                @endif 
+            @endif
 
             <div class="flex flex-row gap-4 flex-wrap">
                 <div class="grow max-w-[50%] mt-2">
@@ -70,7 +78,7 @@
                     @endif
                     <select data-te-select-init data-te-select-option-height="52" id="idaula" 
                     class="block mt-1 w-full disabled" name="idaula" required
-                    @if(Auth::user()->hasRole('apoderado')) disabled @endif
+                    @if(Auth::user()->hasRole('apoderado') || $matricula == null || $matricula->estado == "Cerrada") disabled @endif
                     >
                         @foreach ($aulas as $item)
                             <option @if ($item->idaula == $alumno->idaula)
@@ -87,7 +95,7 @@
                     <select 
                     id="estado" name="estado"
                     class="
-                    @if (Auth::user()->hasRole('apoderado')) {{"pointer-events-none"}} @endif
+                    @if (Auth::user()->hasRole('apoderado') || $matricula == null || $matricula->estado == "Cerrada") {{"pointer-events-none"}} @endif
                     w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
                     >
                     <option value="Matrícula pendiente"  @if($alumno->estado == "Matrícula pendiente")

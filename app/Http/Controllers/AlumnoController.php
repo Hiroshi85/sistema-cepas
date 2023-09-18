@@ -100,7 +100,11 @@ class AlumnoController extends Controller
           ->get();
           $postulante = Postulante::findOrFail($alumno->idpostulante);
           $apoderados = Apoderado::where('eliminado','0')->get();
-        return view('alumno.edit',compact('alumno','aulas', 'documentos', 'historial', 'parentescos', 'postulante', 'apoderados'));
+
+        //Matrícula
+        $matricula = Matricula::where('eliminado', 0)->orderBy('idmatricula', 'desc')->first();
+
+        return view('alumno.edit',compact('alumno','aulas', 'documentos', 'historial', 'parentescos', 'postulante', 'apoderados', 'matricula'));
     }
 
     /**

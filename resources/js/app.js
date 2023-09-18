@@ -16,6 +16,7 @@ import {
     Modal,
     Alert,
     Tab,
+    Tooltip,
     initTE,
   } from "tw-elements";
   
@@ -26,7 +27,8 @@ import {
     Input, 
     Select, 
     Modal, 
-    Alert, 
+    Alert,
+    Tooltip, 
     Tab,
   });
 

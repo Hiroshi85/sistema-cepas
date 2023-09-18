@@ -25,19 +25,25 @@
                             </x-primary-button>
                         </form>
                     </div>
-                 
-                    <x-secondary-button
-                    class="h-[75%]"
-                    type="button"
-                    data-te-collapse-init
-                    data-te-ripple-init
-                    data-te-ripple-color="light"
-                    data-te-target="#collapseExample"
-                    aria-expanded="false"
-                    aria-controls="collapseExample">
-                    <i class="fas fa-plus"></i>
-                  </x-secondary-button>
-
+                    @if($admision == null) 
+                        <p> Aún no se ha registrado un proceso de admisión </p>
+                    @else
+                        @if($admision->estado == "Aperturada")
+                            <x-secondary-button
+                            class="h-[75%]"
+                            type="button"
+                            data-te-collapse-init
+                            data-te-ripple-init
+                            data-te-ripple-color="light"
+                            data-te-target="#collapseExample"
+                            aria-expanded="false"
+                            aria-controls="collapseExample">
+                            <i class="fas fa-plus"></i>
+                        </x-secondary-button>
+                        @else
+                            <p class="text-red-500">Admisión cerrada, fecha límite - {{Date::parse($admision->fecha_cierre)->locale('es')->isoFormat('D [de] MMMM [del] Y')}}</p>
+                        @endif
+                    @endif
                 </div>
                 <div class="!visible hidden px-16" id="collapseExample" data-te-collapse-item>
                     <form method="POST" action="{{ route('postulante.store') }}" id="newPostulante" name="newPostulante">
@@ -118,7 +124,9 @@
                             @endif
                         </div>
                         <div class="flex items-center justify-end mt-4 px-4">
-                            <x-primary-button class="ml-4">
+                            <x-primary-button 
+                                class="ml-4"
+                            >
                                 {{ __('Registrar') }}
                             </x-primary-button>
                             <x-secondary-button  type="reset" onclick="resetea()" class="mx-2"><i class="fa-solid fa-rotate"></i></x-secondary-button>

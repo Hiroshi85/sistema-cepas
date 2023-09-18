@@ -4,11 +4,15 @@ namespace Database\Seeders;
 
 use App\Models\Alumno;
 use App\Models\Postulante;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Traits\HasRoles;
 
 class PostulanteSeeder extends Seeder
 {
+    use HasRoles;
     /**
      * Run the database seeds.
      */
@@ -30,7 +34,16 @@ class PostulanteSeeder extends Seeder
                         'numero_celular' => $postulante->numero_celular,
                         'nro_hermanos' => $postulante->nro_hermanos,
                         'eliminado' => 0,
-                    ]);
+                    ])->each(
+                        function ($alumno) {
+                            User::factory()->create([
+                                'name' => $alumno->nombre_apellidos,
+                                 'dni' => $alumno->dni,
+                                 'email' => 'a'. $alumno->dni . '@gmail.com',
+                                 'password' => bcrypt('password'),
+                            ])->assignRole('Alumno');
+                        }
+                    );
                 }
             });     
         }

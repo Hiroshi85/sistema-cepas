@@ -3,7 +3,7 @@
     <div
         class="flex  items-center justify-between  rounded-t-md border-b-2 border-gray-100 border-opacity-100 p-4 dark:border-opacity-50">
         <!--Modal title-->
-        <span class="text-xl mx-auto uppercase dark:text-white">Actualizar documento</span>
+        <span class="text-xl mx-auto uppercase dark:text-white">Actualizar relación de apoderado</span>
         <!--Close button-->
         <button
         type="button"
