@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Academia;
 
 use App\Http\Controllers\Controller;
 use App\Models\Academia\Cursos\Carrera;
+use App\Models\Academia\DocumentoSolicitud;
 use App\Models\Academia\Solicitud;
 use App\Models\Alumno;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class SolicitudController extends Controller
 {
@@ -36,7 +38,6 @@ class SolicitudController extends Controller
         $carreras = Carrera::where('eliminado', 0)
                             ->with('facultad')
                             ->with('area')
-                            // ->orderBy('area.nombre')
                             ->get();
         return view('academia.solicitud.create',[
             'alumnos' => $alumnos,
@@ -51,17 +52,22 @@ class SolicitudController extends Controller
     {
         $request->validate([
             'idalumno' => 'required|integer|exists:alumnos,idalumno',
+            'idcarrera' => 'required|integer|exists:carreras_unt,id',
         ],[
             'idalumno.required' => 'Seleccione un alumno',
             'idalumno.integer' => 'Seleccione un alumno',
             'idalumno.exists' => 'El alumno no existe',
+            'idcarrera.required' => 'Seleccione una carrera',
+            'idcarrera.integer' => 'Seleccione una carrera',
+            'idcarrera.exists' => 'La carrera no existe',
         ]);
 
         $solicitud = Solicitud::create([
             'idalumno' => $request->idalumno,
             'observaciones' => $request->observaciones,
             'fecha_solicitud' => date('Y-m-d'),
-            'estado' => 'Pendiente'
+            'estado' => 'Pendiente',
+            'idcarrera' => $request->idcarrera,
         ]);
 
         session()->flash(
@@ -81,7 +87,10 @@ class SolicitudController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $solicitud = Solicitud::findOrFail($id);
+        return view('academia.solicitud.show',[
+            'solicitud' => $solicitud,
+        ]);
     }
 
     /**
@@ -106,5 +115,40 @@ class SolicitudController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function accionSolicitud(string $id, Request $request)
+    {
+        Log::debug($request->all());
+        $request->validate([
+            'accion' => 'required|in:aceptar,rechazar',
+        ],[
+            'accion.required' => 'Seleccione una acción',
+            'accion.in' => 'Seleccione una acción',
+        ]);
+
+        $solicitud = Solicitud::findOrFail($id);
+
+        $estado = $request->accion == 'aceptar' ? 'aceptado' : 'rechazado';
+
+        DocumentoSolicitud::create([
+            'estado' => $estado,
+            'idsolicitud' => $solicitud->id,
+            'observaciones' => $request->observaciones,
+        ]);
+
+        $solicitud->estado = $estado;
+        $solicitud->save();
+
+        session()->flash(
+            'toast',
+            [
+                'message' => "Solicitud {$estado} correctamente",
+                'type' => 'success',
+            ]
+        );
+
+
+        return redirect()->back();
     }
 }
