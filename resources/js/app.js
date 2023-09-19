@@ -1,8 +1,11 @@
 import './bootstrap';
 
 import Alpine from 'alpinejs';
+import {Calendar} from 'fullcalendar';
 
 window.Alpine = Alpine;
+window.Calendar = Calendar;
+
 
 Alpine.start();
 
@@ -16,6 +19,7 @@ import {
     Modal,
     Alert,
     Tab,
+    Tooltip,
     initTE,
   } from "tw-elements";
   
@@ -26,7 +30,7 @@ import {
     Input, 
     Select, 
     Modal, 
-    Alert, 
+    Alert,
+    Tooltip, 
     Tab,
   });
-

@@ -8,6 +8,7 @@ use App\Models\Apoderado;
 use App\Models\ApoderadoPostulante;
 use App\Models\Aula;
 use App\Models\DocumentoPostulante;
+use App\Models\Matricula;
 use App\Models\Postulante;
 use App\Models\PostulanteAdmision;
 use Illuminate\Http\Request;
@@ -31,12 +32,14 @@ class PostulanteController extends Controller
          ]);
      }
 
-    public function index()
+
+    public function index(Request $request)
     {   
         $autoridad = Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin');
         $aulas = Aula::where('nro_vacantes_disponibles', '>', 0)->orderBy('seccion')->orderBy('grado')->get();
         $apoderados = null;
 
+        $search = $request->get('search');
         if($autoridad){
             $postulantes = Postulante::whereRaw('eliminado = 0')
                 ->orderByRaw("CASE estado 
@@ -46,6 +49,7 @@ class PostulanteController extends Controller
                         WHEN 'Rechazado' THEN 4
                         ELSE 4 END")
                 ->orderBy('fecha_postulacion')
+                ->where('nombre_apellidos', 'LIKE', '%' . $search . '%')
                 ->paginate(15);
             $apoderados = Apoderado::where('eliminado',0)->get();
         }else{
@@ -60,10 +64,13 @@ class PostulanteController extends Controller
                         WHEN 'Rechazado' THEN 3
                         ELSE 4 END")
                 ->orderBy('fecha_postulacion')
+            ->where('postulantes.nombre_apellidos', 'LIKE', '%' . $search . '%')
             ->paginate(15);    
         }
 
-        return view ('postulante.index', compact('postulantes', 'apoderados', 'aulas'));
+        $admision = Admision::where('eliminado', 0)->orderBy('idadmision', 'desc')->first();
+
+        return view ('postulante.index', compact('postulantes', 'apoderados', 'aulas', 'search', 'admision'));
        
     }
 
@@ -165,11 +172,13 @@ class PostulanteController extends Controller
             ->get();
 
         // validar si el postulante ya fue evaluado como rechazado o aceptado en el proceso de admisión actual
-        $blockstate = PostulanteAdmision::where('idpostulante', $postulante->idpostulante)
-        ->where('idadmision', Admision::where('eliminado', 0)->orderBy('idadmision', 'desc')->first()->idadmision)
-        ->first() != null ? true : false;           
-
-
+        $admision = Admision::where('eliminado', 0)->orderBy('idadmision', 'desc')->first();
+        $blockstate = true; 
+        if ($admision != null ){
+            $blockstate = PostulanteAdmision::where('idpostulante', $postulante->idpostulante)
+            ->where('idadmision', $admision->idadmision)
+            ->first() != null ? true : false;           
+        }
         //Parentesco
         $parentescos = ApoderadoPostulante::where('idpostulante', $postulante->idpostulante)
             ->join('apoderados','apoderados.idapoderado','=','apoderado_postulante.idapoderado')

@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Alumno;
 use App\Models\AlumnoMatricula;
+use App\Models\Apoderado;
+use App\Models\ApoderadoPostulante;
 use App\Models\Aula;
 use App\Models\DocumentoAlumno;
 use App\Models\Matricula;
+use App\Models\Postulante;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -90,7 +93,18 @@ class AlumnoController extends Controller
         $historial = AlumnoMatricula::where('idalumno', $alumno->idalumno)
             ->join('matriculas', 'matriculas.idmatricula', 'alumno_matriculas.idmatricula')
             ->get();
-        return view('alumno.edit',compact('alumno','aulas', 'documentos', 'historial'));
+
+          //Parentesco
+          $parentescos = ApoderadoPostulante::where('idpostulante', $alumno->idpostulante)
+          ->join('apoderados','apoderados.idapoderado','=','apoderado_postulante.idapoderado')
+          ->get();
+          $postulante = Postulante::findOrFail($alumno->idpostulante);
+          $apoderados = Apoderado::where('eliminado','0')->get();
+
+        //Matrícula
+        $matricula = Matricula::where('eliminado', 0)->orderBy('idmatricula', 'desc')->first();
+
+        return view('alumno.edit',compact('alumno','aulas', 'documentos', 'historial', 'parentescos', 'postulante', 'apoderados', 'matricula'));
     }
 
     /**

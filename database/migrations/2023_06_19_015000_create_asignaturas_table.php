@@ -16,6 +16,7 @@ class CreateAsignaturasTable extends Migration
             $table->string('nombre');
             $table->text('descripcion')->nullable();
             $table->enum('grado', [1, 2, 3, 4, 5]);
+            $table->integer('estado')->default(1); // Establecer 1 como valor predeterminado
             $table->timestamps();
         });
     }

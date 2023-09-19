@@ -21,10 +21,14 @@ class ApoderadoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $apoderados = Apoderado::where('eliminado', 0)->paginate(10);
-        return view ('apoderado.index', compact('apoderados'));
+        $search = $request->get('search'); //search by name
+        $apoderados = Apoderado::where('eliminado', 0)
+            ->where('nombre_apellidos', 'LIKE', '%' . $search . '%')
+            ->paginate(10);
+
+        return view ('apoderado.index', compact('apoderados','search'));
     }
 
     /**

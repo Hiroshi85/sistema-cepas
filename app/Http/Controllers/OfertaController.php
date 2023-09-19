@@ -11,6 +11,7 @@ use App\Models\Postulacion;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OfertaController extends Controller
 {
@@ -235,5 +236,15 @@ class OfertaController extends Controller
         }
 
         return redirect()->route('ofertas.index');
+    }
+    public function loadSinglePdf(Request $req)
+    {
+        $coordinadorRRHH = Empleado::obtenerCoordinadorRRHH();
+        $oferta = Oferta::obtenerOferta($req->oferta);
+        $pdf = Pdf::loadView('ofertas.pdf.show', [
+            'oferta' => $oferta,
+            'coordinadorRRHH' => $coordinadorRRHH
+        ]);
+        return $pdf->stream('oferta.pdf');
     }
 }

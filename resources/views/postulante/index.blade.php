@@ -15,22 +15,35 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="pt-4 pr-4 text-gray-900 dark:text-gray-100 flex justify-between">
                     <div class="ml-4 w-[30%]">
-                        <x-text-input id="buscar" class="w-full">
-                           
-                        </x-text-input>
+                        <form action="{{ route('postulante.index') }}" method="GET" class="flex relative">
+                            @csrf
+                            <x-text-input id="search" name="search" class="w-full" :value="$search">
+                                
+                            </x-text-input>
+                            <x-primary-button class="absolute right-0 h-[100%] dark:bg-white dark:text-gray-800">
+                                <i class="fas fa-search"></i>
+                            </x-primary-button>
+                        </form>
                     </div>
-                    <x-secondary-button
-                    class="h-[75%]"
-                    type="button"
-                    data-te-collapse-init
-                    data-te-ripple-init
-                    data-te-ripple-color="light"
-                    data-te-target="#collapseExample"
-                    aria-expanded="false"
-                    aria-controls="collapseExample">
-                    <i class="fas fa-plus"></i>
-                  </x-secondary-button>
-
+                    @if($admision == null) 
+                        <p> Aún no se ha registrado un proceso de admisión </p>
+                    @else
+                        @if($admision->estado == "Aperturada")
+                            <x-secondary-button
+                            class="h-[75%]"
+                            type="button"
+                            data-te-collapse-init
+                            data-te-ripple-init
+                            data-te-ripple-color="light"
+                            data-te-target="#collapseExample"
+                            aria-expanded="false"
+                            aria-controls="collapseExample">
+                            <i class="fas fa-plus"></i>
+                        </x-secondary-button>
+                        @else
+                            <p class="text-red-500">Admisión cerrada, fecha límite - {{Date::parse($admision->fecha_cierre)->locale('es')->isoFormat('D [de] MMMM [del] Y')}}</p>
+                        @endif
+                    @endif
                 </div>
                 <div class="!visible hidden px-16" id="collapseExample" data-te-collapse-item>
                     <form method="POST" action="{{ route('postulante.store') }}" id="newPostulante" name="newPostulante">
@@ -111,7 +124,9 @@
                             @endif
                         </div>
                         <div class="flex items-center justify-end mt-4 px-4">
-                            <x-primary-button class="ml-4">
+                            <x-primary-button 
+                                class="ml-4"
+                            >
                                 {{ __('Registrar') }}
                             </x-primary-button>
                             <x-secondary-button  type="reset" onclick="resetea()" class="mx-2"><i class="fa-solid fa-rotate"></i></x-secondary-button>

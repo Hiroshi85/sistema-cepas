@@ -4,7 +4,7 @@
             <x-alert></x-alert>
         </div>
     </div>
-
+    @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('secretario(a)'))
     <div class="my-2">
         <div class="pt-4 pr-4 text-gray-900 dark:text-gray-100 flex flex-row-reverse">
             <x-secondary-button
@@ -56,6 +56,7 @@
             </form> 
         </div>
     </div>
+    @endif
 
     {{-- TABLE --}}
     @if (count($parentescos) > 0)
@@ -85,7 +86,7 @@
                 <td class="whitespace-nowrap px-6 py-4">
                     <x-secondary-button
                     data-te-toggle="modal"
-                    data-te-target="#modalEdit-{{$item->idapoderado}}{{$item->idpostulante}}"
+                    data-te-target="#modalEdit-PA{{$item->idapoderado}}{{$item->idpostulante}}"
                     data-te-ripple-init
                     data-te-ripple-color="light"
                     >
@@ -104,18 +105,19 @@
             </tr> 
             {{-- EDITAR --}}
             
-            <x-modal-delete :id="$item->idapoderado" :ids="$item->idpostulante" :entity="'Parent'" :route="'parentesco.destroy'" :element="$item->descripcion"></x-modal-delete>
-            @include('parentesco.partials.update', ['item' => $item, 'postulante' => $postulante])
+            <x-modal-delete :id="$item->idapoderado" :ids="$item->idpostulante" :entity="'Parent'" :route="'parentesco.destroy'" :element="$item->nombre_apellidos"></x-modal-delete>
+            @include('parentesco.partials.update', ['item' => $item, 'postulante' => $postulante, 'entity' => 'PA'])
             {{-- ELIMINAR --}}
             
             
             @endforeach
           
         </tbody>
-        @else
-            <div class="m-2">
-             <h2 class="text-xs dark:text-white">No se encontraron registros de relación de parentesco</h2>
-            </div>
-        @endif
       </table>
+
+      @else
+      <div class="m-2">
+       <h2 class="text-xs dark:text-white">No se encontraron registros de relación de parentesco</h2>
+      </div>
+  @endif
 </section>

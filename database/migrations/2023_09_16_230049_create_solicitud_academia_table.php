@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('idalumno');
             $table->foreign('idalumno')->references('idalumno')->on('alumnos');
 
-            $table->date('fecha_solicitud')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->date('fecha_solicitud')->default(now('America/Lima')->toDateString());
 
             $table->enum('estado', ['pendiente', 'aceptado', 'rechazado'])->default('pendiente');
 
