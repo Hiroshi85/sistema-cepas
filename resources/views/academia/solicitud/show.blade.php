@@ -18,7 +18,7 @@
             <div class="bg-white dark:bg-gray-950 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <a href={{route('solicitud.index')}} class="bg-blue-500 px-3 py-2 rounded-md mb-5">Volver</a>
-                    <div class="flex">
+                    <div class="flex mt-5">
                         <div class="flex-1 flex flex-col gap-3">
                             {{-- Datos --}}
                             <div class="">
@@ -201,6 +201,30 @@
                                 <p class="ml-5">
                                     {{ $solicitud->documento->observaciones}}
                                 </p>
+
+                                <div class="h-[1px] w-full bg-gray-500 my-5"></div>
+
+                                <h4 class="font-bold text-2xl">Cambiar decisión</h4>
+                                <form action={{route('solicitud.accionSolicitud', $solicitud->id)}} method="POST">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <x-input-group value="{{ old('observaciones') }}" label="Observaciones" name="observaciones" type="textarea"
+                                        class="mb-2"
+                                        placeholder="Observaciones..." />
+
+                                    @if ($solicitud->estado == 'aceptado')
+                                        <x-primary-button type="submit" class="bg-red-500 hover:bg-red-700" name="accion" value="rechazar">
+                                            {{ __('Rechazar') }}
+                                        </x-primary-button>
+                                    @else
+                                        <x-primary-button type="submit" class="bg-green-500 hover:bg-green-700" name="accion" value="aceptar">
+                                            {{ __('Aprobar') }}
+                                        </x-primary-button>
+                                    @endif
+
+
+                                </form> 
 
                             @endif
 
