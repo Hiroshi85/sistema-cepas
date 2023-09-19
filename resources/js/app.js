@@ -1,8 +1,11 @@
 import './bootstrap';
 
 import Alpine from 'alpinejs';
+import {Calendar} from 'fullcalendar';
 
 window.Alpine = Alpine;
+window.Calendar = Calendar;
+
 
 Alpine.start();
 
@@ -31,4 +34,3 @@ import {
     Tooltip, 
     Tab,
   });
-

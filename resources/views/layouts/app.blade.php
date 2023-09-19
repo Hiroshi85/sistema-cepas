@@ -86,7 +86,7 @@
     </div>
 
     {{-- Scripts --}}
-
+    @stack('scripts')
     @livewireScripts
     <script>
         Livewire.onLoad(() => {
