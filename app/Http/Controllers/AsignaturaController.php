@@ -17,7 +17,7 @@ class AsignaturaController extends Controller
     public function index(Request $request)
     {
         $buscarpor=$request->get('buscarpor');
-        $cursos=Asignatura::where('nombre','like','%'.$buscarpor.'%')->paginate($this::PAGINATION);
+        $cursos=Asignatura::where('nombre','like','%'.$buscarpor.'%')->where('estado','=',1)->paginate($this::PAGINATION);
         return view('cursos.index',compact('cursos','buscarpor'));
     }
 
@@ -26,11 +26,15 @@ class AsignaturaController extends Controller
         // Validar los datos del formulario si es necesario
         $request->validate([
             'nombre' => 'required',
+            'descripcion' => 'required',
+            'grado' => 'required',
         ]);
 
         // Crear una nueva instancia del modelo y asignar los valores
         $curso = new Asignatura();
         $curso->nombre = $request->nombre;
+        $curso->descripcion = $request->descripcion;
+        $curso->grado = $request->grado;
         $curso->estado = 1;
 
         // Guardar el registro en la base de datos
@@ -45,7 +49,7 @@ class AsignaturaController extends Controller
         $curso=Asignatura::findorfail($id);
         $curso->estado='0';
         $curso->save();
-        return redirect()->route('cursos.index')->with('datos','Curso eliminado');
+        return redirect()->route('cursos.index')->with('mensaje','Curso eliminado correctamente');
     }
 
     public function update(Request $request,$id)
@@ -53,11 +57,15 @@ class AsignaturaController extends Controller
         // Validar los datos del formulario si es necesario
         $request->validate([
             'nombre' => 'required',
+            'descripcion' => 'required',
+            'grado' => 'required',
         ]);
 
         // Crear una nueva instancia del modelo y asignar los valores
         $curso = Asignatura::findorfail($id);
         $curso->nombre = $request->nombre;
+        $curso->descripcion = $request->descripcion;
+        $curso->grado = $request->grado;
         //$curso->estado = 1;
 
         // Guardar el registro en la base de datos
