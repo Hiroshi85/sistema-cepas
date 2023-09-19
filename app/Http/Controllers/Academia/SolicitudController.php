@@ -131,11 +131,19 @@ class SolicitudController extends Controller
 
         $estado = $request->accion == 'aceptar' ? 'aceptado' : 'rechazado';
 
-        DocumentoSolicitud::create([
-            'estado' => $estado,
-            'idsolicitud' => $solicitud->id,
-            'observaciones' => $request->observaciones,
-        ]);
+        if ($solicitud->documento) {
+            $solicitud->documento->update([
+                'estado' => $estado,
+                'observaciones' => $request->observaciones,
+            ]);
+        }else{
+            DocumentoSolicitud::create([
+                'estado' => $estado,
+                'idsolicitud' => $solicitud->id,
+                'observaciones' => $request->observaciones,
+            ]);
+        }
+        
 
         $solicitud->estado = $estado;
         $solicitud->save();
