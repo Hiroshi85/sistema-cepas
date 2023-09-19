@@ -16,19 +16,22 @@ class DashboardController extends Controller
         $matricula = Matricula::where('eliminado', 0)->orderBy('idmatricula', 'desc')->first();
         $admision = Admision::where('eliminado', 0)->orderBy('idadmision', 'desc')->first();
         // if matricula cierre == now america latina then close matricula
-        if ($matricula->fecha_cierre < now('America/Lima')->format('Y-m-d')) {
-            $matricula->estado = "Cerrada";
-            $matricula->save();
-        }
+        if ($matricula != null)
+            if ($matricula->fecha_cierre < now('America/Lima')->format('Y-m-d')) {
+                $matricula->estado = "Cerrada";
+                $matricula->save();
+            }
 
-        if ($admision->fecha_cierre < now('America/Lima')->format('Y-m-d')) {
-            $matricula->estado = "Cerrada";
-            $matricula->save();
-        }
+        if ($admision != null)
+            if ($admision->fecha_cierre < now('America/Lima')->format('Y-m-d')) {
+                $matricula->estado = "Cerrada";
+                $matricula->save();
+            }
         
 
 
         //Calendario de entrevistas
+        
         $entrevistas = Entrevista::select('postulantes.*', 'entrevistas.*')
             ->join('postulantes', 'postulantes.idpostulante', '=', 'entrevistas.idpostulante')
             ->where('postulantes.eliminado', 0)
@@ -38,8 +41,9 @@ class DashboardController extends Controller
             ->orderBy('hora')
             ->get();
 
+        $events [] = [];
         foreach ($entrevistas as $entrevista) {
-            $events[] = [
+            $events = [
                 'title' => $entrevista->nombre_apellidos . ' (Cel. '.$entrevista->numero_celular.')',
                 'start' => $entrevista->fecha . ' ' . $entrevista->hora,
             ];
