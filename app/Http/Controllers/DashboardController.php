@@ -40,17 +40,16 @@ class DashboardController extends Controller
             ->orderBy('fecha')
             ->orderBy('hora')
             ->get();
+        
+        $events = null;
 
-        $events [] = [];
         foreach ($entrevistas as $entrevista) {
-            $events = [
+            $events[] = [
                 'title' => $entrevista->nombre_apellidos . ' (Cel. '.$entrevista->numero_celular.')',
                 'start' => $entrevista->fecha . ' ' . $entrevista->hora,
             ];
         }
 
-        //dd($events);
-        
         return Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin') ? 
             view('admision-dashboard', compact('matricula', 'admision', 'events')) 
                 : 
