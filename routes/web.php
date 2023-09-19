@@ -265,6 +265,7 @@ Route::middleware('auth')->group(function () {
         })->name('academia.dashboard');
 
         Route::resource('solicitud', SolicitudController::class)->names('solicitud');
+        Route::PUT('solicitud/{id}/accionSolicitud', [SolicitudController::class, 'accionSolicitud'])->name('solicitud.accionSolicitud');
     });
 });
 // ACADEMIA

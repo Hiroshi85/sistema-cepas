@@ -18,6 +18,10 @@
                         @livewire('common.sort-button', ['field' => 'alumnos.nombre'])
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Carrera
+                        @livewire('common.sort-button', ['field' => 'carreras_unt.nombre'])
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         <div class="flex items-center">
                             Fecha de solicitud
                             @livewire('common.sort-button', ['field' => 'fecha_solicitud'])
@@ -50,6 +54,9 @@
                             </span>
                         </th>
                         <td class="px-6 py-4">
+                            {{ $solicitud->carreraNombre }}
+                        </td>
+                        <td class="px-6 py-4">
                             {{ Carbon::parse($solicitud->fecha_solicitud)->locale('es_ES')->isoFormat('ll') }}
                         </td>
                         <td class="px-6 py-4">
@@ -59,7 +66,7 @@
                                     Pendiente
                                 </span>
                                 
-                            @elseif ($solicitud->estado == 'aceptada')
+                            @elseif ($solicitud->estado == 'aceptado')
                                 <span
                                     class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                                     Aceptada
