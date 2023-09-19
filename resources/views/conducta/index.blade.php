@@ -2,7 +2,7 @@
     <x-slot name="header">
         <h2 class="flex-1 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Conductas') }}
-        </h2>                    
+        </h2>
     </x-slot>
 
     <div class="py-12">
@@ -14,7 +14,7 @@
                     <a class="text-gray-800 dark:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow hover:bg-gray-200 transition duration-300 ease-in-out"
                     href="{{ route('conductas.create') }}">
                         Registrar conductas
-                    </a>                    
+                    </a>
                 </div>
             </div>
             @endrole
@@ -36,7 +36,7 @@
                                     @endrole
                                 </tr>
                             </thead>
-                            <tbody class="dark:bg-gray-800 divide-y divide-gray-700 dark:bg-gray-900 dark:divide-gray-500">
+                            <tbody class=" divide-y divide-gray-700 dark:bg-gray-900 dark:divide-gray-500">
                                 @foreach ($demeritos as $item)
                                 <tr class="text-center">
                                     <td class="px-6 py-4 whitespace-nowrap">{{$item->id}}</td>
@@ -50,16 +50,16 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar esto?')" class="font-medium text-red-600 dark:text-red-500 hover:underline">Eliminar</button>
-                                            </form>                                              
+                                            </form>
                                         </div>
                                     </td>
                                     @endrole
-                                </tr>    
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
-                    
+
                     {{-- Fin tabla --}}
                 </div>
                 <div class="p-6 text-gray-900 dark:text-gray-100 md:w-1/2">
@@ -78,7 +78,7 @@
                                     @endrole
                                 </tr>
                             </thead>
-                            <tbody class="dark:bg-gray-800 divide-y divide-gray-700 dark:bg-gray-900 dark:divide-gray-500">
+                            <tbody class="divide-y divide-gray-700 dark:bg-gray-900 dark:divide-gray-500">
                                 @foreach ($meritos as $item)
                                 <tr class="text-center">
                                     <td class="px-6 py-4 whitespace-nowrap">{{$item->id}}</td>
@@ -92,16 +92,16 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar esto?')" class="font-medium text-red-600 dark:text-red-500 hover:underline">Eliminar</button>
-                                            </form>                                              
+                                            </form>
                                         </div>
                                     </td>
                                     @endrole
-                                </tr>    
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
-                    
+
                     {{-- Fin tabla --}}
                 </div>
             </div>

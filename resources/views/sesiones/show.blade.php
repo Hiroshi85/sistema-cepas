@@ -24,8 +24,8 @@
                             <thead>
                                 <tr>
                                     <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Alumno</th>
-                                    <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Fecha evaluado</th>
                                     <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Estado</th>
+                                    <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Fecha evaluado</th>
                                     <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Acción</th>
 
                                 </tr>

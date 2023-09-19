@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('psicologo_id');
             $table->foreign('psicologo_id')
                 ->references('id')
-                ->on('empleados')
+                ->on('users')
                 ->onDelete('restrict');
 
             $table->tinyInteger('tipo_id')->unsigned();
