@@ -38,8 +38,8 @@ class RoleSeeder extends Seeder
         Permission::create(['name' => 'miscalificaciones'])->syncRoles($role2);
 
         // COORDINADOR
-        Permission::create(['name' => 'verdocumentos'])->syncRoles($admin, $role4);
-        Permission::create(['name' => 'evaluardocentes'])->syncRoles($admin, $role4);
+        Permission::create(['name' => 'verdocumentos'])->syncRoles($role4);
+        Permission::create(['name' => 'evaluardocentes'])->syncRoles($role4);
 
         // Permisos para el "Coordinador de Recursos Humanos"
         $ofertas = Permission::create(['name' => 'gestionar ofertas']);
@@ -64,6 +64,6 @@ class RoleSeeder extends Seeder
         $espe_recluta->givePermissionTo([$candidatos, $plazas, $postulaciones, $programarentrevistas, $postulaciones_ver]);
         $enc_evalua->givePermissionTo([$evaluaciones, $entrevistas, $programarentrevistas, $postulaciones_ver]);
 
-        $admin->givePermissionTo(Permission::all());
+        // $admin->givePermissionTo(Permission::all());
     }
 }
