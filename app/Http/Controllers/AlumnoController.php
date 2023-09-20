@@ -24,8 +24,10 @@ class AlumnoController extends Controller
 
         $autoridad = Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin');
         $aulas = null; 
-        $grado = null;
+        $grado = null; 
         $seccion = null;
+        
+        $search = $request->get('search');
 
         if ($autoridad){
             $grado = $request->get('grado');
@@ -36,6 +38,7 @@ class AlumnoController extends Controller
             $alumnos = Alumno::join('aulas','aulas.idaula','=','alumnos.idaula')
             ->where('alumnos.eliminado', 0)
             ->whereRaw('aulas.grado = ? AND aulas.seccion = ?', [$grado[0], $grado[2]])
+            ->where('alumnos.nombre_apellidos', 'LIKE', '%' . $search . '%')
             ->orderBy('alumnos.nombre_apellidos')
             ->paginate(30);
             
@@ -46,13 +49,14 @@ class AlumnoController extends Controller
             ->join('apoderados','apoderados.idapoderado','=','apoderado_postulante.idapoderado')
             ->where('alumnos.eliminado', 0)
             ->where('apoderados.idusuario', Auth::user()->id)
+            ->where('alumnos.nombre_apellidos', 'LIKE', '%' . $search . '%')
             ->orderBy('aulas.grado')
             ->orderBy('aulas.seccion')
             ->orderBy('alumnos.nombre_apellidos')
             ->paginate(30);
         }
       
-        return view('alumno.index', compact('alumnos', 'aulas', 'grado'));        
+        return view('alumno.index', compact('alumnos', 'aulas', 'grado', 'search'));        
     }
 
     /**

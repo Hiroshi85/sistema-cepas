@@ -13,33 +13,45 @@
         
         <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <form action="{{ route('alumno.index') }}" class="flex m-4 justify-between items-center gap-5 w-[200px]">
+                <form action="{{ route('alumno.index') }}" class="flex m-4 gap-5 w-full justify-between items-center">
                     @csrf
-                    @if($aulas != null)
-                    <div>
-                        <x-input-label
-                            class="mb-2"
-                        >
-                        {{ __('Grado') }}
-                        </x-input-label>
-                        
-                        <select name="grado" id="grado" data-te-select-init>
-                            @foreach ($aulas as $item)
-                                <option 
-                                    @if ($grado[0] == $item->grado && $grado[2] == $item->seccion)
-                                        selected
-                                    @endif
-                                    value="{{$item->grado}}|{{$item->seccion}}">{{$item->grado}} {{$item->seccion}}</option>
-                            @endforeach
-                        </select>
+
+                    <div class="ml-4 w-[30%] mt-8">
+                        <div class="flex relative">
+                          
+                            <x-text-input id="search" name="search" class="w-full" :value="$search">
+                                
+                            </x-text-input>
+                            <x-primary-button class="absolute right-0 h-[100%] dark:bg-white dark:text-gray-800">
+                                <i class="fas fa-search"></i>
+                            </x-primary-button>
+                        </div> 
                     </div>
 
-                     <x-primary-button
-                        class="max-h-8 self-end"
-                     >
-                         {{ __('Mostrar') }}
-                     </x-primary-button>
-                     @endif
+                    @if($aulas != null)
+                    <div class="flex gap-4 items-center mr-8">
+                        <div>
+                            <x-input-label class="mb-2">
+                                {{ __('Grado') }}
+                            </x-input-label>
+
+                            <select name="grado" id="grado" data-te-select-init>
+                                {{-- <option value=''>Seleccionar</option> --}}
+                                @foreach ($aulas as $item)
+                                <option @if ($grado[0]==$item->grado && $grado[2] == $item->seccion)
+                                    selected
+                                    @endif
+                                    value="{{$item->grado}}|{{$item->seccion}}">{{$item->grado}} {{$item->seccion}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <x-primary-button class="max-h-8 self-end">
+                            {{ __('Mostrar') }}
+                        </x-primary-button>
+                    </div>
+
+                    @endif
                 </form>
                
                 

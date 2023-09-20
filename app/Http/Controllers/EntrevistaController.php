@@ -20,8 +20,10 @@ class EntrevistaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->get('search'); //search by name
+
         $year = date('Y');
         //Where postulantes.eliminado = 0 and entrevistas.eliminado = 0
         $entrevistas = Entrevista::select('postulantes.nombre_apellidos', 'entrevistas.*')
@@ -29,9 +31,10 @@ class EntrevistaController extends Controller
             ->where('postulantes.eliminado', 0)
             ->whereNot('entrevistas.estado', 'Evaluada')
             ->whereDate('fecha', '>=', now()->toDateString()) //  de hoy en adelante
+            ->where('postulantes.nombre_apellidos','LIKE','%'.$search.'%') //Buscar por nombre de postulante
             ->orderBy('fecha')
             ->orderBy('hora')
-            ->get();
+            ->paginate(15);
 
 
         $postulantes = Postulante::select('postulantes.*')
@@ -46,7 +49,7 @@ class EntrevistaController extends Controller
             ->whereRaw("YEAR(fecha_postulacion) = {$year}")
             ->get();
 
-        return view('entrevista.index', compact('entrevistas', 'postulantes'));
+        return view('entrevista.index', compact('entrevistas', 'postulantes', 'search'));
     }
 
     /**

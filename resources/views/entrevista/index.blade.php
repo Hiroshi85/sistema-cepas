@@ -12,7 +12,20 @@
         </div>
         <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="pt-4 pr-4 text-gray-900 dark:text-gray-100 flex flex-row-reverse">
+                <div class="pt-4 pr-4 text-gray-900 dark:text-gray-100 flex justify-between">
+                    <div class="ml-4 w-[30%]">
+                        <form action="{{ route('entrevista.index') }}" method="GET" class="flex relative">
+                            @csrf
+                            <x-text-input id="search" name="search" class="w-full" :value="$search">
+                                
+                            </x-text-input>
+                            <x-primary-button class="absolute right-0 h-[100%] dark:bg-white dark:text-gray-800">
+                                <i class="fas fa-search"></i>
+                            </x-primary-button>
+                        </form>
+                        
+                    </div>
+
                     <x-secondary-button
          
                     type="button"
@@ -151,6 +164,7 @@
                                 </tbody>
                               </table>
                             </div>
+                            {{$entrevistas->links()}}
                           </div>
                         </div>
                       </div>
