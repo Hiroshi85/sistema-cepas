@@ -13,12 +13,15 @@ return new class extends Migration
     {
         // Crea el trigger utilizando el método unprepared
         DB::unprepared('
-            CREATE TRIGGER crear_calificacion AFTER INSERT ON alumnos
+            CREATE TRIGGER EliminarCalificaciones
+            AFTER UPDATE ON DETALLECURSO
             FOR EACH ROW
             BEGIN
-                INSERT INTO calificacion (idalumno, idcurso) 
-                SELECT NEW.idalumno, iddetalle FROM DETALLECURSO WHERE idaula = NEW.idaula;
-            END
+                IF NEW.estado  <> OLD.estado THEN
+                    DELETE FROM CALIFICACION
+                    WHERE idcurso = OLD.iddetalle;
+                END IF;
+            END;
         ');
     }
 
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::unprepared('DROP TRIGGER IF EXISTS crear_calificacion');
+        DB::unprepared('DROP TRIGGER IF EXISTS EliminarCalificaciones');
     }
 };

@@ -17,11 +17,11 @@ return new class extends Migration
             $table->unsignedBigInteger("idaula");
             $table->unsignedBigInteger("iddocente");
             $table->string("horario", 50);
-            $table->integer("estado");
-
             $table->foreign('idcurso')->references('id')->on('asignaturas');
             $table->foreign('idaula')->references('idaula')->on('aulas');
             $table->foreign('iddocente')->references('id')->on('empleados');
+            // Campo para el Soft Delete
+            $table->integer("estado");
         });
     }
 
