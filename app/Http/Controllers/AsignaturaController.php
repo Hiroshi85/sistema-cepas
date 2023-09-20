@@ -9,6 +9,8 @@ use App\Models\Aula;
 use App\Models\Empleado;
 use App\Models\Silabo;
 use App\Models\Evaluacion;
+use Illuminate\Support\Facades\DB;
+
 
 class AsignaturaController extends Controller
 {
@@ -83,7 +85,7 @@ class AsignaturaController extends Controller
     public function indexasignar()
     {
         $asignados=CursoAsignado::where('estado','=','1')->paginate($this::PAGINATION);
-        $cursos=Asignatura::all();
+        $cursos=Asignatura::where('estado','=',1)->get();
         $aulas=Aula::where('eliminado','=',0)->get();
         $docentes=Empleado::where('esDocente','=','1')->get();
         return view('cursos.asignar',compact('asignados','aulas','docentes','cursos'));
@@ -110,10 +112,50 @@ class AsignaturaController extends Controller
 
         // Guardar el registro en la base de datos
         $curso->save();
-
+        
+      
         // Redireccionar a la página deseada después de guardar los datos
         return redirect()->route('asignar')->with('mensaje','Curso asignado correctamente.');
     }
+
+    // Al actualizar los datos de un curso asignado
+        public function updateasignar(Request $request,$id)
+        {
+            // Validar los datos del formulario si es necesario
+
+            $request->validate([
+                'idcurso' => 'required',
+                'idaula' => 'required',
+                'iddocente' => 'required',
+                'horario' => 'required',
+            ]);
+        
+            // Crear una nueva instancia del modelo y asignar los valores
+            $curso = CursoAsignado::FindOrFail($id);
+            $old = $curso->$id;
+            $curso->idcurso = $request->idcurso;
+            $curso->idaula = $request->idaula;
+            $curso->iddocente = $request->iddocente;
+            $curso->horario = $request->horario;
+            //$curso->estado = 1;
+
+            // Guardar el registro en la base de datos
+            $curso->save();
+
+            // Redireccionar a la página deseada después de guardar los datos
+            return redirect()->route('asignar')->with('mensaje','Asignacion actualizada correctamente.');
+        }
+
+
+
+    // Al eliminar un curso asignado
+        public function destroyasignar($id)
+        {
+            $curso=CursoAsignado::findorfail($id);
+            $curso->estado='0';
+            $curso->save();
+            return redirect()->route('asignar')->with('mensaje','La asignacion ha sido eliminada correctamente');
+        }
 
     public function miscursosprofesor($id)
     {
@@ -130,4 +172,14 @@ class AsignaturaController extends Controller
         $evaluaciones=Evaluacion::where('idcurso','=',$id)->get();
         return view('cursos.micurso',compact('c','silabo','evaluaciones'));
     }
+
+    public function crearCalificacionesAlAsignar($idaula,$idcurso)
+    {
+            // Sentencia SQL que deseas ejecutar
+            $sentenciaSql = " SELECT idalumno FROM ALUMNO WHERE idaula = $idaula INSERT INTO calificacion VALUES (idalumno, '$idcurso')";
+            // Ejecutar la sentencia SQL
+            DB::statement($sentenciaSql);
+    }
+
+
 }
