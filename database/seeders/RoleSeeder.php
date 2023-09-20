@@ -64,6 +64,6 @@ class RoleSeeder extends Seeder
         $espe_recluta->givePermissionTo([$candidatos, $plazas, $postulaciones, $programarentrevistas, $postulaciones_ver]);
         $enc_evalua->givePermissionTo([$evaluaciones, $entrevistas, $programarentrevistas, $postulaciones_ver]);
 
-        // $admin->givePermissionTo(Permission::all());
+        $admin->givePermissionTo(Permission::all());
     }
 }
