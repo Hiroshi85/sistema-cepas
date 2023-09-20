@@ -109,7 +109,7 @@
 
         <p>Estimado/a {{ $oferta->postulacion->candidato->nombre }},</p>
 
-        <p>Nos complace ofrecerte el puesto de {{ $oferta->postulacion->plaza->puesto->nombre }} en nuestra empresa. A
+        <p>Nos complace ofrecerte el puesto de {{ $oferta->postulacion->plaza->puesto->nombre }} en nuestra institución educativa. A
             continuación, se detallan los términos de nuestra oferta:</p>
 
         <ul>
