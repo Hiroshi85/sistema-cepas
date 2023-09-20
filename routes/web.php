@@ -205,8 +205,11 @@ Route::prefix('desempeño')->group(function () {
     Route::resource('cursos', AsignaturaController::class)->names('cursos');
     Route::get('asignar', [AsignaturaController::class, 'indexasignar'])->name('asignar');
     Route::POST('asignarcurso/', [AsignaturaController::class, 'storeasignar'])->name('asignar.grabar');
+    Route::PUT('editarasignacion/{id}', [AsignaturaController::class, 'updateasignar'])->name('asignar.actualizar');
     Route::get('miscursos/{id}', [AsignaturaController::class, 'miscursosprofesor'])->name('miscursos');
     Route::get('micurso/{id}', [AsignaturaController::class, 'micurso'])->name('micurso');
+    Route::DELETE('eliminarasignacion/{id}', [AsignaturaController::class, 'destroyasignar'])->name('asignar.eliminar');
+
 
     // // Silabo
     Route::resource('silabos', SilaboController::class)->names('silabos');
