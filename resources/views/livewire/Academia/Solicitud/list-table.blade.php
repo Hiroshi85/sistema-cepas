@@ -31,7 +31,7 @@
                     <th scope="col" class="px-6 py-3">
                         <div class="flex items-center">
                             Estado
-                            @livewire('common.sort-button', ['field' => 'email'])
+                            @livewire('common.sort-button', ['field' => 'estado'])
 
                         </div>
                     </th>
