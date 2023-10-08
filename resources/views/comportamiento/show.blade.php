@@ -18,9 +18,7 @@
             </div>
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-1">
                     <div class="px-6 py-2 text-gray-900 dark:text-gray-100">
-                        <form method="POST" class="max-w-7xl mx-auto" id="myForm">
-                        @method('put')
-                        @csrf
+                        <form class="max-w-7xl mx-auto" id="myForm">
                             <input type="hidden" name="alumno" id="alumno">
                             <div class="grid grid-cols-2 gap-4 lg:grid-cols-3">
                                 <div>
@@ -49,10 +47,15 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-5">
                 <div class="px-6 py-4 text-gray-900 dark:text-gray-100 flex justify-between">
                     <p class="font-xl text-gray-800 dark:text-white font-semibold py-2 px-4" id="nota">Nota conductual: </p>
-                    {{-- <a class="text-gray-800 dark:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow hover:bg-gray-200 transition duration-300 ease-in-out"
-                    href="{{ route('comportamientos.index') }}">
-                        Atrás
-                    </a>                     --}}
+                    <div id="ctrl_reportes" class="hidden">
+                        <p class="font-xl text-gray-800 dark:text-white font-semibold">Reportes: </p>
+                        <a id="enlaceBimestralPdf" type="button" class="bg-blue-500 cursor-default hover:bg-blue-600 text-white font-semibold py-2 px-4 border border-blue-500 rounded shadow" href="#"  target="_blank">
+                            Bimestral
+                        </a>
+                        <a id="enlaceAnualPdf" type="button" class="bg-blue-500 cursor-default hover:bg-blue-600 text-white font-semibold py-2 px-4 border border-blue-500 rounded shadow">
+                            Anual
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-5">
@@ -86,6 +89,7 @@
   const tabla = document.getElementById('myTable');
   const cuerpoTabla = tabla.getElementsByTagName("tbody")[0];
   const nota = document.getElementById('nota');
+  const ctrl_reportes = document.getElementById('ctrl_reportes');
 
   function eliminarReg(id){
     fetch("/seguimiento/comportamientos/delete/"+id)
@@ -109,6 +113,10 @@
         while (cuerpoTabla.firstChild) {
             cuerpoTabla.removeChild(cuerpoTabla.firstChild);
         }
+
+        ctrl_reportes.classList.remove('hidden');
+        var enlaceBimestralPdf = document.getElementById('enlaceBimestralPdf');
+        enlaceBimestralPdf.href = "/seguimiento/comportamientos/alumnos/"+alumnoId+"/pdfbimestral?bimestre="+bimestreValue;
 
         data["comportamientos"].forEach(element => {
             var nuevaFila = cuerpoTabla.insertRow();
