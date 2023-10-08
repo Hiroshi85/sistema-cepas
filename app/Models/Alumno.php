@@ -54,6 +54,10 @@ class Alumno extends Model
             ->select("nombre_apellidos","idalumno")->get();
     }
 
+    public static function getAlumnoById(int $id){
+        return Alumno::with('aula')->find($id);
+    }
+
     public function resultados(){
         return $this->hasMany(ResultadoPrueba::class,'alumno_id','idalumno');
     }

@@ -7,12 +7,15 @@ use App\Models\Conducta;
 use App\Models\Comportamiento;
 use App\Models\Alumno;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 
 class ComportamientoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('role:auxiliar|admin|Docente');
+        $this->middleware('role:auxiliar|admin|Docente')->except(['generarReporteBimestral']);
+        $this->middleware('role:auxiliar|admin')->only(['generarReporteBimestral']);
     }
 
     /**
@@ -73,5 +76,18 @@ class ComportamientoController extends Controller
         $alumnos = Alumno::buscarAlumnoPorString($nom_alumno);
         error_log($alumnos);
         return ['alumnos' => $alumnos];
+    }
+
+    public function generarReporteBimestral(Request $req, string $id){
+        $conglomerado = $this->getByAlumno($req, $id);
+        $bimestre = $req->query('bimestre');
+        $comportamientos = $conglomerado['comportamientos'];
+        $nota = $conglomerado['nota'];
+        $alumno = Alumno::getAlumnoById($id);
+        $auxiliar = Auth::user()->name;
+
+        $pdf = Pdf::loadView('comportamiento.pdf.bimestral', compact('comportamientos', 'nota', 'alumno', 'auxiliar', 'bimestre'));
+        $nombre_archivo = $alumno->nombre_apellidos.' - B'.$bimestre.'.pdf';
+        return $pdf->stream($nombre_archivo);
     }
 }
