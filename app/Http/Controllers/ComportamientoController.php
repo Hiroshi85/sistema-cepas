@@ -90,4 +90,24 @@ class ComportamientoController extends Controller
         $nombre_archivo = $alumno->nombre_apellidos.' - B'.$bimestre.'.pdf';
         return $pdf->stream($nombre_archivo);
     }
+
+    public function generarReporteAnual(string $id){
+        $comportamientosAnual = Comportamiento::listarComportamientoDeAlumnoAnual($id);
+        $comportamientosAnual = $comportamientosAnual->jsonserialize();
+        foreach ($comportamientosAnual as &$bimestre) {
+            $nota = 20;
+            $resultados = $bimestre['resultados'];
+            $sumaPuntaje = $bimestre['sumaPuntaje'];
+            $nota += $sumaPuntaje;
+            if($nota > 20) $nota=20;
+            if($nota < 0) $nota=0;
+            $bimestre['nota'] = $nota;
+        }
+        unset($bimestre);
+        $alumno = Alumno::getAlumnoById($id);
+        $auxiliar = Auth::user()->name;
+        $pdf = Pdf::loadView('comportamiento.pdf.anual', compact('comportamientosAnual', 'alumno', 'auxiliar'));
+        $nombre_archivo = $alumno->nombre_apellidos.' - Anual.pdf';
+        return $pdf->stream($nombre_archivo);
+    }
 }

@@ -46,4 +46,23 @@ class Comportamiento extends Model
         ->get();
         return $comportamientos;
     }
+
+    public static function listarComportamientoDeAlumnoAnual(string $id){
+        $comportamientos = Comportamiento::join('alumnos', 'alumno_conducta.alumno_id', '=', 'alumnos.idalumno')
+        ->join('conducta', 'alumno_conducta.conducta_id', '=', 'conducta.id')
+        ->where('alumnos.idalumno', $id)
+        ->select('alumno_conducta.*', 'conducta.puntaje', 'conducta.nombre', 'alumno_conducta.bimestre')
+        ->orderBy('alumno_conducta.bimestre', 'asc')
+        ->get()
+        ->groupBy(function ($item) {
+            return $item->bimestre;
+        })
+        ->map(function ($group) {
+            return [
+                'resultados' => $group->sortBy('fecha'), // Listado completo ordenado por fecha
+                'sumaPuntaje' => $group->sum('puntaje'), // Suma del puntaje en el bimestre
+            ];
+        });
+        return $comportamientos;
+    }
 }
