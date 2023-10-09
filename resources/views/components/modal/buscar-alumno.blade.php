@@ -65,6 +65,7 @@
         selectButton.addEventListener("click", () => {
             hiddenAlumno.value = alumno.idalumno;
             alumnoInputOg.value = alumno.nombre_apellidos;
+            hiddenAlumno.dispatchEvent(new Event("change"));
             closeModal();
         });
 
