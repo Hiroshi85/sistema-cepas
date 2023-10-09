@@ -49,10 +49,10 @@
                     <p class="font-xl text-gray-800 dark:text-white font-semibold py-2 px-4" id="nota">Nota conductual: </p>
                     <div id="ctrl_reportes" class="hidden">
                         <p class="font-xl text-gray-800 dark:text-white font-semibold">Reportes: </p>
-                        <a id="enlaceBimestralPdf" type="button" class="bg-blue-500 cursor-default hover:bg-blue-600 text-white font-semibold py-2 px-4 border border-blue-500 rounded shadow" href="#"  target="_blank">
+                        <a id="enlaceBimestralPdf" type="button" class="bg-blue-500 cursor-default hover:bg-blue-600 text-white font-semibold py-2 px-4 border border-blue-500 rounded shadow" href="#" target="_blank">
                             Bimestral
                         </a>
-                        <a id="enlaceAnualPdf" type="button" class="bg-blue-500 cursor-default hover:bg-blue-600 text-white font-semibold py-2 px-4 border border-blue-500 rounded shadow">
+                        <a id="enlaceAnualPdf" type="button" class="bg-blue-500 cursor-default hover:bg-blue-600 text-white font-semibold py-2 px-4 border border-blue-500 rounded shadow" href="#" target="_blank">
                             Anual
                         </a>
                     </div>
@@ -116,7 +116,10 @@
 
         ctrl_reportes.classList.remove('hidden');
         var enlaceBimestralPdf = document.getElementById('enlaceBimestralPdf');
+        var enlaceAnuallPdf = document.getElementById('enlaceAnualPdf');
         enlaceBimestralPdf.href = "/seguimiento/comportamientos/alumnos/"+alumnoId+"/pdfbimestral?bimestre="+bimestreValue;
+        enlaceAnuallPdf.href = "/seguimiento/comportamientos/alumnos/"+alumnoId+"/pdfanual";
+
 
         data["comportamientos"].forEach(element => {
             var nuevaFila = cuerpoTabla.insertRow();

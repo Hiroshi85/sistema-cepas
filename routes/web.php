@@ -92,7 +92,9 @@ Route::prefix('seguimiento')->middleware('auth')->group(function () {
         Route::get('/show', [ComportamientoController::class, 'show'])->name('comportamientos.show');
         Route::get('/alumnos/{id}', [ComportamientoController::class, 'getByAlumno'])->name('comportamientos.get');
         Route::get('/delete/{id}', [ComportamientoController::class, 'destroy'])->name('comportamientos.destroy');
+
         Route::get('/alumnos/{id}/pdfbimestral', [ComportamientoController::class, 'generarReporteBimestral'])->name('comportamientos.pdf.bimestral');
+        Route::get('/alumnos/{id}/pdfanual', [ComportamientoController::class, 'generarReporteAnual'])->name('comportamientos.pdf.anual');
     });
     Route::get('files/{id}', [PruebaArchivoController::class, 'download'])->name('files');
 
