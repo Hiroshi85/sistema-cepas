@@ -19,10 +19,20 @@
                     <p class="text-3xl text-gray-800 dark:text-white font-semibold py-2 px-4">
                         {{$resultado->alumno->nombre_apellidos}}
                     </p>
-                    <a class="text-gray-800 dark:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow hover:bg-gray-200 transition duration-300 ease-in-out"
+                    <div class="flex gap-2">
+                        <a class="text-gray-800 dark:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow hover:bg-gray-200 transition duration-300 ease-in-out"
                     href="{{ route('sesiones.show', $resultado->sesion_prueba_id) }}" onclick="return confirm('¿Estás seguro de que deseas salir? No se guardarán los cambios')">
                         Atrás
-                    </a>
+                        </a>
+                        @if ($resultado->fecha_evaluado != null)
+                            <a class="text-gray-800 dark:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow hover:bg-gray-200 transition duration-300 ease-in-out"
+                                href="{{ route('sesiones.prueba.alumno.pdf', ['id'=> $resultado->sesion_prueba_id, 'alumno_id'=>$resultado->alumno_id ]) }}" target="_blank">
+                            Generar PDF
+                            </a>
+                        @endif
+
+                    </div>
+
                 </div>
             </div>
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">

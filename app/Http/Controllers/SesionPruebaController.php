@@ -134,6 +134,9 @@ class SesionPruebaController extends Controller
 
     public function generarReporteDePruebaDeAlumno(string $id, string $alumno_id){
         $resultado = ResultadoPrueba::obtenerResultadoDeAlumnoPDF($id, $alumno_id);
+        if($resultado == null){
+            return redirect()->route('sesiones.show', $id);
+        }
         $psicologo = Auth::user()->name;
         $pdf = Pdf::loadView('sesiones.pdf.pruebaps', compact('resultado', 'psicologo'));
         $nombre_archivo = $resultado->nombre_apellidos.' - S'.$resultado->id.' '.$resultado->nombre.'.pdf';
