@@ -142,4 +142,20 @@ class SesionPruebaController extends Controller
         $nombre_archivo = $resultado->nombre_apellidos.' - S'.$resultado->id.' '.$resultado->nombre.'.pdf';
         return $pdf->stream($nombre_archivo);
     }
+
+    public function generarReporteAnualDeAlumno(Request $req, string $id){
+        $año = $req->query("año");
+        if(!is_numeric($año)){
+            $año = date('Y');
+        }
+        $resultados = ResultadoPrueba::obtenerResultadoAnhoAlumnoPDF($id, $año);
+        if($resultados == null){
+            return redirect()->route('sesiones.index', $id);
+        }
+        $alumno = Alumno::getAlumnoById($id);
+        $psicologo = Auth::user()->name;
+        $pdf = Pdf::loadView('sesiones.pdf.anual', compact('resultados', 'alumno','psicologo'));
+        $nombre_archivo = $resultados->nombre_apellidos.' - S'.$año.'.pdf';
+        return $pdf->stream($nombre_archivo);
+    }
 }
