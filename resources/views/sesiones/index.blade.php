@@ -8,10 +8,14 @@
     <div class="py-12">
         <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-5">
-                <div class="px-6 py-4 text-gray-900 dark:text-gray-100 flex justify-end">
+                <div class="px-6 py-4 text-gray-900 dark:text-gray-100 flex justify-end gap-2	">
                     <a class="text-gray-800 dark:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow hover:bg-gray-200 transition duration-300 ease-in-out"
                     href="{{ route('sesiones.create') }}">
                         Crear nueva sesión
+                    </a>
+                    <a class="text-gray-800 dark:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow hover:bg-gray-200 transition duration-300 ease-in-out"
+                    href="{{ route('sesiones.showAnual') }}">
+                        Reporte Anual Alumno
                     </a>
                 </div>
             </div>
