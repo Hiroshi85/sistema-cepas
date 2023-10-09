@@ -130,4 +130,12 @@ class SesionPruebaController extends Controller
         ResultadoPrueba::actualizarResultado($id, $alumno_id, $puntaje, $observacion, $recomendacion, $estado,new DateTime('now'));
         return redirect()->route('sesiones.show', $id);
     }
+
+    public function generarReporteDePruebaDeAlumno(string $id, string $alumno_id){
+        $resultado = ResultadoPrueba::obtenerResultadoDeAlumnoPDF($id, $alumno_id);
+        dd($resultado);
+        $pdf = Pdf::loadView('comportamiento.pdf.anual', compact('resultado'));
+        $nombre_archivo = $resultado->nombre_apellidos.' - S'.$resultado->id.' '.$resultado->nombre.'.pdf';
+        return $pdf->stream($nombre_archivo);
+    }
 }

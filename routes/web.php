@@ -100,6 +100,7 @@ Route::prefix('seguimiento')->middleware('auth')->group(function () {
 
     Route::get('sesiones/{id}/alumno/{alumno_id}', [SesionPruebaController::class, 'evaluar'])->name('sesiones.evaluar');
     Route::put('sesiones/{id}/alumno/{alumno_id}', [SesionPruebaController::class, 'evaluarPut'])->name('sesiones.evaluarPut');
+    Route::get('sesiones/{id}/alumno/{alumno_id}/pdf', [SesionPruebaController::class, 'generarReporteDePruebaDeAlumno'])->name('sesiones.prueba.alumno.pdf');
     Route::resource('sesiones', SesionPruebaController::class);
 });
 
