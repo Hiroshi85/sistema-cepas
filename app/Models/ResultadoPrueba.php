@@ -76,7 +76,7 @@ class ResultadoPrueba extends Model
             ->join('estado_resultado_prueba', 'resultado_prueba.estado_resultado_prueba_id', '=', 'estado_resultado_prueba.id')
             ->join('prueba_psicologica', 'sesion_prueba.prueba_psicologica_id', '=', 'prueba_psicologica.id')
             ->join('aulas', 'sesion_prueba.aula_id', '=', 'aulas.idaula')
-            ->select('sesion_prueba.id','prueba_psicologica.nombre', 'sesion_prueba.created_at', 'alumnos.nombre_apellidos', 'resultado_prueba.puntaje', 'resultado_prueba.observacion', 'resultado_prueba.recomendacion', 'estado_resultado_prueba.estado as estado', 'aulas.grado', 'aulas.seccion')
+            ->select('sesion_prueba.id','prueba_psicologica.nombre', 'sesion_prueba.created_at as fecha_tomada', 'resultado_prueba.fecha_evaluado','alumnos.nombre_apellidos', 'resultado_prueba.puntaje', 'resultado_prueba.observacion', 'resultado_prueba.recomendacion', 'estado_resultado_prueba.estado as estado', 'aulas.grado', 'aulas.seccion')
             ->first();
     }
 }

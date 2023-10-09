@@ -12,6 +12,7 @@ use App\Models\ResultadoPrueba;
 use App\Models\EstadoResultadoPrueba;
 use Illuminate\Support\Facades\Auth;
 use \Datetime;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SesionPruebaController extends Controller
 {
@@ -133,8 +134,8 @@ class SesionPruebaController extends Controller
 
     public function generarReporteDePruebaDeAlumno(string $id, string $alumno_id){
         $resultado = ResultadoPrueba::obtenerResultadoDeAlumnoPDF($id, $alumno_id);
-        dd($resultado);
-        $pdf = Pdf::loadView('comportamiento.pdf.anual', compact('resultado'));
+        $psicologo = Auth::user()->name;
+        $pdf = Pdf::loadView('sesiones.pdf.pruebaps', compact('resultado', 'psicologo'));
         $nombre_archivo = $resultado->nombre_apellidos.' - S'.$resultado->id.' '.$resultado->nombre.'.pdf';
         return $pdf->stream($nombre_archivo);
     }
