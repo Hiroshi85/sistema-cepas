@@ -11,7 +11,7 @@ class Comportamiento extends Model
     protected $table ="alumno_conducta";
     protected $primaryKey ="id";
     public $timestamps = false;
-    protected $fillable = ['alumno_id', 'conducta_id', 'bimestre', "observacion", 'fecha'];
+    protected $fillable = ['alumno_id', 'conducta_id', 'bimestre', "observacion", 'fecha', "sancion_id"];
 
     public function conducta(): BelongsTo
     {
@@ -23,13 +23,14 @@ class Comportamiento extends Model
         return $this->belongsTo(Alumno::class);
     }
 
-    public static function crearComportamiento($alumno_id, $conducta_id, $observacion, $fecha, $bimestre): Comportamiento{
+    public static function crearComportamiento($alumno_id, $conducta_id, $observacion, $fecha, $bimestre, $sancion_id): Comportamiento{
         return Comportamiento::create([
             'alumno_id'=>$alumno_id,
             'conducta_id'=>$conducta_id,
             'observacion'=>$observacion,
             'fecha'=>$fecha,
             'bimestre'=>$bimestre,
+            'sancion_id'=>$sancion_id
         ]);
     }
 
@@ -40,9 +41,10 @@ class Comportamiento extends Model
     public static function listarComportamientoDeAlumnoPorBimestre(string $id, string $bimestre){
         $comportamientos = Comportamiento::join('alumnos', 'alumno_conducta.alumno_id', '=', 'alumnos.idalumno')
         ->join('conducta', 'alumno_conducta.conducta_id', '=', 'conducta.id')
+        ->join('sanciones', 'alumno_conducta.sancion_id', '=', 'sanciones.id')
         ->where('alumnos.idalumno', $id)
         ->where('alumno_conducta.bimestre', $bimestre)
-        ->select('alumno_conducta.*','conducta.puntaje', 'conducta.nombre')
+        ->select('alumno_conducta.*','conducta.puntaje', 'conducta.nombre', 'sanciones.nombre as sancion')
         ->get();
         return $comportamientos;
     }

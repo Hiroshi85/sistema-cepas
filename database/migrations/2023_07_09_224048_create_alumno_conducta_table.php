@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('alumno_id');
             $table->unsignedBigInteger('conducta_id');
             $table->tinyInteger('bimestre')->nullable();
+            $table->unsignedTinyInteger('sancion_id')->nullable();
             $table->string('observacion')->nullable();
             $table->date('fecha');
 
@@ -27,6 +28,11 @@ return new class extends Migration
             $table->foreign('conducta_id')
             ->references('id')
             ->on('conducta')
+            ->onDelete('restrict');
+
+            $table->foreign('sancion_id')
+            ->references('id')
+            ->on('sanciones')
             ->onDelete('restrict');
         });
     }
