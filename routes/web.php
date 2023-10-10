@@ -44,6 +44,7 @@ use App\Http\Controllers\ComportamientoController;
 use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\SesionPruebaController;
+use App\Http\Controllers\SancionController;
 
 // Materiales Escolares
 use App\Http\Controllers\FacturaController;
@@ -104,6 +105,7 @@ Route::prefix('seguimiento')->middleware('auth')->group(function () {
     Route::get('sesiones/alumno/{id}/pdf', [SesionPruebaController::class, 'generarReporteAnualDeAlumno'])->name('sesiones.alumno.pdf');
     Route::get('sesiones/showAnual', [SesionPruebaController::class, 'showReporteAnual'])->name('sesiones.showAnual');
     Route::resource('sesiones', SesionPruebaController::class);
+    Route::resource('sanciones', SancionController::class);
 });
 
 //RRHH
