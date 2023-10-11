@@ -1,29 +1,33 @@
 <?php
 
-use App\Http\Controllers\AdmisionController;
-use App\Http\Controllers\AlumnoController;
-use App\Http\Controllers\ApoderadoController;
-use App\Http\Controllers\AulaController;
+
 use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DocumentoAlumnoController;
-use App\Http\Controllers\DocumentoApoderadoController;
-use App\Http\Controllers\DocumentoPostulanteController;
 use App\Http\Controllers\EmpleadoController;
-use App\Http\Controllers\EntrevistaController;
 use App\Http\Controllers\EntrevistaCandidatoController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\EvaluacionCandidatoController;
 use App\Http\Controllers\HorarioController;
-use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\NominaController;
-use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PlazaController;
 use App\Http\Controllers\PostulacionController;
-use App\Http\Controllers\PostulanteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PuestoController;
-use App\Http\Controllers\VoucherController;
+
+//ADMISION Y MATRICULAS 
+use App\Http\Controllers\AdmisionMatriculas\AdmisionController;
+use App\Http\Controllers\AdmisionMatriculas\AlumnoController;
+use App\Http\Controllers\AdmisionMatriculas\ApoderadoController;
+use App\Http\Controllers\AdmisionMatriculas\AulaController;
+use App\Http\Controllers\AdmisionMatriculas\DocumentoAlumnoController;
+use App\Http\Controllers\AdmisionMatriculas\DocumentoApoderadoController;
+use App\Http\Controllers\AdmisionMatriculas\DocumentoPostulanteController;
+use App\Http\Controllers\AdmisionMatriculas\EntrevistaController;
+use App\Http\Controllers\AdmisionMatriculas\MatriculaController;
+use App\Http\Controllers\AdmisionMatriculas\PagoController;
+use App\Http\Controllers\AdmisionMatriculas\ParentescoController;
+use App\Http\Controllers\AdmisionMatriculas\PostulanteController;
+use App\Http\Controllers\AdmisionMatriculas\VoucherController;
 // DESEMPEÑO
 use App\Http\Controllers\AsignaturaController;
 use App\Http\Controllers\CursoAsignadoController;
@@ -49,7 +53,6 @@ use App\Http\Controllers\SesionPruebaController;
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\FacturaDetalleController;
 use App\Http\Controllers\MaterialEscolarController;
-use App\Http\Controllers\ParentescoController;
 use App\Http\Controllers\ProveedorController;
 
 

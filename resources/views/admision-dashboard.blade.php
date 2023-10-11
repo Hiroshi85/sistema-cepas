@@ -129,16 +129,16 @@
                 </div>
             </div>
             {{-- Modals editar y nuevo --}}
-            @include('matricula.partials.new')
+            @include('admision-matriculas.matricula.partials.new')
             {{-- Matrícula edit--}}
             @if ($matricula != null)
-                @include('matricula.partials.update', ['matricula' => $matricula])
+                @include('admision-matriculas.matricula.partials.update', ['matricula' => $matricula])
             @endif
             {{-- Admisión --}}
-            @include('admision.partials.new')
+            @include('admision-matriculas.admision.partials.new')
             {{-- Matrícula edit--}}
             @if ($admision != null)
-                @include('admision.partials.update', ['admision' => $admision])
+                @include('admision-matriculas.admision.partials.update', ['admision' => $admision])
             @endif
         </section>
 

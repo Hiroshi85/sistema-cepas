@@ -24,8 +24,8 @@ class DashboardController extends Controller
 
         if ($admision != null)
             if ($admision->fecha_cierre < now('America/Lima')->format('Y-m-d')) {
-                $matricula->estado = "Cerrada";
-                $matricula->save();
+                $admision->estado = "Cerrada";
+                $admision->save();
             }
         
 
@@ -53,6 +53,6 @@ class DashboardController extends Controller
         return Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin') ? 
             view('admision-dashboard', compact('matricula', 'admision', 'events')) 
                 : 
-            view('apoderados.index',compact('matricula', 'admision'));
+            view('admision-matriculas.apoderados.index',compact('matricula', 'admision'));
     }
 }
