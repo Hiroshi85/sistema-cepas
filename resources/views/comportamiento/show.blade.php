@@ -68,6 +68,7 @@
                                     <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Observación</th>
                                     <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Puntos</th>
                                     <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Fecha</th>
+                                    <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Sanción</th>
                                     <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Opción</th>
                                 </tr>
                             </thead>
@@ -128,6 +129,7 @@
             var observacion = nuevaFila.insertCell();
             var puntos = nuevaFila.insertCell();
             var fecha = nuevaFila.insertCell();
+            var sancion = nuevaFila.insertCell();
             var eliminar = nuevaFila.insertCell();
 
             nuevaFila.className = "text-center";
@@ -135,12 +137,14 @@
             observacion.className = "px-6 py-4 whitespace-nowrap";
             puntos.className = "px-6 py-4 whitespace-nowrap";
             fecha.className = "px-6 py-4 whitespace-nowrap";
+            sancion.className = "px-6 py-4 whitespace-nowrap";
             eliminar.className = "px-6 py-4 whitespace-nowrap";
 
             conducta.innerHTML = element.nombre;
             observacion.innerHTML = element.observacion ?? "-";
             puntos.innerHTML = element.puntaje;
             fecha.innerHTML = element.fecha;
+            sancion.innerHTML =  element.sancion ?? '-';
             eliminar.innerHTML = '<a class="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer" onclick="eliminarReg('+element.id+')">Eliminar</a>';
         });
         nota.innerHTML = `Nota conductual: ${data.nota}`;
