@@ -23,7 +23,8 @@ class AlumnoController extends Controller
     public function index(Request $request)
     {
 
-        $autoridad = Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin');
+        $autoridad = session()->get('authUser')->hasAnyRole(['secretario(a)','admin']);
+    
         $aulas = null; 
         $grado = null; 
         $seccion = null;

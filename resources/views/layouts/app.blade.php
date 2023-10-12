@@ -53,7 +53,7 @@
                 @if (!Auth::user()->hasRole('apoderado'))
                     @include('layouts.admision-matriculas.navigation')
                 @else
-                    @include('apoderados.layouts.nav')
+                    @include('admision-matriculas.apoderados.layouts.nav')
                 @endif
             @break
             @case('seguimiento')

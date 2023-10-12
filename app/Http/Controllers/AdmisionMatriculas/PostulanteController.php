@@ -21,7 +21,7 @@ class PostulanteController extends Controller
      * Display a listing of the resource.
      */
 
-     protected function validateFields($request, $idpostulante)
+     protected function validateFields($request, $idpostulante = null)
      {
         $rules = [
             'nombre_apellidos' => 'required|string|max:100',
@@ -38,7 +38,7 @@ class PostulanteController extends Controller
 
     public function index(Request $request)
     {   
-        $autoridad = Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin');
+        $autoridad = session()->get('authUser')->hasAnyRole(['secretario(a)', 'apoderado']);
         $aulas = Aula::where('nro_vacantes_disponibles', '>', 0)->orderBy('seccion')->orderBy('grado')->get();
         $apoderados = null;
 
@@ -90,7 +90,7 @@ class PostulanteController extends Controller
      */
     public function store(Request $request)
     {
-        $autoridad = Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin');
+        $autoridad = session()->get('authUser')->hasAnyRole(['secretario(a)', 'apoderado']);
 
         $data = $this->validateFields($request);
        
@@ -195,7 +195,7 @@ class PostulanteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $autoridad = Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin');
+        $autoridad = session()->get('authUser')->hasAnyRole(['secretario(a)', 'admin']);
         
         $postulante = Postulante::findOrFail($id);
         

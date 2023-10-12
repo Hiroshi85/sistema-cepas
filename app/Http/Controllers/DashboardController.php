@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admision;
 use App\Models\Entrevista;
 use App\Models\Matricula;
-use DateTime;
-use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -50,7 +49,7 @@ class DashboardController extends Controller
             ];
         }
 
-        return Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin') ? 
+        return session()->get('authUser')->hasAnyRole(['secretario(a)', 'admin']) ? 
             view('admision-dashboard', compact('matricula', 'admision', 'events')) 
                 : 
             view('admision-matriculas.apoderados.index',compact('matricula', 'admision'));

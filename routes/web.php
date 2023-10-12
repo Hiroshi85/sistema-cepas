@@ -172,7 +172,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::prefix('admision-matriculas')->group(function () {
-        Route::get('/', [DashboardController::class, 'index'])->name('admision-matriculas.dashboard');
+        Route::get('/', [DashboardController::class, 'index'])->name('admision-matriculas.dashboard')->middleware('auth');
         // Apoderados
         Route::resource('/apoderado', ApoderadoController::class)->middleware('auth');
         //Postulantes

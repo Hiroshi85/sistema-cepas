@@ -1,4 +1,4 @@
-@extends('apoderados.layouts.app')
+@extends('admision-matriculas.apoderados.layouts.app')
 
 @section('header')
     <span class="dark:text-white text-2xl">Sistema de apoderados</span>

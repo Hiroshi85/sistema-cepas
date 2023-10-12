@@ -3,23 +3,24 @@
 namespace App\Http\Controllers\AdmisionMatriculas;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\DashboardController;
 use App\Models\Alumno;
 use App\Models\Apoderado;
 use App\Models\ApoderadoPostulante;
 use App\Models\Pago;
+use App\Models\User;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 
-class PagoController extends Controller
+
+class PagoController extends DashboardController
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $autoridad = Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin');
+        //if the current user has secretario or admin role
+        $autoridad = session()->get('authUser')->hasAnyRole(['secretario(a)', 'admin']);
+        
         $apoderados = null;
         if ($autoridad){
             $apoderados = Apoderado::where('eliminado', 0)->orderBy('nombre_apellidos')->get();
@@ -70,7 +71,7 @@ class PagoController extends Controller
         $pago = new Pago();
        
         $pago->idapoderado = $request->get('idapoderado');
-        if (Auth::user()->hasRole('apoderado')) $pago->idapoderado = Apoderado::where('idusuario', Auth::user()->id)->first()->idapoderado;
+        if (session()->get('authUser')->hasRole('apoderado')) $pago->idapoderado = Apoderado::where('idusuario', Auth::user()->id)->first()->idapoderado;
         $pago->concepto = $request->get('concepto');
         $pago->monto = $request->get('monto');
         $pago->fecha_vencimiento = $request->get('fecha_vencimiento');
@@ -103,6 +104,14 @@ class PagoController extends Controller
     public function edit($id)
     {
         $pago = Pago::findOrFail($id);
+
+        // Validar acceso por usuario 
+        $thisApoderado = Apoderado::where('idapoderado', $pago->idapoderado)->first();
+        if (!session()->get('authUser')->hasAnyRole(['secretario(a)', 'admin']) && $thisApoderado->idusuario != Auth::user()->id) {
+            //return 404 not  found
+            abort(404);
+        }
+
         $apoderados = Apoderado::where('eliminado', 0)->orderBy('nombre_apellidos')->get();
         
         $postulantes = ApoderadoPostulante::
@@ -132,7 +141,7 @@ class PagoController extends Controller
         ]);
        
         $idapoderado = $request->get('idapoderado');
-        if (Auth::user()->hasRole('apoderado')) $idapoderado = Apoderado::where('idusuario', Auth::user()->id)->first()->idapoderado;
+        if (session()->get('authUser')->hasRole('apoderado')) $idapoderado = Apoderado::where('idusuario', Auth::user()->id)->first()->idapoderado;
         
         $pago = Pago::findOrFail($id);
         $pago->idapoderado = $idapoderado;

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\AdmisionMatriculas;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Voucher;
+use App\Notifications\admision_matriculas\PagoNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -86,7 +88,7 @@ class VoucherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $autoridad = Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin');
+        $autoridad = session()->get('authUser')->hasAnyRole(['admin', 'secretario(a)']);
         $data= request()->validate([
              
         ],[
@@ -98,8 +100,22 @@ class VoucherController extends Controller
         $voucher->fecha_pago = $request->get('fecha_pago');
         $voucher->monto = $request->get('monto');
         $voucher->codigo_operacion = $request->get('codigo_operacion');
-        
-        $voucher->observacion = $request->get('observacion');
+
+        if($autoridad) { 
+            $voucher->observacion = $request->get('observacion');
+            $voucher->estado = $request->get('estado');
+            if ($voucher->observacion != null){
+                $voucher->estado = "Observado";
+                $idUserApoderado = Voucher::select("apoderados.idusuario")->
+                    join('pagos', 'pagos.idpago', '=', 'vouchers.idpago')
+                    ->join('apoderados', 'apoderados.idapoderado', '=', 'pagos.idapoderado')
+                    ->first();
+                
+                $notifiable = User::find($idUserApoderado)->first();
+                $notifiable->notify(new PagoNotification($voucher, Auth::user(), "voucher observado"));
+            }
+        }
+
         if ($request->hasFile('voucher')) {
             $file = $request->file('voucher');
             $path = "assets/img/docs/";
@@ -107,8 +123,6 @@ class VoucherController extends Controller
             $upload = $request->file('voucher')->move($path, $time);
             $voucher->voucher = $path.$time;
         }
-
-        if($autoridad) $voucher->estado = $request->get('estado');
 
         $voucher->save();
 

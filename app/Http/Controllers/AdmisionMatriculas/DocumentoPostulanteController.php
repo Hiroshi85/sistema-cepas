@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\AdmisionMatriculas;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\DashboardController;
 use App\Models\DocumentoPostulante;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -104,7 +106,7 @@ class DocumentoPostulanteController extends Controller
             $documento->fecha_registro = now('America/Lima')->toDateString();
         }
 
-        if(Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin')){
+        if(session()->get('authUser')->hasAnyRole(['secretario(a)', 'admin'])) {
             $documento->estado = $request->get('estadodoc');
             $documento->observacion = $request->get('observacion');
         }

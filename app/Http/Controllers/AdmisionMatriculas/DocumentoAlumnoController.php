@@ -103,7 +103,7 @@ class DocumentoAlumnoController extends Controller
             $documento->imagen = $path.$time;
             $documento->fecha_registro = now('America/Lima')->toDateString();
         }
-        if(Auth::user()->hasRole('secretario(a)') || Auth::user()->hasRole('admin')){
+        if(session()->get('authUser')->hasAnyRole(['secretario(a)','admin'])){
             $documento->estado = $request->get('estado');
             $documento->observacion = $request->get('observacion');
         }

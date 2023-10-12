@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('codigo_operacion', 100)->nullable();
             $table->string('voucher', 100);
             $table->string('observacion', 100)->nullable();
-            $table->string('estado', 100);
+            $table->string('estado', 50);
             $table->boolean('eliminado')->default(false);
             
             $table->foreign('idpago')->references('idpago')->on('pagos');
