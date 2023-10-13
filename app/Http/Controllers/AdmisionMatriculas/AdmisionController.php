@@ -38,7 +38,7 @@ class AdmisionController extends Controller
                     }
                 },
             ],
-            'tarifa' => 'required',
+            'tarifa' => 'required|numeric|min:0', //floating numbers
             'estado' => 'required',
         ];
     }
@@ -65,15 +65,8 @@ class AdmisionController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate($this->validateAdmision($request));
-        $admision = new Admision();
-       
-        $admision->fecha_cierre = $request->get('fecha_cierre');
-        $admision->fecha_apertura = $request->get('fecha_apertura');
-        $admision->año = date('Y', strtotime($request->get('fecha_apertura')));
-        $admision->tarifa = $request->get('tarifa');
-        $admision->estado = $request->get('estado');
-        $admision->save();
-
+        $data['año'] = date('Y', strtotime($request->get('fecha_apertura')));
+        Admision::create($data);
         return redirect()->back()->with('datos','created');
     }
 
@@ -98,17 +91,9 @@ class AdmisionController extends Controller
      */
     public function update(Request $request, $idadmision)
     {
-        //
-        $data = $request->validate($this->validateAdmision($request));
+        $data = $request->validate($this->validateAdmision($request));        
         $admision = Admision::findOrFail($idadmision);
-       
-        $admision->fecha_cierre = $request->get('fecha_cierre');
-        $admision->fecha_apertura = $request->get('fecha_apertura');
-        $admision->año = date('Y', strtotime($request->get('fecha_apertura')));
-        $admision->tarifa = $request->get('tarifa');
-        $admision->estado = $request->get('estado');
-        $admision->save();
-
+        $admision->update($data);
         return redirect()->back()->with('datos','updated');
     }
 

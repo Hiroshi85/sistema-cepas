@@ -24,7 +24,7 @@
             </div>
             <div class="flex items-center">
                 {{-- <i class="fas fa-bell dark:text-white"></i> --}}
-                <x-notificationbell :counter="Auth::user()->unreadNotifications->count()" :notifications="Auth::user()->notifications"></x-notificationbell>
+                <x-notificationbell></x-notificationbell>
                 {{-- <button onclick="changeThemeMode()"><i class="fas fa-sun"></i></button> --}}
                 <!-- Settings Dropdown -->
                 <div class="hidden sm:flex sm:items-center sm:ml-6">

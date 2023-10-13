@@ -25,12 +25,12 @@
         <div class="mx-4 mb-2 flex gap-2">
             <div class="w-[50%]">
                 <x-input-label for="fecha_apertura" :value="__('Fecha de apertura')" />
-                <x-text-input id="fecha_apertura" class="block mt-1 w-full" type="date" name="fecha_apertura" required autofocus/>
+                <x-text-input id="fecha_apertura" class="block mt-1 w-full" type="date" name="fecha_apertura" :value="old('fecha_apertura')" required autofocus/>
                 <x-input-error :messages="$errors->get('fecha_apertura')" class="mt-2" />
             </div>
             <div class="w-[50%]">
                 <x-input-label for="fecha_cierre" :value="__('Fecha de cierre')" />
-                <x-text-input id="fecha_cierre" class="block mt-1 w-full" type="date" name="fecha_cierre" required autofocus/>
+                <x-text-input id="fecha_cierre" class="block mt-1 w-full" type="date" name="fecha_cierre" :value="old('fecha_cierre')"  required autofocus/>
                 <x-input-error :messages="$errors->get('fecha_cierre')" class="mt-2" />
             </div>   
         </div>
@@ -38,7 +38,7 @@
         <div class="mx-4 mb-2 flex gap-2">
             <div class="w-[50%]">
                 <x-input-label for="tarifa" :value="__('Tarifa')" />
-                <x-text-input id="tarifa" class="block mt-1 w-full dark:text-white" type="text" name="tarifa" required autofocus/>
+                <x-text-input id="tarifa" class="block mt-1 w-full dark:text-white" type="text" name="tarifa" :value="old('tarifa')" required autofocus/>
                 <x-input-error :messages="$errors->get('tarifa')" class="mt-2" />
                 </div>
             <div class="w-[50%]">

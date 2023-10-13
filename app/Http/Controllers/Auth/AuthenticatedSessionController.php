@@ -33,7 +33,11 @@ class AuthenticatedSessionController extends Controller
 
         $authUser = User::find(Auth::user()->id);
         $request->session()->put('authUser', $authUser);
-        return $authUser->hasRole('apoderado') ?  redirect()->intended('admision-matriculas') : redirect()->intended(RouteServiceProvider::HOME);
+        
+        if($authUser->hasRole('apoderado'))
+            return redirect()->intended(RouteServiceProvider::ADMIN_MATRICULAS );
+        else
+            return redirect()->intended(RouteServiceProvider::HOME );
     }
 
     /**
