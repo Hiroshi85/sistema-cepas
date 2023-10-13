@@ -75,7 +75,16 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $userRol = session()->get('authUser')->getRoleNames()->first();
+    switch ($userRol) {
+        case 'apoderado':
+            return redirect()->route('admision-matriculas.dashboard');
+            break;
+        
+        default:
+            return view('dashboard');
+            break;
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 

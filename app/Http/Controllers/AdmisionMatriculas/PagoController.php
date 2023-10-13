@@ -7,12 +7,13 @@ use App\Http\Controllers\DashboardController;
 use App\Models\Alumno;
 use App\Models\Apoderado;
 use App\Models\ApoderadoPostulante;
+use App\Models\MetodoPago;
 use App\Models\Pago;
 use App\Models\User;
 use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Validation\ValidationException;
 
 class PagoController extends DashboardController
 {
@@ -27,7 +28,6 @@ class PagoController extends DashboardController
             'date' => 'El campo :attribute debe ser una fecha válida.',
             'numeric' => 'El campo :attribute debe ser un número.',
             'min' => 'El campo :attribute debe ser mayor o igual a cero.',
-            'integer' => 'El campo :attribute debe ser un número entero.',
             'max' => 'El campo :attribute no debe tener.mas de 100 caracteres.',
             'string' => 'El campo :attribute debe ser una cadena de caracteres.',
         ];
@@ -81,8 +81,18 @@ class PagoController extends DashboardController
      */
     public function store(Request $request)
     {
-        $data= $this->validatePago($request);
-
+        try{
+            $data = $this->validatePago($request);
+        }catch(ValidationException $e){
+            session()->flash(
+                'toast',
+                [
+                    'message' => $e->getMessage(),
+                    'type' => 'error',
+                ]
+            );
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
         $pago = new Pago();
        
         $pago->idapoderado = $request->get('idapoderado');
@@ -139,10 +149,13 @@ class PagoController extends DashboardController
             ->join('apoderado_postulante','apoderado_postulante.idpostulante','=','postulantes.idpostulante')
             ->where('apoderado_postulante.idapoderado', $pago->idapoderado)->get();
 
+        //Métodos de pago
+        $metodos = MetodoPago::all();
+
         $vouchers = Voucher::where('eliminado', 0)
             ->where('idpago', $pago->idpago)
             ->get();
-        return view('admision-matriculas.pago.edit',compact('pago', 'apoderados', 'alumnos', 'postulantes', 'vouchers'));
+        return view('admision-matriculas.pago.edit',compact('pago', 'apoderados', 'alumnos', 'postulantes', 'vouchers', 'metodos'));
     }
     /**
      * Update the specified resource in storage.

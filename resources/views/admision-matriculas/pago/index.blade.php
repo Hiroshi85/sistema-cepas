@@ -49,15 +49,17 @@
                                 <x-input-error :messages="$errors->get('concepto')" class="mt-2" />
                             </div>
                            <div class="mt-4 md:basis-1/16 px-2">
-                                <x-input-label for="monto" :value="__('Monto')" />
-                                <x-text-input id="monto" class="block mt-1 w-full" type="text" name="monto" required autofocus />
-                                <x-input-error :messages="$errors->get('monto')" class="mt-2" />
+                                <x-input-label for="monto_pago" :value="__('Monto')" />
+                                <x-text-input id="monto_pago" class="block mt-1 w-full" type="text" name="monto_pago" :value="old('monto_pago')" required autofocus />
+                                <x-input-error :messages="$errors->get('monto_pago')" class="mt-2" />
                            </div>
+                           @if(!session()->get('authUser')->hasRole('apoderado'))
                             <div class="mt-4 md:basis-1/4 px-2">
                                 <x-input-label for="fecha_vencimiento" :value="__('Fecha de vencimiento')" />
                                 <x-text-input id="fecha_vencimiento" class="block mt-1 w-full" type="date" name="fecha_vencimiento" required autofocus />
                                 <x-input-error :messages="$errors->get('fecha_vencimiento')" class="mt-2" />
                             </div>
+                            @endif
                         </div>
                         <div class="flex items-center justify-end mt-4 px-4">
                             <x-primary-button class="ml-4">

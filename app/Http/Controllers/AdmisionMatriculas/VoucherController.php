@@ -15,9 +15,10 @@ class VoucherController extends Controller
     private function validateVoucher($request, $thisVoucher = null, $update = false){
         $rules = [
             'fecha_pago' => 'required|date',
-            'monto_update' => 'required|numeric|min:0',
+            'monto_update' => ''.$update ? 'required':''.'|numeric|min:0',
+            'monto' => ''.!$update ? 'required':''.'|numeric|min:0',
             'codigo_operacion' => 'required|numeric|integer|unique:vouchers,codigo_operacion,'.$thisVoucher.',idvoucher',
-            'observacion' => 'string|max:100',
+            'observacion' => 'string|max:100|nullable',
             //validar voucer como required solo si se trata de un nuevo registro
             'voucher' => ''.!$update  ? 'required' : ''.'|file',
         ];
@@ -76,7 +77,7 @@ class VoucherController extends Controller
         $voucher->fecha_pago = $request->get('fecha_pago');
         $voucher->monto = $request->get('monto');
         $voucher->codigo_operacion = $request->get('codigo_operacion');
-
+        $voucher->metodo_pago = $request->get('idmetodopago');
         $voucher->observacion = $request->get('observacion');
         if ($request->hasFile('voucher')) {
             $file = $request->file('voucher');
@@ -121,6 +122,7 @@ class VoucherController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
         $autoridad = session()->get('authUser')->hasAnyRole(['admin', 'secretario(a)']);
         try{
             $data= $this->validateVoucher($request, $id, true);
@@ -128,7 +130,9 @@ class VoucherController extends Controller
             session()->flash(
                 'toast',
                 [
-                    'message' => "No pudo actualizar el voucher, por favor revise los datos ingresados e inténtelo de nuevo.",
+                    // 'message' => "No pudo actualizar el voucher, por favor revise los datos ingresados e inténtelo de nuevo.",
+                    //return e->errors
+                    'message' => $e->getMessage(),
                     'type' => 'error',
                 ]
             );
