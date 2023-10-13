@@ -58,6 +58,7 @@ use App\Http\Controllers\ProveedorController;
 
 // ACADEMIA
 use App\Http\Controllers\Academia\SolicitudController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -213,6 +214,8 @@ Route::middleware('auth')->group(function () {
 // Sistema apoderados
 Route::get('/apoderados/register', [ApoderadoController::class, 'crear'])->name('apoderados.crear');
 Route::post('/apoderados/register', [ApoderadoController::class, 'registerApoderado'])->name('apoderados.register');
+//Notificaciones
+Route::get('/marcar-leida/{id}', [NotificationController::class, 'marcarLeida'])->middleware('auth')->name('notificacion.leida');
 
 // EVALUACION DESEMPEÑO
 Route::prefix('desempeño')->group(function () {

@@ -95,6 +95,12 @@ class VoucherController extends Controller
         $voucher->estado = "Registrado";
         $voucher->save();
 
+        if(session()->get('authUser')->hasRole('apoderado')){
+            //Notify each user with role secretario(a)
+            $notifiable = User::role('secretario(a)')->get();
+            $notifiable->each->notify(new PagoNotification($voucher, session()->get('authUser'), "voucher registrado"));  
+        }
+
         session()->flash(
             'toast',
             [
