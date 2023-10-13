@@ -68,7 +68,7 @@
 
                 </div>
             </div>
-            <div class="flex">
+            <div class="flex items-center">
                 <x-notificationbell></x-notificationbell>
                 <!-- Settings Dropdown -->
                 <div class="hidden sm:flex sm:items-center sm:ml-6">

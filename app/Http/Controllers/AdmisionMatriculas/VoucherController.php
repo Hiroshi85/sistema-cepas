@@ -8,12 +8,39 @@ use App\Models\Voucher;
 use App\Notifications\admision_matriculas\PagoNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class VoucherController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    private function validateVoucher($request, $thisVoucher = null, $update = false){
+        $rules = [
+            'fecha_pago' => 'required|date',
+            'monto_update' => 'required|numeric|min:0',
+            'codigo_operacion' => 'required|numeric|integer|unique:vouchers,codigo_operacion,'.$thisVoucher.',idvoucher',
+            'observacion' => 'string|max:100',
+            //validar voucer como required solo si se trata de un nuevo registro
+            'voucher' => ''.!$update  ? 'required' : ''.'|file',
+        ];
+        $customMessages = [
+            'required' => 'El campo :attribute es obligatorio.',
+            'date' => 'El campo :attribute debe ser una fecha válida.',
+            'numeric' => 'El campo :attribute debe ser un número.',
+            'min' => 'El campo :attribute debe ser mayor o igual a cero.',
+            'integer' => 'El campo :attribute debe ser un número entero.',
+            'unique' => 'El valor del campo :attribute ya existe en la base de datos.',
+            'string' => 'El campo :attribute debe ser una cadena de caracteres.',
+            'max' => 'El campo :attribute no debe tener más de 100 caracteres.',
+            'file' => 'Debe seleccionar un archivo para subir.',
+        ];
+        $attributes = [
+            'fecha_pago' => 'fecha de pago',
+            'monto_update' => 'monto',
+            'voucher' => 'voucher',
+            'observacion' => 'observación',
+            'codigo_operacion' => 'código de operación',
+        ];
+        return $this->validate($request, $rules, $customMessages, $attributes);    
+    }
     public function index()
     {
         //
@@ -32,12 +59,18 @@ class VoucherController extends Controller
      */
     public function store(Request $request)
     {
-        $data= request()->validate([
-             
-        ],[
-            
-        ]);
-     
+        try {
+            $data= $this->validateVoucher($request);
+        } catch (ValidationException $e) {
+            session()->flash(
+                'toast',
+            [
+                'message' => "Se ha registrado un dato no válido, por favor revise los datos e inténtelo de nuevo.",
+                'type' => 'error',
+            ]
+            );
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
         $voucher = new Voucher();
         $voucher->idpago = $request->get('idpago');
         $voucher->fecha_pago = $request->get('fecha_pago');
@@ -52,7 +85,7 @@ class VoucherController extends Controller
             $upload = $request->file('voucher')->move($path, $time);
             $voucher->voucher = $path.$time;
         }
-
+    
         $voucher->estado = "Registrado";
         $voucher->save();
 
@@ -89,30 +122,43 @@ class VoucherController extends Controller
     public function update(Request $request, $id)
     {
         $autoridad = session()->get('authUser')->hasAnyRole(['admin', 'secretario(a)']);
-        $data= request()->validate([
-             
-        ],[
-            
-        ]);
+        try{
+            $data= $this->validateVoucher($request, $id, true);
+        }catch(ValidationException $e){
+            session()->flash(
+                'toast',
+                [
+                    'message' => "No pudo actualizar el voucher, por favor revise los datos ingresados e inténtelo de nuevo.",
+                    'type' => 'error',
+                ]
+            );
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
         $voucher = Voucher::findOrFail($id);
         
         // $voucher->idpago = $request->get('idpago');
         $voucher->fecha_pago = $request->get('fecha_pago');
-        $voucher->monto = $request->get('monto');
+        $voucher->monto = $request->get('monto_update');
         $voucher->codigo_operacion = $request->get('codigo_operacion');
 
         if($autoridad) { 
             $voucher->observacion = $request->get('observacion');
             $voucher->estado = $request->get('estado');
+            //get the apoderado to notify
+            $idUserApoderado = Voucher::select("apoderados.idusuario")->
+            join('pagos', 'pagos.idpago', '=', 'vouchers.idpago')
+            ->join('apoderados', 'apoderados.idapoderado', '=', 'pagos.idapoderado')
+            ->first();
             if ($voucher->observacion != null){
                 $voucher->estado = "Observado";
-                $idUserApoderado = Voucher::select("apoderados.idusuario")->
-                    join('pagos', 'pagos.idpago', '=', 'vouchers.idpago')
-                    ->join('apoderados', 'apoderados.idapoderado', '=', 'pagos.idapoderado')
-                    ->first();
-                
                 $notifiable = User::find($idUserApoderado)->first();
                 $notifiable->notify(new PagoNotification($voucher, Auth::user(), "voucher observado"));
+            }
+            if($voucher->estado == "Verificado"){
+                $voucher->estado = "Verificado";
+                $voucher->observacion = null;
+                $notifiable = User::find($idUserApoderado)->first();
+                $notifiable->notify(new PagoNotification($voucher, Auth::user(), "voucher verificado"));
             }
         }
 

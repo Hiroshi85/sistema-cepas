@@ -37,9 +37,9 @@
                     <x-input-error :messages="$errors->get('concepto')" class="mt-2" />
                 </div>
                <div class="mt-4 md:basis-1/8 px-2">
-                    <x-input-label for="monto" :value="__('Monto')" />
-                    <x-text-input id="monto" class="block mt-1 w-full" type="text" name="monto" required autofocus :value="old('monto', $pago->monto)"/>
-                    <x-input-error :messages="$errors->get('monto')" class="mt-2" />
+                    <x-input-label for="monto_pago" :value="__('Monto')" />
+                    <x-text-input id="monto_pago" class="block mt-1 w-full" type="text" name="monto_pago" required autofocus :value="$pago->monto"/>
+                    <x-input-error :messages="$errors->get('monto_pago')" class="mt-2" />
                </div>
                 <div class="mt-4 md:basis-1/8 px-2">
                     <x-input-label for="fecha_vencimiento" :value="__('Fecha de vencimiento')" />

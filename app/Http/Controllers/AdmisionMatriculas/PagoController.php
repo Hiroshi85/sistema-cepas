@@ -16,6 +16,25 @@ use Illuminate\Support\Facades\Auth;
 
 class PagoController extends DashboardController
 {
+    private function validatePago($request, $thisPago = null){
+        $rules = [
+            'fecha_vencimiento' => 'required|date',
+            'monto_pago' => 'required|numeric|min:0',
+            'concepto' => 'string|max:100',
+        ];
+        $messages = [
+            'required' => 'El campo :attribute es obligatorio.',
+            'date' => 'El campo :attribute debe ser una fecha válida.',
+            'numeric' => 'El campo :attribute debe ser un número.',
+            'min' => 'El campo :attribute debe ser mayor o igual a cero.',
+            'integer' => 'El campo :attribute debe ser un número entero.',
+            'max' => 'El campo :attribute no debe tener.mas de 100 caracteres.',
+            'string' => 'El campo :attribute debe ser una cadena de caracteres.',
+        ];
+
+        return $this->validate($request, $rules, $messages);
+    }
+
     public function index()
     {
         //if the current user has secretario or admin role
@@ -62,18 +81,14 @@ class PagoController extends DashboardController
      */
     public function store(Request $request)
     {
-        $data= request()->validate([
-            
-        ],[
-           
-        ]);
+        $data= $this->validatePago($request);
 
         $pago = new Pago();
        
         $pago->idapoderado = $request->get('idapoderado');
         if (session()->get('authUser')->hasRole('apoderado')) $pago->idapoderado = Apoderado::where('idusuario', Auth::user()->id)->first()->idapoderado;
         $pago->concepto = $request->get('concepto');
-        $pago->monto = $request->get('monto');
+        $pago->monto = $request->get('monto_pago');
         $pago->fecha_vencimiento = $request->get('fecha_vencimiento');
         $pago->estado = "Pendiente";
         $pago->eliminado = 0;
@@ -134,11 +149,7 @@ class PagoController extends DashboardController
      */
     public function update(Request $request, $id)
     {
-        $data= request()->validate([
-            
-        ],[
-           
-        ]);
+        $data= $this->validatePago($request);
        
         $idapoderado = $request->get('idapoderado');
         if (session()->get('authUser')->hasRole('apoderado')) $idapoderado = Apoderado::where('idusuario', Auth::user()->id)->first()->idapoderado;
@@ -147,7 +158,7 @@ class PagoController extends DashboardController
         $pago->idapoderado = $idapoderado;
         $pago->concepto = $request->get('concepto');
         
-        $pago->monto = $request->get('monto');
+        $pago->monto = $request->get('monto_pago');
         $pago->idpostulante = $request->get('idpostulante');
         $pago->idalumno = $request->get('idalumno');
         $pago->fecha_vencimiento = $request->get('fecha_vencimiento');

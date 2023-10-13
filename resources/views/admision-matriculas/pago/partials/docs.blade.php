@@ -30,37 +30,53 @@
                 @csrf
                 <!-- Name -->
                 <input type="hidden" name="idpago" value="{{$pago->idpago}}">
-                <div class="flex flex-row flex-wrap">
-                    <div class="mt-4 basis-1/8 px-2">
-                        <x-input-label for="fecha_pago" :value="__('Fecha de pago')" />
-                        <x-text-input id="fecha_pago" class="block mt-1 w-full" type="date" name="fecha_pago" required autofocus />
-                        <x-input-error :messages="$errors->get('fecha_pago')" class="mt-2" />
+                <div class="flex flex-wrap">
+                    <div class="flex flex-col md:flex-row w-full justify-center">
+                        <div class="mt-4 grow basis-1/3 md:basis-1/8 px-2">
+                            <x-input-label for="fecha_pago" :value="__('Fecha de pago')" />
+                            <x-text-input id="fecha_pago" class="block mt-1 w-full" type="date" name="fecha_pago" required autofocus />
+                            <x-input-error :messages="$errors->get('fecha_pago')" class="mt-2" />
+                        </div>
+                        <div class="mt-4 grow  basis-1/3 md:basis-1/16 px-2">
+                            <x-input-label for="monto" :value="__('Monto pagado')" />
+                            <x-text-input id="monto" class="block mt-1 w-full" type="text" name="monto" :value="old('monto')"  required autofocus />
+                            <x-input-error :messages="$errors->get('monto')" class="mt-2" />
+                        </div>
+                        <div class="mt-4 grow  basis-1/3 md:basis-1/8 px-2">
+                            <x-input-label for="codigo_operacion" :value="__('Código de operación')" />
+                            <x-text-input id="codigo_operacion" class="block mt-1 w-full" type="text" name="codigo_operacion" required autofocus />
+                            <x-input-error :messages="$errors->get('codigo_operacion')" class="mt-2" />
+                        </div>
                     </div>
-                    <div class="mt-4 basis-1/16 px-2">
-                        <x-input-label for="monto" :value="__('Monto pagado')" />
-                        <x-text-input id="monto" class="block mt-1 w-full" type="text" name="monto" required autofocus />
-                        <x-input-error :messages="$errors->get('monto')" class="mt-2" />
-                    </div>
-                    <div class="mt-4 basis-1/8 px-2">
-                        <x-input-label for="codigo_operacion" :value="__('Código de operación')" />
-                        <x-text-input id="codigo_operacion" class="block mt-1 w-full" type="text" name="codigo_operacion" required autofocus />
-                        <x-input-error :messages="$errors->get('codigo_operacion')" class="mt-2" />
-                    </div>
-                    <div class="mt-4 grow px-2 h-[46px]">
+                   
+                    <div class="my-4 w-full px-2 text-center flex flex-col items-center justify-center">
                         <x-input-label for="voucher" :value="__('Voucher')" />
-                        <input
-                        class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] font-normal leading-[2.15] text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-gray-800 file:px-3 file:py-[0.32rem] file:text-white file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-gray-800 focus:border-primary focus:text-gray-700 focus:shadow-te-primary focus:outline-none dark:border-gray-500 dark:text-neutral-200 dark:file:bg-gray-900 dark:file:text-neutral-100 dark:focus:border-primary"
-                        id="voucher"
-                        name="voucher"
-                        type="file" required />
+                        <div class="flex items-center justify-center w-[500px]">
+                            <label class="flex flex-col items-center justify-center w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                <div class="flex flex-col items-center justify-center">
+                                    <div id="skeleton" class="flex flex-col items-center py-5">
+                                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                                        </svg>
+                                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Subir archivo</span></p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">PNG, JPG o JPEG</p>
+                                    </div>
+                                    
+                                    <img id="preview-image" class="max-w-[500px] max-h-[500px] text-gray-500 dark:text-gray-400 hidden" />
+                                </div>
+                               
+                                <input id="voucher" name="voucher" type="file" class="hidden" onchange="previewImage(event)" accept=".png, .jpg, .jpeg"/>
+                            </label>
+                        </div> 
+                        
                         <x-input-error :messages="$errors->get('voucher')" class="mt-2" />
                     </div>                                  
                 </div>
-                <div class="flex items-center justify-end mt-4 px-4">
+                <div class="flex items-center justify-end m-4 px-4">
                     <x-primary-button class="ml-4">
                         {{ __('Registrar') }}
                     </x-primary-button>
-                    <x-secondary-button  type="reset" class="mx-2"><i class="fa-solid fa-rotate"></i></x-secondary-button>
+                    <x-secondary-button  type="reset" class="mx-2" onclick="clearForm()"><i class="fa-solid fa-rotate"></i></x-secondary-button>
                 </div>
                 
             </form> 
@@ -164,3 +180,32 @@
         </tbody>
       </table>
 </section>
+
+@push('scripts')
+<script>
+    function previewImage(event) {
+        let skeleton = document.getElementById("skeleton");
+        let preview = document.getElementById("preview-image");
+        let  input = event.target;
+        if (input.files && input.files[0]) {
+            skeleton.classList.add('hidden');
+            preview.classList.remove('hidden');
+
+            let reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function clearForm(){
+        let skeleton = document.getElementById("skeleton");
+        let preview = document.getElementById("preview-image");
+        preview.classList.add('hidden');
+        skeleton.classList.remove('hidden');
+    }
+</script>
+@endpush

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('idpago');
             $table->date('fecha_pago');
             $table->decimal('monto', 10, 2);
-            $table->string('codigo_operacion', 100)->nullable();
+            $table->string('codigo_operacion', 20)->nullable();
             $table->string('voucher', 100);
             $table->string('observacion', 100)->nullable();
             $table->string('estado', 50);
