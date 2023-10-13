@@ -29,35 +29,7 @@
                     <x-input-error :messages="$errors->get('monto_update')" class="mt-2" />
                 </div>
             </div>
-              
-           {{--  <x-input-label for="idmetodopago" :value="__('Medio de pago')" />
-                           
-                            <select data-te-select-init data-te-select-filter="true" data-te-select-option-height="52" name="idmetodopago" id="idmetodopago">
-                                <optgroup label="Cuenta corriente">
-                                    @foreach ($metodos->where('tipo', "Cuenta corriente") as $item)
-                                        <option value="{{$item->idmetodopago}}" data-te-select-secondary-text="{{$item->numero}}">{{$item->metodo}}</option>
-                                    @endforeach 
-                                </optgroup>
-                                <optgroup label="Cuenta interbancaria">
-                                    @foreach ($metodos->where('tipo', 'Cuenta interbancaria') as $item)
-                                        <option value="{{$item->idmetodopago}}" data-te-select-secondary-text="{{$item->numero}}">{{$item->metodo}}</option>
-                                    @endforeach 
-                                </optgroup>  
-                                <optgroup label="Cuenta de ahorros">
-                                    @foreach ($metodos->where('tipo', 'Cuenta de ahorros') as $item)
-                                        <option value="{{$item->idmetodopago}}" data-te-select-secondary-text="{{$item->numero}}">{{$item->metodo}}</option>
-
-                                    @endforeach
-                                </optgroup>
-                                <optgroup label="Otro">
-                                    @foreach ($metodos->where('tipo', null) as $item)
-                                        <option value="{{$item->idmetodopago}}" data-te-select-secondary-text="{{$item->numero}}">{{$item->metodo}}</option>
-                                    @endforeach   
-                                </optgroup>
-                            </select>
-                            <x-input-error :messages="$errors->get('idmetodopago')" class="mt-2" />
-            </div> --}}
-            
+       
             <div class="w-full flex">
                 <div class="mt-4 w-[50%] px-2">
                     <x-input-label for="codigo_operacion" :value="__('Código de operación')" />
@@ -96,36 +68,30 @@
         </div>
         <div class="w-full mt-4 px-2">
             <x-input-label for="idmetodopago" :value="__('Medio de pago')" />
-
-            <select data-te-select-init data-te-select-filter="true" data-te-select-option-height="52" name="idmetodopago"
-                id="idmetodopago">
+            <select class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" name="metodopago_update" id="metpago_update">
                 <optgroup label="Cuenta corriente">
-                    @foreach ($metodos->where('tipo', "Cuenta corriente") as $item)
-                    <option value="{{$item->idmetodopago}}" data-te-select-secondary-text="{{$item->numero}}">
-                        {{$item->metodo}}</option>
-                    @endforeach
+                    @foreach ($metodos->where('tipo', "Cuenta corriente") as $method)
+                        <option value="{{$method->idmetodopago}}" @if($item->metodo_pago == $method->idmetodopago) selected @endif>{{$method->metodo}}</option>
+                    @endforeach 
                 </optgroup>
                 <optgroup label="Cuenta interbancaria">
-                    @foreach ($metodos->where('tipo', 'Cuenta interbancaria') as $item)
-                    <option value="{{$item->idmetodopago}}" data-te-select-secondary-text="{{$item->numero}}">
-                        {{$item->metodo}}</option>
-                    @endforeach
-                </optgroup>
+                    @foreach ($metodos->where('tipo', 'Cuenta interbancaria') as $method)
+                        <option value="{{$method->idmetodopago}}" @if($item->metodo_pago == $method->idmetodopago) selected @endif>{{$method->metodo}}</option>
+                    @endforeach 
+                </optgroup>  
                 <optgroup label="Cuenta de ahorros">
-                    @foreach ($metodos->where('tipo', 'Cuenta de ahorros') as $item)
-                    <option value="{{$item->idmetodopago}}" data-te-select-secondary-text="{{$item->numero}}">
-                        {{$item->metodo}}</option>
+                    @foreach ($metodos->where('tipo', 'Cuenta de ahorros') as $method)
+                        <option value="{{$method->idmetodopago}}" @if($item->metodo_pago == $method->idmetodopago) selected @endif>{{$method->metodo}}</option>
 
                     @endforeach
                 </optgroup>
                 <optgroup label="Otro">
-                    @foreach ($metodos->where('tipo', null) as $item)
-                    <option value="{{$item->idmetodopago}}" data-te-select-secondary-text="{{$item->numero}}">
-                        {{$item->metodo}}</option>
-                    @endforeach
+                    @foreach ($metodos->where('tipo', null) as $method)
+                        <option value="{{$method->idmetodopago}}" @if($item->metodo_pago == $method->idmetodopago) selected @endif>{{$method->metodo}}</option>
+                    @endforeach   
                 </optgroup>
             </select>
-            <x-input-error :messages="$errors->get('idmetodopago')" class="mt-2" />
+            <x-input-error :messages="$errors->get('metpago')" class="mt-2" />
         </div> 
         <div class="mt-4 basis-1 px-2">
             <x-input-label for="observacion" :value="__('Observación')" />

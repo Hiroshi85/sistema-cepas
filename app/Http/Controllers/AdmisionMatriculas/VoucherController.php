@@ -122,7 +122,6 @@ class VoucherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
         $autoridad = session()->get('authUser')->hasAnyRole(['admin', 'secretario(a)']);
         try{
             $data= $this->validateVoucher($request, $id, true);
@@ -144,6 +143,7 @@ class VoucherController extends Controller
         $voucher->fecha_pago = $request->get('fecha_pago');
         $voucher->monto = $request->get('monto_update');
         $voucher->codigo_operacion = $request->get('codigo_operacion');
+        $voucher->metodo_pago = $request->get('metodopago_update');
 
         if($autoridad) { 
             $voucher->observacion = $request->get('observacion');
