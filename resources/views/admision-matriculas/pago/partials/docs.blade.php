@@ -34,7 +34,7 @@
                     <div class="flex flex-col md:flex-row w-full justify-center">
                         <div class="mt-4 grow basis-1/3 md:basis-1/8 px-2">
                             <x-input-label for="fecha_pago" :value="__('Fecha de pago')" />
-                            <x-text-input id="fecha_pago" class="block mt-1 w-full" type="date" name="fecha_pago" required autofocus />
+                            <x-text-input id="fecha_pago" class="block mt-1 w-full" type="date" name="fecha_pago" :value="old('fecha_pago')" required autofocus />
                             <x-input-error :messages="$errors->get('fecha_pago')" class="mt-2" />
                         </div>
                         <div class="mt-4 grow  basis-1/3 md:basis-1/16 px-2">
@@ -44,7 +44,7 @@
                         </div>
                         <div class="mt-4 grow  basis-2/3 md:basis-1/16 px-2">
                             <x-input-label for="codigo_operacion" :value="__('Código de operación')" />
-                            <x-text-input id="codigo_operacion" class="block mt-1 w-full" type="text" name="codigo_operacion" required autofocus />
+                            <x-text-input id="codigo_operacion" class="block mt-1 w-full" type="text" :value="old('codigo_operacion')" name="codigo_operacion" required autofocus />
                             <x-input-error :messages="$errors->get('codigo_operacion')" class="mt-2" />
                         </div>
                         <div class="mt-4 grow basis-1/3 md:basis-1/8 px-2">

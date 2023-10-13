@@ -25,7 +25,7 @@
                 </div>
                 <div class="mt-4 w-[50%] px-2">
                     <x-input-label for="monto_update" :value="__('Monto')" />
-                    <x-text-input id="monto_update" class="block mt-1 w-full" type="text" name="monto_update" :value="old('monto_pagado',$item->monto)" required autofocus/>
+                    <x-text-input id="monto_update" class="block mt-1 w-full" type="text" name="monto_update" :value="old('monto_update',$item->monto)" required autofocus/>
                     <x-input-error :messages="$errors->get('monto_update')" class="mt-2" />
                 </div>
             </div>

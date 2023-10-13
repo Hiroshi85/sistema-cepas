@@ -13,15 +13,19 @@ use Illuminate\Validation\ValidationException;
 class VoucherController extends Controller
 {
     private function validateVoucher($request, $thisVoucher = null, $update = false){
+    
         $rules = [
             'fecha_pago' => 'required|date',
-            'monto_update' => ''.$update ? 'required':''.'|numeric|min:0',
-            'monto' => ''.!$update ? 'required':''.'|numeric|min:0',
             'codigo_operacion' => 'required|numeric|integer|unique:vouchers,codigo_operacion,'.$thisVoucher.',idvoucher',
             'observacion' => 'string|max:100|nullable',
             //validar voucer como required solo si se trata de un nuevo registro
             'voucher' => ''.!$update  ? 'required' : ''.'|file',
         ];
+        if($update)
+            $rules['monto_update'] = 'required|numeric|min:0';
+        else
+            $rules['monto'] = 'required|numeric|min:0';
+
         $customMessages = [
             'required' => 'El campo :attribute es obligatorio.',
             'date' => 'El campo :attribute debe ser una fecha válida.',
@@ -40,6 +44,7 @@ class VoucherController extends Controller
             'observacion' => 'observación',
             'codigo_operacion' => 'código de operación',
         ];
+
         return $this->validate($request, $rules, $customMessages, $attributes);    
     }
     public function index()
@@ -66,7 +71,7 @@ class VoucherController extends Controller
             session()->flash(
                 'toast',
             [
-                'message' => "Se ha registrado un dato no válido, por favor revise los datos e inténtelo de nuevo.",
+                'message' => $e->getMessage(),
                 'type' => 'error',
             ]
             );
