@@ -28,6 +28,8 @@ use App\Http\Controllers\AdmisionMatriculas\PagoController;
 use App\Http\Controllers\AdmisionMatriculas\ParentescoController;
 use App\Http\Controllers\AdmisionMatriculas\PostulanteController;
 use App\Http\Controllers\AdmisionMatriculas\VoucherController;
+use App\Http\Controllers\AdmisionMatriculas\InboxController;
+use App\Http\Controllers\NotificationController;
 // DESEMPEÑO
 use App\Http\Controllers\AsignaturaController;
 use App\Http\Controllers\CursoAsignadoController;
@@ -58,7 +60,7 @@ use App\Http\Controllers\ProveedorController;
 
 // ACADEMIA
 use App\Http\Controllers\Academia\SolicitudController;
-use App\Http\Controllers\NotificationController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -182,33 +184,35 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::prefix('admision-matriculas')->group(function () {
-        Route::get('/', [DashboardController::class, 'index'])->name('admision-matriculas.dashboard')->middleware('auth');
+        Route::get('/', [DashboardController::class, 'index'])->name('admision-matriculas.dashboard');
         // Apoderados
-        Route::resource('/apoderado', ApoderadoController::class)->middleware('auth');
+        Route::resource('/apoderado', ApoderadoController::class);
         //Postulantes
-        Route::resource('/postulante', PostulanteController::class)->middleware('auth');
+        Route::resource('/postulante', PostulanteController::class);
         //Estudiantes
-        Route::resource('/alumno', AlumnoController::class)->middleware('auth');
+        Route::resource('/alumno', AlumnoController::class);
         //Aulas
-        Route::resource('/aula', AulaController::class)->middleware('auth');
+        Route::resource('/aula', AulaController::class);
         //Entrevistas
-        Route::resource('/entrevista', EntrevistaController::class)->middleware('auth');
+        Route::resource('/entrevista', EntrevistaController::class);
         //Matrícula
-        Route::resource('/matricula', MatriculaController::class)->middleware('auth');
+        Route::resource('/matricula', MatriculaController::class);
         //Admision
-        Route::resource('/admision', AdmisionController::class)->middleware('auth');
+        Route::resource('/admision', AdmisionController::class);
         //Pagos
-        Route::resource('/pago', PagoController::class)->middleware('auth');
-        Route::resource('/voucher', VoucherController::class)->middleware('auth');
+        Route::resource('/pago', PagoController::class);
+        Route::resource('/voucher', VoucherController::class);
         //Documentos
-        Route::resource('/alumno/docsalumno', DocumentoAlumnoController::class)->middleware('auth');
-        Route::resource('/apoderado/docsapoderado', DocumentoApoderadoController::class)->middleware('auth');
-        Route::resource('/postulante/docspostulante', DocumentoPostulanteController::class)->middleware('auth');
-        Route::resource('/postulante/parentesco', ParentescoController::class)->middleware('auth');
+        Route::resource('/alumno/docsalumno', DocumentoAlumnoController::class);
+        Route::resource('/apoderado/docsapoderado', DocumentoApoderadoController::class);
+        Route::resource('/postulante/docspostulante', DocumentoPostulanteController::class);
+        Route::resource('/postulante/parentesco', ParentescoController::class);
+        // Inbox
+        Route::resource('/inbox', InboxController::class);
         //Cancel
         Route::get('cancelar/{ruta}', function ($ruta) {
             return redirect()->route($ruta);
-        })->middleware('auth')->name('cancelar');
+        })->name('cancelar');
     });
 });
 // Sistema apoderados

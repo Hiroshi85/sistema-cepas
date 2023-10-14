@@ -34,7 +34,7 @@
         @endif
         {{--  --}}
       </div>
-      <a href="#" class="sticky bottom-0 block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white">
+      <a href="{{ route('inbox.index') }}" class="sticky bottom-0 block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white">
         <div class="inline-flex items-center gap-2">
           <i class="fa-solid fa-eye text-sm"></i>
           <span>ver todas</span>
