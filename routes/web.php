@@ -209,6 +209,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/postulante/parentesco', ParentescoController::class);
         // Inbox
         Route::resource('/inbox', InboxController::class);
+        Route::get('/inbox/{id?}', [InboxController::class, 'index'])->name('inbox.show');
         //Cancel
         Route::get('cancelar/{ruta}', function ($ruta) {
             return redirect()->route($ruta);

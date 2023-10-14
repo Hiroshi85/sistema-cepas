@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdmisionMatriculas;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\DatabaseNotification;
 
 class InboxController extends Controller
 {
@@ -34,9 +35,10 @@ class InboxController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $selectedNotification = DatabaseNotification::find($id);
+        return view ("admision-matriculas.inbox.index", compact("selectedNotification"));
     }
 
     /**

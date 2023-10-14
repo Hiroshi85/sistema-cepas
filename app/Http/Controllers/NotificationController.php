@@ -9,11 +9,11 @@ use Illuminate\Notifications\Notification;
 class NotificationController extends Controller
 {
     public function marcarLeida($id){
-        $notification = DatabaseNotification::find($id);
-        $notification->markAsRead();
+        $selectedNotification = DatabaseNotification::find($id);
+        $selectedNotification->markAsRead();
         // extract the notification class
-        if (class_basename($notification->type) == "PagoNotification")
-            return redirect()->route('pago.edit', $notification->data['voucher']['idpago']);
+        if (class_basename($selectedNotification->type) == "PagoNotification")
+            return redirect()->route('inbox.show', ['id' => $id]);
         else
             return redirect()->back();
     }
