@@ -36,10 +36,7 @@
             </div>
             <div class="mt-4 px-2 self-center text-center">
                 <x-input-label for="convivencia" :value="__('¿Convive?')" />
-                <input name="convivencia" id="convivencia" type="checkbox"
-                @if($item->convivencia == 'si') checked @endif 
-                class="px-2 rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800"
-                >
+                <x-input-check name="convivencia" id="convivencia" :checked="$item->convivencia == 'si'"/>
                 <x-input-error :messages="$errors->get('convivencia')" class="mt-2" />
             </div>
         </div>

@@ -133,6 +133,19 @@ class VoucherController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $voucher = Voucher::findOrFail($id);
+        if($voucher->estado == "Verificado"){
+            session()->flash(
+                'toast',
+                [
+                    'message' => "El voucher ya fue verificado, no puede ser modificado",
+                    'type' => 'error',
+                ]
+            );
+            return redirect()->back();
+
+        }
+
         $autoridad = session()->get('authUser')->hasAnyRole(['admin', 'secretario(a)']);
         try{
             $data= $this->validateVoucher($request, $id, true);
@@ -148,7 +161,7 @@ class VoucherController extends Controller
             );
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
-        $voucher = Voucher::findOrFail($id);
+        
         
         // $voucher->idpago = $request->get('idpago');
         $voucher->fecha_pago = $request->get('fecha_pago');
@@ -160,13 +173,11 @@ class VoucherController extends Controller
             $voucher->observacion = $request->get('observacion');
             $voucher->estado = $request->get('estado');
             //get the apoderado to notify
-            $idUserApoderado = Voucher::select("apoderados.idusuario")->
-            join('pagos', 'pagos.idpago', '=', 'vouchers.idpago')
-            ->join('apoderados', 'apoderados.idapoderado', '=', 'pagos.idapoderado')
-            ->first();
+            $idUserApoderado = $voucher->pago->apoderado->idusuario;
+            
             if ($voucher->observacion != null){
                 $voucher->estado = "Observado";
-                $notifiable = User::find($idUserApoderado)->first();
+                $notifiable = User::find($idUserApoderado);
                 $notifiable->notify(new PagoNotification($voucher, Auth::user(), "voucher observado"));
             }
             if($voucher->estado == "Verificado"){
@@ -186,6 +197,13 @@ class VoucherController extends Controller
         }
 
         $voucher->save();
+        
+        // notify to secretary a voucher was updated
+        // idea futura: una vez notificado no debería volver a poderse modificar hasta recibir la aceptación de secretario(a) u otra observación
+        if(session()->get('authUser')->hasRole('apoderado')){
+            $notifiable = User::role('secretario(a)')->get();
+            $notifiable->each->notify(new PagoNotification($voucher, session()->get('authUser'), "voucher actualizado"));
+        }
 
         session()->flash(
             'toast',
