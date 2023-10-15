@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\AdmisionMatriculas;
 
 use App\Http\Controllers\Controller;
+use App\Models\MetodoPago;
+use App\Models\Pago;
+use App\Models\Voucher;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\DatabaseNotification;
 
@@ -38,6 +41,12 @@ class InboxController extends Controller
     public function show($id)
     {
         $selectedNotification = DatabaseNotification::find($id);
+        $basename = class_basename($selectedNotification->type);
+        if($basename == "PagoNotification"){
+            $voucher = Voucher::findOrFail($selectedNotification->data["voucher"]['idvoucher']);
+            $metodos = MetodoPago::all();
+            return view ("admision-matriculas.inbox.index", compact("selectedNotification", "voucher", "metodos"));
+        }
         return view ("admision-matriculas.inbox.index", compact("selectedNotification"));
     }
 

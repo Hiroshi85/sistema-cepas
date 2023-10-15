@@ -12,4 +12,8 @@ class Postulante extends Model
     protected $primaryKey = 'idpostulante';
     protected $fillable = ['idpostulante','idaula','nombre_apellidos', 'fecha_nacimiento', 'dni', 'domicilio', 'numero_celular', 'nro_hermanos', 'fecha_postulacion', 'estado', 'eliminado'];
     public $timestamps = false;
+
+    public function pagos(){
+        return $this->hasMany(Pago::class, 'idpostulante', 'idpostulante');
+    }
 }

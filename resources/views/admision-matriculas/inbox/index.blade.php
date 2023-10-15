@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="flex flex-row md:flex-col flex-wrap w-full max-h-screen overflow-hidden">
+    <div class="flex flex-row md:flex-col flex-wrap w-full h-screen overflow-hidden">
         <div class="max-h-[50px] md:h-full w-[90%] md:w-[40%]">
             <button type="button" onclick="setSideBarVisibility()" class="z-50 inline-flex items-center p-2 my-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
                 <span class="sr-only">Open sidebar</span>
@@ -53,7 +53,7 @@
              </aside>
         </div>
         
-        <div class="h-screen overflow-y-auto w-full md:w-[60%] z-1">
+        <div class="overflow-y-auto w-full md:w-[60%] z-1 overflow-hidden">
             @if(isset($selectedNotification))
                 @include('admision-matriculas.inbox.details', ['selectedNotification' => $selectedNotification])
             @else
