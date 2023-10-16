@@ -1,4 +1,4 @@
-<section class="overflow-hidden">
+<section class="overflow-hidden overflow-x-auto">
     <div class="text-center w-full relative">
         <header>
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 uppercase">

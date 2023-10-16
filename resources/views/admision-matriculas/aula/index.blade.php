@@ -31,25 +31,25 @@
                         @csrf
                         <!-- Name -->
                         <div class="flex flex-row flex-wrap align-middle">
-                            <div class="mt-4 basis-1/4 px-2">
+                            <div class="mt-4 grow md:basis-1/4 px-2">
                                 <x-input-label for="grado" :value="__('Grado')" />
                                 <x-text-input id="grado" class="block mt-1 w-full" type="number" name="grado" required autofocus />
                                 <x-input-error :messages="$errors->get('grado')" class="mt-2" />
                             </div>
 
-                            <div class="mt-4 basis-1/4 px-2">
+                            <div class="mt-4 grow md:basis-1/4 px-2">
                                 <x-input-label for="seccion" :value="__('Sección')" />
                                 <x-text-input id="seccion" class="block mt-1 w-full" type="text" name="seccion" required autofocus />
                                 <x-input-error :messages="$errors->get('seccion')" class="mt-2" />
                             </div>
                            
-                            <div class="mt-4 basis-1/4 px-2">
+                            <div class="mt-4 grow md:basis-1/4 px-2">
                                 <x-input-label for="vacantes" :value="__('Vacantes en total')" />
                                 <x-text-input id="vacantes" class="block mt-1 w-full" type="number" name="vacantes" required autofocus />
                                 <x-input-error :messages="$errors->get('vacantes')" class="mt-2" />
                             </div> 
 
-                            <div class="mt-4 basis-1/4 px-2 self-end">
+                            <div class="mt-4 grow md:basis-1/4 px-2 self-end">
                                  <div class="flex items-center justify-end mt-4 px-4">
                                 <x-primary-button class="ml-4">
                                     {{ __('Registrar') }}

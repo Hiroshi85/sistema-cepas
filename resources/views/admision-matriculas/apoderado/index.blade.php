@@ -16,9 +16,7 @@
                     <div class="ml-4 w-[30%]">
                         <form action="{{ route('apoderado.index') }}" method="GET" class="flex relative">
                             @csrf
-                            <x-text-input id="search" name="search" class="w-full" :value="$search">
-                                
-                            </x-text-input>
+                            <x-text-input id="search" name="search" class="w-full" :value="$search"/>
                             <x-primary-button class="absolute right-0 h-[100%] dark:bg-white dark:text-gray-800">
                                 <i class="fas fa-search"></i>
                             </x-primary-button>
@@ -43,19 +41,19 @@
                         @csrf
                         <!-- Name -->
                         <div class="flex flex-row flex-wrap">
-                            <div class="mt-4 basis-1/4 px-2">
+                            <div class="mt-4 grow md:basis-1/4 px-2">
                                 <x-input-label for="dni" :value="__('DNI')" />
                                 <x-text-input id="dni" class="block mt-1 w-full" type="text" name="dni" required autofocus />
                                 <x-input-error :messages="$errors->get('dni')" class="mt-2" />
                             </div>
 
-                            <div class="mt-4 basis-1/2 px-2">
+                            <div class="mt-4 grow md:basis-1/2 px-2">
                                 <x-input-label for="nombre_apellidos" :value="__('Apellidos y nombres')" />
                                 <x-text-input id="nombre_apellidos" class="block mt-1 w-full" type="text" name="nombre_apellidos" required autofocus />
                                 <x-input-error :messages="$errors->get('nombre_apellidos')" class="mt-2" />
                             </div>
                            
-                            <div class="mt-4 basis-1/4 px-2">
+                            <div class="mt-4 grow md:basis-1/4 px-2">
                                 <x-input-label for="fecha_nacimiento" :value="__('Fecha de nacimiento')" />
                                 <x-text-input id="fecha_nacimiento" class="block mt-1 w-full" type="date" name="fecha_nacimiento" required autofocus />
                                 <x-input-error :messages="$errors->get('fecha_nacimiento')" class="mt-2" />
@@ -63,23 +61,23 @@
         
                             {{--  --}}
                             
-                            <div class="mt-4 basis-1/4 px-2">
+                            <div class="mt-4 grow md:basis-1/4 px-2">
                                 <x-input-label for="numero_celular" :value="__('Número de celular')" />
                                 <x-text-input id="numero_celular" class="block mt-1 w-full" type="text" name="numero_celular" required autofocus />
                                 <x-input-error :messages="$errors->get('numero_celular')" class="mt-2" />
                             </div>
-                            <div class="mt-4 basis-1/4 px-2">
+                            <div class="mt-4 grow md:basis-1/4 px-2">
                                 <x-input-label for="ocupacion" :value="__('Ocupación')" />
                                 <x-text-input id="ocupacion" class="block mt-1 w-full" type="text" name="ocupacion" required autofocus />
                                 <x-input-error :messages="$errors->get('ocupacion')" class="mt-2" />
                             </div>
 
-                            <div class="mt-4 basis-1/4 px-2">
+                            <div class="mt-4 grow md:basis-1/4 px-2">
                                 <x-input-label for="centro_trabajo" :value="__('Centro de trabajo')" />
                                 <x-text-input id="centro_trabajo" class="block mt-1 w-full" type="text" name="centro_trabajo" required autofocus />
                                 <x-input-error :messages="$errors->get('centro_trabajo')" class="mt-2" />
                             </div>
-                            <div class="mt-4 basis-1/4 px-2">
+                            <div class="mt-4 grow md:basis-1/4 px-2">
                                 <x-input-label for="correo" :value="__('Correo electrónico')" />
                                 <x-text-input id="correo" class="block mt-1 w-full" type="email" name="correo" required autofocus />
                                 <x-input-error :messages="$errors->get('correo')" class="mt-2" />

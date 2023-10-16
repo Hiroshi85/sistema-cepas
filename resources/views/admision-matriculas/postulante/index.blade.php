@@ -14,7 +14,7 @@
         <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="pt-4 pr-4 text-gray-900 dark:text-gray-100 flex justify-between">
-                    <div class="ml-4 w-[30%]">
+                    <div class="ml-4 min-w-[250px] md:w-[30%]">
                         <form action="{{ route('postulante.index') }}" method="GET" class="flex relative">
                             @csrf
                             <x-text-input id="search" name="search" class="w-full" :value="$search">
@@ -50,39 +50,39 @@
                         @csrf
                         <!-- Name -->
                         <div class="flex flex-row flex-wrap">
-                            <div class="mt-4 basis-1/4 px-2">
+                            <div class="mt-4 grow md:basis-1/4 px-2">
                                 <x-input-label for="dni" :value="__('DNI')" />
                                 <x-text-input id="dni" class="block mt-1 w-full" type="text" name="dni" required autofocus />
                                 <x-input-error :messages="$errors->get('dni')" class="mt-2" />
                             </div>
-                            <div class="mt-4 basis-1/2 px-2">
+                            <div class="mt-4 grow md:basis-1/2 px-2">
                                 <x-input-label for="nombre_apellidos" :value="__('Apellidos y nombres')" />
                                 <x-text-input id="nombre_apellidos" class="block mt-1 w-full" type="text" name="nombre_apellidos" required autofocus />
                                 <x-input-error :messages="$errors->get('nombre_apellidos')" class="mt-2" />
                             </div>
-                            <div class="mt-4 basis-1/4 px-2">
+                            <div class="mt-4 grow md:basis-1/4 px-2">
                                 <x-input-label for="fecha_nacimiento" :value="__('Fecha de nacimiento')" />
                                 <x-text-input id="fecha_nacimiento" class="block mt-1 w-full" type="date" name="fecha_nacimiento" required autofocus />
                                 <x-input-error :messages="$errors->get('fecha_nacimiento')" class="mt-2" />
                             </div>
                         
                             {{--  --}}
-                            <div class="mt-4 basis-1/4 px-2">
+                            <div class="mt-4 grow md:basis-1/4 px-2">
                                 <x-input-label for="domicilio" :value="__('Domicilio')" />
                                 <x-text-input id="domicilio" class="block mt-1 w-full" type="text" name="domicilio" required autofocus />
                                 <x-input-error :messages="$errors->get('domicilio')" class="mt-2" />
                             </div>
-                            <div class="mt-4 basis-1/4 px-2">
+                            <div class="mt-4 grow md:basis-1/4 px-2">
                                 <x-input-label for="numero_celular" :value="__('Número de celular')" />
                                 <x-text-input id="numero_celular" class="block mt-1 w-full" type="text" name="numero_celular" required autofocus />
                                 <x-input-error :messages="$errors->get('numero_celular')" class="mt-2" />
                             </div>
-                            <div class="mt-4 px-2 basis-1/4">
+                            <div class="mt-4 grow md:basis-1/4 px-2">
                                 <x-input-label for="nro_hermanos" :value="__('Nro. de Hermanos')" />
                                 <x-text-input id="nro_hermanos" class="block mt-1 w-full" type="number" name="nro_hermanos" required autofocus />
                                 <x-input-error :messages="$errors->get('nro_hermanos')" class="mt-2" />
                             </div>
-                            <div class="mt-6 basis-1/4 px-2">
+                            <div class="mt-6 grow md:basis-1/4 px-2">
                                 <x-input-label for="idaula" :value="__('Aula')" />
                                 <select data-te-select-init data-te-select-option-height="52" id="idaula" class="block mt-1 w-full" name="idaula" required>
                                     @foreach ($aulas as $item)
@@ -92,7 +92,7 @@
                                 <x-input-error :messages="$errors->get('idaula')" class="mt-2" />
                             </div>
                             @if(!Auth::user()->hasRole('apoderado'))
-                                <div class="mt-4 px-2 w-full text-center">
+                                <div class="mt-4 grow px-2 w-full text-center">
                                     <x-input-label for="apoderados" class="text-lg font-semibold"  :value="__('Seleccione apoderado(s)')" />
                                     <select id="apoderados" name="apoderados[]" data-te-select-init data-te-select-filter="true" data-te-select-option-height="52" multiple required>
                                         @foreach ($apoderados as $item)
@@ -110,7 +110,7 @@
                             @else   
                                 {{-- Parentesco y convivencia de apoderado actual --}}
                               
-                                <div class="mt-4 px-2 basis-1/4">
+                                <div class="mt-4 px-2 grow md:basis-1/4">
                                     <h2 class="dark:text-white">Relación con apoderado</h2>
                                     <x-input-label for="parentesco" :value="__('Parentesco')" />
                                     <x-text-input id="parentesco" class="block mt-1 w-full" type="text" name="parentesco" required autofocus />

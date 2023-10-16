@@ -13,4 +13,12 @@ class PostulanteAdmision extends Model
     // protected $primaryKey = ['idadmision','idpostulante'];
     protected $fillable = ['idadmision','idpostulante','fecha_registro','resultado'];
     public $timestamps = false;
+
+    public function postulante(){
+        return $this->belongsTo(Postulante::class, 'idpostulante', 'idpostulante');
+    }
+
+    public function admision(){
+        return $this->belongsTo(Admision::class, 'idadmision', 'idadmision');
+    }
 }

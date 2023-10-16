@@ -12,4 +12,8 @@ class Admision extends Model
     protected $primaryKey = 'idadmision';
     protected $fillable = ['año', 'fecha_apertura', 'fecha_cierre', 'tarifa', 'estado', 'eliminado'];
     public $timestamps = false;
+
+    public function postulante_admision(){
+        return $this->hasMany(PostulanteAdmision::class, 'idadmision', 'idadmision');        
+    }
 }

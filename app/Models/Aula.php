@@ -26,4 +26,8 @@ class Aula extends Model
     {
         return $this->hasMany(SesionPrueba::class);
     }
+
+    public function postulantes(){
+        return $this->hasMany(Postulante::class,'idaula','idaula');
+    }
 }

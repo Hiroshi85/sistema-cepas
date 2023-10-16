@@ -16,4 +16,12 @@ class Postulante extends Model
     public function pagos(){
         return $this->hasMany(Pago::class, 'idpostulante', 'idpostulante');
     }
+
+    public function postulante_admision(){
+        return $this->hasMany(PostulanteAdmision::class, 'idpostulante', 'idpostulante');
+    }
+    
+    public function aula(){
+        return $this->belongsTo(Aula::class, 'idaula', 'idaula');
+    }
 }

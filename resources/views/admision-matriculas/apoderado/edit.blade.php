@@ -1,11 +1,14 @@
 <x-app-layout>    
 
-    <div class="flex">
-        <div class="py-12">
+    <div class="flex flex-col md:flex-row">
+        <div class="pb-4 md:py-12">
                 <div class="mx-auto sm:px-6 lg:px-8 space-y-6">
                     <div class=" bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                        <ul class="mr-2 flex list-none flex-col flex-wrap pl-2" role="tablist" data-te-nav-ref>
-                            <div>
+                        <div class="w-full text-center block md:hidden">
+                            <p class="text-center mt-2 text-gray-800 dark:text-gray-300">Apoderado</p>
+                        </div>
+                        <ul class="mr-2 flex list-none flex-row md:flex-col flex-wrap pl-2 items-center" role="tablist" data-te-nav-ref>
+                            <div class="px-1 hidden md:block">
                                 <p class="text-center mt-2 text-gray-800 dark:text-gray-300">Apoderado</p>
                             </div>
                             <li role="presentation" class="flex-grow text-center">
@@ -38,7 +41,7 @@
             </div>
 
 
-            <div class="py-12 w-full">
+            <div class="md:py-12 w-full">
                 <div class="mx-auto sm:px-6 lg:px-8 space-y-6 min-w-full">
                     <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg min-w-full">
                         <div class="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"

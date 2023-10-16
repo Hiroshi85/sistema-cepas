@@ -13,10 +13,10 @@
         <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="pt-4 pr-4 text-gray-900 dark:text-gray-100 flex justify-between">
-                    <div class="ml-4 w-[30%]">
+                    <div class="ml-4 w-[75%] md:w-[30%]">
                         <form action="{{ route('entrevista.index') }}" method="GET" class="flex relative">
                             @csrf
-                            <x-text-input id="search" name="search" class="w-full" :value="$search">
+                            <x-text-input id="search" name="search" class="w-full min-w-[250px]" :value="$search">
                                 
                             </x-text-input>
                             <x-primary-button class="absolute right-0 h-[100%] dark:bg-white dark:text-gray-800">
@@ -44,7 +44,7 @@
                         @csrf
                         <!-- Name -->
                         <div class="flex flex-col flex-wrap align-middle dark:text-white">
-                            <div class="mt-4 px-2 w-[50%] mx-auto text-center">
+                            <div class="mt-4 px-2 w-full md:w-[50%] mx-auto text-center">
                                 <x-input-label for="postulantes" class="text-lg font-semibold"  :value="__('Seleccione postulante(s)')" />
                                 <select 
                                     id="postulantes" name="postulantes[]" 
@@ -65,25 +65,25 @@
                                   </div>
                             </div>
                             <div id="entrevistaForm" class="flex flex-wrap hidden items-center">
-                                <div class="basis-1/4 px-2">
+                                <div class="grow md:basis-1/4 px-2">
                                     <x-input-label for="fecha" :value="__('Fecha')" />
                                     <x-text-input id="fecha" class="block mt-1 w-full" type="date" name="fecha" required autofocus />
                                     <x-input-error :messages="$errors->get('fecha')" class="mt-2" />
                                 </div>
                                 {{-- <x-text-input id="form2" class="block mt-1 w-full" type="text" name="hora" required autofocus /> --}}
                             
-                                <div class="basis-1/4 px-2">
+                                <div class="grow md:basis-1/4 px-2">
                                     <x-input-label for="hora" :value="__('Hora')" />
                                     <x-text-input id="form2" class="block mt-1 w-full dark:text-white" type="time" name="hora" required autofocus />
                                 
                                     <x-input-error :messages="$errors->get('hora')" class="mt-2" />
                                 </div>
-                                <div class="basis-1/4 px-2">
+                                <div class="grow md:basis-1/4 px-2">
                                     <x-input-label for="tiempo" :value="__('Tiempo de evaluación (minutos)')" />
                                     <x-text-input id="tiempo" class="block mt-1 w-full" type="number" name="tiempo" required autofocus />
                                     <x-input-error :messages="$errors->get('tiempo')" class="mt-2" />
                                 </div>
-                                <div class="flex justify-end px-4 mt-4">
+                                <div class="grow flex justify-end px-4 mt-4">
                                     <x-primary-button class="ml-4">
                                         {{ __('Registrar') }}
                                     </x-primary-button>

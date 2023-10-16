@@ -112,101 +112,102 @@
     </div>
 
     {{-- TABLE --}}
-
-    <table class="min-w-full text-left text-sm font-light pb-16 text-center text-gray-900 dark:text-gray-100">
-        <thead class="border-b font-medium dark:border-neutral-500 dark:bg-slate-900">
-          <tr>
-            <th scope="col" class="px-6 py-4">#</th>
-            <th scope="col" class="px-6 py-4">Fecha de pago</th>
-            <th scope="col" class="px-6 py-4">Monto</th>
-            <th scope="col" class="px-6 py-4">Código de operación</th>
-            <th scope="col" class="px-6 py-4">Voucher</th>
-            <th scope="col" class="px-6 py-4">Estado</th>
-            <th scope="col" class="px-6 py-4">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-            @if (count($vouchers) == 0)
-            <tr>
-                <td colspan="2">
-                    <h6 class="mt-4 mb-0 leading-normal text-size-sm dark:text-white">No hay registros</h6>
-                </td>
-            </tr>
-            @else
-            @php
-                $i = 1
-            @endphp
-            @foreach ($vouchers as $item)
-            <tr
-            class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
-                <td class="whitespace-nowrap px-6 py-4 font-medium">
-                    {{$i++}}
-                </td>
-                <td class="whitespace-nowrap px-6 py-4">{{$item->fecha_pago}}</td>
-                <td class="whitespace-nowrap px-6 py-4">{{$item->monto}}</td>
-                <td class="whitespace-nowrap px-6 py-4">{{$item->codigo_operacion}}</td>
-                <td class="whitespace-nowrap px-6 py-4">
-                    {{-- <img src="{{ asset($item->imagen) }}" alt="document"> --}}
-                    @if ($item->voucher != null)
-                        <x-primary-button
-                            data-te-toggle="modal"
-                            data-te-target="#ModalLg-{{$item->idvoucher}}"
-                            data-te-ripple-init
-                            data-te-ripple-color="light">
-                            <i class="fa-solid fa-eye"></i>
-                        </x-primary-button>
-                    @else
-                        {{"sin voucher"}}
-                    @endif
-                </td>
-              
-                <td class="whitespace-nowrap px-6 py-4 @switch($item->estado)
-                    @case("Aceptado")
-                        {{"text-green-500"}}
+    <div class="overflow-x-auto">
+        <table class="min-w-full text-left text-sm font-light pb-16 text-center text-gray-900 dark:text-gray-100">
+            <thead class="border-b font-medium dark:border-neutral-500 dark:bg-slate-900">
+              <tr>
+                <th scope="col" class="px-6 py-4">#</th>
+                <th scope="col" class="px-6 py-4">Fecha de pago</th>
+                <th scope="col" class="px-6 py-4">Monto</th>
+                <th scope="col" class="px-6 py-4">Código de operación</th>
+                <th scope="col" class="px-6 py-4">Voucher</th>
+                <th scope="col" class="px-6 py-4">Estado</th>
+                <th scope="col" class="px-6 py-4">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+                @if (count($vouchers) == 0)
+                <tr>
+                    <td colspan="2">
+                        <h6 class="mt-4 mb-0 leading-normal text-size-sm dark:text-white">No hay registros</h6>
+                    </td>
+                </tr>
+                @else
+                @php
+                    $i = 1
+                @endphp
+                @foreach ($vouchers as $item)
+                <tr
+                class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
+                    <td class="whitespace-nowrap px-6 py-4 font-medium">
+                        {{$i++}}
+                    </td>
+                    <td class="whitespace-nowrap px-6 py-4">{{$item->fecha_pago}}</td>
+                    <td class="whitespace-nowrap px-6 py-4">{{$item->monto}}</td>
+                    <td class="whitespace-nowrap px-6 py-4">{{$item->codigo_operacion}}</td>
+                    <td class="whitespace-nowrap px-6 py-4">
+                        {{-- <img src="{{ asset($item->imagen) }}" alt="document"> --}}
+                        @if ($item->voucher != null)
+                            <x-primary-button
+                                data-te-toggle="modal"
+                                data-te-target="#ModalLg-{{$item->idvoucher}}"
+                                data-te-ripple-init
+                                data-te-ripple-color="light">
+                                <i class="fa-solid fa-eye"></i>
+                            </x-primary-button>
+                        @else
+                            {{"sin voucher"}}
+                        @endif
+                    </td>
+                  
+                    <td class="whitespace-nowrap px-6 py-4 @switch($item->estado)
+                        @case("Aceptado")
+                            {{"text-green-500"}}
+                            @break
+                        @case("Pendiente")
+                            {{"text-yellow-500"}}
                         @break
-                    @case("Pendiente")
-                        {{"text-yellow-500"}}
-                    @break
-                    @case("Rechazado")
-                        {{"text-red-500"}}
-                        @break    
-                    @endswitch
-                ">{{$item->estado}}</td>
-
-                <td class="whitespace-nowrap px-6 py-4">
-                    <x-secondary-button
-                    data-te-toggle="modal"
-                    data-te-target="#modalEdit-{{$item->idvoucher}}"
-                    data-te-ripple-init
-                    data-te-ripple-color="light"
-                    >
-                    <i class="fas fa-edit"></i>
-                </x-secondary-button>
-                    @if(!Auth::user()->hasRole('apoderado'))                            
-                    <x-danger-button
+                        @case("Rechazado")
+                            {{"text-red-500"}}
+                            @break    
+                        @endswitch
+                    ">{{$item->estado}}</td>
+    
+                    <td class="whitespace-nowrap px-6 py-4">
+                        <x-secondary-button
                         data-te-toggle="modal"
-                        data-te-target="#exampleModalCenter-Doc{{$item->idvoucher}}"
+                        data-te-target="#modalEdit-{{$item->idvoucher}}"
                         data-te-ripple-init
                         data-te-ripple-color="light"
-                    >
-                        <i class="fas fa-trash"></i>
-                    </x-danger-button>
-                    @endif
-                </td>
-            </tr> 
-            {{-- EDITAR --}}
-            <x-modal-large :id="$item->idvoucher" :title="'Voucher de pago'">
-                <img src="{{ asset($item->voucher) }}" alt="document" class="m-2 max-h-[80vh] mx-auto border dark:border-neutral-700">
-            </x-modal-large>
-            <x-modal-delete :id="$item->idvoucher" :entity="'Doc'" :route="'voucher.destroy'" :element="$item->fecha_pago.' S/.'.$item->monto"></x-modal-delete>
-            @include('admision-matriculas.pago.partials.update-doc', ['item' => $item])
-            {{-- ELIMINAR --}}
-            
-            
-            @endforeach
-            @endif
-        </tbody>
-      </table>
+                        >
+                        <i class="fas fa-edit"></i>
+                    </x-secondary-button>
+                        @if(!Auth::user()->hasRole('apoderado'))                            
+                        <x-danger-button
+                            data-te-toggle="modal"
+                            data-te-target="#exampleModalCenter-Doc{{$item->idvoucher}}"
+                            data-te-ripple-init
+                            data-te-ripple-color="light"
+                        >
+                            <i class="fas fa-trash"></i>
+                        </x-danger-button>
+                        @endif
+                    </td>
+                </tr> 
+                {{-- EDITAR --}}
+                <x-modal-large :id="$item->idvoucher" :title="'Voucher de pago'">
+                    <img src="{{ asset($item->voucher) }}" alt="document" class="m-2 max-h-[80vh] mx-auto border dark:border-neutral-700">
+                </x-modal-large>
+                <x-modal-delete :id="$item->idvoucher" :entity="'Doc'" :route="'voucher.destroy'" :element="$item->fecha_pago.' S/.'.$item->monto"></x-modal-delete>
+                @include('admision-matriculas.pago.partials.update-doc', ['item' => $item])
+                {{-- ELIMINAR --}}
+                
+                
+                @endforeach
+                @endif
+            </tbody>
+          </table>
+    </div>
 </section>
 
 @push('scripts')

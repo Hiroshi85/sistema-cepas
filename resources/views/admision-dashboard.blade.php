@@ -16,7 +16,7 @@
                         <div class="p-6 text-gray-900 dark:text-gray-100 flex flex-col md:flex-row gap-6">
                             {{-- CONTENT --}}
                             <div
-                                class="flex flex-col rounded-lg bg-white-50 p-6 bg-gray-100 dark:bg-gray-800 w-full w-[50%]">
+                                class="relative flex flex-col rounded-lg bg-white-50 p-6 bg-gray-100 dark:bg-gray-800 w-full w-[50%]">
                                 <div class="flex md:flex-row justify-between">
                                     <h5
                                     class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
@@ -46,7 +46,7 @@
                                     </div>
                                 @endif
                                 
-                                <div>
+                                <div class="w-full">
                                     <x-primary-button
                                         data-te-toggle="modal"
                                         data-te-target="#modalNew-Admision"
@@ -64,8 +64,12 @@
                                             >
                                             Editar
                                         </x-secondary-button>
+                                        <a href="{{ route('admision.pdf.show', ['id'=>$admision->idadmision]) }}"
+                                            class="flex flex-col items-center absolute right-5 bottom-2 dark:text-gray-100">
+                                            <i class="fa-solid fa-file-pdf text-2xl"></i>
+                                            <span class="text-xs">resultados</span>
+                                        </a>
                                     @endif
-                                    
                                 </div>
                             
                             </div>

@@ -1,4 +1,4 @@
-<section class="overflow-hidden">
+<section class="overflow-hidden overflow-x-auto">
     <div class="text-center w-full relative">
         <div class="hidden" id="myAlert">
             <x-alert></x-alert>

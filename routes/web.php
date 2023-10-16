@@ -182,6 +182,7 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+// Admisión y matrículas
 Route::middleware('auth')->group(function () {
     Route::prefix('admision-matriculas')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('admision-matriculas.dashboard');
@@ -199,6 +200,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/matricula', MatriculaController::class);
         //Admision
         Route::resource('/admision', AdmisionController::class);
+        Route::get('/admision/{id}/reporte.pdf', [AdmisionController::class, 'loadSinglePdf'])->name('admision.pdf.show');
         //Pagos
         Route::resource('/pago', PagoController::class);
         Route::resource('/voucher', VoucherController::class);
@@ -214,6 +216,7 @@ Route::middleware('auth')->group(function () {
         Route::get('cancelar/{ruta}', function ($ruta) {
             return redirect()->route($ruta);
         })->name('cancelar');
+
     });
 });
 // Sistema apoderados

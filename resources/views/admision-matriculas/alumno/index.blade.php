@@ -13,13 +13,13 @@
         
         <div class="mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <form action="{{ route('alumno.index') }}" class="flex m-4 gap-5 w-full justify-between items-center">
+                <form action="{{ route('alumno.index') }}" class="flex flex-col md:flex-row m-4 gap-5 w-full justify-between items-center">
                     @csrf
 
-                    <div class="ml-4 w-[30%] mt-8">
+                    <div class="ml-4 w-[70%] md:w-[30%] mt-8">
                         <div class="flex relative">
                           
-                            <x-text-input id="search" name="search" class="w-full" :value="$search">
+                            <x-text-input id="search" name="search" class="w-full grow" :value="$search">
                                 
                             </x-text-input>
                             <x-primary-button class="absolute right-0 h-[100%] dark:bg-white dark:text-gray-800">

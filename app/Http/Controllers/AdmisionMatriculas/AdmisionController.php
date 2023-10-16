@@ -4,6 +4,8 @@ namespace App\Http\Controllers\AdmisionMatriculas;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admision;
+use App\Models\PostulanteAdmision;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class AdmisionController extends Controller
@@ -103,5 +105,19 @@ class AdmisionController extends Controller
     public function destroy(Admision $admision)
     {
         //
+    }
+
+    public function loadSinglePdf($id)
+    {
+        //Only report status Acetado or Rechazado
+        $admision = Admision::findOrFail($id);
+        $resultados = PostulanteAdmision::where('idadmision', $id)
+            ->join('postulantes', 'postulantes.idpostulante', 'postulante_admision.idpostulante')
+            ->join('aulas','aulas.idaula','postulantes.idaula')
+            ->orderBy('grado')->orderBy('seccion')
+            ->orderBy('postulantes.estado')
+            ->get();
+        $pdf = Pdf::loadView('admision-matriculas.admision.pdf.show', compact('admision','resultados'));
+        return $pdf->stream('resultados-'.$admision->año.'.pdf');
     }
 }
