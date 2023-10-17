@@ -97,7 +97,7 @@
                         Av. Víctor Raúl Haya de la Torre Nro. 158 V Etapa - Urb. San Andrés
                     </td>
                     <td style="font-size: 0.8rem;text-align: right">
-                        <a href="https://rrhh.edu.pe" target="_blank">
+                        <a href="http://127.0.0.1:8000/admision-matriculas" target="_blank">
                             Admisión y matrículas
                         </a>
                     </td>
@@ -107,8 +107,9 @@
                         Trujillo - Perú
                     </td>
                     <td style="font-size: 0.8rem;text-align: right">
-                        rrhh@cepas.edu.pe
-                        {{$resultados->groupBy('grado')->count()}}
+                        <a href="https://www.cepas.edu.pe/" target="_blank">
+                            cepas.edu.pe
+                        </a>
                     </td>
                 </tr>
                 <tr>
