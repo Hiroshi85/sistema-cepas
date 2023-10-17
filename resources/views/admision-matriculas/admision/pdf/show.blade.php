@@ -35,12 +35,12 @@
         }
 
         header {
-            text-align: center;
             line-height: 35px;
             position: fixed;
             top: -100px;
             left: 0px;
             right: 0px;
+            border-bottom: 1px solid black;
         }
 
         footer {
@@ -52,7 +52,6 @@
         }
 
         main {
-            margin-top: 100px;
             margin-bottom: 100px;
         }
 
@@ -70,18 +69,25 @@
         }
 
         th, td {
-            padding: 5px;
+            padding: 2px;
         }
+        
 </style>
 <body class="container my-4">
-    <header style="border-bottom: 1px solid black">
-        <img style="width: 100px; height: 100px; margin: auto"
+    <header>
+        <div >
+            <img style="width: 50px; height: 50px;"
             src="assets/cepas_escudo.png"
             alt="CEPAS ESCUDO">
-        <h2 style="text-transform: uppercase;font-size: 1.2rem">Institución Educativa Privada CEPAS</h2>
-        <h3 style="text-transform: uppercase;font-size: 1rem">
-            Admisión {{$admision->año}}
-        </h3>
+            <h2 style="text-transform: uppercase;font-size: 0.7rem">Institución Educativa Privada CEPAS</h2>
+        </div>
+        <div style="position:absolute; right:0; top:2; text-align: right">
+             <h3 style="text-transform: uppercase;font-size: 0.8rem">
+                Admisión {{$admision->año}}
+            </h3>    
+            <h5 style="font-size: 0.7rem;">{{Date::parse($admision->fecha_apertura)->locale('es')->isoFormat('D [de] MMMM')}} - {{Date::parse($admision->fecha_cierre)->locale('es')->isoFormat('D [de] MMMM')}}</h5> 
+            <h5 style="font-size:0.7rem">reporte generado el {{Date::parse(now())->locale('es')->isoFormat('D [de] MMMM [del] Y')}}</h5>
+        </div>
     </header>
     <footer>
         <table style="width: 100%;font-size: 0.8rem;border-top: 1px solid black;border-collapse: collapse">
@@ -92,7 +98,7 @@
                     </td>
                     <td style="font-size: 0.8rem;text-align: right">
                         <a href="https://rrhh.edu.pe" target="_blank">
-                            rrhh.edu.pe
+                            Admisión y matrículas
                         </a>
                     </td>
                 </tr>
@@ -113,13 +119,33 @@
                 </tr>
             </tbody>
         </table>
-
     </footer>
     <main>
+    @foreach ($resultados->groupBy('grado') as $group => $groupResultados)
         @php
             $i = 1
         @endphp
-        <table>
+        <div style="text-align: center">
+            <strong>Postulantes a @switch($group)
+                @case(1)
+                    {{"1er"}}
+                    @break
+                @case(2)
+                    {{"2do"}}
+                    @break
+                @case(3)
+                    {{"3er"}}
+                    @break
+                @case(4)
+                    {{"4to"}}
+                    @break
+                @case(5)
+                    {{"5to"}}
+                    @break      
+            @endswitch grado de secundaria</strong>
+        </div>
+        
+        <table style="margin-top: 2px">
             <thead>
                 <tr>
                     <th>#</th>
@@ -131,29 +157,22 @@
             </thead>
        
             <tbody>
-            @foreach ($resultados as $resultado)
+            @foreach ($groupResultados as $resultado)
                 <tr>
                     <td>{{$i++}}</td>
-                    <td><strong>{{$resultado->postulante->dni}}</strong></td>
-                    <td><strong>{{$resultado->postulante->nombre_apellidos}}</strong></td>
-                    <td><strong>{{$resultado->postulante->aula->grado." ".$resultado->postulante->aula->seccion}}</strong></td>
-                    <td class="@if ($resultado->resultado == "Rechazado")
-                                text-danger
-                    @endif">
-                        <strong>{{$resultado->resultado}}</strong>
+                    <td>{{$resultado->postulante->dni}}</td>
+                    <td>{{$resultado->postulante->nombre_apellidos}}</td>
+                    <td>{{$resultado->postulante->aula->grado." ".$resultado->postulante->aula->seccion}}</td>
+                    <td class="
+                        @if ($resultado->resultado == "Rechazado") text-danger @else text-success @endif">
+                        {{$resultado->resultado}}
                     </td>
                 </tr>
             @endforeach       
             </tbody>
         </table>
-        <br>
-        <br>
-        <div class="text-center mt-4">
-            <div class="pt-2">
-                <p> ____________________________ </p>
-            </div>
-            <p>{{$admision->año}}<br>Auxiliar académico</p>
-        </div>
+    @endforeach
+        
     
     </main>
 </body>
