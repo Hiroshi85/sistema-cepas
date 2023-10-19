@@ -16,6 +16,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "apexcharts": "^3.44.0",
         "fullcalendar": "^6.1.8",
         "tw-elements": "^1.0.0"
     }

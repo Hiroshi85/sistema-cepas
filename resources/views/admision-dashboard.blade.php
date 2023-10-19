@@ -142,22 +142,29 @@
         <div class="pt-4">
             <div class=" mx-auto sm:px-2 lg:px-8">
                 <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900 dark:text-gray-100 flex flex-col lg:flex-row md:flex-row gap-2">
-                        <div class="basis-3/4 flex flex-col">
+                    <div class="p-6 text-gray-900 dark:text-gray-100  flex flex-col gap-2">
+                        <article class="flex flex-col my-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                            <strong
+                                class="my-2 py-3.5 text-[1.5em] mx-8"
+                                >Estadísticas</strong
+                            >
+                            <div class="flex flex-col md:flex-row p-4 gap-8">
+                                <div class="flex flex-col gap-2 items-center bg-gray-100 dark:bg-transparent rounded">
+                                    <x-select-input name="aula" id="aula">
+                                        <option value="1A">1A</option>
+                                    </x-select-input>
+                                    <div id="growthChart"></div>
+                                </div>
+                                <div id="" class="w-[500px] h-[100px] bg-red-500"></div>
+                            </div>
+                        </article>
+                        <article class="flex flex-col bg-gray-100 dark:bg-gray-800 rounded-lg">
                                 <strong
-                                    class="my-2 py-3.5 uppercase mx-auto"
+                                    class="my-2 py-3.5 text-[1.5em] mx-8"
                                     >Calendario de entrevistas</strong
                                 >
                                @include('admision-matriculas.calendar.calendar')
-                            </div>
-                        
-                        <div class="flex flex-col basis-1/4 items-center">
-                            <strong
-                                class="my-2 py-3.5 uppercase mx-auto"
-                                >Estadísticas</strong
-                            >
-                            charts 
-                        </div>
+                        </article>
                     </div>
                     </div>
                 </div>
@@ -166,20 +173,133 @@
    
     @push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const calendarEl = document.getElementById('calendar')
-            const calendar = new Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                events: @json($events),
-                locale: 'es',
-                headerToolbar: {
-                    left: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek, prev,next today'
-                },
-            })
-            calendar.render()
-        })
-    </script>
+        document.addEventListener('DOMContentLoaded',
+            function() {
+                const calendarEl = document.getElementById('calendar')
+                const calendar = new Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    events: @json($events),
+                    locale: 'es',
+                    headerToolbar: {
+                        left: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek, prev,next today'
+                    },
+                })
+                calendar.render()
+
+                var current = localStorage.getItem('theme');
+                var color = current == "dark" ? config.colors.white : config.colors.primary;
+                // Growth Chart - Radial Bar Chart
+                // --------------------------------------------------------------------
+                const growthChartEl = document.querySelector('#growthChart'),
+                    growthChartOptions = {
+                        series: [100],
+                        labels: ['Matriculados'],
+                        chart: {
+                            height: 240,
+                            type: 'radialBar'
+                        },
+                        plotOptions: {
+                            radialBar: {
+                                size: 150,
+                                offsetY: 10,
+                                startAngle: -150,
+                                endAngle: 150,
+                                hollow: {
+                                    size: '55%'
+                                },
+                                track: {
+                                    background: 'transparent',
+                                    strokeWidth: '100%'
+                                },
+                                dataLabels: {
+                                    name: {
+                                        offsetY: 15,
+                                        color: color,
+                                        fontSize: '15px',
+                                        fontWeight: '600',
+                                        fontFamily: 'Public Sans'
+                                    },
+                                    value: {
+                                        offsetY: -25,
+                                        color: config.colors.secondary,
+                                        fontSize: '22px',
+                                        fontWeight: '500',
+                                        fontFamily: 'Public Sans'
+                                    }
+                                }
+                            }
+                        },
+                        colors: [config.colors.primary],
+                        fill: {
+                            type: 'gradient',
+                            gradient: {
+                                shade: 'dark',
+                                shadeIntensity: 0.5,
+                                gradientToColors: [color],
+                                inverseColors: true,
+                                opacityFrom: 1,
+                                opacityTo: 0.6,
+                                stops: [30, 60, 100]
+                            }
+                        },
+                        stroke: {
+                            dashArray: 5
+                        },
+                        grid: {
+                            padding: {
+                                top: -35,
+                                bottom: -10
+                            }
+                        },
+                        states: {
+                            hover: {
+                                filter: {
+                                    type: 'none'
+                                }
+                            },
+                            active: {
+                                filter: {
+                                    type: 'none'
+                                }
+                            }
+                        }
+                };
+            
+                const growthChart = new ApexCharts(growthChartEl, growthChartOptions);
+                        growthChart.render()
+
+                function changeTheme(theme){
+                    color = theme == "dark" ? config.colors.white : config.colors.primary;
+                    growthChart.updateOptions({
+                        plotOptions:{
+                            radialBar:{
+                                dataLabels:{
+                                    name:{
+                                        color: color
+                                    }
+                                }
+                            }
+                        },
+                       fill: {
+                        gradient: {
+                            gradientToColors: [color],
+                        }
+                       }
+                    });
+                }
+                //listen localStorage theme change
+                window.addEventListener('theme-toggle', event => {
+                    let theme = event.detail.theme;
+                    if (theme === 'dark') {
+                        changeTheme(theme);
+                    }else{
+                        changeTheme(theme);
+                    }
+                })
+            }
+        );
+        </script>
     @endpush
 </x-app-layout>
 

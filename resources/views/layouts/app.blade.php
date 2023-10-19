@@ -34,7 +34,6 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://kit.fontawesome.com/04a4547f2b.js" crossorigin="anonymous"></script>
     {{-- <script type="text/javascript" src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></script> --}}
-    <script type="text/javascript" src="{{ asset('assets') }}/js/functions.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- Styles --}}
     @livewireStyles
@@ -86,7 +85,8 @@
     </div>
 
     {{-- Scripts --}}
-    @stack('scripts')
+    <script type="text/javascript" src="{{ asset('assets') }}/js/functions.js"></script>
+    @stack('scripts') 
     @livewireScripts
     <script>
         Livewire.onLoad(() => {
