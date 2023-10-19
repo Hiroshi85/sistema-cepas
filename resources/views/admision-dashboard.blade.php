@@ -143,27 +143,32 @@
             <div class=" mx-auto sm:px-2 lg:px-8">
                 <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100  flex flex-col gap-2">
-                        <article class="flex flex-col my-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                        <article class="flex flex-col my-4 rounded-lg">
                             <strong
                                 class="my-2 py-3.5 text-[1.5em] mx-8"
                                 >Estadísticas</strong
                             >
-                            <div class="flex flex-col md:flex-row p-4 gap-8">
-                                <div class="flex flex-col gap-2 items-center bg-gray-100 dark:bg-transparent rounded">
+                            <div class="flex flex-col md:flex-row p-4 gap-8 items-center">
+                                <div class="w-full md:w-[50%] flex flex-col gap-2 items-center bg-gray-100 dark:bg-gray-800 rounded p-4">
                                     <x-select-input name="aula" id="aula">
-                                        <option value="1A">1A</option>
+                                        <option value="1">1</option>
                                     </x-select-input>
                                     <div id="growthChart"></div>
                                 </div>
-                                <div id="" class="w-[500px] h-[100px] bg-red-500"></div>
+                                <div id="" class="w-full md:w-[50%] flex flex-col gap-2 items-center bg-gray-100 dark:bg-gray-800 rounded p-4">
+                                    otro gráfico
+                                </div>
                             </div>
                         </article>
-                        <article class="flex flex-col bg-gray-100 dark:bg-gray-800 rounded-lg">
+                        <article class="flex flex-col">
                                 <strong
                                     class="my-2 py-3.5 text-[1.5em] mx-8"
                                     >Calendario de entrevistas</strong
                                 >
-                               @include('admision-matriculas.calendar.calendar')
+                                <div class="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                                    @include('admision-matriculas.calendar.calendar')
+                                </div>
+                              
                         </article>
                     </div>
                     </div>
