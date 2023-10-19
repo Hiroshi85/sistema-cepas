@@ -114,8 +114,10 @@ class AdmisionController extends Controller
         $resultados = PostulanteAdmision::where('idadmision', $id)
             ->join('postulantes', 'postulantes.idpostulante', 'postulante_admision.idpostulante')
             ->join('aulas','aulas.idaula','postulantes.idaula')
-            ->orderBy('grado')->orderBy('seccion')
-            ->orderBy('postulantes.estado')
+            // ->orderBy('postulantes.estado')
+            // ->orderBy('grado')->orderBy('seccion')
+            // ->orderBy('postulantes.nombre_apellidos')
+            ->orderByRaw("postulantes.estado, grado, seccion, nombre_apellidos")
             ->get();
         $pdf = Pdf::loadView('admision-matriculas.admision.pdf.show', compact('admision','resultados'));
         return $pdf->stream('resultados-'.$admision->año.'.pdf');

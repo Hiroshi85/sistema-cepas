@@ -46,6 +46,7 @@ class DashboardController extends Controller
             $events[] = [
                 'title' => $entrevista->nombre_apellidos . ' (Cel. '.$entrevista->numero_celular.')',
                 'start' => $entrevista->fecha . ' ' . $entrevista->hora,
+                'description' => $entrevista
             ];
         }
 
