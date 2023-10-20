@@ -2,7 +2,6 @@
 
 
 use App\Http\Controllers\CandidatoController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\EntrevistaCandidatoController;
 use App\Http\Controllers\EquipoController;
@@ -15,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PuestoController;
 
 //ADMISION Y MATRICULAS 
+use App\Http\Controllers\AdmisionMatriculas\DashboardController;
 use App\Http\Controllers\AdmisionMatriculas\AdmisionController;
 use App\Http\Controllers\AdmisionMatriculas\AlumnoController;
 use App\Http\Controllers\AdmisionMatriculas\ApoderadoController;
@@ -186,6 +186,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::prefix('admision-matriculas')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('admision-matriculas.dashboard');
+        Route::post('/chart/matriculados', [DashboardController::class, 'seriesMatriculados'])->name('admision-matriculas.dashboard.matriculados');
         // Apoderados
         Route::resource('/apoderado', ApoderadoController::class);
         //Postulantes

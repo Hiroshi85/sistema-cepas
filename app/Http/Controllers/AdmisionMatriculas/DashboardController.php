@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdmisionMatriculas;
 
+use App\Http\Controllers\Controller;
 use App\Models\Admision;
+use App\Models\Alumno;
+use App\Models\Aula;
 use App\Models\Entrevista;
 use App\Models\Matricula;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $matricula = Matricula::where('eliminado', 0)->orderBy('idmatricula', 'desc')->first();
         $admision = Admision::where('eliminado', 0)->orderBy('idadmision', 'desc')->first();
@@ -49,10 +51,31 @@ class DashboardController extends Controller
                 'description' => $entrevista
             ];
         }
+        $idaulaSelected = $request->get('idaula');
+        $aulas = Aula::where('eliminado', 0)->orderBy('grado')->orderBy('seccion')->get();
+
+        $alumnos = $idaulaSelected != null && $idaulaSelected != 0 ? Alumno::where('eliminado',0)
+            ->where('idaula', $idaulaSelected) 
+            ->get() : Alumno::where('eliminado',0)->get();
 
         return session()->get('authUser')->hasAnyRole(['secretario(a)', 'admin']) ? 
-            view('admision-dashboard', compact('matricula', 'admision', 'events')) 
+            view('admision-dashboard', compact('matricula', 'admision', 'events', 'aulas', 'alumnos', 'idaulaSelected')) 
                 : 
             view('admision-matriculas.apoderados.index',compact('matricula', 'admision'));
+    }
+
+    public function seriesMatriculados(Request $request){
+        $id = $request->get('idaula');
+        $alumnos = $id != null && $id != 0 ? Alumno::where('eliminado',0)
+            ->where('idaula', $id) 
+            ->get() : Alumno::where('eliminado',0)->get();
+        $total = $alumnos->count();
+        $matriculados = $alumnos->where('estado', 'Matriculado')->count();
+        return response()->json([
+            'total' => $total,
+            'matriculados' => $matriculados,
+            'porcentaje' => round($matriculados/$total*100 ,0),
+            'idaula' => $id
+        ]);
     }
 }

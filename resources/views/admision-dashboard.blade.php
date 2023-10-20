@@ -143,17 +143,46 @@
             <div class=" mx-auto sm:px-2 lg:px-8">
                 <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100  flex flex-col gap-2">
-                        <article class="flex flex-col my-4 rounded-lg">
+                        <article class="flex flex-col mt-4 rounded-lg">
                             <strong
                                 class="my-2 py-3.5 text-[1.5em] mx-8"
                                 >Estadísticas</strong
                             >
-                            <div class="flex flex-col md:flex-row p-4 gap-8 items-center">
-                                <div class="w-full md:w-[50%] flex flex-col gap-2 items-center bg-gray-100 dark:bg-gray-800 rounded p-4">
-                                    <x-select-input name="aula" id="aula">
-                                        <option value="1">1</option>
-                                    </x-select-input>
+                            <div class="flex flex-col md:flex-row pt-2 px-4 gap-8 items-center">
+                                <div class="w-full md:w-[50%] flex flex-col items-center bg-gray-100 dark:bg-gray-800 rounded p-4">
+                                    <form  id="frm_chartMatriculados">
+                                        @csrf
+                                        <x-select-input name="idaula" id="idaula" onchange="">
+                                            <option value="0" @if($idaulaSelected == null || $idaulaSelected == 0) selected @endif>Todos</option>
+                                            @foreach ($aulas as $aula)
+                                                <option value="{{$aula->idaula}}" @if($idaulaSelected == $aula->idaula) selected @endif>{{$aula->grado.' '.$aula->seccion}}</option>
+                                            @endforeach
+                                        </x-select-input>
+                                    </form>
                                     <div id="growthChart"></div>
+                                    <div class="text-center font-bold pt-3 mb-2">Estudiantes matriculados</div>
+                                    <div class="flex px-xxl-4 px-lg-2 p-4 gap-xxl-3 gap-lg-1 gap-3 justify-content-between">
+                                        <div class="flex">
+                                          <div class="mt-2 mr-1">
+                                            <span class="bg-green-500 p-2 rounded-lg">
+                                                <i class="fa-solid fa-user-check"></i>
+                                            </span>
+                                          </div>
+                                          <div class="flex flex-col">
+                                            <small>Matriculados</small>
+                                            <h6 class="mb-0" id="matriculados">{{$alumnos->where('estado',"Matriculado")->count()}}</h6>
+                                          </div>
+                                        </div>
+                                        <div class="flex">
+                                          <div class="mt-2 mr-1">
+                                            <span class="bg-blue-300 p-2 rounded-lg"><i class="fa-solid fa-people-group"></i></span>
+                                          </div>
+                                          <div class="flex flex-col">
+                                            <small>Total</small>
+                                            <h6 class="mb-0" id="total">{{$alumnos->count()}}</h6>
+                                          </div>
+                                        </div>
+                                      </div>
                                 </div>
                                 <div id="" class="w-full md:w-[50%] flex flex-col gap-2 items-center bg-gray-100 dark:bg-gray-800 rounded p-4">
                                     otro gráfico
@@ -198,7 +227,7 @@
                 // --------------------------------------------------------------------
                 const growthChartEl = document.querySelector('#growthChart'),
                     growthChartOptions = {
-                        series: [100],
+                        series: [{{ round($alumnos->where('estado',"Matriculado")->count()/$alumnos->count()*100, 0) }}],
                         labels: ['Matriculados'],
                         chart: {
                             height: 240,
@@ -235,16 +264,16 @@
                                 }
                             }
                         },
-                        colors: [config.colors.primary],
+                        colors: [color],
                         fill: {
                             type: 'gradient',
                             gradient: {
-                                shade: 'dark',
-                                shadeIntensity: 0.5,
+                                shade: current,
+                                shadeIntensity: 1,
                                 gradientToColors: [color],
                                 inverseColors: true,
                                 opacityFrom: 1,
-                                opacityTo: 0.6,
+                                opacityTo: 0.5,
                                 stops: [30, 60, 100]
                             }
                         },
@@ -253,8 +282,8 @@
                         },
                         grid: {
                             padding: {
-                                top: -35,
-                                bottom: -10
+                                top: -30,
+                                bottom: -40
                             }
                         },
                         states: {
@@ -272,7 +301,7 @@
                 };
             
                 const growthChart = new ApexCharts(growthChartEl, growthChartOptions);
-                        growthChart.render()
+                growthChart.render()
 
                 function changeTheme(theme){
                     color = theme == "dark" ? config.colors.white : config.colors.primary;
@@ -286,11 +315,12 @@
                                 }
                             }
                         },
+                        colors: [color],
                        fill: {
                         gradient: {
                             gradientToColors: [color],
                         }
-                       }
+                       },
                     });
                 }
                 //listen localStorage theme change
@@ -302,8 +332,30 @@
                         changeTheme(theme);
                     }
                 })
+                //update chart whit select
+                document.getElementById('idaula').addEventListener('change', function(){
+                    var idAula = document.getElementById('idaula').value;
+
+                    axios.post(
+                        '{{route("admision-matriculas.dashboard.matriculados")}}',{
+                            idaula: idAula
+                        }
+                    ).then(function (response){
+                        growthChart.updateOptions({
+                            series: [response.data.porcentaje]
+                        })
+                        document.getElementById('matriculados').innerHTML = response.data.matriculados
+                        document.getElementById('total').innerHTML = response.data.total
+                    }).catch(function (error){
+                        console.log(error)
+                    });
+                })
             }
         );
+        function updateSeries(){
+            
+        }
+        
         </script>
     @endpush
 </x-app-layout>

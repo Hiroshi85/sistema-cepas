@@ -46,7 +46,7 @@ let config = {
         danger: '#ff3e1d',
         dark: '#233446',
         black: '#000',
-        white: '#F4F6F1',
+        white: '#F0F0FF', //gray<
         body: '#f4f5fb',
         headingColor: '#566a7f',
         axisColor: '#a1acb8',
