@@ -143,14 +143,15 @@
             <div class=" mx-auto sm:px-2 lg:px-8">
                 <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100  flex flex-col gap-2">
-                        <article class="flex flex-col mt-4 rounded-lg">
+                      
+                        <article class="flex flex-col mt-4 rounded-lg px-4">
                             <strong
-                                class="my-2 py-3.5 text-[1.5em] mx-8"
+                                class="py-3.5 text-[1.5em]"
                                 >Estadísticas</strong
                             >
-                            <div class="flex flex-col md:flex-row pt-2 px-4 gap-8 items-center">
-                                <div class="w-full md:w-[50%] flex flex-col items-center bg-gray-100 dark:bg-gray-800 rounded p-4">
-                                    <form  id="frm_chartMatriculados">
+                            <div class="flex flex-wrap pt-2 gap-8 items-center">
+                                <div class="w-full min-h-[390px] md:w-[30%] min-w-[290px] flex flex-col items-center bg-gray-100 dark:bg-gray-800 rounded pt-4">
+                                    <form  id="frm_chartMatriculados" class="h-full">
                                         @csrf
                                         <x-select-input name="idaula" id="idaula" onchange="">
                                             <option value="0" @if($idaulaSelected == null || $idaulaSelected == 0) selected @endif>Todos</option>
@@ -160,8 +161,8 @@
                                         </x-select-input>
                                     </form>
                                     <div id="growthChart"></div>
-                                    <div class="text-center font-bold pt-3 mb-2">Estudiantes matriculados</div>
-                                    <div class="flex px-xxl-4 px-lg-2 p-4 gap-xxl-3 gap-lg-1 gap-3 justify-content-between">
+                                    <div class="text-center font-bold pt-4 mb-4">Estudiantes matriculados</div>
+                                    <div class="flex pt-2 gap-3 justify-between w-[280px] pb-4">
                                         <div class="flex">
                                           <div class="mt-2 mr-1">
                                             <span class="bg-green-500 p-2 rounded-lg">
@@ -184,14 +185,20 @@
                                         </div>
                                       </div>
                                 </div>
-                                <div id="" class="w-full md:w-[50%] flex flex-col gap-2 items-center bg-gray-100 dark:bg-gray-800 rounded p-4">
-                                    otro gráfico
+                                <div class="grow max-h-[390px] flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800 rounded py-3">
+                                    <div class="text-center font-bold pt-4 mb-4">Pagos por admisión</div>
+                                    <div id="pagosBarChart" class="w-full"></div>
+                                </div>
+                                <div class="grow max-h-[390px] flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800 rounded py-3">
+                                    <div class="text-center font-bold pt-4 mb-4">Pagos por matrículas</div>
+                                    <div id="pagosMatrBarChart" class="w-full"></div>
                                 </div>
                             </div>
                         </article>
-                        <article class="flex flex-col">
+
+                        <article class="flex flex-col px-4">
                                 <strong
-                                    class="my-2 py-3.5 text-[1.5em] mx-8"
+                                    class="py-3.5 text-[1.5em]"
                                     >Calendario de entrevistas</strong
                                 >
                                 <div class="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
@@ -209,6 +216,8 @@
     <script>
         document.addEventListener('DOMContentLoaded',
             function() {
+                // Calendaro de entrevistas
+                // ----------------------------------------------------
                 const calendarEl = document.getElementById('calendar')
                 const calendar = new Calendar(calendarEl, {
                     initialView: 'dayGridMonth',
@@ -221,117 +230,17 @@
                 })
                 calendar.render()
 
-                var current = localStorage.getItem('theme');
-                var color = current == "dark" ? config.colors.white : config.colors.primary;
-                // Growth Chart - Radial Bar Chart
-                // --------------------------------------------------------------------
-                const growthChartEl = document.querySelector('#growthChart'),
-                    growthChartOptions = {
-                        series: [{{ round($alumnos->where('estado',"Matriculado")->count()/$alumnos->count()*100, 0) }}],
-                        labels: ['Matriculados'],
-                        chart: {
-                            height: 240,
-                            type: 'radialBar'
-                        },
-                        plotOptions: {
-                            radialBar: {
-                                size: 150,
-                                offsetY: 10,
-                                startAngle: -150,
-                                endAngle: 150,
-                                hollow: {
-                                    size: '55%'
-                                },
-                                track: {
-                                    background: 'transparent',
-                                    strokeWidth: '100%'
-                                },
-                                dataLabels: {
-                                    name: {
-                                        offsetY: 15,
-                                        color: color,
-                                        fontSize: '15px',
-                                        fontWeight: '600',
-                                        fontFamily: 'Public Sans'
-                                    },
-                                    value: {
-                                        offsetY: -25,
-                                        color: config.colors.secondary,
-                                        fontSize: '22px',
-                                        fontWeight: '500',
-                                        fontFamily: 'Public Sans'
-                                    }
-                                }
-                            }
-                        },
-                        colors: [color],
-                        fill: {
-                            type: 'gradient',
-                            gradient: {
-                                shade: current,
-                                shadeIntensity: 1,
-                                gradientToColors: [color],
-                                inverseColors: true,
-                                opacityFrom: 1,
-                                opacityTo: 0.5,
-                                stops: [30, 60, 100]
-                            }
-                        },
-                        stroke: {
-                            dashArray: 5
-                        },
-                        grid: {
-                            padding: {
-                                top: -30,
-                                bottom: -40
-                            }
-                        },
-                        states: {
-                            hover: {
-                                filter: {
-                                    type: 'none'
-                                }
-                            },
-                            active: {
-                                filter: {
-                                    type: 'none'
-                                }
-                            }
-                        }
-                };
             
-                const growthChart = new ApexCharts(growthChartEl, growthChartOptions);
+                // Growth Chart - Radial Bar Chart (Matriculados)
+                // --------------------------------------------------------------------
+                
+                var matriculadosChart = growthChartOptions
+                matriculadosChart.series = [{{round($alumnos->where('estado',"Matriculado")->count()/$alumnos->count()*100, 0)}}]
+                matriculadosChart.labels = ['Matriculados']
+
+                var growthChart = new ApexCharts(document.querySelector('#growthChart'), matriculadosChart);
                 growthChart.render()
 
-                function changeTheme(theme){
-                    color = theme == "dark" ? config.colors.white : config.colors.primary;
-                    growthChart.updateOptions({
-                        plotOptions:{
-                            radialBar:{
-                                dataLabels:{
-                                    name:{
-                                        color: color
-                                    }
-                                }
-                            }
-                        },
-                        colors: [color],
-                       fill: {
-                        gradient: {
-                            gradientToColors: [color],
-                        }
-                       },
-                    });
-                }
-                //listen localStorage theme change
-                window.addEventListener('theme-toggle', event => {
-                    let theme = event.detail.theme;
-                    if (theme === 'dark') {
-                        changeTheme(theme);
-                    }else{
-                        changeTheme(theme);
-                    }
-                })
                 //update chart whit select
                 document.getElementById('idaula').addEventListener('change', function(){
                     var idAula = document.getElementById('idaula').value;
@@ -350,12 +259,109 @@
                         console.log(error)
                     });
                 })
+
+                // Bar Chart (Pagos de admisión y matrículas, actual pagados verificados vs meta según tarifa establecida)
+                // --------------------------------------------------------------------
+                var data = [
+                        {
+                            x: '2023',
+                            y: 15,
+                            goals: [
+                            {
+                                name: 'Expected',
+                                value: 14,
+                                strokeWidth: 2,
+                                strokeDashArray: 2,
+                                strokeColor: '#775DD0'
+                            }
+                            ]
+                        },
+                        {
+                            x: '2012',
+                            y: 44,
+                            goals: [
+                            {
+                                name: 'Expected',
+                                value: 54,
+                                strokeWidth: 5,
+                                strokeHeight: 15,
+                                strokeColor: '#775DD0'
+                            }
+                            ]
+                        },
+                        {
+                            x: '2013',
+                            y: 54,
+                            goals: [
+                            {
+                                name: 'Expected',
+                                value: 52,
+                                strokeWidth: 10,
+                                strokeHeight: 0,
+                                strokeLineCap: 'round',
+                                strokeColor: '#775DD0'
+                            }
+                            ]
+                        },
+                        {
+                            x: '2014',
+                            y: 66,
+                            goals: [
+                            {
+                                name: 'Expected',
+                                value: 61,
+                                strokeWidth: 10,
+                                strokeHeight: 0,
+                                strokeLineCap: 'round',
+                                strokeColor: '#775DD0'
+                            }
+                            ]
+                        },
+                        {
+                            x: '2015',
+                            y: 81,
+                            goals: [
+                            {
+                                name: 'Expected',
+                                value: 66,
+                                strokeWidth: 5,
+                                strokeHeight: 15,
+                                strokeColor: '#775DD0'
+                            }
+                            ]
+                        }
+                    ];
+                
+               
+                var optionsPagosAdmision = optionsBarChart
+                optionsPagosAdmision.series[0].data = data 
+                var chartPagosAdmision = new ApexCharts(document.querySelector("#pagosBarChart"), optionsPagosAdmision);
+                chartPagosAdmision.render();
+
+                var optionsPagosMatriculas = optionsBarChart
+                optionsPagosMatriculas.series[0].data = data
+                var chartPagosMatriculas = new ApexCharts(document.querySelector("#pagosMatrBarChart"), optionsPagosMatriculas);
+                chartPagosMatriculas.render();
+
+                //handle theme mode
+                function changeTheme(theme){
+                    growthChart.updateOptions(gcThemeModeOptions(theme));
+                    
+                    let newOptions = bcThemeModeOptions(theme);
+                    chartPagosAdmision.updateOptions(newOptions);
+                    chartPagosMatriculas.updateOptions(newOptions);
+                }
+                //listen localStorage theme change
+                window.addEventListener('theme-toggle', event => {
+                    let theme = event.detail.theme;
+                    if (theme === 'dark') {
+                        changeTheme(theme);
+                    }else{
+                        changeTheme(theme);
+                    }
+                })
             }
-        );
-        function updateSeries(){
-            
-        }
-        
+        );        
         </script>
     @endpush
 </x-app-layout>

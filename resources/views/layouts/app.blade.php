@@ -86,6 +86,7 @@
 
     {{-- Scripts --}}
     <script type="text/javascript" src="{{ asset('assets') }}/js/functions.js"></script>
+    <script type="text/javascript" src="{{ asset('assets') }}/js/charts.js"></script>
     @stack('scripts') 
     @livewireScripts
     <script>

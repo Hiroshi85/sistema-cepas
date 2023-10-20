@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\AdmisionMatriculas;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\DashboardController;
 use App\Models\Alumno;
 use App\Models\Apoderado;
 use App\Models\ApoderadoPostulante;
@@ -15,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
-class PagoController extends DashboardController
+class PagoController extends Controller
 {
     private function validatePago($request, $thisPago = null){
         $rules = [
