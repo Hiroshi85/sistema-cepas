@@ -78,7 +78,7 @@
         @endif
 
         <!-- Page Content -->
-        <main>
+        <main class="max-w-[1800px] mx-auto">
             {{ $slot }}
         </main>
         @livewire('common.toasts')

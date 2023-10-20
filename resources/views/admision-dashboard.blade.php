@@ -149,7 +149,7 @@
                                 class="py-3.5 text-[1.5em]"
                                 >Estadísticas</strong
                             >
-                            <div class="flex flex-wrap pt-2 gap-8 items-center">
+                            <div class="flex flex-col md:flex-row pt-2 gap-8 items-center">
                                 <div class="w-full min-h-[390px] md:w-[30%] min-w-[290px] flex flex-col items-center bg-gray-100 dark:bg-gray-800 rounded pt-4">
                                     <form  id="frm_chartMatriculados" class="h-full">
                                         @csrf
@@ -185,14 +185,15 @@
                                         </div>
                                       </div>
                                 </div>
-                                <div class="grow max-h-[390px] flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800 rounded py-3">
-                                    <div class="text-center font-bold pt-4 mb-4">Pagos por admisión</div>
+                                {{-- llenar el ancho restante --}}
+                                <div class="w-full md:w-[67%] max-h-[390px] flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800 rounded py-3">
+                                    <div class="text-center font-bold pt-4 mb-4">Pagos</div>
                                     <div id="pagosBarChart" class="w-full"></div>
                                 </div>
-                                <div class="grow max-h-[390px] flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800 rounded py-3">
+                                {{-- <div class="grow max-h-[390px] flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800 rounded py-3">
                                     <div class="text-center font-bold pt-4 mb-4">Pagos por matrículas</div>
                                     <div id="pagosMatrBarChart" class="w-full"></div>
-                                </div>
+                                </div> --}}
                             </div>
                         </article>
 
@@ -272,7 +273,7 @@
                                 value: 14,
                                 strokeWidth: 2,
                                 strokeDashArray: 2,
-                                strokeColor: '#775DD0'
+                                strokeColor: config.colors.warning
                             }
                             ]
                         },
@@ -284,8 +285,8 @@
                                 name: 'Expected',
                                 value: 54,
                                 strokeWidth: 5,
-                                strokeHeight: 15,
-                                strokeColor: '#775DD0'
+                                strokeHeight: 8,
+                                strokeColor: config.colors.warning
                             }
                             ]
                         },
@@ -299,7 +300,7 @@
                                 strokeWidth: 10,
                                 strokeHeight: 0,
                                 strokeLineCap: 'round',
-                                strokeColor: '#775DD0'
+                                strokeColor: config.colors.warning
                             }
                             ]
                         },
@@ -313,7 +314,7 @@
                                 strokeWidth: 10,
                                 strokeHeight: 0,
                                 strokeLineCap: 'round',
-                                strokeColor: '#775DD0'
+                                strokeColor: config.colors.warning
                             }
                             ]
                         },
@@ -325,23 +326,32 @@
                                 name: 'Expected',
                                 value: 66,
                                 strokeWidth: 5,
-                                strokeHeight: 15,
-                                strokeColor: '#775DD0'
+                                strokeHeight: 7,
+                                strokeColor: config.colors.warning
                             }
                             ]
                         }
                     ];
                 
+                series = [{
+                    name: 'Actual matriculas',
+                    data: data
+                    }, {
+                    name: 'Actual admisión',
+                    data: data
+                    }];
                
-                var optionsPagosAdmision = optionsBarChart
-                optionsPagosAdmision.series[0].data = data 
-                var chartPagosAdmision = new ApexCharts(document.querySelector("#pagosBarChart"), optionsPagosAdmision);
+                var optionsPagos = optionsBarChart
+                // optionsPagos.series[0].data = data 
+                optionsPagos.series = series
+                var chartPagosAdmision = new ApexCharts(document.querySelector("#pagosBarChart"), optionsPagos);
                 chartPagosAdmision.render();
 
-                var optionsPagosMatriculas = optionsBarChart
-                optionsPagosMatriculas.series[0].data = data
-                var chartPagosMatriculas = new ApexCharts(document.querySelector("#pagosMatrBarChart"), optionsPagosMatriculas);
-                chartPagosMatriculas.render();
+                // var optionsPagosMatriculas = optionsBarChart
+                // // optionsPagosMatriculas.series[0].data = data
+                // optionsPagosMatriculas.series = series 
+                // var chartPagosMatriculas = new ApexCharts(document.querySelector("#pagosMatrBarChart"), optionsPagosMatriculas);
+                // chartPagosMatriculas.render();
 
                 //handle theme mode
                 function changeTheme(theme){

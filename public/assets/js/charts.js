@@ -2,7 +2,7 @@ const config = {
   colors: {
     primary: '#111827',
     secondary: '#8592a3',
-    success: '#71dd37',
+    success: '#22C55E',
     info: '#03c3ec',
     warning: '#ffab00',
     danger: '#ff3e1d',
@@ -119,12 +119,12 @@ function gcThemeModeOptions(theme) {
 // Bar Chart - Actual vs Expected)
 // --------------------------------------------------------------------
 var optionsBarChart = {
-  series: [
-    {
-      name: 'Actual'
-      // data: data
-    }
-  ],
+  // series: [
+  //   {
+  //     name: 'Actual'
+  //     // data: data
+  //   }
+  // ],
   chart: {
     height: 350,
     type: 'bar'
@@ -134,7 +134,7 @@ var optionsBarChart = {
       horizontal: true,
     }
   },
-  colors: [config.colors.primary],
+  colors: [config.colors.primary, config.colors.danger],
   dataLabels: {
     formatter: function (val, opt) {
       const goals =
@@ -152,10 +152,10 @@ var optionsBarChart = {
     showForSingleSeries: true,
     customLegendItems: ['Actual', 'Esperado'],
     markers: {
-      fillColors: [config.colors.primary, config.colors.purple]
+      fillColors: [config.colors.primary, config.colors.warning]
     },
     labels: {
-      colors: [current == "dark" ? config.colors.secondary : config.colors.primary, config.colors.purple]
+      colors: [current == "dark" ? config.colors.secondary : config.colors.primary, config.colors.warning]
     }
   },
   xaxis: {
@@ -171,7 +171,7 @@ var optionsBarChart = {
         colors: [current == "dark" ? config.colors.axisColor : ""]
       }
     }
-  }
+  },
 };
 
 function bcThemeModeOptions(theme) {
@@ -179,7 +179,7 @@ function bcThemeModeOptions(theme) {
   return {
     legend: {
       labels: {
-        colors: [theme == "dark" ? config.colors.secondary : config.colors.primary, config.colors.purple]
+        colors: [theme == "dark" ? config.colors.secondary : config.colors.primary, config.colors.warning]
       }
     },
     xaxis: {
