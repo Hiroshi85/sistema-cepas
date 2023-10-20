@@ -171,7 +171,7 @@ var optionsBarChart = {
         colors: [current == "dark" ? config.colors.axisColor : ""]
       }
     }
-  },
+  }
 };
 
 function bcThemeModeOptions(theme) {

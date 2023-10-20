@@ -187,7 +187,6 @@
                                 </div>
                                 {{-- llenar el ancho restante --}}
                                 <div class="w-full md:w-[67%] max-h-[390px] flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800 rounded py-3">
-                                    <div class="text-center font-bold pt-4 mb-4">Pagos</div>
                                     <div id="pagosBarChart" class="w-full"></div>
                                 </div>
                                 {{-- <div class="grow max-h-[390px] flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800 rounded py-3">
@@ -344,6 +343,9 @@
                 var optionsPagos = optionsBarChart
                 // optionsPagos.series[0].data = data 
                 optionsPagos.series = series
+                optionsPagos.title = {
+                    text: 'Avance de pagos por admisión y matrículas'
+                }
                 var chartPagosAdmision = new ApexCharts(document.querySelector("#pagosBarChart"), optionsPagos);
                 chartPagosAdmision.render();
 
