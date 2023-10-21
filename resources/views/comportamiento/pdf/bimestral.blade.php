@@ -44,6 +44,7 @@
             <tr>
                 <th>Fecha y hora</th>
                 <th>Comportamiento</th>
+                <th>Sanción</th>
                 <th>Puntos</th>
             </tr>
         </thead>
@@ -52,10 +53,12 @@
                 <tr>
                     <td>{{ $comportamiento->fecha}}</td>
                     <td>{{ $comportamiento->nombre }}</td>
+                    <td>{{ $comportamiento->sancion ?? 'Ninguna' }}</td>
                     <td>{{ $comportamiento->puntaje }}</td>
                 </tr>
             @endforeach
             <tr>
+                <td></td>
                 <td></td>
                 <td><strong>Nota Final</strong></td>
                 <td class="@if ($nota < 14)

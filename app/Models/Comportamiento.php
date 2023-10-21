@@ -41,7 +41,7 @@ class Comportamiento extends Model
     public static function listarComportamientoDeAlumnoPorBimestre(string $id, string $bimestre){
         $comportamientos = Comportamiento::join('alumnos', 'alumno_conducta.alumno_id', '=', 'alumnos.idalumno')
         ->join('conducta', 'alumno_conducta.conducta_id', '=', 'conducta.id')
-        ->join('sanciones', 'alumno_conducta.sancion_id', '=', 'sanciones.id')
+        ->leftjoin('sanciones', 'alumno_conducta.sancion_id', '=', 'sanciones.id')
         ->where('alumnos.idalumno', $id)
         ->where('alumno_conducta.bimestre', $bimestre)
         ->select('alumno_conducta.*','conducta.puntaje', 'conducta.nombre', 'sanciones.nombre as sancion')
@@ -52,8 +52,9 @@ class Comportamiento extends Model
     public static function listarComportamientoDeAlumnoAnual(string $id){
         $comportamientos = Comportamiento::join('alumnos', 'alumno_conducta.alumno_id', '=', 'alumnos.idalumno')
         ->join('conducta', 'alumno_conducta.conducta_id', '=', 'conducta.id')
+        ->leftjoin('sanciones', 'alumno_conducta.sancion_id', '=', 'sanciones.id')
         ->where('alumnos.idalumno', $id)
-        ->select('alumno_conducta.*', 'conducta.puntaje', 'conducta.nombre', 'alumno_conducta.bimestre')
+        ->select('alumno_conducta.*', 'conducta.puntaje', 'conducta.nombre', 'alumno_conducta.bimestre', 'sanciones.nombre as sancion')
         ->orderBy('alumno_conducta.bimestre', 'asc')
         ->get()
         ->groupBy(function ($item) {
