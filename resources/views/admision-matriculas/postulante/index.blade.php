@@ -185,12 +185,15 @@
                                             @case("Aceptado")
                                                 {{"text-green-500"}}
                                                 @break
-                                            @case("Pendiente")
+                                            @case("Entrevista pendiente")
                                                 {{"text-yellow-500"}}
                                             @break
                                             @case("Rechazado")
                                                 {{"text-red-500"}}
-                                                @break    
+                                                @break   
+                                            @case("En postulación")
+                                                {{"text-blue-500"}}
+                                                @break 
                                             @endswitch
                                         "
                                         >{{$item->estado}}</td>

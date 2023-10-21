@@ -187,6 +187,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admision-matriculas')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('admision-matriculas.dashboard');
         Route::post('/chart/matriculados', [DashboardController::class, 'seriesMatriculados'])->name('admision-matriculas.dashboard.matriculados');
+        Route::post('/chart/pagos', [DashboardController::class, 'seriesAvancePagos'])->name("admision-matriculas.dashboard.avancepagos");
         // Apoderados
         Route::resource('/apoderado', ApoderadoController::class);
         //Postulantes

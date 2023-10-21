@@ -36,6 +36,7 @@
     {{-- <script type="text/javascript" src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></script> --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- Styles --}}
+    <link rel="stylesheet" href="{{ asset('assets') }}/css/styles.css">
     @livewireStyles
 </head>
 

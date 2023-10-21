@@ -69,7 +69,9 @@ class MatriculaController extends Controller
     public function store(Request $request)
     {        
         $data = $request->validate($this->validateMatricula($request));
-
+       
+        $matriculaAnterior = Matricula::where('eliminado', 0)->orderBy('idmatricula', 'desc')->first();
+        
         $matricula = new Matricula();
         
         $matricula->fecha_cierre = $request->fecha_cierre;
@@ -77,6 +79,7 @@ class MatriculaController extends Controller
         $matricula->año = date('Y', strtotime($request->fecha_apertura));
         $matricula->tarifa = $request->tarifa;
         $matricula->estado = $request->estado;
+        $matricula->total_alumnos = $matriculaAnterior != null ? $matriculaAnterior->total_alumnos : 0;
         $matricula->save();
     
         return redirect()->back()->with('datos', 'created');

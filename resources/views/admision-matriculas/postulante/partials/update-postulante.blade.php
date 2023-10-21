@@ -77,9 +77,12 @@
                     <option value="Registrado"  @if($postulante->estado == "Registrado")
                         {{"selected"}}
                     @endif>Registrado</option>
-                    <option value="Pendiente" @if($postulante->estado == "Pendiente")
+                    <option value="En postulación" @if($postulante->estado == "En postulación")
                         {{"selected"}}
-                    @endif>Pendiente</option>
+                    @endif>En postulación</option>
+                    <option value="Entrevista pendiente" @if($postulante->estado == "Entrevista pendiente")
+                        {{"selected"}}
+                    @endif>Entrevista pendiente</option>
                     
                     <option value="Aceptado" @if($postulante->estado == 'Aceptado')
                         {{"selected"}}

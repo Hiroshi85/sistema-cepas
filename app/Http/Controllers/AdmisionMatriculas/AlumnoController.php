@@ -164,6 +164,10 @@ class AlumnoController extends Controller
         $aula = Aula::findOrFail($alumno->idaula);
         $aula->nro_vacantes_disponibles = $aula->nro_vacantes_disponibles + 1;
         $aula->save();
+        //Resta total de alumnos
+        $matricula = Matricula::where('eliminado', 0)->orderBy('idmatricula', 'desc')->first();
+        $matricula->total_alumnos--; //total alumnos entre matriculados y no matriculados
+        $matricula->save();
 
         session()->flash(
             'toast',
@@ -185,7 +189,7 @@ class AlumnoController extends Controller
         ) return;
         
         $aula = Aula::findOrFail($alumno->idaula);
-
+        
         $alumno_matricula = new AlumnoMatricula();
         $alumno_matricula->idalumno = $alumno->idalumno;
         $alumno_matricula->idmatricula = $matricula->idmatricula;

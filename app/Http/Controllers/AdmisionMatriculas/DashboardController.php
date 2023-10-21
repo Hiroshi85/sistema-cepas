@@ -5,9 +5,12 @@ namespace App\Http\Controllers\AdmisionMatriculas;
 use App\Http\Controllers\Controller;
 use App\Models\Admision;
 use App\Models\Alumno;
+use App\Models\AlumnoMatricula;
 use App\Models\Aula;
 use App\Models\Entrevista;
 use App\Models\Matricula;
+use App\Models\Postulante;
+use App\Models\PostulanteAdmision;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -51,12 +54,14 @@ class DashboardController extends Controller
                 'description' => $entrevista
             ];
         }
+        // Estadísticas - estudiantes matriculados
         $idaulaSelected = $request->get('idaula');
         $aulas = Aula::where('eliminado', 0)->orderBy('grado')->orderBy('seccion')->get();
 
         $alumnos = $idaulaSelected != null && $idaulaSelected != 0 ? Alumno::where('eliminado',0)
             ->where('idaula', $idaulaSelected) 
             ->get() : Alumno::where('eliminado',0)->get();
+        // ------------------ 
 
         return session()->get('authUser')->hasAnyRole(['secretario(a)', 'admin']) ? 
             view('admision-dashboard', compact('matricula', 'admision', 'events', 'aulas', 'alumnos', 'idaulaSelected')) 
@@ -76,6 +81,60 @@ class DashboardController extends Controller
             'matriculados' => $matriculados,
             'porcentaje' => round($matriculados/$total*100 ,0),
             'idaula' => $id
+        ]);
+    }
+
+    public function seriesAvancePagos(){
+        $admisiones = Admision::where('eliminado', 0)->orderBy('año', 'desc')->get();        
+        $matriculas = Matricula::where('eliminado', 0)->orderBy('año', 'desc')->get();
+    
+        $dataAdmisiones = [];
+        foreach ($admisiones as $admision) {
+            $pagadosPorAdmision = $admision->postulante_admisiones()->whereNot('resultado','En postulación')->count() * $admision->tarifa;
+            $esperadoAdmision = $admision->postulante_admisiones()->count() * $admision->tarifa;
+            $dataAdmisiones[] = 
+                [
+                    'x' => $admision->año,
+                    'y' => $pagadosPorAdmision,
+                    'goals' => [
+                        [
+                            'name' => 'Objetivo',
+                            'value' => $esperadoAdmision,
+                            'strokeWidth' => 5,
+                            'strokeColor' => "#FFC964"
+                        ]
+                    ]
+                ];
+        }
+        $dataMatriculas = []; 
+        foreach ($matriculas as $matricula) {
+            $pagadosPorMatricula = $matricula->alumno_matriculas()->count() * $matricula->tarifa;
+            $esperadoMatriculas = $matricula->total_alumnos * $matricula->tarifa;
+            $dataMatriculas[] = 
+                [
+                    'x' => $matricula->año,
+                    'y' => $pagadosPorMatricula,
+                    'goals' => [
+                        [
+                            'name' => 'Objetivo',
+                            'value' => $esperadoMatriculas,
+                            'strokeWidth' => 5,
+                            'strokeColor' => "#FFC964"
+                        ]
+                    ]
+                ];
+        }   
+        $series = [
+            [
+                'name' => 'Pagos por admisión',
+                'data' => $dataAdmisiones
+            ],[
+                'name' => 'Pagos por matrículas',
+                'data' => $dataMatriculas
+            ]
+        ];
+        return response()->json([
+            'series' => $series
         ]);
     }
 }

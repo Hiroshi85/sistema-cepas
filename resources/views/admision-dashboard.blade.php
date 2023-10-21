@@ -262,106 +262,31 @@
 
                 // Bar Chart (Pagos de admisión y matrículas, actual pagados verificados vs meta según tarifa establecida)
                 // --------------------------------------------------------------------
-                var data = [
-                        {
-                            x: '2023',
-                            y: 15,
-                            goals: [
-                            {
-                                name: 'Expected',
-                                value: 14,
-                                strokeWidth: 2,
-                                strokeDashArray: 2,
-                                strokeColor: config.colors.warning
+                var chartPagosAdmision = null
+                axios.post(
+                        '{{route("admision-matriculas.dashboard.avancepagos")}}'
+                    ).then(function (response){
+                        var optionsPagos = optionsBarChart
+                        optionsPagos.series = response.data.series
+                        optionsPagos.title = {
+                            text: 'Avance de pagos por admisión y matrículas',
+                            style: {
+                                fontSize: '14px',
+                                color: current == "dark" ? config.colors.white : config.colors.primary 
                             }
-                            ]
-                        },
-                        {
-                            x: '2012',
-                            y: 44,
-                            goals: [
-                            {
-                                name: 'Expected',
-                                value: 54,
-                                strokeWidth: 5,
-                                strokeHeight: 8,
-                                strokeColor: config.colors.warning
-                            }
-                            ]
-                        },
-                        {
-                            x: '2013',
-                            y: 54,
-                            goals: [
-                            {
-                                name: 'Expected',
-                                value: 52,
-                                strokeWidth: 10,
-                                strokeHeight: 0,
-                                strokeLineCap: 'round',
-                                strokeColor: config.colors.warning
-                            }
-                            ]
-                        },
-                        {
-                            x: '2014',
-                            y: 66,
-                            goals: [
-                            {
-                                name: 'Expected',
-                                value: 61,
-                                strokeWidth: 10,
-                                strokeHeight: 0,
-                                strokeLineCap: 'round',
-                                strokeColor: config.colors.warning
-                            }
-                            ]
-                        },
-                        {
-                            x: '2015',
-                            y: 81,
-                            goals: [
-                            {
-                                name: 'Expected',
-                                value: 66,
-                                strokeWidth: 5,
-                                strokeHeight: 7,
-                                strokeColor: config.colors.warning
-                            }
-                            ]
                         }
-                    ];
+                        chartPagosAdmision = new ApexCharts(document.querySelector("#pagosBarChart"), optionsPagos);
+                        chartPagosAdmision.render();
+                    }).catch(function (error){
+                        console.log(error)
+                });
                 
-                series = [{
-                    name: 'Actual matriculas',
-                    data: data
-                    }, {
-                    name: 'Actual admisión',
-                    data: data
-                    }];
-               
-                var optionsPagos = optionsBarChart
-                // optionsPagos.series[0].data = data 
-                optionsPagos.series = series
-                optionsPagos.title = {
-                    text: 'Avance de pagos por admisión y matrículas'
-                }
-                var chartPagosAdmision = new ApexCharts(document.querySelector("#pagosBarChart"), optionsPagos);
-                chartPagosAdmision.render();
-
-                // var optionsPagosMatriculas = optionsBarChart
-                // // optionsPagosMatriculas.series[0].data = data
-                // optionsPagosMatriculas.series = series 
-                // var chartPagosMatriculas = new ApexCharts(document.querySelector("#pagosMatrBarChart"), optionsPagosMatriculas);
-                // chartPagosMatriculas.render();
-
                 //handle theme mode
                 function changeTheme(theme){
                     growthChart.updateOptions(gcThemeModeOptions(theme));
                     
                     let newOptions = bcThemeModeOptions(theme);
                     chartPagosAdmision.updateOptions(newOptions);
-                    chartPagosMatriculas.updateOptions(newOptions);
                 }
                 //listen localStorage theme change
                 window.addEventListener('theme-toggle', event => {

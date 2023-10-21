@@ -13,7 +13,7 @@ class Admision extends Model
     protected $fillable = ['año', 'fecha_apertura', 'fecha_cierre', 'tarifa', 'estado', 'eliminado'];
     public $timestamps = false;
 
-    public function postulante_admision(){
+    public function postulante_admisiones(){
         return $this->hasMany(PostulanteAdmision::class, 'idadmision', 'idadmision');        
     }
 }

@@ -14,6 +14,7 @@ use App\Models\Postulante;
 use App\Models\PostulanteAdmision;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PostulanteController extends Controller
 {
@@ -46,11 +47,11 @@ class PostulanteController extends Controller
         if($autoridad){
             $postulantes = Postulante::whereRaw('eliminado = 0')
                 ->orderByRaw("CASE estado 
-                        WHEN 'Pendiente' THEN 1
-                        WHEN 'Registrado' THEN 2
+                        WHEN 'Entrevista pendiente' THEN 1
+                        WHEN 'En postulación' THEN 2
                         WHEN 'Aceptado' THEN 3
                         WHEN 'Rechazado' THEN 4
-                        ELSE 4 END")
+                        ELSE 5 END")
                 ->orderBy('fecha_postulacion')
                 ->where('nombre_apellidos', 'LIKE', '%' . $search . '%')
                 ->paginate(15);
@@ -62,10 +63,10 @@ class PostulanteController extends Controller
             ->whereRaw('postulantes.eliminado = 0 AND apoderado_postulante.eliminado = 0')
             ->where('apoderados.idusuario', Auth::user()->id)
             ->orderByRaw("CASE estado 
-                        WHEN 'Pendiente' THEN 1
-                        WHEN 'Registrado' THEN 2
+                        WHEN 'Entrevista pendiente' THEN 1
+                        WHEN 'En postulación' THEN 2
                         WHEN 'Rechazado' THEN 3
-                        ELSE 4 END")
+                        ELSE 5 END")
                 ->orderBy('fecha_postulacion')
             ->where('postulantes.nombre_apellidos', 'LIKE', '%' . $search . '%')
             ->paginate(15);    
@@ -177,10 +178,15 @@ class PostulanteController extends Controller
         $admision = Admision::where('eliminado', 0)->orderBy('idadmision', 'desc')->first();
         $blockstate = true; 
         if ($admision != null ){
-            $blockstate = PostulanteAdmision::where('idpostulante', $postulante->idpostulante)
+            $postulante_admision = PostulanteAdmision::where('idpostulante', $postulante->idpostulante)
             ->where('idadmision', $admision->idadmision)
-            ->first() != null ? true : false;           
+            ->first();
+            if ($postulante_admision == null )
+                $blockstate = false;
+            else if ($postulante_admision->resultado != "Aceptado" && $postulante_admision->resultado != "Rechazado")
+                $blockstate = false;
         }
+        
         //Parentesco
         $parentescos = ApoderadoPostulante::where('idpostulante', $postulante->idpostulante)
             ->join('apoderados','apoderados.idapoderado','=','apoderado_postulante.idapoderado')
@@ -231,7 +237,7 @@ class PostulanteController extends Controller
         }   
         $postulante->save();
 
-        if($postulante->estado == 'Aceptado' || $postulante->estado == 'Rechazado') $this->registrarHistoriaPostulacion($postulante);
+        if($postulante->estado == 'Aceptado' || $postulante->estado == 'Rechazado' || $postulante->estado == 'Entrevista pendiente' || $postulante->estado == 'En postulación') $this->registrarHistoriaPostulacion($postulante);
 
         session()->flash(
             'toast',
@@ -265,7 +271,10 @@ class PostulanteController extends Controller
     }
 
     protected function createAlumno($postulante){
-       
+        $matricula = Matricula::where('eliminado', 0)->orderBy('idmatricula', 'desc')->first();
+        $matricula->total_alumnos++; //total alumnos entre matriculados y no matriculados
+        $matricula->save();
+
         $alumno = Alumno::where('idpostulante',$postulante->idpostulante)->first(); 
               
         if( $alumno != null) return;
@@ -301,18 +310,23 @@ class PostulanteController extends Controller
 
     protected function registrarHistoriaPostulacion($postulante){
         $admision = Admision::where('eliminado', 0)->orderBy('idadmision', 'desc')->first();
-        //if it is registered return
+        //if it is registered update
+        $postulante_admision = PostulanteAdmision::where('idpostulante', $postulante->idpostulante)
+        ->where('idadmision', $admision->idadmision)
+        ->first();
         if (
-            PostulanteAdmision::where('idpostulante', $postulante->idpostulante)
-            ->where('idadmision', $admision->idadmision)
-            ->first() != null            
-        ) return;
-      
-        $postulante_admision = new PostulanteAdmision();
-        $postulante_admision->idpostulante = $postulante->idpostulante;
-        $postulante_admision->idadmision = $admision->idadmision;
-        $postulante_admision->fecha_registro = now('America/Lima')->toDateString();
-        $postulante_admision->resultado = $postulante->estado;
-        $postulante_admision->save();
+            $postulante_admision != null            
+        ) {
+            DB::table('postulante_admision')->whereRaw('idpostulante='.$postulante->idpostulante.' AND idadmision='.$admision->idadmision.'')->update([
+                'resultado' => $postulante->estado
+            ]);
+        }else {
+            $postulante_admision = new PostulanteAdmision();
+            $postulante_admision->idpostulante = $postulante->idpostulante;
+            $postulante_admision->idadmision = $admision->idadmision;
+            $postulante_admision->fecha_registro = now('America/Lima')->toDateString();
+            $postulante_admision->resultado = $postulante->estado;
+            $postulante_admision->save();
+        }
     }
 }

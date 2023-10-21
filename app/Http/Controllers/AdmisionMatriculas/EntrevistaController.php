@@ -31,7 +31,7 @@ class EntrevistaController extends Controller
             ->join('postulantes', 'postulantes.idpostulante', '=', 'entrevistas.idpostulante')
             ->where('postulantes.eliminado', 0)
             ->whereNot('entrevistas.estado', 'Evaluada')
-            ->whereDate('fecha', '>=', now()->toDateString()) //  de hoy en adelante
+            // ->whereDate('fecha', '>=', now()->toDateString()) //  de hoy en adelante
             ->where('postulantes.nombre_apellidos','LIKE','%'.$search.'%') //Buscar por nombre de postulante
             ->orderBy('fecha')
             ->orderBy('hora')
@@ -40,12 +40,14 @@ class EntrevistaController extends Controller
 
         $postulantes = Postulante::select('postulantes.*')
             ->leftJoin('entrevistas', 'postulantes.idpostulante', '=', 'entrevistas.idpostulante')
-            ->where('postulantes.estado', 'Pendiente')
+            ->where('postulantes.estado', 'Entrevista pendiente')
             ->where('postulantes.eliminado', 0)
             ->where(function ($query) {
                 $query->where('entrevistas.idpostulante', null)
-                    ->orWhereNot('entrevistas.estado', 'Programada')
-                    ->whereNot('entrevistas.resultado', 'Aprobado');
+                    ->orWhere(function ($query) {
+                        $query->where('entrevistas.estado', 'Cancelada');
+                    })
+                    ->orWhereNot('entrevistas.resultado', 'Aprobado');
             })
             ->whereRaw("YEAR(fecha_postulacion) = {$year}")
             ->get();

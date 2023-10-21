@@ -4,7 +4,7 @@ const config = {
     secondary: '#8592a3',
     success: '#22C55E',
     info: '#03c3ec',
-    warning: '#ffab00',
+    warning: '#FFC964',
     danger: '#ff3e1d',
     dark: '#233446',
     black: '#000',
@@ -136,6 +136,7 @@ var optionsBarChart = {
   },
   colors: [config.colors.primary, config.colors.danger],
   dataLabels: {
+    enabled: false,
     formatter: function (val, opt) {
       const goals =
         opt.w.config.series[opt.seriesIndex].data[opt.dataPointIndex]
@@ -150,12 +151,12 @@ var optionsBarChart = {
   legend: {
     show: true,
     showForSingleSeries: true,
-    customLegendItems: ['Actual', 'Esperado'],
+    customLegendItems: ['Admisión', 'Matrículas', 'Objetivo'],
     markers: {
-      fillColors: [config.colors.primary, config.colors.warning]
+      fillColors: [config.colors.primary, config.colors.danger, config.colors.warning]
     },
     labels: {
-      colors: [current == "dark" ? config.colors.secondary : config.colors.primary, config.colors.warning]
+      colors: [current == "dark" ? config.colors.secondary : config.colors.primary, config.colors.danger, config.colors.warning]
     }
   },
   xaxis: {
@@ -179,7 +180,7 @@ function bcThemeModeOptions(theme) {
   return {
     legend: {
       labels: {
-        colors: [theme == "dark" ? config.colors.secondary : config.colors.primary, config.colors.warning]
+        colors: [theme == "dark" ? config.colors.secondary : config.colors.primary, config.colors.danger, config.colors.warning]
       }
     },
     xaxis: {
@@ -194,6 +195,11 @@ function bcThemeModeOptions(theme) {
         style: {
           colors: [theme == "dark" ? config.colors.axisColor : ""]
         }
+      }
+    },
+    title:{
+      style: {
+        color: theme == "dark" ? config.colors.white : config.colors.primary 
       }
     }
   }
