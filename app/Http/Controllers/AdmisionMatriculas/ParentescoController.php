@@ -9,8 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class ParentescoController extends Controller
 {
-    protected function validateFields($request)
+    protected function validateFields($request, $update = false)
     {
+        $rules = [
+
+        ];
         return $this->validate($request, [
  
         ]);

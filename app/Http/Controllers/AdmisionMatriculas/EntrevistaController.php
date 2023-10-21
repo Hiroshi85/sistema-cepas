@@ -10,6 +10,7 @@ use App\Models\Postulante;
 use App\Models\PostulanteAdmision;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Traits\HasRoles;
 
 class EntrevistaController extends Controller
@@ -17,6 +18,25 @@ class EntrevistaController extends Controller
     public function __construct()
     {
         $this->middleware('role:secretario(a)|admin');
+    }
+
+    private function validateEntrevista(Request $request, $update = false){
+        $rules = [
+            'fecha' => [
+                'required',
+                'date',
+                function ($attribute, $value, $fail) use ($update) {
+                    if ($update == false) {
+                        if ($value < now('America/Lima')->toDateString()) {
+                            $fail("La fecha de entrevista no puede ser anterior a la actual");
+                        }
+                    }
+                },
+            ],
+            'hora' => 'required',
+            'tiempo' => 'numeric|min:0',
+        ];
+        return $this->validate($request, $rules);
     }
     /**
      * Display a listing of the resource.
@@ -68,8 +88,12 @@ class EntrevistaController extends Controller
      */
     public function store(Request $request)
     {
-        $data = request()->validate([], []);
-
+        try{
+            $data = $this->validateEntrevista($request);
+        }catch(ValidationException $e){
+            $this->returnErrorToast($e);
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
         $postulantes = $request->input('postulantes');
         array_shift($postulantes);
        
@@ -119,6 +143,13 @@ class EntrevistaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        try{
+            $data = $this->validateEntrevista($request, true);
+        }catch(ValidationException $e){
+            $this->returnErrorToast($e);
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
+
         $entrevista  = Entrevista::findOrFail($id);
         //$entrevista->idpostulante = $request->get('postulante');
 
@@ -170,6 +201,16 @@ class EntrevistaController extends Controller
         );
 
         return redirect()->route('entrevista.index')->with('datos', 'deleted');
+    }
+
+    private function returnErrorToast($e){
+        session()->flash(
+            'toast',
+            [
+                'message' => $e->getMessage(),
+                'type' => 'error',
+            ]
+        );
     }
 
     protected function createAlumno($postulante){

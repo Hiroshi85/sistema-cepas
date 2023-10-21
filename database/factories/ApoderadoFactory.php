@@ -19,9 +19,9 @@ class ApoderadoFactory extends Factory
         // protected $fillable = ['idusuario','nombre_apellidos', 'dni', 'fecha_nacimiento', 'numero_celular', 'ocupacion', 'centro_trabajo', 'correo', 'eliminado'];
         return [
             'nombre_apellidos' => $this->faker->name(),
-            'dni' => $this->faker->randomNumber(8),
+            'dni' => $this->faker->randomNumber(8, true),
             'fecha_nacimiento' => $this->faker->date(), 
-            'numero_celular' => $this->faker->randomNumber(9), //only 9 numbers
+            'numero_celular' => $this->faker->randomNumber(9, true), //only 9 numbers
             'ocupacion' => $this->faker->jobTitle(),
             'centro_trabajo' => $this->faker->company(),
             'correo' => $this->faker->email(),

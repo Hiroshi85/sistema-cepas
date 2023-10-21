@@ -16,11 +16,11 @@ use Illuminate\Validation\ValidationException;
 
 class PagoController extends Controller
 {
-    private function validatePago($request, $thisPago = null){
+    private function validatePago($request, $update = false){
         $rules = [
-            'fecha_vencimiento' => 'required|date',
+            'fecha_vencimiento' => $update == false ? 'date|after_or_equal:'.now('America/Lima')->toDateString() : 'date',
             'monto_pago' => 'required|numeric|min:0',
-            'concepto' => 'string|max:100',
+            'concepto' => 'required|string|max:100',
         ];
         $messages = [
             'required' => 'El campo :attribute es obligatorio.',
@@ -161,7 +161,7 @@ class PagoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data= $this->validatePago($request);
+        $data= $this->validatePago($request, true);
        
         $idapoderado = $request->get('idapoderado');
         if (session()->get('authUser')->hasRole('apoderado')) $idapoderado = Apoderado::where('idusuario', Auth::user()->id)->first()->idapoderado;

@@ -7,6 +7,7 @@ use App\Models\Matricula;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class MatriculaController extends Controller
 {
@@ -40,7 +41,7 @@ class MatriculaController extends Controller
                     }
                 },
             ],
-            'tarifa' => 'required',
+            'tarifa' => 'required|numeric|min:0', //floating numbers
             'estado' => 'required',
         ];
     }
@@ -68,8 +69,12 @@ class MatriculaController extends Controller
      */
     public function store(Request $request)
     {        
-        $data = $request->validate($this->validateMatricula($request));
-       
+        try {
+            $data = $request->validate($this->validateMatricula($request));
+        }catch(ValidationException $e){
+            $this->returnErrorToast($e);
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
         $matriculaAnterior = Matricula::where('eliminado', 0)->orderBy('idmatricula', 'desc')->first();
         
         $matricula = new Matricula();
@@ -107,8 +112,12 @@ class MatriculaController extends Controller
      */
     public function update(Request $request, $idmatricula)
     {
-        $data = $request->validate($this->validateMatricula($request));
-
+        try{
+            $data = $request->validate($this->validateMatricula($request));
+        }catch(ValidationException $e){
+            $this->returnErrorToast($e);
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
         $matricula = Matricula::findOrFail($idmatricula);
        
         $matricula->fecha_cierre = $request->get('fecha_cierre');
@@ -127,5 +136,15 @@ class MatriculaController extends Controller
     public function destroy(Matricula $matricula)
     {
         //
+    }
+
+    private function returnErrorToast($e){
+        session()->flash(
+            'toast',
+            [
+                'message' => $e->getMessage(),
+                'type' => 'error',
+            ]
+        );
     }
 }

@@ -16,9 +16,48 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Validation\Rules;
 use App\Providers\AppServiceProvider;
+use Illuminate\Validation\ValidationException;
 
 class ApoderadoController extends Controller
 {
+    private function validateApoderado($request, $thisApoderado = null, $update = false){
+    
+        $rules = [
+            'nombre_apellidos' => 'required|string|max:100|regex:/^[\pL\s\-áéíóúÁÉÍÓÚ]+$/u',
+            'dni' => 'required|numeric|integer|digits:8|unique:apoderados,dni,'.$thisApoderado.',idapoderado',
+            'fecha_nacimiento' => 'required|date|before:today',
+            'numero_celular' => 'required|numeric|digits:9|unique:apoderados,numero_celular,'.$thisApoderado.',idapoderado',
+            'ocupacion' => 'required|string|max:100',
+            'centro_trabajo' => 'required|string|max:100',
+            'correo' => 'required|email|string|max:100|unique:apoderados,correo,'.$thisApoderado.',idapoderado',
+        ];
+
+        $customMessages = [
+            'required' => 'El campo :attribute es obligatorio.',
+            'date' => 'El campo :attribute debe ser una fecha válida.',
+            'numeric' => 'El campo :attribute debe ser un número.',
+            'min' => 'El campo :attribute debe ser mayor o igual a cero.',
+            'integer' => 'El campo :attribute debe ser un número entero.',
+            'unique' => 'El valor del campo :attribute ya existe en la base de datos.',
+            'string' => 'El campo :attribute debe ser una cadena de caracteres.',
+            'max' => 'El campo :attribute no debe tener más de 100 caracteres.',
+            'email' => 'El campo :attribute debe ser un email válido.',
+            'digits' => 'El campo :attribute debe tener :digits dígitos.',
+            'before' => 'El campo :attribute debe ser una fecha anterior a la actual.',
+            'regex' => 'El formato del campo :attribute no es válido.'
+        ];
+        $attributes = [
+            'nombre_apellidos' => 'nombre completo',
+            'dni' => 'DNI',
+            'fecha_nacimiento' => 'fecha de nacimiento',
+            'numero_celular' => 'celular',
+            'ocupacion' => 'ocupación',
+            'centro_trabajo' => 'centro de trabajo',
+            'correo' => 'email'
+        ];
+
+        return $this->validate($request, $rules, $customMessages, $attributes);    
+    }
     /**
      * Display a listing of the resource.
      */
@@ -45,12 +84,19 @@ class ApoderadoController extends Controller
      */
     public function store(Request $request)
     {
-        $data= request()->validate([
-            'nombre_apellidos' => 'required',
+        try {
+            $data= $this->validateApoderado($request);
+        } catch (ValidationException $e) {
+            session()->flash(
+                'toast',
+                [
+                  'message' => $e->getMessage(),
+                  'type' => 'error',
+                ]
+            );
+            return redirect()->back()->withErrors($e->errors())->withInput();
 
-        ],[
-            'nombre_apellidos.required' => 'El campo apellidos y nombres es requerido',
-        ]);
+        }
 
         $user = new User();
         $user->name = $request->get('nombre_apellidos');
@@ -59,16 +105,8 @@ class ApoderadoController extends Controller
         $user->assignRole('apoderado');
         $user->save();
 
-        $apoderado = new Apoderado();
-        $apoderado->idusuario = $user->id;
-        $apoderado->nombre_apellidos = $request->get('nombre_apellidos');
-        $apoderado->fecha_nacimiento = $request->get('fecha_nacimiento');
-        $apoderado->dni = $request->get('dni'); //8 digits only numbers
-        $apoderado->numero_celular = $request->get('numero_celular');
-        $apoderado->ocupacion = $request->get('ocupacion');  
-        $apoderado->centro_trabajo = $request->get('centro_trabajo');
-        $apoderado->correo = $request->get('correo');
-        $apoderado->save();
+        $data['idusuario'] = $user->id;
+        Apoderado::create($data);
 
         session()->flash(
             'toast',
@@ -130,11 +168,7 @@ class ApoderadoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data= request()->validate([
-           
-        ],[
-          
-        ]);
+        $data= $this->validateApoderado($request, $id, true);
 
         $apoderado = Apoderado::findOrFail($id);
         $apoderado->nombre_apellidos = $request->get('nombre_apellidos');

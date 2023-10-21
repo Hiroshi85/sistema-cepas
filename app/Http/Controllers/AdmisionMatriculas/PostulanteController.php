@@ -91,7 +91,7 @@ class PostulanteController extends Controller
      */
     public function store(Request $request)
     {
-        $autoridad = session()->get('authUser')->hasAnyRole(['secretario(a)', 'apoderado']);
+        $autoridad = session()->get('authUser')->hasAnyRole(['secretario(a)', 'admin']);
 
         $data = $this->validateFields($request);
        
