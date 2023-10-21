@@ -34,9 +34,9 @@
                             {{ __('Comportamientos') }}
                         </x-nav-link>
                     @endrole
-                    {{-- <x-nav-link :href="route('psicologos.index')" :active="request()->routeIs('psicologo.index')">
-                        {{ __('Psicólogo') }}
-                    </x-nav-link> --}}
+                    <x-nav-link :href="route('sanciones.index')" :active="request()->routeIs('sanciones.index')">
+                        {{ __('Sanciones') }}
+                    </x-nav-link>
                     @role('admin|psicologo')
                         <x-nav-link :href="route('pruebas.index')" :active="request()->routeIs('pruebas.index')">
                             {{ __('Prueba psicológica') }}
@@ -125,9 +125,9 @@
                     {{ __('Comportamiento') }}
                 </x-responsive-nav-link>
             @endrole
-            {{-- <x-responsive-nav-link :href="route('psicologos.index')" :active="request()->routeIs('psicologo.index')">
-                {{ __('Psicólogo') }}
-            </x-responsive-nav-link> --}}
+            <x-responsive-nav-link :href="route('sanciones.index')" :active="request()->routeIs('sanciones.index')">
+                {{ __('Sanción') }}
+            </x-responsive-nav-link>
             @role('admin|psicologo')
                 <x-responsive-nav-link :href="route('pruebas.index')" :active="request()->routeIs('pruebas.index')">
                     {{ __('Prueba psicológica') }}

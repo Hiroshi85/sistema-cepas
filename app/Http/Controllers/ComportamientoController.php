@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Conducta;
 use App\Models\Comportamiento;
 use App\Models\Alumno;
+use App\Models\Sancion;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
@@ -25,10 +26,11 @@ class ComportamientoController extends Controller
     {
         // $alumnos = Alumno::where('eliminado', 0)->select('idalumno','nombre_apellidos')->get();
         $demeritos = Conducta::listarDemeritos();
-        $meritos = Conducta::listarMeritos();;
+        $meritos = Conducta::listarMeritos();
+        $sanciones = Sancion::listarSanciones();
         $today = Carbon::now()->format('Y-m-d');
         $enable = Carbon::now()->isWeekday();
-        return view('comportamiento.index', ['meritos' => $meritos, 'demeritos'=> $demeritos, 'hoy'=>$today, 'enable'=>$enable]);
+        return view('comportamiento.index', ['meritos' => $meritos, 'demeritos'=> $demeritos, 'hoy'=>$today, 'sanciones' => $sanciones,'enable'=>$enable]);
     }
 
     /**
@@ -38,9 +40,10 @@ class ComportamientoController extends Controller
         $alumno = $req->input('alumno');
         $conducta = $req->input('asunto');
         $observacion=$req->input('observacion');
+        $sancion=$req->input('sancion') == 0 ? null : $req->input('sancion');
         $fecha=$req->input('fecha');
         $bimestre= $req->input('bimestre');
-        Comportamiento::crearComportamiento($alumno, $conducta, $observacion, $fecha, $bimestre);
+        Comportamiento::crearComportamiento($alumno, $conducta, $observacion, $fecha, $bimestre, $sancion);
 
         return redirect()->route('comportamientos.index');
     }

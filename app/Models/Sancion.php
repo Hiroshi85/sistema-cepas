@@ -20,7 +20,7 @@ class Sancion extends Model
         return Sancion::find($id);
     }
 
-    public static function crearSancion($nombre){
+    public static function crearSancion(string $nombre){
         return Sancion::create(['nombre'=>$nombre]);
     }
 
