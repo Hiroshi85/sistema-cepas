@@ -12,4 +12,5 @@ class ApoderadoPostulante extends Model
     // protected $primaryKey = 'idapoderado';
     protected $fillable = ['idapoderado', 'idpostulante', 'parentesco', 'convivencia', 'eliminado'];
     public $timestamps = false;
+
 }

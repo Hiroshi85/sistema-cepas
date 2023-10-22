@@ -11,12 +11,46 @@ use App\Models\Aula;
 use App\Models\DocumentoAlumno;
 use App\Models\Matricula;
 use App\Models\Postulante;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class AlumnoController extends Controller
 {
-   
+   private function validateAlumno(Request $request, $thisIdPostulante, $update = false){
+        $rules = [
+            'nombre_apellidos' => 'required|string|max:100|regex:/^[\pL\s\-áéíóúÁÉÍÓÚ.]+$/u',
+            'fecha_nacimiento' => 'required|date|before:today',
+            'dni' => 'required|numeric|digits:8|unique:alumnos,dni,' .$thisIdPostulante. ',idalumno',
+            'numero_celular' => 'required|numeric|digits:9|unique:alumnos,numero_celular,' .$thisIdPostulante. ',idalumno',
+            'nro_hermanos' => 'required|integer|min:0',
+            'domicilio' => 'required|string|max:100',
+        ];
+
+        $messages = [
+            'unique' => 'El campo :attribute debe ser único',
+            'fecha_nacimiento.before' => 'La fecha de nacimiento debe ser anterior a la actual',
+            'required' => 'El campo :attribute es obligatorio.',
+            'date' => 'El campo :attribute debe ser una fecha válida.',
+            'numeric' => 'El campo :attribute debe ser un número.',
+            'min' => 'El campo :attribute debe ser mayor o igual a cero.',
+            'integer' => 'El campo :attribute debe ser un número entero.',
+            'string' => 'El campo :attribute debe ser una cadena de caracteres.',
+            'max' => 'El campo :attribute no debe tener más de 100 caracteres.',
+            'regex' => 'El formato del campo :attribute no es válido.'
+        ];
+
+        $attributes = [
+            'nombre_apellidos' => 'nombre completo',
+            'dni' => 'DNI',
+            'fecha_nacimiento' => 'fecha de nacimiento',
+            'numero_celular' => 'celular',
+            'domicilio' => 'domicilio',
+            'nro_hermanos' => 'número de hermanos'
+         ];
+        return $this->validate($request, $rules, $messages, $attributes);
+   }
     /**
      * Display a listing of the resource.
      */
@@ -33,15 +67,15 @@ class AlumnoController extends Controller
 
         if ($autoridad){
             $grado = $request->get('grado');
-            $grado != null ? explode('|',$grado) : $grado = ['1','|', 'A'];
-         
+            $grado = $grado != null ? Aula::findOrFail($grado) : Aula::orderBy('grado')->first(); 
+
             $aulas = Aula::where('eliminado', 0)
                 ->orderby('grado')->orderby('seccion')
                 ->get();  
 
             $alumnos = Alumno::join('aulas','aulas.idaula','=','alumnos.idaula')
             ->where('alumnos.eliminado', 0)
-            ->whereRaw('aulas.grado = ? AND aulas.seccion = ?', [$grado[0], $grado[2]])
+            ->where('alumnos.idaula', $grado->idaula)
             ->where('alumnos.nombre_apellidos', 'LIKE', '%' . $search . '%')
             ->orderBy('alumnos.nombre_apellidos')
             ->paginate(30);
@@ -120,23 +154,29 @@ class AlumnoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $data= request()->validate([
-            
-        ],[
-           
-        ]);
-
+        try{
+        $data = $this->validateAlumno($request, $id, true);
+        } catch(ValidationException $e){
+            session()->flash(
+                'toast',
+                [
+                    'message' => $e->getMessage(),
+                    'type' => 'error',
+                ]
+                );
+            return redirect()->back()->withErrors($e->validator)->withInput();
+        }
         $alumno = Alumno::findOrFail($id);
-        $alumno->idaula = $request->get('idaula');
-        $alumno->nombre_apellidos = $request->get('nombre_apellidos');
-        $alumno->fecha_nacimiento = $request->get('fecha_nacimiento');
-        $alumno->dni =  $request->get('dni');
-        $alumno->domicilio = $request->get('domicilio');
-        $alumno->numero_celular = $request->get('numero_celular');
-        $alumno->nro_hermanos = $request->get('nro_hermanos');
-        $alumno->estado = $request->get('estado');
-        $alumno->save();
+        $alumno->update($data);
+        // $alumno->idaula = $request->get('idaula');
+        // $alumno->nombre_apellidos = $request->get('nombre_apellidos');
+        // $alumno->fecha_nacimiento = $request->get('fecha_nacimiento');
+        // $alumno->dni =  $request->get('dni');
+        // $alumno->domicilio = $request->get('domicilio');
+        // $alumno->numero_celular = $request->get('numero_celular');
+        // $alumno->nro_hermanos = $request->get('nro_hermanos');
+        // $alumno->estado = $request->get('estado');
+        // $alumno->save();
         
         if($alumno->estado == 'Matriculado') $this->registrarHistoriaMatricula($alumno);
       
@@ -196,5 +236,14 @@ class AlumnoController extends Controller
         $alumno_matricula->fecha_registro = now('America/Lima')->toDateString();
         $alumno_matricula->aula = $aula->grado.''.$aula->seccion;
         $alumno_matricula->save();
+    }
+
+    public function loadSinglePdf($idaula)
+    {
+        $aula = Aula::findOrFail($idaula);         
+        $alumnos = $aula->alumnos->where('eliminado', 0)->sortBy('nombre_apellidos');
+            
+        $pdf = Pdf::loadView('admision-matriculas.alumno.pdf.show', compact('aula','alumnos'));
+        return $pdf->stream('lista-'.$aula->grado.$aula->seccion.'.pdf');
     }
 }

@@ -24,4 +24,8 @@ class Postulante extends Model
     public function aula(){
         return $this->belongsTo(Aula::class, 'idaula', 'idaula');
     }
+
+    public function postulante_apoderados(){
+        return $this->belongsToMany(Apoderado::class, 'apoderado_postulante', 'idapoderado', 'idpostulante');
+    }
 }

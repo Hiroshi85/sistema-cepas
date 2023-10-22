@@ -12,7 +12,7 @@
         </div>
         
         <div class="mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="relative bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <form action="{{ route('alumno.index') }}" class="flex flex-col md:flex-row m-4 gap-5 w-full justify-between items-center">
                     @csrf
 
@@ -38,10 +38,10 @@
                             <select name="grado" id="grado" data-te-select-init>
                                 {{-- <option value=''>Seleccionar</option> --}}
                                 @foreach ($aulas as $item)
-                                <option @if ($grado[0]==$item->grado && $grado[2] == $item->seccion)
+                                <option @if ($grado->idaula == $item->idaula)
                                     selected
                                     @endif
-                                    value="{{$item->grado}}|{{$item->seccion}}">{{$item->grado}} {{$item->seccion}}</option>
+                                    value="{{$item->idaula}}">{{$item->grado}} {{$item->seccion}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -49,6 +49,9 @@
                         <x-primary-button class="max-h-8 self-end">
                             {{ __('Mostrar') }}
                         </x-primary-button>
+                        <a href="{{ route('lista.pdf.show', $grado->idaula) }}" class="flex flex-col text-center justify-center fixed bottom-5 right-5 text-gray-100 dark:text-gray-800 bg-gray-800 dark:bg-slate-100 rounded rounded-full w-12 h-12 p-4">
+                            <i class="fa-solid fa-file-pdf text-2xl"></i>
+                        </a>
                     </div>
 
                     @endif
@@ -135,8 +138,8 @@
                                     @endif
                                 </tbody>
                               </table>
-                           
                             </div>
+                            {{ $alumnos->links() }}
                           </div>
                         </div>
                       </div>

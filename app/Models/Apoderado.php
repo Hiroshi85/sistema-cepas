@@ -16,4 +16,8 @@ class Apoderado extends Model
     public function pagos(){
         return $this->hasMany(Pago::class, 'idapoderado', 'idapoderado');
     }
+
+    public function apoderado_postulantes(){
+        return $this->belongsToMany(Postulante::class, 'apoderado_postulante', 'idpostulante', 'idapoderado');
+    }
 }

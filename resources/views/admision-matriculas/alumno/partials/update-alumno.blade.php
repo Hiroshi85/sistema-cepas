@@ -21,13 +21,13 @@
 
                 <div class="grow">
                     <x-input-label for="fecha_nacimiento" :value="__('Fecha de nacimiento')" />
-                    <x-text-input id="fecha_nacimiento" class="block mt-1 w-full" type="date" name="fecha_nacimiento" required autofocus :value="old('nombre_apellidos', $alumno->fecha_nacimiento)" />
+                    <x-text-input id="fecha_nacimiento" class="block mt-1 w-full" type="date" name="fecha_nacimiento" required autofocus :value="old('fecha_nacimiento', $alumno->fecha_nacimiento)" />
                     <x-input-error :messages="$errors->get('fecha_nacimiento')" class="mt-2" />
                 </div>
 
                 <div class="grow">
                     <x-input-label for="dni" :value="__('DNI')" />
-                    <x-text-input id="dni" class="block mt-1 w-full" type="text" name="dni" required autofocus :value="old('nombre_apellidos', $alumno->dni)"/>
+                    <x-text-input id="dni" class="block mt-1 w-full" type="text" name="dni" required autofocus :value="old('dni', $alumno->dni)"/>
                     <x-input-error :messages="$errors->get('dni')" class="mt-2" />
                 </div>
         
@@ -45,13 +45,13 @@
             <div class="flex flex-row gap-4 flex-wrap">
                 <div class="grow">
                     <x-input-label for="numero_celular" :value="__('Número de celular')" />
-                    <x-text-input id="numero_celular" class="block mt-1 w-full" type="text" name="numero_celular" required autofocus :value="old('nombre_apellidos', $alumno->numero_celular)" />
+                    <x-text-input id="numero_celular" class="block mt-1 w-full" type="text" name="numero_celular" required autofocus :value="old('numero_celular', $alumno->numero_celular)" />
                     <x-input-error :messages="$errors->get('numero_celular')" class="mt-2" />
                 </div>
 
                 <div class="grow">
                     <x-input-label for="nro_hermanos" :value="__('Nro. de Hermanos')" />
-                    <x-text-input id="nro_hermanos" class="block mt-1 w-full" type="number" name="nro_hermanos" required autofocus :value="old('nombre_apellidos', $alumno->nro_hermanos)"/>
+                    <x-text-input id="nro_hermanos" class="block mt-1 w-full" type="number" name="nro_hermanos" required autofocus :value="old('nro_hermanos', $alumno->nro_hermanos)"/>
                     <x-input-error :messages="$errors->get('nro_hermanos')" class="mt-2" />
                 </div>
 

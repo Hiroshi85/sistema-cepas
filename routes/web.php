@@ -196,6 +196,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/postulante', PostulanteController::class);
         //Estudiantes
         Route::resource('/alumno', AlumnoController::class);
+        Route::get('/aula/alumnos/{idaula}/lista.pdf',[AlumnoController::class, 'loadSinglePdf'])->name('lista.pdf.show');
         //Aulas
         Route::resource('/aula', AulaController::class);
         //Entrevistas

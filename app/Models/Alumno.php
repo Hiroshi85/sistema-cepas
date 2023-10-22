@@ -47,4 +47,9 @@ class Alumno extends Model
     public function resultados(){
         return $this->hasMany(ResultadoPrueba::class,'alumno_id','idalumno');
     }
+
+    //Alumno has one postulante
+    public function postulante(){
+        return $this->hasOne(Postulante::class,'idpostulante','idpostulante');
+    }
 }
