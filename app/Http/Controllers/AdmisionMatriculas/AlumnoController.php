@@ -155,7 +155,7 @@ class AlumnoController extends Controller
     public function update(Request $request, $id)
     {
         try{
-        $data = $this->validateAlumno($request, $id, true);
+            $data = $this->validateAlumno($request, $id, true);
         } catch(ValidationException $e){
             session()->flash(
                 'toast',
@@ -167,16 +167,17 @@ class AlumnoController extends Controller
             return redirect()->back()->withErrors($e->validator)->withInput();
         }
         $alumno = Alumno::findOrFail($id);
-        $alumno->update($data);
-        // $alumno->idaula = $request->get('idaula');
-        // $alumno->nombre_apellidos = $request->get('nombre_apellidos');
-        // $alumno->fecha_nacimiento = $request->get('fecha_nacimiento');
-        // $alumno->dni =  $request->get('dni');
-        // $alumno->domicilio = $request->get('domicilio');
-        // $alumno->numero_celular = $request->get('numero_celular');
-        // $alumno->nro_hermanos = $request->get('nro_hermanos');
-        // $alumno->estado = $request->get('estado');
-        // $alumno->save();
+        // $alumno->update($data);
+        
+        $alumno->idaula = $request->get('idaula');
+        $alumno->nombre_apellidos = $request->get('nombre_apellidos');
+        $alumno->fecha_nacimiento = $request->get('fecha_nacimiento');
+        $alumno->dni =  $request->get('dni');
+        $alumno->domicilio = $request->get('domicilio');
+        $alumno->numero_celular = $request->get('numero_celular');
+        $alumno->nro_hermanos = $request->get('nro_hermanos');
+        $alumno->estado = $request->get('estado');
+        $alumno->save();
         
         if($alumno->estado == 'Matriculado') $this->registrarHistoriaMatricula($alumno);
       
@@ -221,6 +222,7 @@ class AlumnoController extends Controller
 
     protected function registrarHistoriaMatricula($alumno){
         $matricula = Matricula::where('eliminado', 0)->orderBy('idmatricula', 'desc')->first();
+      
         //if it is registered return
         if (
             AlumnoMatricula::where('idalumno', $alumno->idalumno)

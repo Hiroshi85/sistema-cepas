@@ -13,28 +13,28 @@ class MatriculaController extends Controller
 {
     private function validateMatricula(Request $request)
     {
-        $year = date('Y');
-        $startDate = "{$year}-01-01";
-        $endDate = "{$year}-12-31";
+        //$year = date('Y');
+       // $startDate = "{$year}-01-01";
+       // $endDate = "{$year}-12-31";
 
         return [
             'fecha_apertura' => [
                 'required',
                 'date',
-                function ($attribute, $value, $fail) use ($year, $startDate, $endDate) {
-                    if ($value < $startDate || $value > $endDate) {
-                        $fail("La fecha de apertura debe estar dentro del rango del año actual ({$year}).");
-                    }
-                },
+                // function ($attribute, $value, $fail) use ($year, $startDate, $endDate) {
+                //     if ($value < $startDate || $value > $endDate) {
+                //         $fail("La fecha de apertura debe estar dentro del rango del año actual ({$year}).");
+                //     }
+                // },
             ],
             'fecha_cierre' => [
                 'required',
                 'date',
-                function ($attribute, $value, $fail) use ($request, $year, $startDate, $endDate) {
-                    if ($value < $startDate || $value > $endDate) {
-                        $fail("La fecha de cierre debe estar dentro del rango del año actual ({$year}).");
-                    }
-
+                // function ($attribute, $value, $fail) use ($request, $startDate, $endDate) {
+                function ($attribute, $value, $fail) use ($request) {
+                    // if ($value < $startDate || $value > $endDate) {
+                    //     $fail("La fecha de cierre debe estar dentro del rango del año actual ({$year}).");
+                    // }
                     $fechaApertura = $request->input('fecha_apertura');
                     if ($value < $fechaApertura) {
                         $fail("La fecha de cierre no puede ser menor a la fecha de apertura.");

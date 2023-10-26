@@ -19,7 +19,7 @@ class DashboardController extends Controller
     {
         $matricula = Matricula::where('eliminado', 0)->orderBy('idmatricula', 'desc')->first();
         $admision = Admision::where('eliminado', 0)->orderBy('idadmision', 'desc')->first();
-        // if matricula cierre == now america latina then close matricula
+    
         if ($matricula != null)
             if ($matricula->fecha_cierre < now('America/Lima')->format('Y-m-d')) {
                 $matricula->estado = "Cerrada";
@@ -87,43 +87,44 @@ class DashboardController extends Controller
     public function seriesAvancePagos(){
         $admisiones = Admision::where('eliminado', 0)->orderBy('año', 'desc')->get();        
         $matriculas = Matricula::where('eliminado', 0)->orderBy('año', 'desc')->get();
-    
+        $lenAdmisiones = $admisiones->count();
+        $lenMatriculas = $matriculas->count();
+        
         $dataAdmisiones = [];
-        foreach ($admisiones as $admision) {
-            $pagadosPorAdmision = $admision->postulante_admisiones()->whereNot('resultado','En postulación')->count() * $admision->tarifa;
-            $esperadoAdmision = $admision->postulante_admisiones()->count() * $admision->tarifa;
-            $dataAdmisiones[] = 
-                [
+        $dataMatriculas = [];
+
+        $iteratorAdmision = 0;
+        $iteratorMatriculas = 0;
+        $n = $this->differentYears($admisiones, $matriculas);
+
+        for ($i = 0; $i < $n; $i++) {
+            $admision = $admisiones[$iteratorAdmision < $lenAdmisiones ? $iteratorAdmision : $lenAdmisiones-1];
+            $matricula = $matriculas[$iteratorMatriculas < $lenMatriculas ? $iteratorMatriculas : $lenMatriculas-1];
+
+            if ($admision->año == $matricula->año) {
+                $dataAdmisiones[] = $this->getDataAdmision($admision);
+                $dataMatriculas[] = $this->getDataMatriculas($matricula);
+                $iteratorAdmision++;
+                $iteratorMatriculas++;
+            } else if ($admision->año > $matricula->año) {
+                $dataAdmisiones[] = $this->getDataAdmision($admision);
+                $iteratorAdmision++;
+                $dataMatriculas[] =  [
                     'x' => $admision->año,
-                    'y' => $pagadosPorAdmision,
-                    'goals' => [
-                        [
-                            'name' => 'Objetivo',
-                            'value' => $esperadoAdmision,
-                            'strokeWidth' => 5,
-                            'strokeColor' => "#FFC964"
-                        ]
-                    ]
+                    'y' => 0,
+                    'goals' => []
                 ];
-        }
-        $dataMatriculas = []; 
-        foreach ($matriculas as $matricula) {
-            $pagadosPorMatricula = $matricula->alumno_matriculas()->count() * $matricula->tarifa;
-            $esperadoMatriculas = $matricula->total_alumnos * $matricula->tarifa;
-            $dataMatriculas[] = 
-                [
+            } else {
+                $dataMatriculas[] = $this->getDataMatriculas($matricula);
+                $iteratorMatriculas++;
+                $dataAdmisiones[] = [
                     'x' => $matricula->año,
-                    'y' => $pagadosPorMatricula,
-                    'goals' => [
-                        [
-                            'name' => 'Objetivo',
-                            'value' => $esperadoMatriculas,
-                            'strokeWidth' => 5,
-                            'strokeColor' => "#FFC964"
-                        ]
-                    ]
+                    'y' => 0,
+                    'goals' => []
                 ];
-        }   
+            }
+        }
+ 
         $series = [
             [
                 'name' => 'Pagos por admisión',
@@ -133,8 +134,54 @@ class DashboardController extends Controller
                 'data' => $dataMatriculas
             ]
         ];
+
         return response()->json([
             'series' => $series
         ]);
+    }
+    private function getDataMatriculas($matricula){
+        $pagadosPorMatricula = $matricula->alumno_matriculas()->count() * $matricula->tarifa;
+        $esperadoMatriculas = $matricula->total_alumnos * $matricula->tarifa;
+        $dataMatriculas =
+            [
+                'x' => $matricula->año,
+                'y' => $pagadosPorMatricula,
+                'goals' => [
+                    [
+                        'name' => 'Objetivo',
+                        'value' => $esperadoMatriculas,
+                        'strokeWidth' => 5,
+                        'strokeColor' => "#FFC964"
+                    ]
+                ]
+            ];
+        return $dataMatriculas;
+    }
+    private function getDataAdmision($admision){
+        $pagadosPorAdmision = $admision->postulante_admisiones()->whereNot('resultado', 'En postulación')->count() * $admision->tarifa;
+        $esperadoAdmision = $admision->postulante_admisiones()->count() * $admision->tarifa;
+        $dataAdmisiones =
+            [
+                'x' => $admision->año,
+                'y' => $pagadosPorAdmision,
+                'goals' => [
+                    [
+                        'name' => 'Objetivo',
+                        'value' => $esperadoAdmision,
+                        'strokeWidth' => 5,
+                        'strokeColor' => "#FFC964"
+                    ]
+                ]
+            ];
+        return $dataAdmisiones;
+    }
+
+    private function differentYears($admisiones, $matriculas){
+        $admisionesAños = $admisiones->pluck('año')->toArray();
+        $matriculasAños = $matriculas->pluck('año')->toArray();
+
+        $años = array_merge($admisionesAños, $matriculasAños);
+
+        return count(array_unique($años));
     }
 }
