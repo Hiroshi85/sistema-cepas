@@ -4,7 +4,7 @@ const config = {
     secondary: '#8592a3',
     success: '#22C55E',
     info: '#03c3ec',
-    warning: '#FFC964',
+    warning: '#BF8009',
     danger: '#ff3e1d',
     dark: '#233446',
     black: '#000',
@@ -21,6 +21,8 @@ const config = {
 var current = localStorage.getItem('theme');
 var color = current == "dark" ? config.colors.body : config.colors.primary;
 var growthChartOptions = {
+  series: [0],
+  labels: [''],
   chart: {
     height: 240,
     type: 'radialBar'
@@ -119,12 +121,12 @@ function gcThemeModeOptions(theme) {
 // Bar Chart - Actual vs Expected)
 // --------------------------------------------------------------------
 var optionsBarChart = {
-  // series: [
-  //   {
-  //     name: 'Actual'
-  //     // data: data
-  //   }
-  // ],
+  series: [
+    // {
+    //   name: 'Actual'
+    //   data: {}
+    // }
+  ],
   chart: {
     height: 350,
     type: 'bar'

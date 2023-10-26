@@ -160,9 +160,11 @@
                                             @endforeach
                                         </x-select-input>
                                     </form>
+                                    {{-- Gráfico --}}
                                     <div id="growthChart"></div>
+                                    {{-- Datos --}}
                                     <div class="text-center font-bold pt-4 mb-4">Estudiantes matriculados</div>
-                                    <div class="flex pt-2 gap-3 justify-between w-[280px] pb-4">
+                                    <div class="flex pt-2 gap-3 justify-between w-[280px] pb-4 px-4">
                                         <div class="flex">
                                           <div class="mt-2 mr-1">
                                             <span class="bg-green-500 p-2 rounded-lg">
@@ -187,12 +189,11 @@
                                 </div>
                                 {{-- llenar el ancho restante --}}
                                 <div class="w-full md:w-[67%] max-h-[390px] flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800 rounded py-3">
+                                    <div class="w-full h-[390px] flex items-center justify-center">
+                                       
+                                    </div>
                                     <div id="pagosBarChart" class="w-full"></div>
                                 </div>
-                                {{-- <div class="grow max-h-[390px] flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-800 rounded py-3">
-                                    <div class="text-center font-bold pt-4 mb-4">Pagos por matrículas</div>
-                                    <div id="pagosMatrBarChart" class="w-full"></div>
-                                </div> --}}
                             </div>
                         </article>
 
@@ -237,10 +238,10 @@
                 var matriculadosChart = growthChartOptions
                 matriculadosChart.series = [{{round($alumnos->where('estado',"Matriculado")->count()/$alumnos->count()*100, 0)}}]
                 matriculadosChart.labels = ['Matriculados']
-
                 var growthChart = new ApexCharts(document.querySelector('#growthChart'), matriculadosChart);
                 growthChart.render()
-
+                       
+               
                 //update chart whit select
                 document.getElementById('idaula').addEventListener('change', function(){
                     var idAula = document.getElementById('idaula').value;
@@ -263,22 +264,26 @@
                 // Bar Chart (Pagos de admisión y matrículas, actual pagados verificados vs meta según tarifa establecida)
                 // --------------------------------------------------------------------
                 var chartPagosAdmision = null
+                var optionsPagos = optionsBarChart
+                chartPagosAdmision = new ApexCharts(document.querySelector("#pagosBarChart"), optionsPagos);
+                chartPagosAdmision.render();
                 axios.post(
                         '{{route("admision-matriculas.dashboard.avancepagos")}}'
                     ).then(function (response){
-                        var optionsPagos = optionsBarChart
-                        optionsPagos.series = response.data.series
-                        optionsPagos.title = {
+                        
+                        const title = {
                             text: 'Avance de pagos por admisión y matrículas',
                             style: {
                                 fontSize: '14px',
                                 color: current == "dark" ? config.colors.white : config.colors.primary 
                             }
                         }
-                        chartPagosAdmision = new ApexCharts(document.querySelector("#pagosBarChart"), optionsPagos);
-                        chartPagosAdmision.render();
+                        chartPagosAdmision.updateOptions({
+                            series: response.data.series,
+                            title: title
+                        })
                     }).catch(function (error){
-                        console.log(error)
+                        console.log(error.message)
                 });
                 
                 //handle theme mode
