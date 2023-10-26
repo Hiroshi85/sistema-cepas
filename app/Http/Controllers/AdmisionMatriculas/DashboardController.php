@@ -180,7 +180,7 @@ class DashboardController extends Controller
         $admisionesAños = $admisiones->pluck('año')->toArray();
         $matriculasAños = $matriculas->pluck('año')->toArray();
 
-        $años = array_merge($admisionesAños, $matriculasAños);
+        $años = array_slice(array_merge($admisionesAños, $matriculasAños), 0, 5); //only the last 5 years
 
         return count(array_unique($años));
     }
