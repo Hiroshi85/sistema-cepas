@@ -116,7 +116,7 @@ class ApoderadoController extends Controller
             ]
         );
 
-        return redirect()->route('admision-matriculas.apoderado.index')->with('datos','stored');
+        return redirect()->route('apoderado.index')->with('datos','stored');
     }
 
     /**
@@ -186,7 +186,7 @@ class ApoderadoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('admision-matriculas.apoderado.index')->with('datos','updated');
+        return redirect()->route('apoderado.index')->with('datos','updated');
     }
 
     /**
@@ -206,7 +206,7 @@ class ApoderadoController extends Controller
             ]
         );
 
-        return redirect()->route('admision-matriculas.apoderado.index')->with('datos','deleted');
+        return redirect()->route('apoderado.index')->with('datos','deleted');
     }
 
     public function crear(){
