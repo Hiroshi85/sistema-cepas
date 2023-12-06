@@ -10,7 +10,7 @@ class AulaController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('role:secretario(a)|admin');
+        $this->middleware('role:secretario(a)|director(a)|admin');
     }
     /**
      * Display a listing of the resource.

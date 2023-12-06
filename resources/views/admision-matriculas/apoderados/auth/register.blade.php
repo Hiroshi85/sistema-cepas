@@ -5,7 +5,7 @@
         <div class="flex flex-row gap-1">
             <div class="basis-1/4">
                 <x-input-label for="dni" :value="__('DNI')" />
-                <x-text-input id="dni" class="w-full mt-1" type="text" name="dni" required autofocus />
+                <x-text-input id="dni" class="w-full mt-1" type="text" name="dni" :value="old('dni')"  required autofocus />
                 <x-input-error :messages="$errors->get('dni')" class="mt-2" />
             </div>
             
@@ -30,7 +30,7 @@
         <div class="flex flex-row gap-1 mt-4">
             <div class="basis-1/2">
                 <x-input-label for="fecha_nacimiento" :value="__('Fecha de nacimiento')" />
-                <x-text-input id="fecha_nacimiento" class="block mt-1 w-full" type="date" name="fecha_nacimiento" required autofocus />
+                <x-text-input id="fecha_nacimiento" class="block mt-1 w-full" type="date" name="fecha_nacimiento" :value="old('fecha_nacimiento')" required autofocus />
                 <x-input-error :messages="$errors->get('fecha_nacimiento')" class="mt-2" />
             </div>
             
@@ -38,14 +38,14 @@
             <!-- phone -->
             <div class="basis-1/2">
                 <x-input-label for="numero_celular" :value="__('Número de celular')" />
-                <x-text-input id="numero_celular" class="block mt-1 w-full" type="text" name="numero_celular" required autofocus />
+                <x-text-input id="numero_celular" class="block mt-1 w-full" type="text" name="numero_celular" :value="old('numero_celular')" required autofocus />
                 <x-input-error :messages="$errors->get('numero_celular')" class="mt-2" />
             </div>
         </div>
         <div class="flex flex-row gap-1 mt-4">
             <div class="basis-1/2">
                 <x-input-label for="ocupacion" :value="__('Ocupación')" />
-                <x-text-input id="ocupacion" class="block mt-1 w-full" type="text" name="ocupacion" required autofocus />
+                <x-text-input id="ocupacion" class="block mt-1 w-full" type="text" name="ocupacion" :value="old('ocupacion')" required autofocus />
                 <x-input-error :messages="$errors->get('ocupacion')" class="mt-2" />
             </div>
             
@@ -53,7 +53,7 @@
             <!-- phone -->
             <div class="basis-1/2">
                 <x-input-label for="centro_trabajo" :value="__('Centro de trabajo')" />
-                <x-text-input id="centro_trabajo" class="block mt-1 w-full" type="text" name="centro_trabajo" required autofocus />
+                <x-text-input id="centro_trabajo" class="block mt-1 w-full" type="text" name="centro_trabajo" :value="old('centro_trabajo')" required autofocus />
                 <x-input-error :messages="$errors->get('centro_trabajo')" class="mt-2" />
             </div>
         </div>

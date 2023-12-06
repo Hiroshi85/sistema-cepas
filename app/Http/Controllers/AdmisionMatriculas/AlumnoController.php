@@ -57,7 +57,7 @@ class AlumnoController extends Controller
     public function index(Request $request)
     {
 
-        $autoridad = session()->get('authUser')->hasAnyRole(['secretario(a)','admin']);
+        $autoridad = session()->get('authUser')->hasAnyRole(['secretario(a)', 'director(a)','admin']);
     
         $aulas = null; 
         $grado = null; 
@@ -190,7 +190,7 @@ class AlumnoController extends Controller
             ]
         );
 
-        return redirect()->route('alumno.index')->with('datos','updated');
+        return redirect()->back()->with('datos','updated');
     }
 
     /**

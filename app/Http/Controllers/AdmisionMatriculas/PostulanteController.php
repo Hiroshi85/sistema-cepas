@@ -39,7 +39,7 @@ class PostulanteController extends Controller
 
     public function index(Request $request)
     {   
-        $autoridad = session()->get('authUser')->hasAnyRole(['secretario(a)', 'admin']);
+        $autoridad = session()->get('authUser')->hasAnyRole(['secretario(a)', 'director(a)', 'admin']);
         $aulas = Aula::where('nro_vacantes_disponibles', '>', 0)->orderBy('seccion')->orderBy('grado')->get();
         $apoderados = null;
 

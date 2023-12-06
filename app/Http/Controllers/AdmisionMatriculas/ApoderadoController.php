@@ -116,7 +116,7 @@ class ApoderadoController extends Controller
             ]
         );
 
-        return redirect()->route('apoderado.index')->with('datos','stored');
+        return redirect()->route('admision-matriculas.apoderado.index')->with('datos','stored');
     }
 
     /**
@@ -186,7 +186,7 @@ class ApoderadoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('apoderado.index')->with('datos','updated');
+        return redirect()->route('admision-matriculas.apoderado.index')->with('datos','updated');
     }
 
     /**
@@ -206,11 +206,11 @@ class ApoderadoController extends Controller
             ]
         );
 
-        return redirect()->route('apoderado.index')->with('datos','deleted');
+        return redirect()->route('admision-matriculas.apoderado.index')->with('datos','deleted');
     }
 
     public function crear(){
-        return view('apoderados.auth.register');
+        return view('admision-matriculas.apoderados.auth.register');
     }
 
     public function registerApoderado(Request $request): RedirectResponse
@@ -235,7 +235,7 @@ class ApoderadoController extends Controller
 
         // $role = Role::firstOrCreate(['name' => 'apoderado']); 
         $user->assignRole('apoderado');
-        
+
         $apoderado = new Apoderado();
         $apoderado->nombre_apellidos = $request->get('name');
         $apoderado->fecha_nacimiento = $request->get('fecha_nacimiento');
@@ -252,7 +252,9 @@ class ApoderadoController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-
+        $authUser = User::find(Auth::user()->id);
+        $request->session()->put('authUser', $authUser);
+      
         return redirect('/admision-matriculas');
     }
 }

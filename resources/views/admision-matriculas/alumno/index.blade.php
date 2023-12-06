@@ -49,7 +49,7 @@
                         <x-primary-button class="max-h-8 self-end">
                             {{ __('Mostrar') }}
                         </x-primary-button>
-                        <a href="{{ route('lista.pdf.show', $grado->idaula) }}" class="flex flex-col text-center justify-center fixed bottom-5 right-5 text-gray-100 dark:text-gray-800 bg-gray-800 dark:bg-slate-100 rounded rounded-full w-12 h-12 p-4">
+                        <a href="{{ route('lista.pdf.show', $grado->idaula) }}" class="flex flex-col text-center justify-center fixed bottom-5 right-5 text-gray-100 dark:text-gray-800 bg-gray-800 dark:bg-slate-100 rounded-full w-12 h-12 p-4">
                             <i class="fa-solid fa-file-pdf text-2xl"></i>
                         </a>
                     </div>
@@ -64,7 +64,7 @@
                         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                           <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                             <div class="overflow-hidden">
-                              <table class="min-w-full text-left text-sm font-light pb-16 text-center">
+                              <table class="min-w-full text-sm font-light pb-16 text-center">
                                 <thead class="border-b font-medium dark:border-neutral-500 dark:bg-slate-900">
                                   <tr>
                                     <th scope="col" class="px-6 py-4">#</th>

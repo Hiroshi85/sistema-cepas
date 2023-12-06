@@ -17,7 +17,7 @@ class EntrevistaController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('role:secretario(a)|admin');
+        $this->middleware('role:secretario(a)|admin|director(a)');
     }
 
     private function validateEntrevista(Request $request, $update = false){
