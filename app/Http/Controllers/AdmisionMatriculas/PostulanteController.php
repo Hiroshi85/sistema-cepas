@@ -15,6 +15,7 @@ use App\Models\PostulanteAdmision;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class PostulanteController extends Controller
 {
@@ -93,8 +94,19 @@ class PostulanteController extends Controller
     {
         $autoridad = session()->get('authUser')->hasAnyRole(['secretario(a)', 'admin']);
 
-        $data = $this->validateFields($request);
-       
+        try {
+            $data = $this->validateFields($request);
+        }catch(ValidationException $e){
+            session()->flash(
+                'toast',
+                [
+                  'message' => $e->getMessage(),
+                  'type' => 'error',
+                ]
+            );
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
+      
         $postulante = new Postulante();
         $postulante->nombre_apellidos = $request->get('nombre_apellidos');
         $postulante->fecha_nacimiento = $request->get('fecha_nacimiento');
@@ -205,7 +217,18 @@ class PostulanteController extends Controller
         
         $postulante = Postulante::findOrFail($id);
         
-        $data = $this->validateFields($request, $postulante->idpostulante);
+        try {
+            $data = $this->validateFields($request, $postulante->idpostulante);
+        }catch(ValidationException $e){
+            session()->flash(
+                'toast',
+                [
+                  'message' => $e->getMessage(),
+                  'type' => 'error',
+                ]
+            );
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }
 
         $postulante->nombre_apellidos = $request->get('nombre_apellidos');
         $postulante->fecha_nacimiento = $request->get('fecha_nacimiento');

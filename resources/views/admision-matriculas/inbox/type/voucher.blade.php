@@ -9,12 +9,12 @@
         <!--Modal body-->
             <div class="flex flex-col w-full p-4 md:basis-1/2">
                 <label for="voucher">
-                    <img id="preview-image" src="{{ asset($selectedNotification->data['voucher']['voucher']) }}" alt="document" class="mx-auto border dark:border-neutral-700 min-w-[40vh] max-w-[50%] md:max-w-[50%] h-auto">      
+                    <img id="preview-image" src="{{ asset($selectedNotification->data['voucher']['voucher']) }}" alt="document" class="mx-auto border dark:border-neutral-700 w-full max-w-[300px]">      
                 </label>
               
                 <div class="mt-4 basis-1 px-2 h-[40px]">
                     <x-text-input
-                    class="m-0 w-nfull min-w-0 flex-auto cursor-pointer rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] font-normal leading-[2.15] text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-gray-200 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-gray-300 focus:border-primary focus:text-gray-700 focus:shadow-te-primary focus:outline-none dark:border-gray-500 dark:text-neutral-200 dark:file:bg-gray-800 dark:file:text-neutral-100 dark:focus:border-primary"
+                    class="m-0 w-nfull min-w-0 flex-auto cursor-pointer rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] font-normal leading-[2.15] text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-gray-200 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-gray-300 focus:border-primary focus:text-gray-700 focus:shadow-te-primary focus:outline-none dark:border-gray-500 dark:text-neutral-200 dark:file:bg-gray-800 dark:file:text-neutral-100 dark:focus:border-primary w-full"
                     id="voucher"
                     name="voucher"
                     onchange="previewImage(event)"
