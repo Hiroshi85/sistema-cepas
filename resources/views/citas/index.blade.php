@@ -30,13 +30,20 @@
                                 <div class="py-2 px-6">
                                     <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">{{Str::ucfirst($it->fechaHoraInicio->dayName).', '.$it->fechaHoraInicio->format('d/m/Y')}}</h3>
                                     <p class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">{{$it->fechaHoraInicio->format('H:i')." - ". $it->fechaHoraFin->format('H:i')." (".$it->duracionMinutos." minutos)"}}</p>
-                                    @if($it->esCancelado || (isset($it->fueRealizado) && !$it->fueRealizado))
-                                        <p class="text text-red-8s00 dark:text-gray-300 font-semibold mb-1"> Cancelado </p>
-                                    @elseif ($it->fueRealizado)
-                                        <p class="text text-green-800 dark:text-gray-300 font-semibold mb-1"> Realizado </p>
-                                    @else
-                                        <p class="text text-sky-800 dark:text-gray-300 font-semibold mb-1"> Programado </p>
-                                    @endif
+                                    @switch($it->estado)
+                                        @case("programado")
+                                            <p class="text text-sky-700 dark:text-gray-300 font-semibold mb-1"> {{Str::ucfirst($it->estado)}} </p>
+                                            @break
+                                        @case("realizado")
+                                            <p class="text text-green-700 dark:text-gray-300 font-semibold mb-1"> {{Str::ucfirst($it->estado)}} </p>
+                                            @break
+                                        @case("cancelado")
+                                            <p class="text text-red-700 dark:text-gray-300 font-semibold mb-1"> {{Str::ucfirst($it->estado)}} </p>
+                                            @break
+                                        @case("ausentado")
+                                            <p class="text text-fuchsia-700 dark:text-gray-300 font-semibold mb-1"> {{Str::ucfirst($it->estado)}} </p>
+                                            @break
+                                    @endswitch
                                     <p class="text text-gray-800 dark:text-gray-300">Aula: {{$it->grado.$it->seccion}}</p>
                                     <p class="text text-gray-800 dark:text-gray-300">Apoderado: {{$it->apoderado}}</p>
                                     <p class="text text-gray-800 dark:text-gray-300">Contacto: {{$it->numero_celular}}</p>

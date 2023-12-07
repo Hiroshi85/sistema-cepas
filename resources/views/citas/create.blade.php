@@ -60,6 +60,7 @@
                                     </select>
                             </div>
 
+
                           <div class="col-span-1 lg:col-span-4">
                             <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 border border-blue-500 rounded shadow">
                               Crear nueva cita

@@ -16,6 +16,8 @@ class CitaController extends Controller
     {
         $this->middleware('role:auxiliar|psicologo|admin');
     }
+
+    private array $ESTADOS = ['programado', 'realizado', 'cancelado', 'ausentado'];
     /**
      * Display a listing of the resource.
      */
@@ -48,8 +50,6 @@ class CitaController extends Controller
         $citador = Auth::user()->id;
         $fecha = $request->input('fecha');
         $motivo = $request->input('motivo');
-        $esCancelado = false;
-        $fueRealizado = null;
         $horaInicio = $request->input('horaInicio');
         $duracion = $request->input('duracion');
         // dd($duracion);
@@ -65,7 +65,7 @@ class CitaController extends Controller
         }
         // dd($hayChoque);
 
-        $cita = Cita::crearCita($idalumno, $apoderado, $citador, $motivo, $esCancelado, $fueRealizado, $fechaHoraInicio, $fechaHoraFin, $duracion);
+        $cita = Cita::crearCita($idalumno, $apoderado, $citador, $motivo, $fechaHoraInicio, $fechaHoraFin, $duracion);
 
         return redirect()->route('citas.index')->with('success', 'Cita creada exitosamente');
     }
@@ -83,7 +83,8 @@ class CitaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $cita = Cita::getCitaById($id);
+        return view('citas.edit', ['cita' => $cita, "estados" => $this->ESTADOS]);
     }
 
     /**
@@ -91,7 +92,27 @@ class CitaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+        $cita = Cita::getCitaById($id);
+        $fecha = $request->input('fecha');
+        $motivo = $request->input('motivo');
+        $horaInicio = $request->input('horaInicio');
+        $duracion = $request->input('duracion');
+        $estado = $request->input('estado');
+        if(!in_array($estado, $this->ESTADOS)){
+            $estado = $this->ESTADOS[0];
+        }
+        $fechaHoraIniTemp = $fecha . ' ' . $horaInicio;
+        $fechaHoraInicio = Carbon::parse($fechaHoraIniTemp);
+        $fechaHoraFin = Carbon::parse($fechaHoraIniTemp)->addMinutes($duracion);
+
+        $hayChoque = $this->validarHoraNuevaCita($fechaHoraInicio, $fechaHoraFin, true, $id);
+        if($hayChoque){
+            return redirect()->route('citas.edit', $id)->with('error', 'Ya existe una cita en ese horario o hay cruce de horarios');
+        }
+
+        Cita::actualizarCita($id, $cita->alumno_id, $cita->apoderado_id, $cita->citador_id, $motivo, $estado, $fechaHoraInicio, $fechaHoraFin, $duracion);
+        return redirect()->route('citas.index')->with('success', 'Cita actualizada exitosamente');
     }
 
     /**
@@ -121,7 +142,7 @@ class CitaController extends Controller
         ];
     }
 
-    private function validarHoraNuevaCita($fechaHoraInicio, $fechaHoraFin) {
+    private function validarHoraNuevaCita($fechaHoraInicio, $fechaHoraFin, $isUpdate = false, $cita_id = null) {
         // Filtrar las citas del mismo día
         $id = Auth::user()->id;
         $citas = Cita::listarCitas($id);
@@ -129,8 +150,13 @@ class CitaController extends Controller
         $citasHoy = [];
         $hoy = Carbon::now();
         foreach($citas as $it){
-            if($it->fechaHoraInicio->isSameDay($hoy))
+            if($isUpdate){
+                if($it->fechaHoraInicio->isSameDay($hoy) && $it->id != $cita_id && $it->estado != 'cancelado')
                 array_push($citasHoy, $it);
+            }else{
+                if($it->fechaHoraInicio->isSameDay($hoy) && $it->estado != 'cancelado')
+                array_push($citasHoy, $it);
+            }
         }
 
 
