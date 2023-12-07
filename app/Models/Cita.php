@@ -10,7 +10,7 @@ class Cita extends Model
     use HasFactory;
     protected $table = 'citas';
     protected $primaryKey = 'id';
-    protected $fillable = ['alumno_id','apoderado_id','citador_id','motivo','esCancelado','fueRealizado','fechaHoraInicio','fechaHoraFin','duracionMinutos'];
+    protected $fillable = ['alumno_id','apoderado_id','citador_id','motivo','fechaHoraInicio','fechaHoraFin','duracionMinutos', 'estado'];
     public $timestamps = true;
 
     public static function listarCitas(int $idCitador = 0){
@@ -19,7 +19,7 @@ class Cita extends Model
             ->join('aulas as au', 'al.idaula', 'au.idaula')
             ->join('apoderados as ap', 'citas.apoderado_id', 'ap.idapoderado')
             ->join('users as u', 'citas.citador_id', 'u.id')
-            ->select('citas.id', 'al.nombre_apellidos as alumno', 'u.name as citador', 'ap.nombre_apellidos as apoderado','ap.numero_celular','motivo', 'esCancelado', 'fueRealizado', 'fechaHoraInicio', 'fechaHoraFin', 'duracionMinutos', 'grado', 'seccion')
+            ->select('citas.id', 'al.nombre_apellidos as alumno', 'u.name as citador', 'ap.nombre_apellidos as apoderado','ap.numero_celular','motivo', 'citas.estado', 'fechaHoraInicio', 'fechaHoraFin', 'duracionMinutos', 'grado', 'seccion')
             ->where('citas.citador_id', $idCitador)
             ->get();
         }
@@ -28,7 +28,7 @@ class Cita extends Model
         ->join('aulas as au', 'al.idaula', 'au.idaula')
         ->join('apoderados as ap', 'citas.apoderado_id', 'ap.idapoderado')
         ->join('users as u', 'citas.citador_id', 'u.id')
-        ->select('citas.id', 'al.nombre_apellidos as alumno', 'u.name as citador', 'ap.nombre_apellidos as apoderado','ap.numero_celular','motivo', 'esCancelado', 'fueRealizado', 'fechaHoraInicio', 'fechaHoraFin', 'duracionMinutos', 'grado', 'seccion')
+        ->select('citas.id', 'al.nombre_apellidos as alumno', 'u.name as citador', 'ap.nombre_apellidos as apoderado','ap.numero_celular','motivo', 'citas.estado', 'fechaHoraInicio', 'fechaHoraFin', 'duracionMinutos', 'grado', 'seccion')
         ->get();
     }
 
@@ -37,48 +37,38 @@ class Cita extends Model
         ->join('apoderados as ap', 'citas.apoderado_id', 'ap.idapoderado')
         ->join('users as u', 'citas.citador_id', 'u.id')
         ->join('aulas as a', 'al.idaula', 'a.idaula')
-        ->select('citas.id', 'al.nombre_apellidos as alumno', 'u.name as citador', 'ap.nombre_apellidos as apoderado','ap.numero_celular','a.grado','a.seccion','motivo', 'esCancelado', 'fueRealizado', 'fechaHoraInicio', 'fechaHoraFin', 'duracionMinutos')
+        ->select('citas.id', 'alumno_id', 'apoderado_id', 'u.id as citador_id', 'al.nombre_apellidos as alumno', 'u.name as citador', 'ap.nombre_apellidos as apoderado','ap.numero_celular','a.grado','a.seccion','motivo', 'citas.estado', 'fechaHoraInicio', 'fechaHoraFin', 'duracionMinutos')
         ->where('citas.id', $id)
         ->first();
     }
 
-    public static function crearCita(string $alumno_id, string $apoderado_id, string $citador_id, string $motivo, bool $esCancelado, $fueRealizado, string $fechaHoraInicio, string $fechaHoraFin, string $duracion): Cita{
+    public static function crearCita(string $alumno_id, string $apoderado_id, string $citador_id, string $motivo, string $fechaHoraInicio, string $fechaHoraFin, string $duracion): Cita{
         return Cita::create([
             'alumno_id' => $alumno_id,
             'apoderado_id' => $apoderado_id,
             'citador_id' => $citador_id,
             'motivo' => $motivo,
-            'esCancelado' => $esCancelado,
-            'fueRealizado' => $fueRealizado,
             'fechaHoraInicio' => $fechaHoraInicio,
             'fechaHoraFin' => $fechaHoraFin,
             'duracionMinutos' => $duracion,
         ]);
     }
 
-    public static function actualizarCita(string $id, string $alumno_id, string $apoderado_id, string $citador_id, string $motivo, bool $esCancelado, bool $fueRealizado, string $fechaHoraInicio, string $fechaHoraFin, int $duracion): void{
+    public static function actualizarCita(string $id, string $alumno_id, string $apoderado_id, string $citador_id, string $motivo, string $estado , string $fechaHoraInicio, string $fechaHoraFin, int $duracion): void{
         Cita::where('id', $id)->update([
             'alumno_id' => $alumno_id,
             'apoderado_id' => $apoderado_id,
             'citador_id' => $citador_id,
             'motivo' => $motivo,
-            'esCancelado' => $esCancelado,
-            'fueRealizado' => $fueRealizado,
+            'estado' => $estado,
             'fechaHoraInicio' => $fechaHoraInicio,
             'fechaHoraFin' => $fechaHoraFin,
             'duracionMinutos' => $duracion,
         ]);
     }
 
-    public static function cancelarCita(string $id, bool $esCancelado){
-        Cita::where('id', $id)->update([
-            'esCancelado' => $esCancelado,
-            'fueRealizado' => false
-        ]);
-    }
-
     public static function eliminarCita(string $id): void{
-        Cita::destroy($id);
+        Cita::where('id', $id)->delete();
     }
 
     public function getFechaHoraInicioAttribute($date){
