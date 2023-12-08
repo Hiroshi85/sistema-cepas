@@ -18,7 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('citador_id');
 
             $table->string("motivo")->nullable();
-            $table->string("estado", 20)->default("programado");
+            $table->boolean("esCancelado")->default(false);
+            $table->boolean("fueRealizado")->nullable();
             $table->dateTime("fechaHoraInicio");
             $table->dateTime("fechaHoraFin");
             $table->tinyInteger("duracionMinutos")->nullable();

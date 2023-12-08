@@ -13,7 +13,7 @@ use App\Http\Controllers\PostulacionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PuestoController;
 
-//ADMISION Y MATRICULAS
+//ADMISION Y MATRICULAS 
 use App\Http\Controllers\AdmisionMatriculas\DashboardController;
 use App\Http\Controllers\AdmisionMatriculas\AdmisionController;
 use App\Http\Controllers\AdmisionMatriculas\AlumnoController;
@@ -51,7 +51,6 @@ use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\SesionPruebaController;
 use App\Http\Controllers\SancionController;
-use App\Http\Controllers\CitaController;
 
 // Materiales Escolares
 use App\Http\Controllers\FacturaController;
@@ -85,7 +84,7 @@ Route::get('/dashboard', function () {
         case 'apoderado':
             return redirect()->route('admision-matriculas.dashboard');
             break;
-
+        
         default:
             return view('dashboard');
             break;
@@ -122,8 +121,6 @@ Route::prefix('seguimiento')->middleware('auth')->group(function () {
     Route::get('sesiones/showAnual', [SesionPruebaController::class, 'showReporteAnual'])->name('sesiones.showAnual');
     Route::resource('sesiones', SesionPruebaController::class);
     Route::resource('sanciones', SancionController::class);
-    Route::get('citas/alumnoApoderado', [CitaController::class, 'getAlumnoApoderado'])->name('citas.alumnoapoderado');
-    Route::resource('citas', CitaController::class);
 });
 
 //RRHH
