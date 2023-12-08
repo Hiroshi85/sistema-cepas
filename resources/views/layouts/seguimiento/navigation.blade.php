@@ -47,6 +47,11 @@
                             {{ __('Sesiones') }}
                         </x-nav-link>
                     @endrole
+                    @role('admin|psicologo|auxiliar')
+                        <x-nav-link :href="route('citas.index')" :active="request()->routeIs('citas.index')">
+                            {{ __('Citas') }}
+                        </x-nav-link>
+                    @endrole
                 </div>
             </div>
 
@@ -136,6 +141,11 @@
             @role('admin|psicologo')
                 <x-responsive-nav-link :href="route('sesiones.index')" :active="request()->routeIs('sesiones.index')">
                     {{ __('Sesiones') }}
+                </x-responsive-nav-link>
+            @endrole
+            @role('admin|psicologo|auxiliar')
+                <x-responsive-nav-link :href="route('citas.index')" :active="request()->routeIs('citas.index')">
+                    {{ __('Citas') }}
                 </x-responsive-nav-link>
             @endrole
         </div>
