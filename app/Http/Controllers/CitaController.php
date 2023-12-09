@@ -48,7 +48,8 @@ class CitaController extends Controller
         $alumno = Alumno::getAlumnoById($idalumno);
         $apoderado = ApoderadoPostulante::getItemPorIdPostulante($alumno->idpostulante)->idapoderado;
         $citador = Auth::user()->id;
-        $fecha = $request->input('fecha');
+        $fecha = $request->input('date');
+
         $motivo = $request->input('motivo');
         $horaInicio = $request->input('horaInicio');
         $duracion = $request->input('duracion');
@@ -94,7 +95,7 @@ class CitaController extends Controller
     {
 
         $cita = Cita::getCitaById($id);
-        $fecha = $request->input('fecha');
+        $fecha = $request->input('date');
         $motivo = $request->input('motivo');
         $horaInicio = $request->input('horaInicio');
         $duracion = $request->input('duracion');

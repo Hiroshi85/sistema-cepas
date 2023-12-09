@@ -62,7 +62,7 @@ use App\Http\Controllers\ProveedorController;
 
 // ACADEMIA
 use App\Http\Controllers\Academia\SolicitudController;
-
+use App\Http\Controllers\SeguimientoDashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,9 +95,7 @@ Route::get('/dashboard', function () {
 
 //Seguimiento Escolar
 Route::prefix('seguimiento')->middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return view('seguimiento-dashboard');
-    })->name('seguimiento.dashboard');
+    Route::get('/', [SeguimientoDashboard::class, 'index'])->name('seguimiento.dashboard');
     Route::resource('asistenciaxdias', AsistenciaXDiaController::class);
     Route::resource('pruebas', PruebaPsicologicaController::class);
     Route::resource('conductas', ConductaController::class);
