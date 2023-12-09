@@ -34,4 +34,8 @@ class Sancion extends Model
     public static function eliminarSancion($id){
         $sancion=Sancion::destroy($id);
     }
+
+    public function comportamientos(){
+        return $this->hasMany(Comportamiento::class, 'sancion_id', 'id');
+    }
 }
