@@ -15,8 +15,8 @@ class ComportamientoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('role:auxiliar|admin|Docente')->except(['generarReporteBimestral']);
-        $this->middleware('role:auxiliar|admin')->only(['generarReporteBimestral']);
+        $this->middleware('role:auxiliar|admin|Docente')->except(['generarReporteBimestral', 'generarActa']);
+        $this->middleware('role:auxiliar|admin')->only(['generarReporteBimestral', 'generarActa']);
     }
 
     /**
@@ -79,6 +79,18 @@ class ComportamientoController extends Controller
         $alumnos = Alumno::buscarAlumnoPorString($nom_alumno);
         error_log($alumnos);
         return ['alumnos' => $alumnos];
+    }
+
+    public function generarActa(string $id){
+        $comportamiento = Comportamiento::getComportamiento($id);
+        $nombreResponsable = Auth::user()->name;
+        if(!$comportamiento){
+            return response()->json(['message'=>'No se encontró el comportamiento'], 404);
+        }
+        $hoy = Carbon::now();
+        $pdf = Pdf::loadView('sancion.pdf.acta', compact('comportamiento', 'hoy', 'nombreResponsable'));
+        $nombre_archivo = 'acta-'.$id.'.pdf';
+        return $pdf->stream($nombre_archivo);
     }
 
     public function generarReporteBimestral(Request $req, string $id){
