@@ -3,18 +3,19 @@
         <h2 class="flex-1 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ $sesion->prueba.' - '.$sesion->grado.$sesion->seccion }}
         </h2>
+
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-6">
         <div class="mx-auto sm:px-6 lg:px-8">
-            {{-- <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-5">
-                <div class="px-6 py-4 text-gray-900 dark:text-gray-100 flex justify-start">
-                    <p class="text-gray-800 dark:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow hover:bg-gray-200"
-                    >
-                        Crear nueva sesión
-                    </p>
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-5">
+                <div class="px-6 py-2 text-gray-900 dark:text-gray-100 flex justify-end">
+                    <a class="text-gray-800 dark:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow hover:bg-gray-200"
+                    href="{{route('sesiones.index')}}">
+                        Regresar
+                    </a>
                 </div>
-            </div> --}}
+            </div>
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{-- Tabla --}}

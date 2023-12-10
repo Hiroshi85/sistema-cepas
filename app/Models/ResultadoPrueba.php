@@ -20,7 +20,7 @@ class ResultadoPrueba extends Model
         ]);
     }
 
-    public static function actualizarResultado(string $id, string $alumno_id, float $puntaje, string $observacion, string $recomendacion, string $estado_resultado_prueba_id, Datetime $fecha_evaluado){
+    public static function actualizarResultado(string $id, string $alumno_id, float $puntaje, string $observacion, ?string $recomendacion, string $estado_resultado_prueba_id, Datetime $fecha_evaluado){
         $resultado = ResultadoPrueba::buscarResultado($id, $alumno_id);
         ResultadoPrueba::where('sesion_prueba_id', $id)->where('alumno_id', $alumno_id)
         ->update(['puntaje'=> $puntaje,
