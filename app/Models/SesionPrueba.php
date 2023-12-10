@@ -32,10 +32,14 @@ class SesionPrueba extends Model
     }
 
     public static function obtenerSesion(int $id){
-        return SesionPrueba::select('sesion_prueba.*', 'users.name AS psicologo', 'prueba_psicologica.nombre AS prueba', 'aulas.grado AS grado', 'aulas.seccion AS seccion')
-        ->join('users', 'sesion_prueba.psicologo_id', '=', 'users.id')
-        ->join('prueba_psicologica', 'sesion_prueba.prueba_psicologica_id', '=', 'prueba_psicologica.id')
-        ->join('aulas', 'sesion_prueba.aula_id', '=', 'aulas.idaula')
+        return SesionPrueba::select('sesion_prueba.id', 'sesion_prueba.completado', 'sesion_prueba.created_at','users.name AS psicologo', 'prueba_psicologica.nombre AS prueba', 'aulas.grado AS grado', 'aulas.seccion AS seccion',
+        DB::raw('count(CASE WHEN resultado_prueba.fecha_evaluado is NOT NULL THEN 1 END) as total_evaluados'),
+        DB::raw('count(CASE WHEN resultado_prueba.fecha_evaluado is NULL THEN 1 END) as total_no_evaluados'))
+        ->join('users', 'sesion_prueba.psicologo_id', 'users.id')
+        ->join('prueba_psicologica', 'sesion_prueba.prueba_psicologica_id', 'prueba_psicologica.id')
+        ->join('resultado_prueba', 'sesion_prueba.id', 'resultado_prueba.sesion_prueba_id')
+        ->join('aulas', 'sesion_prueba.aula_id', 'aulas.idaula')
+        ->groupBy('sesion_prueba.id', 'sesion_prueba.completado', 'sesion_prueba.created_at', 'users.name', 'prueba_psicologica.nombre', 'aulas.grado', 'aulas.seccion')
         ->where('sesion_prueba.id', $id)
         ->first();
     }
