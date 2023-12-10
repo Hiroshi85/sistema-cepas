@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 use \Datetime;
 use Barryvdh\DomPDF\Facade\Pdf;
 
+use function PHPUnit\Framework\isEmpty;
+
 class SesionPruebaController extends Controller
 {
     public function __construct()
@@ -75,6 +77,9 @@ class SesionPruebaController extends Controller
     {
         $resultados = ResultadoPrueba::listarResultadosDeSesion($id);
         $sesion = SesionPrueba::obtenerSesion($id);
+        if(empty($sesion)){
+            return redirect()->route('sesiones.index');
+        }
         error_log($resultados);
         // error_log($sesion);
         return view('sesiones.show', ['resultados' => $resultados, 'sesion' => $sesion]);
@@ -126,6 +131,9 @@ class SesionPruebaController extends Controller
         $resultado = ResultadoPrueba::obtenerResultadoDeAlumno($id, $alumno_id);
         $estados = EstadoResultadoPrueba::listarEstados();
         $sesion = SesionPrueba::obtenerSesion($id);
+        if(empty($sesion)){
+            return redirect()->route('sesiones.index');
+        }
         error_log($resultado);
         return view('sesiones.evaluar', ['resultado' => $resultado, 'estados' => $estados, 'sesion' => $sesion]);
     }

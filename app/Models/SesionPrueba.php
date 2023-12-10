@@ -23,6 +23,7 @@ class SesionPrueba extends Model
         ->join('prueba_psicologica', 'sesion_prueba.prueba_psicologica_id', 'prueba_psicologica.id')
         ->join('resultado_prueba', 'sesion_prueba.id', 'resultado_prueba.sesion_prueba_id')
         ->join('aulas', 'sesion_prueba.aula_id', 'aulas.idaula')
+        ->where('sesion_prueba.psicologo_id', auth()->user()->id)
         ->groupBy('sesion_prueba.id', 'sesion_prueba.completado', 'sesion_prueba.created_at', 'users.name', 'prueba_psicologica.nombre', 'aulas.grado', 'aulas.seccion')
         ->get();
     }
@@ -41,6 +42,7 @@ class SesionPrueba extends Model
         ->join('aulas', 'sesion_prueba.aula_id', 'aulas.idaula')
         ->groupBy('sesion_prueba.id', 'sesion_prueba.completado', 'sesion_prueba.created_at', 'users.name', 'prueba_psicologica.nombre', 'aulas.grado', 'aulas.seccion')
         ->where('sesion_prueba.id', $id)
+        ->where('sesion_prueba.psicologo_id', auth()->user()->id)
         ->first();
     }
 
@@ -62,6 +64,20 @@ class SesionPrueba extends Model
 
     public static function eliminarSesion(string $id): void {
         SesionPrueba::destroy($id);
+    }
+
+    public static function listarSesionesNoCompletadas(){
+        return SesionPrueba::select('sesion_prueba.id', 'sesion_prueba.completado', 'sesion_prueba.created_at','users.name AS psicologo', 'prueba_psicologica.nombre AS prueba', 'aulas.grado AS grado', 'aulas.seccion AS seccion',
+        DB::raw('count(CASE WHEN resultado_prueba.fecha_evaluado is NOT NULL THEN 1 END) as total_evaluados'),
+        DB::raw('count(CASE WHEN resultado_prueba.fecha_evaluado is NULL THEN 1 END) as total_no_evaluados'))
+        ->join('users', 'sesion_prueba.psicologo_id', 'users.id')
+        ->join('prueba_psicologica', 'sesion_prueba.prueba_psicologica_id', 'prueba_psicologica.id')
+        ->join('resultado_prueba', 'sesion_prueba.id', 'resultado_prueba.sesion_prueba_id')
+        ->join('aulas', 'sesion_prueba.aula_id', 'aulas.idaula')
+        ->where('sesion_prueba.psicologo_id', auth()->user()->id)
+        ->where('sesion_prueba.completado', 0)
+        ->groupBy('sesion_prueba.id', 'sesion_prueba.completado', 'sesion_prueba.created_at', 'users.name', 'prueba_psicologica.nombre', 'aulas.grado', 'aulas.seccion')
+        ->get();
     }
 
     public function psicologo()
