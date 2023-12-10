@@ -32,7 +32,7 @@
                                     <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Psicologo</th>
                                     <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Aula</th>
                                     <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Fecha Inicio</th>
-                                    <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Completado</th>
+                                    <th class="px-2 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Progreso</th>
                                     <th class="px-6 py-3 text-center text-md font-semibold text-gray-500 uppercase tracking-wider">Opciones</th>
 
                                 </tr>
@@ -45,7 +45,21 @@
                                     <td class="px-6 py-4 whitespace-nowrap">{{$item->psicologo}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{$item->grado.$item->seccion}}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{$item->created_at->format('d-m-Y')}}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">@if ($item->completado == 1) Si @else No @endif</td>
+                                    <td class="px-2 py-4 whitespace-nowrap">
+                                        <div class="flex flex-col m-0">
+                                                <div class="font-medium dark:text-white flex justify-start gap-2">
+                                                    <span>{{$item->total_evaluados}}/{{$item->total}}</span>
+                                                    @if($item->completado)
+                                                        <span>✅</span>
+                                                    @endif
+                                                </div>
+                                                <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
+                                                    <div class="@if($item->completado) bg-green-500 dark:bg-green-500 @else bg-blue-600 dark:bg-blue-500 @endif h-2.5 rounded-full "
+                                                    style="width: {{$item->progresoPorcentaje}}%">
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex">
                                             <a href="{{route('sesiones.show', $item->id)}}" class="flex-1 font-medium text-green-600 dark:text-green-500 hover:underline"> Ver</a>
