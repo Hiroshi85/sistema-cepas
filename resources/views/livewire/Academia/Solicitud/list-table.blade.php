@@ -6,8 +6,11 @@
     <div
         class="flex flex-col items-end sm:flex-row py-4 w-full sm:items-center justify-between  dark:border-gray-700 border-b border-gray-200 ">
         @livewire('common.search-box', ['placeholder' => 'Buscar solicitud'])
-        <a href="{{ route('solicitud.create') }}"
-            class="px-4 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md dark:bg-gray-800 hover:bg-blue-500 dark:hover:bg-gray-700 focus:outline-none focus:bg-blue-500 dark:focus:bg-gray-700">Nuevo</a>
+
+        <x-primary-button :link="true" href="{{ route('academia.ciclo.solicitud.create', $ciclo) }}">
+            Nuevo
+        </x-primary-button>
+
     </div>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg dark:bg-gray-700 bg-gray-300">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -65,7 +68,7 @@
                                     class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-700 dark:text-yellow-100">
                                     Pendiente
                                 </span>
-                                
+
                             @elseif ($solicitud->estado == 'aceptado')
                                 <span
                                     class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
@@ -76,16 +79,22 @@
                                     class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
                                     Rechazada
                                 </span>
-                                
+
                             @endif
                         </td>
 
                         <td class="px-6 py-4 text-right inline-flex gap-2 items-center justify-center">
-                            <a href="{{ route('solicitud.show', $solicitud->id) }}"
+                            <a href="{{ route('academia.ciclo.solicitud.show', [
+                                        'ciclo' => $ciclo,
+                                        'solicitud' => $solicitud
+                                    ])}}"
                                 class="font-medium text-green-600 dark:text-green-500">
                                 @livewire('icons.show', [], key('show-icon-' . $solicitud->id))
                             </a>
-                            <a href="{{ route('solicitud.edit', $solicitud->id) }}"
+                            <a href="{{ route('academia.ciclo.solicitud.edit', [
+                                        'ciclo' => $ciclo,
+                                        'solicitud' => $solicitud
+                                    ])}}"
                                 class="font-medium text-blue-600 dark:text-blue-500">
                                 @livewire('icons.edit', [], key('edit-icon-' . $solicitud->id))
                             </a>

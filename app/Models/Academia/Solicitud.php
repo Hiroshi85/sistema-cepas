@@ -15,7 +15,7 @@ class Solicitud extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['idalumno', 'observaciones', 'fecha_solicitud', 'estado','idcarrera'];
+    protected $fillable = ['idalumno', 'observaciones', 'fecha_solicitud', 'estado','idcarrera', 'idciclo_academico'];
 
     public $timestamps = false;
 

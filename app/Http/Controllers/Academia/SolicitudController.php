@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Academia;
 
 use App\Http\Controllers\Controller;
+use App\Models\Academia\CicloAcademico;
 use App\Models\Academia\Cursos\Carrera;
 use App\Models\Academia\DocumentoSolicitud;
 use App\Models\Academia\Solicitud;
@@ -16,15 +17,15 @@ class SolicitudController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(CicloAcademico $ciclo)
     {
-        return view('academia.solicitud.index');
+        return view('academia.solicitud.index', compact('ciclo'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(CicloAcademico $ciclo)
     {
         $alumnos = Alumno::where('alumnos.eliminado', 0)
                     ->whereNotIn('alumnos.idalumno', function($query) {
@@ -42,13 +43,14 @@ class SolicitudController extends Controller
         return view('academia.solicitud.create',[
             'alumnos' => $alumnos,
             'carreras' => $carreras,
+            'ciclo' => $ciclo,
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, CicloAcademico $ciclo)
     {
         $request->validate([
             'idalumno' => 'required|integer|exists:alumnos,idalumno',
@@ -68,6 +70,7 @@ class SolicitudController extends Controller
             'fecha_solicitud' => date('Y-m-d'),
             'estado' => 'Pendiente',
             'idcarrera' => $request->idcarrera,
+            'idciclo_academico' => $ciclo->id,
         ]);
 
         session()->flash(
@@ -78,7 +81,7 @@ class SolicitudController extends Controller
             ]
         );
 
-        return redirect()->route('solicitud.index');
+        return redirect()->route('academia.ciclo.solicitud.index', $ciclo);
 
     }
 
@@ -143,7 +146,7 @@ class SolicitudController extends Controller
                 'observaciones' => $request->observaciones,
             ]);
         }
-        
+
 
         $solicitud->estado = $estado;
         $solicitud->save();

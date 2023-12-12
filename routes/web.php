@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Academia\AcademiaController;
+use App\Http\Controllers\Academia\CicloAcademicoController;
 use App\Http\Controllers\AdmisionController;
 use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\ApoderadoController;
@@ -263,12 +265,16 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::prefix('academia')->group(function () {
-        Route::get('/', function () {
-            return view('academia-dashboard');
-        })->name('academia.dashboard');
+        Route::get('/', [AcademiaController::class, 'index'])->name('academia.dashboard');
 
-        Route::resource('solicitud', SolicitudController::class)->names('solicitud');
-        Route::PUT('solicitud/{id}/accionSolicitud', [SolicitudController::class, 'accionSolicitud'])->name('solicitud.accionSolicitud');
+
+        Route::prefix('ciclo/{ciclo}')->group(function () {
+            Route::resource('solicitud', SolicitudController::class)->names('academia.ciclo.solicitud');
+            Route::PUT('solicitud/{id}/accionSolicitud', [SolicitudController::class, 'accionSolicitud'])->name('academia.ciclo.solicitud.accionSolicitud');
+        });
+
+        Route::resource('ciclo' , CicloAcademicoController::class)->names('academia.ciclo');
+
     });
 });
 // ACADEMIA

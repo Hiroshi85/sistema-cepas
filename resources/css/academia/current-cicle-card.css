@@ -1,0 +1,30 @@
+.time {
+    margin-top: 1rem;
+}
+
+.time-l, .time-r {
+    display: inline-block;
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.time-l {
+    color: #000;
+    background-color: rgb(125 211 252 / var(--tw-bg-opacity));
+}
+
+.time .line {
+    display: inline-block;
+    flex: 1 1 0%;
+    height: 2px;
+    background: rgb(125,211,252);
+    background: linear-gradient(90deg, rgba(125,211,252,1) 0%, rgba(74,222,128,1) 100%);
+
+}
+
+.time-r {
+    background-color: rgb(74 222 128 / var(--tw-bg-opacity));
+}
