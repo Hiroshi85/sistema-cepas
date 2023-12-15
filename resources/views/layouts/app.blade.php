@@ -34,9 +34,9 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://kit.fontawesome.com/04a4547f2b.js" crossorigin="anonymous"></script>
     {{-- <script type="text/javascript" src="../node_modules/tw-elements/dist/js/tw-elements.umd.min.js"></script> --}}
-    <script type="text/javascript" src="{{ asset('assets') }}/js/functions.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     {{-- Styles --}}
+    <link rel="stylesheet" href="{{ asset('assets') }}/css/styles.css">
     @livewireStyles
     @stack('styles')
 </head>
@@ -54,7 +54,7 @@
                 @if (!Auth::user()->hasRole('apoderado'))
                     @include('layouts.admision-matriculas.navigation')
                 @else
-                    @include('apoderados.layouts.nav')
+                    @include('admision-matriculas.apoderados.layouts.nav')
                 @endif
             @break
             @case('seguimiento')
@@ -80,14 +80,16 @@
         @endif
 
         <!-- Page Content -->
-        <main>
+        <main class="max-w-[1800px] mx-auto">
             {{ $slot }}
         </main>
         @livewire('common.toasts')
     </div>
 
     {{-- Scripts --}}
-    @stack('scripts')
+    <script type="text/javascript" src="{{ asset('assets') }}/js/functions.js"></script>
+    <script type="text/javascript" src="{{ asset('assets') }}/js/charts.js"></script>
+    @stack('scripts') 
     @livewireScripts
     <script>
         Livewire.onLoad(() => {

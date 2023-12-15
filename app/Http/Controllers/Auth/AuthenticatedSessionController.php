@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -26,11 +27,15 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        // dd($request->all());
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        return Auth::user()->hasRole('apoderado') ?  redirect()->intended('admision-matriculas') : redirect()->intended(RouteServiceProvider::HOME);
+        $authUser = User::find(Auth::user()->id);
+        $request->session()->put('authUser', $authUser);
+
+        return redirect()->intended(RouteServiceProvider::HOME );
     }
 
     /**

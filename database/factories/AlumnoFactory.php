@@ -20,9 +20,9 @@ class AlumnoFactory extends Factory
             'idaula' => $this->faker->numberBetween(1, 10),
             'nombre_apellidos' => $this->faker->name(),
             'fecha_nacimiento' => $this->faker->date(),
-            'dni' => $this->faker->randomNumber(8),
+            'dni' => $this->faker->randomNumber(8, true),
             'domicilio' => $this->faker->address(),
-            'numero_celular' => $this->faker->randomNumber(9),
+            'numero_celular' => $this->faker->randomNumber(9, true),
             'nro_hermanos' => $this->faker->randomNumber(1),
             'estado' => $this->faker->randomElement(['Matrícula pendiente','Matriculado']),
             'eliminado' => 0

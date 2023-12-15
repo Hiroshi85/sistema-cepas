@@ -12,4 +12,8 @@ class AlumnoMatricula extends Model
     // protected $primaryKey = ['idmatricula','idalumno'];
     protected $fillable = ['idmatricula','idalumno','aula','fecha_registro'];
     public $timestamps = false;
+
+    public function matricula(){
+        return $this->belongsTo(Matricula::class, 'idmatricula', 'idmatricula');
+    }
 }

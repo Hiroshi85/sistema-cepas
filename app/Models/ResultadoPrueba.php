@@ -68,4 +68,27 @@ class ResultadoPrueba extends Model
     {
         return $this->belongsTo(EstadoResultadoPrueba::class, 'estado_resultado_prueba_id', 'id');
     }
+
+    public static function obtenerResultadoDeAlumnoPDF($sesion_prueba_id, $alumno_id){
+        return ResultadoPrueba::where('sesion_prueba_id', $sesion_prueba_id)->where('alumno_id', $alumno_id)
+            ->join('sesion_prueba', 'resultado_prueba.sesion_prueba_id', '=', 'sesion_prueba.id')
+            ->join('alumnos', 'resultado_prueba.alumno_id', '=', 'alumnos.idalumno')
+            ->join('estado_resultado_prueba', 'resultado_prueba.estado_resultado_prueba_id', '=', 'estado_resultado_prueba.id')
+            ->join('prueba_psicologica', 'sesion_prueba.prueba_psicologica_id', '=', 'prueba_psicologica.id')
+            ->join('aulas', 'sesion_prueba.aula_id', '=', 'aulas.idaula')
+            ->select('sesion_prueba.id','prueba_psicologica.nombre', 'sesion_prueba.created_at as fecha_tomada', 'resultado_prueba.fecha_evaluado','alumnos.nombre_apellidos', 'resultado_prueba.puntaje', 'resultado_prueba.observacion', 'resultado_prueba.recomendacion', 'estado_resultado_prueba.estado as estado', 'aulas.grado', 'aulas.seccion')
+            ->first();
+    }
+
+    public static function obtenerResultadoAnhoAlumnoPDF(string $alumno_id, string $año){
+        return ResultadoPrueba::whereYear('sesion_prueba.created_at', '=', $año)
+            ->where('alumno_id', $alumno_id)
+            ->join('sesion_prueba', 'resultado_prueba.sesion_prueba_id', '=', 'sesion_prueba.id')
+            ->join('alumnos', 'resultado_prueba.alumno_id', '=', 'alumnos.idalumno')
+            ->join('estado_resultado_prueba', 'resultado_prueba.estado_resultado_prueba_id', '=', 'estado_resultado_prueba.id')
+            ->join('prueba_psicologica', 'sesion_prueba.prueba_psicologica_id', '=', 'prueba_psicologica.id')
+            ->join('aulas', 'sesion_prueba.aula_id', '=', 'aulas.idaula')
+            ->select('sesion_prueba.id','prueba_psicologica.nombre', 'sesion_prueba.created_at as fecha_tomada', 'resultado_prueba.fecha_evaluado', 'resultado_prueba.puntaje', 'resultado_prueba.observacion', 'resultado_prueba.recomendacion', 'estado_resultado_prueba.estado as estado')
+            ->get();
+    }
 }

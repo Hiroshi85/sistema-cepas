@@ -21,9 +21,17 @@ class Aula extends Model
     public function alumno(){
         return $this->hasMany(AlumnoAsignado::class,'idaula','idaula');
     }
+    // Alumnos - clase de admisión y matrículas no eliminar
+    public function alumnos (){
+        return $this->hasMany(Alumno::class,'idaula','idaula');
+    }
 
     public function sesiones()
     {
         return $this->hasMany(SesionPrueba::class);
+    }
+
+    public function postulantes(){
+        return $this->hasMany(Postulante::class,'idaula','idaula');
     }
 }

@@ -12,4 +12,12 @@ class Apoderado extends Model
     protected $primaryKey = 'idapoderado';
     protected $fillable = ['idusuario','nombre_apellidos', 'dni', 'fecha_nacimiento', 'numero_celular', 'ocupacion', 'centro_trabajo', 'correo', 'eliminado'];
     public $timestamps = false;
+
+    public function pagos(){
+        return $this->hasMany(Pago::class, 'idapoderado', 'idapoderado');
+    }
+
+    public function apoderado_postulantes(){
+        return $this->belongsToMany(Postulante::class, 'apoderado_postulante', 'idpostulante', 'idapoderado');
+    }
 }

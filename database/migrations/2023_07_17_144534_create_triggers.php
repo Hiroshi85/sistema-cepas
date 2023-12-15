@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -18,7 +19,7 @@ return new class extends Migration
                 
                 WHILE i <= 4 DO
                     INSERT INTO asistencia_asignatura (idalumno, idcurso, bimestre) 
-                    SELECT NEW.idalumno, iddetalle, i FROM DETALLECURSO WHERE idaula = NEW.idaula;
+                    SELECT NEW.idalumno, iddetalle, i FROM detallecurso WHERE idaula = NEW.idaula;
                     SET i = i + 1;
                 END WHILE;
             END

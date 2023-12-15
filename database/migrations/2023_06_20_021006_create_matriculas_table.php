@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('fecha_cierre');
             $table->decimal('tarifa', 10, 2);
             $table->string('estado', 100);
+            $table->integer('total_alumnos', false, true)->default(0); //total de alumnos registrados al momento entre matriculados y no matriculados
             $table->boolean('eliminado')->default(false);
         });
     }

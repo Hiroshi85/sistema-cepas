@@ -2,31 +2,32 @@
     <div id={{$id}} class="fixed z-10 inset-0 overflow-y-auto hidden w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
         <div class="modal-container bg-white w-full max-w-3xl mx-auto rounded shadow-lg z-50 overflow-y-auto p-4">
             <div class="modal-content py-4 px-6">
-              <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-semibold">Buscar Alumno</h2>
-                <button class="modal-close cursor-pointer z-50" onclick="closeModal()">&times;</button>
-              </div>
-              <div class="mb-4 grid grid-cols-6 gap-1">
-                <input type="text" id="searchInput" class="col-span-5 border border-gray-400 rounded w-full px-3 py-2" placeholder="Buscar alumno...">
-                <button id="searchButton" id="searchButton" class="col-span-1 bg-blue-500 text-white px-4 py-2 rounded ml-2">Buscar</button>
-              </div>
-              <table class="w-full">
-                <thead>
-                  <tr>
-                    <th class="px-4 py-2">Nombres y apellidos</th>
-                    <th class="px-4 py-2">Opción</th>
-                  </tr>
-                </thead>
-                <tbody id="tableBody" class="divide-y divide-gray-700">
-                  <!-- Aquí se llenarán los datos de la tabla mediante JavaScript -->
-                </tbody>
-              </table>
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold">Buscar Alumno</h2>
+                    <button class="modal-close cursor-pointer z-50" onclick="closeModal()">&times;</button>
+                </div>
+                <div class="mb-4 grid grid-cols-6 gap-1">
+                    <input type="text" id="searchInput" class="col-span-5 border border-gray-400 rounded w-full px-3 py-2" placeholder="Buscar alumno...">
+                    <button id="searchButton" id="searchButton" class="col-span-1 bg-blue-500 text-white px-4 py-2 rounded ml-2">Buscar</button>
+                </div>
+                <div class="max-h-[400px] overflow-y-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Nombres y apellidos</th>
+                                <th class="px-4 py-2">Opción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody" class="divide-y divide-gray-700">
+                            <!-- Aquí se llenarán los datos de la tabla mediante JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
-          </div>
+        </div>
     </div>
-
-
 </div>
+
 
 @push("script")
 <script>
@@ -64,6 +65,7 @@
         selectButton.addEventListener("click", () => {
             hiddenAlumno.value = alumno.idalumno;
             alumnoInputOg.value = alumno.nombre_apellidos;
+            hiddenAlumno.dispatchEvent(new Event("change"));
             closeModal();
         });
 

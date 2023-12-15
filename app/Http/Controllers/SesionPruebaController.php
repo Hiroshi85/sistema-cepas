@@ -12,6 +12,7 @@ use App\Models\ResultadoPrueba;
 use App\Models\EstadoResultadoPrueba;
 use Illuminate\Support\Facades\Auth;
 use \Datetime;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class SesionPruebaController extends Controller
 {
@@ -129,5 +130,37 @@ class SesionPruebaController extends Controller
         $recomendacion = $req->recomendacion;
         ResultadoPrueba::actualizarResultado($id, $alumno_id, $puntaje, $observacion, $recomendacion, $estado,new DateTime('now'));
         return redirect()->route('sesiones.show', $id);
+    }
+
+    public function showReporteAnual(){
+        $año = date('Y');
+        return view('sesiones.showAnual', ['año' => $año]);
+    }
+
+    public function generarReporteDePruebaDeAlumno(string $id, string $alumno_id){
+        $resultado = ResultadoPrueba::obtenerResultadoDeAlumnoPDF($id, $alumno_id);
+        if($resultado == null){
+            return redirect()->route('sesiones.show', $id);
+        }
+        $psicologo = Auth::user()->name;
+        $pdf = Pdf::loadView('sesiones.pdf.pruebaps', compact('resultado', 'psicologo'));
+        $nombre_archivo = $resultado->nombre_apellidos.' - S'.$resultado->id.' '.$resultado->nombre.'.pdf';
+        return $pdf->stream($nombre_archivo);
+    }
+
+    public function generarReporteAnualDeAlumno(Request $req, string $id){
+        $año = $req->query("año");
+        if(!is_numeric($año)){
+            $año = date('Y');
+        }
+        $resultados = ResultadoPrueba::obtenerResultadoAnhoAlumnoPDF($id, $año);
+        if($resultados == null){
+            return redirect()->route('sesiones.index', $id);
+        }
+        $alumno = Alumno::getAlumnoById($id);
+        $psicologo = Auth::user()->name;
+        $pdf = Pdf::loadView('sesiones.pdf.anual', compact('resultados', 'alumno','psicologo', 'año'));
+        $nombre_archivo = $alumno->nombre_apellidos.' - S'.$año.'.pdf';
+        return $pdf->stream($nombre_archivo);
     }
 }

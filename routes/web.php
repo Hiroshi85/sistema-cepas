@@ -7,26 +7,32 @@ use App\Http\Controllers\AdmisionController;
 use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\ApoderadoController;
 use App\Http\Controllers\AulaController;
+
 use App\Http\Controllers\CandidatoController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DocumentoAlumnoController;
-use App\Http\Controllers\DocumentoApoderadoController;
-use App\Http\Controllers\DocumentoPostulanteController;
 use App\Http\Controllers\EmpleadoController;
-use App\Http\Controllers\EntrevistaController;
 use App\Http\Controllers\EntrevistaCandidatoController;
 use App\Http\Controllers\EquipoController;
 use App\Http\Controllers\EvaluacionCandidatoController;
 use App\Http\Controllers\HorarioController;
-use App\Http\Controllers\MatriculaController;
 use App\Http\Controllers\NominaController;
-use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PlazaController;
 use App\Http\Controllers\PostulacionController;
-use App\Http\Controllers\PostulanteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PuestoController;
-use App\Http\Controllers\VoucherController;
+
+//ADMISION Y MATRICULAS
+use App\Http\Controllers\AdmisionMatriculas\DashboardController;
+use App\Http\Controllers\AdmisionMatriculas\DocumentoAlumnoController;
+use App\Http\Controllers\AdmisionMatriculas\DocumentoApoderadoController;
+use App\Http\Controllers\AdmisionMatriculas\DocumentoPostulanteController;
+use App\Http\Controllers\AdmisionMatriculas\EntrevistaController;
+use App\Http\Controllers\AdmisionMatriculas\MatriculaController;
+use App\Http\Controllers\AdmisionMatriculas\PagoController;
+use App\Http\Controllers\AdmisionMatriculas\ParentescoController;
+use App\Http\Controllers\AdmisionMatriculas\PostulanteController;
+use App\Http\Controllers\AdmisionMatriculas\VoucherController;
+use App\Http\Controllers\AdmisionMatriculas\InboxController;
+use App\Http\Controllers\NotificationController;
 // DESEMPEÑO
 use App\Http\Controllers\AsignaturaController;
 use App\Http\Controllers\CursoAsignadoController;
@@ -47,17 +53,18 @@ use App\Http\Controllers\ComportamientoController;
 use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\SesionPruebaController;
+use App\Http\Controllers\SancionController;
 
 // Materiales Escolares
 use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\FacturaDetalleController;
 use App\Http\Controllers\MaterialEscolarController;
-use App\Http\Controllers\ParentescoController;
 use App\Http\Controllers\ProveedorController;
 
 
 // ACADEMIA
 use App\Http\Controllers\Academia\SolicitudController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,7 +82,16 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $userRol = session()->get('authUser')->getRoleNames()->first();
+    switch ($userRol) {
+        case 'apoderado':
+            return redirect()->route('admision-matriculas.dashboard');
+            break;
+
+        default:
+            return view('dashboard');
+            break;
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
@@ -95,12 +111,19 @@ Route::prefix('seguimiento')->middleware('auth')->group(function () {
         Route::get('/show', [ComportamientoController::class, 'show'])->name('comportamientos.show');
         Route::get('/alumnos/{id}', [ComportamientoController::class, 'getByAlumno'])->name('comportamientos.get');
         Route::get('/delete/{id}', [ComportamientoController::class, 'destroy'])->name('comportamientos.destroy');
+
+        Route::get('/alumnos/{id}/pdfbimestral', [ComportamientoController::class, 'generarReporteBimestral'])->name('comportamientos.pdf.bimestral');
+        Route::get('/alumnos/{id}/pdfanual', [ComportamientoController::class, 'generarReporteAnual'])->name('comportamientos.pdf.anual');
     });
     Route::get('files/{id}', [PruebaArchivoController::class, 'download'])->name('files');
 
     Route::get('sesiones/{id}/alumno/{alumno_id}', [SesionPruebaController::class, 'evaluar'])->name('sesiones.evaluar');
     Route::put('sesiones/{id}/alumno/{alumno_id}', [SesionPruebaController::class, 'evaluarPut'])->name('sesiones.evaluarPut');
+    Route::get('sesiones/{id}/alumno/{alumno_id}/pdf', [SesionPruebaController::class, 'generarReporteDePruebaDeAlumno'])->name('sesiones.prueba.alumno.pdf');
+    Route::get('sesiones/alumno/{id}/pdf', [SesionPruebaController::class, 'generarReporteAnualDeAlumno'])->name('sesiones.alumno.pdf');
+    Route::get('sesiones/showAnual', [SesionPruebaController::class, 'showReporteAnual'])->name('sesiones.showAnual');
     Route::resource('sesiones', SesionPruebaController::class);
+    Route::resource('sanciones', SancionController::class);
 });
 
 //RRHH
@@ -164,40 +187,51 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+// Admisión y matrículas
 Route::middleware('auth')->group(function () {
     Route::prefix('admision-matriculas')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('admision-matriculas.dashboard');
+        Route::post('/chart/matriculados', [DashboardController::class, 'seriesMatriculados'])->name('admision-matriculas.dashboard.matriculados');
+        Route::post('/chart/pagos', [DashboardController::class, 'seriesAvancePagos'])->name("admision-matriculas.dashboard.avancepagos");
         // Apoderados
-        Route::resource('/apoderado', ApoderadoController::class)->middleware('auth');
+        Route::resource('/apoderado', ApoderadoController::class);
         //Postulantes
-        Route::resource('/postulante', PostulanteController::class)->middleware('auth');
+        Route::resource('/postulante', PostulanteController::class);
         //Estudiantes
-        Route::resource('/alumno', AlumnoController::class)->middleware('auth');
+        Route::resource('/alumno', AlumnoController::class);
+        Route::get('/aula/alumnos/{idaula}/lista.pdf',[AlumnoController::class, 'loadSinglePdf'])->name('lista.pdf.show');
         //Aulas
-        Route::resource('/aula', AulaController::class)->middleware('auth');
+        Route::resource('/aula', AulaController::class);
         //Entrevistas
-        Route::resource('/entrevista', EntrevistaController::class)->middleware('auth');
+        Route::resource('/entrevista', EntrevistaController::class);
         //Matrícula
-        Route::resource('/matricula', MatriculaController::class)->middleware('auth');
+        Route::resource('/matricula', MatriculaController::class);
         //Admision
-        Route::resource('/admision', AdmisionController::class)->middleware('auth');
+        Route::resource('/admision', AdmisionController::class);
+        Route::get('/admision/{id}/reporte.pdf', [AdmisionController::class, 'loadSinglePdf'])->name('admision.pdf.show');
         //Pagos
-        Route::resource('/pago', PagoController::class)->middleware('auth');
-        Route::resource('/voucher', VoucherController::class)->middleware('auth');
+        Route::resource('/pago', PagoController::class);
+        Route::resource('/voucher', VoucherController::class);
         //Documentos
-        Route::resource('/alumno/docsalumno', DocumentoAlumnoController::class)->middleware('auth');
-        Route::resource('/apoderado/docsapoderado', DocumentoApoderadoController::class)->middleware('auth');
-        Route::resource('/postulante/docspostulante', DocumentoPostulanteController::class)->middleware('auth');
-        Route::resource('/postulante/parentesco', ParentescoController::class)->middleware('auth');
+        Route::resource('/alumno/docsalumno', DocumentoAlumnoController::class);
+        Route::resource('/apoderado/docsapoderado', DocumentoApoderadoController::class);
+        Route::resource('/postulante/docspostulante', DocumentoPostulanteController::class);
+        Route::resource('/postulante/parentesco', ParentescoController::class);
+        // Inbox
+        Route::resource('/inbox', InboxController::class);
+        Route::get('/inbox/{id?}', [InboxController::class, 'index'])->name('inbox.show');
         //Cancel
         Route::get('cancelar/{ruta}', function ($ruta) {
             return redirect()->route($ruta);
-        })->middleware('auth')->name('cancelar');
+        })->name('cancelar');
+
     });
 });
 // Sistema apoderados
 Route::get('/apoderados/register', [ApoderadoController::class, 'crear'])->name('apoderados.crear');
 Route::post('/apoderados/register', [ApoderadoController::class, 'registerApoderado'])->name('apoderados.register');
+//Notificaciones
+Route::get('/marcar-leida/{id}', [NotificationController::class, 'marcarLeida'])->middleware('auth')->name('notificacion.leida');
 
 // EVALUACION DESEMPEÑO
 Route::prefix('desempeño')->group(function () {

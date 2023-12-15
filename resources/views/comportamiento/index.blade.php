@@ -16,7 +16,7 @@
                     </a>
                 </div>
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <div class="px-6 pb-6 pt-2 text-gray-900 dark:text-gray-100">
                         <div class="py-5 text-gray-900 dark:text-gray-100 text-5xl">
                             <p>{{Str::title("Comportamientos")}}</p>
                         </div>
@@ -57,8 +57,17 @@
                                         </select>
                                     </div>
                                     <div class="col-span-2">
-                                        <label for="tipo" class="block">Observacion </label>
+                                        <label for="tipo" class="block">Observación </label>
                                         <input type="text" id="observacion" name="observacion" class="w-full dark:text-gray-800">
+                                    </div>
+                                    <div class="col-span-2" id="sanciones-div">
+                                        <label for="sancion" class="block">Sanción </label>
+                                        <select required id="sancion" name="sancion" class="w-full dark:text-gray-800">
+                                            <option value="0" selected>Ninguno</option>
+                                            @foreach ($sanciones as $sancion)
+                                                <option value="{{$sancion->id}}">{{$sancion->nombre}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="col-span-2 lg:col-span-3">
                                         <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 border border-blue-500 rounded shadow">
@@ -85,6 +94,8 @@
 <script>
     const dropDownTipo = document.getElementById("tipo");
     const dropDownAsunto = document.getElementById("asunto");
+    const sancionesDiv = document.getElementById("sanciones-div");
+    const dropDownSancion = document.getElementById("sancion");
     // const puntosText = document.getElementById("puntos");
 
     function populateAsuntosDropdown(){
@@ -102,6 +113,7 @@
                     const opcion = document.createElement("option");
                     opcion.text=element.nombre + ' ('+element.puntaje+')';
                     opcion.value=element.id;
+                    sancionesDiv.classList.remove("hidden");
                     dropDownAsunto.add(opcion);
                 }); break;
             case 'M':
@@ -110,6 +122,8 @@
                     const opcion = document.createElement("option");
                     opcion.text=element.nombre + ' (+'+element.puntaje+')';
                     opcion.value=element.id;
+                    sancionesDiv.classList.add("hidden");
+                    dropDownSancion.selectedIndex=0;
                     dropDownAsunto.add(opcion);
                 }); break;
             default: vaciarDropdown(); dropDownAsunto.disabled = true;break;

@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
 
         $this->call(AulaSeeder::class);
+        $this->call(MetodoPagoSeeder::class);
 
         $this->call(EquipoSeeder::class);
         $this->call(PuestoSeeder::class);
@@ -30,5 +31,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ApoderadoSeeder::class);
         $this->call(PostulanteSeeder::class);
         $this->call(CursosSeeder::class);
+        $this->call(SancionSeeder::class);
     }
 }

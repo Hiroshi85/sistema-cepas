@@ -100,7 +100,7 @@
     </footer>
     <main class="container-fluid page-break">
 
-        <strong>Postulación #:</strong>
+        <strong>Evaluación #:</strong>
         <span>{{ $evaluacion->id }}</span>
         <h4>Información del Candidato</h4>
         <table class="table table-condensed">

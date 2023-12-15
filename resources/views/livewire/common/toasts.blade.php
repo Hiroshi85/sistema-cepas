@@ -1,4 +1,4 @@
-<div class="fixed top-0 right-0 overflow-x-hidden">
+<div class="fixed top-0 right-0 overflow-x-hidden z-20">
     @foreach ($toasts as $toast)
         <div x-data="{ visible: true }" x-init="setTimeout(() => visible = false, 10000)"
             class="mx-5 md:mx-12 lg:mx-24 my-10 bg-gradient-to-r text-white p-3 rounded mb-3 shadow-lg flex items-center"
