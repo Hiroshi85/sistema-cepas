@@ -29,10 +29,10 @@ return new class extends Migration
         Schema::create('documento_solicitud_academia', function (Blueprint $table) {
             $table->id();
             $table->enum('estado', ['pendiente', 'aceptado', 'rechazado'])->default('pendiente');
-            
+
             $table->unsignedBigInteger('idsolicitud');
-            $table->foreign('idsolicitud')->references('id')->on('solicitud_academia');            
-            
+            $table->foreign('idsolicitud')->references('id')->on('solicitud_academia');
+
             $table->longText('observaciones')->nullable();
 
 

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Academia;
 
 use App\Http\Controllers\Controller;
-use App\Models\Academia\Cursos\Carrera;
+use App\Http\Requests\Academia\SolicitudAccionRequest;
+use App\Http\Requests\Academia\SolicitudRequest;
+use App\Models\Academia\CicloAcademico;
 use App\Models\Academia\DocumentoSolicitud;
 use App\Models\Academia\Solicitud;
-use App\Models\Alumno;
+use App\Services\Academia\CarreraService;
+use App\Services\Academia\SolicitudService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class SolicitudController extends Controller
@@ -16,59 +18,37 @@ class SolicitudController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(CicloAcademico $ciclo)
     {
-        return view('academia.solicitud.index');
+        return view('academia.solicitud.index', compact('ciclo'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(CicloAcademico $ciclo, SolicitudService $solicitudService, CarreraService $carreraService)
     {
-        $alumnos = Alumno::where('alumnos.eliminado', 0)
-                    ->whereNotIn('alumnos.idalumno', function($query) {
-                        $query->select('solicitud_academia.idalumno')
-                            ->from('solicitud_academia')
-                            ->whereRaw('solicitud_academia.idalumno = alumnos.idalumno');
-                    })
-                    ->orderBy('alumnos.nombre_apellidos')
-                    ->get();
+        $alumnos = $solicitudService->GetAlumnosThatNotHaveRequest($ciclo);
 
-        $carreras = Carrera::where('eliminado', 0)
-                            ->with('facultad')
-                            ->with('area')
-                            ->get();
+        $carreras = $carreraService->GetCarreras();
+
         return view('academia.solicitud.create',[
             'alumnos' => $alumnos,
             'carreras' => $carreras,
+            'ciclo' => $ciclo,
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SolicitudRequest $request, CicloAcademico $ciclo, SolicitudService $solicitudService)
     {
-        $request->validate([
-            'idalumno' => 'required|integer|exists:alumnos,idalumno',
-            'idcarrera' => 'required|integer|exists:carreras_unt,id',
-        ],[
-            'idalumno.required' => 'Seleccione un alumno',
-            'idalumno.integer' => 'Seleccione un alumno',
-            'idalumno.exists' => 'El alumno no existe',
-            'idcarrera.required' => 'Seleccione una carrera',
-            'idcarrera.integer' => 'Seleccione una carrera',
-            'idcarrera.exists' => 'La carrera no existe',
-        ]);
+        $validated = $request->validated();
 
-        $solicitud = Solicitud::create([
-            'idalumno' => $request->idalumno,
-            'observaciones' => $request->observaciones,
-            'fecha_solicitud' => date('Y-m-d'),
-            'estado' => 'Pendiente',
-            'idcarrera' => $request->idcarrera,
-        ]);
+        Log::debug($validated);
+
+        $solicitudService->create($validated, $ciclo);
 
         session()->flash(
             'toast',
@@ -78,18 +58,18 @@ class SolicitudController extends Controller
             ]
         );
 
-        return redirect()->route('solicitud.index');
+        return redirect()->route('academia.ciclo.solicitud.index', $ciclo);
 
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(CicloAcademico $ciclo, Solicitud $solicitud)
     {
-        $solicitud = Solicitud::findOrFail($id);
         return view('academia.solicitud.show',[
             'solicitud' => $solicitud,
+            'ciclo' => $ciclo
         ]);
     }
 
@@ -117,36 +97,13 @@ class SolicitudController extends Controller
         //
     }
 
-    public function accionSolicitud(string $id, Request $request)
+    public function accionSolicitud(SolicitudAccionRequest $request, CicloAcademico $ciclo, Solicitud $solicitud, SolicitudService $solicitudService)
     {
-        Log::debug($request->all());
-        $request->validate([
-            'accion' => 'required|in:aceptar,rechazar',
-        ],[
-            'accion.required' => 'Seleccione una acción',
-            'accion.in' => 'Seleccione una acción',
-        ]);
+        $request->validated();
 
-        $solicitud = Solicitud::findOrFail($id);
+        $solicitudService->handleAction($request, $solicitud);
 
         $estado = $request->accion == 'aceptar' ? 'aceptado' : 'rechazado';
-
-        if ($solicitud->documento) {
-            $solicitud->documento->update([
-                'estado' => $estado,
-                'observaciones' => $request->observaciones,
-            ]);
-        }else{
-            DocumentoSolicitud::create([
-                'estado' => $estado,
-                'idsolicitud' => $solicitud->id,
-                'observaciones' => $request->observaciones,
-            ]);
-        }
-        
-
-        $solicitud->estado = $estado;
-        $solicitud->save();
 
         session()->flash(
             'toast',
@@ -155,7 +112,6 @@ class SolicitudController extends Controller
                 'type' => 'success',
             ]
         );
-
 
         return redirect()->back();
     }
