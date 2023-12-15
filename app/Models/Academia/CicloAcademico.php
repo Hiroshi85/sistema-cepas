@@ -38,6 +38,11 @@ class CicloAcademico extends Model
         return $this->solicitudes()->where('estado', 'pendiente');
     }
 
+    public function alumnos()
+    {
+        return $this->hasMany(AlumnoAcademia::class, 'idciclo_academico');
+    }
+
     public function resolveRouteBinding($value, $field = null): ?Model
     {
         $id = last(explode('-', $value));

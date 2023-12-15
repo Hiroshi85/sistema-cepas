@@ -65,15 +65,28 @@ class CicloAcademicoController extends Controller
     {
         $validated = $request->validated();
 
-        Log::debug($ciclo);
-
-
         try {
             $cicloAcademicoService->edit($ciclo->id, $validated);
-            return redirect()->route('academia.dashboard')->with('success', 'Ciclo académico editado correctamente');
+            session()->flash(
+                'toast',
+                [
+                    'message' => "Ciclo creado correctamente",
+                    'type' => 'success',
+                ]
+            );
+
+            return redirect()->route('academia.dashboard');
         } catch (\Exception $e) {
             Log::debug($e);
-            return redirect()->back()->withInput()->with('error', 'Error al editar el ciclo académico');
+
+            session()->flash(
+                'toast', [
+                    'message' => "Ha ocurrido un error",
+                    'type' => "error",
+                ]
+            );
+
+            return redirect()->back()->withInput();
         }
     }
 

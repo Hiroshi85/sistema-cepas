@@ -15,6 +15,7 @@ class ListTable extends Component
     use WithSorting;
     public $search = '';
     public $ciclo;
+    public $status = 'pendiente';
     public $confirmingEmpleadoDeletion = false;
     public $selectedEmpleado = null;
     protected $listeners = ['sort', 'search'];
@@ -48,6 +49,7 @@ class ListTable extends Component
     {
         $solicitudes = $solicitudService->ListElements(
             $this->ciclo,
+            $this->status,
             $this->search,
             $this->sortBy,
             $this->sortDirection,

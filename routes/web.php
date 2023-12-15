@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Academia\AcademiaController;
+use App\Http\Controllers\Academia\AlumnoAcademiaController;
 use App\Http\Controllers\Academia\CicloAcademicoController;
 use App\Http\Controllers\AdmisionController;
 use App\Http\Controllers\AlumnoController;
@@ -270,7 +271,9 @@ Route::middleware('auth')->group(function () {
 
         Route::prefix('ciclo/{ciclo}')->group(function () {
             Route::resource('solicitud', SolicitudController::class)->names('academia.ciclo.solicitud');
-            Route::PUT('solicitud/{id}/accionSolicitud', [SolicitudController::class, 'accionSolicitud'])->name('academia.ciclo.solicitud.accionSolicitud');
+            Route::PUT('solicitud/{solicitud}/accionSolicitud', [SolicitudController::class, 'accionSolicitud'])->name('academia.ciclo.solicitud.accionSolicitud');
+
+            Route::resource('alumno', AlumnoAcademiaController::class)->names('academia.ciclo.alumno');
         });
 
         Route::resource('ciclo' , CicloAcademicoController::class)->names('academia.ciclo');

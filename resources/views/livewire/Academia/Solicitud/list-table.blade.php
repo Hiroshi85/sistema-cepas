@@ -43,10 +43,14 @@
                     </th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody wire:key="table-data">
                 @foreach ($solicitudes as $solicitud)
                     <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                        x-data="{
+                            fecha: {{"new Date('$solicitud->fecha_solicitud')"}}
+                        }"
+                    >
                         <th scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex flex-col">
                             <span>
@@ -56,11 +60,11 @@
                                 {{ $solicitud->alumnoDni }}
                             </span>
                         </th>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 capitalize">
                             {{ $solicitud->carreraNombre }}
                         </td>
-                        <td class="px-6 py-4">
-                            {{ Carbon::parse($solicitud->fecha_solicitud)->locale('es_ES')->isoFormat('ll') }}
+                        <td class="px-6 py-4" x-html="dfns.format(fecha, 'PPP', {locale: esdfns})">
+                            {{-- Carbon::parse($solicitud->fecha_solicitud)->locale('es_ES')->isoFormat('ll') --}}
                         </td>
                         <td class="px-6 py-4">
                             @if ($solicitud->estado == 'pendiente')
