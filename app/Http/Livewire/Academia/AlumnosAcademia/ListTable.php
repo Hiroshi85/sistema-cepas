@@ -5,6 +5,8 @@ namespace App\Http\Livewire\Academia\AlumnosAcademia;
 use App\Http\Traits\WithSorting;
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Services\Academia\CicloAcademicoService;
+
 
 class ListTable extends Component
 {
@@ -23,8 +25,35 @@ class ListTable extends Component
 
     ];
 
-    public function render()
+    public function __construct($ciclo)
     {
-        return view('livewire.academia.alumnos-academia.list-table');
+        $this->ciclo = $ciclo;
+    }
+
+    public function sort($field)
+    {
+        $this->sortBy($field);
+        $this->resetPage();
+    }
+
+    public function search($search)
+    {
+        $this->search = $search;
+        $this->resetPage();
+    }
+
+    public function render(CicloAcademicoService $cicloService)
+    {
+        $alumnos = $cicloService->ListAlumnos(
+            $this->ciclo,
+            $this->search,
+            $this->sortBy,
+            $this->sortDirection,
+        );
+
+        return view('livewire.academia.alumnos-academia.list-table', [
+            'alumnos' => $alumnos,
+            'ciclo' => $this->ciclo,
+        ]);
     }
 }

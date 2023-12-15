@@ -42,4 +42,20 @@ class CicloAcademicoService
         return $key;
     }
 
+    public function ListAlumnos (
+        $cicle,
+        $search = '',
+        $sortBy = 'al.nombre_apellidos',
+        $sortDirection = 'asc',
+        $paginate = 10,
+    ) {
+        return $cicle->alumnos()->
+            select('alumno_academia.*', 'al.nombre_apellidos as nombre', 'al.dni as dni', 'carreras_unt.nombre as carreraNombre')->
+            join('carreras_unt', 'alumno_academia.idcarrera', '=', 'carreras_unt.id')->
+            join('alumnos as al', 'alumno_academia.idalumno', '=', 'al.idalumno')->
+            where('al.nombre_apellidos', 'LIKE', "%{$search}%")->
+            orderBy($sortBy, $sortDirection)
+            ->paginate($paginate);
+    }
+
 }
