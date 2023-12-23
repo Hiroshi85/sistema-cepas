@@ -54,6 +54,8 @@ use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\SesionPruebaController;
 use App\Http\Controllers\SancionController;
+use App\Http\Controllers\CitaController;
+use App\Http\Controllers\SeguimientoDashboard;
 
 // Materiales Escolares
 use App\Http\Controllers\FacturaController;
@@ -97,9 +99,7 @@ Route::get('/dashboard', function () {
 
 //Seguimiento Escolar
 Route::prefix('seguimiento')->middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return view('seguimiento-dashboard');
-    })->name('seguimiento.dashboard');
+    Route::get('/', [SeguimientoDashboard::class, 'index'])->name('seguimiento.dashboard');
     Route::resource('asistenciaxdias', AsistenciaXDiaController::class);
     Route::resource('pruebas', PruebaPsicologicaController::class);
     Route::resource('conductas', ConductaController::class);
@@ -112,6 +112,7 @@ Route::prefix('seguimiento')->middleware('auth')->group(function () {
         Route::get('/alumnos/{id}', [ComportamientoController::class, 'getByAlumno'])->name('comportamientos.get');
         Route::get('/delete/{id}', [ComportamientoController::class, 'destroy'])->name('comportamientos.destroy');
 
+        Route::get('/{id}/acta', [ComportamientoController::class, 'generarActa'])->name('comportamientos.pdf.alumno');
         Route::get('/alumnos/{id}/pdfbimestral', [ComportamientoController::class, 'generarReporteBimestral'])->name('comportamientos.pdf.bimestral');
         Route::get('/alumnos/{id}/pdfanual', [ComportamientoController::class, 'generarReporteAnual'])->name('comportamientos.pdf.anual');
     });
@@ -124,6 +125,8 @@ Route::prefix('seguimiento')->middleware('auth')->group(function () {
     Route::get('sesiones/showAnual', [SesionPruebaController::class, 'showReporteAnual'])->name('sesiones.showAnual');
     Route::resource('sesiones', SesionPruebaController::class);
     Route::resource('sanciones', SancionController::class);
+    Route::get('citas/alumnoApoderado', [CitaController::class, 'getAlumnoApoderado'])->name('citas.alumnoapoderado');
+    Route::resource('citas', CitaController::class);
 });
 
 //RRHH

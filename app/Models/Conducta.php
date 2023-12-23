@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Conducta extends Model
 {
@@ -15,7 +16,7 @@ class Conducta extends Model
 
     public function comportamientos(): HasMany
     {
-        return $this->hasMany(Comportamiento::class);
+        return $this->hasMany(Comportamiento::class, 'conducta_id', 'id');
     }
 
     public static function crearConducta(string $nombre, string $puntos): Conducta {

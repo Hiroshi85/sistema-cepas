@@ -13,7 +13,7 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('seguimiento.dashboard')" :active="request()->routeIs('seguimiento.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     {{-- <x-nav-link :href="route('apoderados.index')" :active="request()->routeIs('apoderado.index')">
@@ -45,6 +45,11 @@
                     @role('admin|psicologo')
                         <x-nav-link :href="route('sesiones.index')" :active="request()->routeIs('sesiones.index')">
                             {{ __('Sesiones') }}
+                        </x-nav-link>
+                    @endrole
+                    @role('admin|psicologo|auxiliar')
+                        <x-nav-link :href="route('citas.index')" :active="request()->routeIs('citas.index')">
+                            {{ __('Citas') }}
                         </x-nav-link>
                     @endrole
                 </div>
@@ -107,7 +112,7 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('seguimiento.dashboard')" :active="request()->routeIs('seguimiento.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             @role('admin|auxiliar')
@@ -136,6 +141,11 @@
             @role('admin|psicologo')
                 <x-responsive-nav-link :href="route('sesiones.index')" :active="request()->routeIs('sesiones.index')">
                     {{ __('Sesiones') }}
+                </x-responsive-nav-link>
+            @endrole
+            @role('admin|psicologo|auxiliar')
+                <x-responsive-nav-link :href="route('citas.index')" :active="request()->routeIs('citas.index')">
+                    {{ __('Citas') }}
                 </x-responsive-nav-link>
             @endrole
         </div>

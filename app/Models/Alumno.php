@@ -20,7 +20,7 @@ class Alumno extends Model
 
     public function comportamientos()
     {
-        return $this->hasMany(Comportamiento::class);
+        return $this->hasMany(Comportamiento::class, 'alumno_id', 'idalumno');
     }
 
     public function asistencia(){

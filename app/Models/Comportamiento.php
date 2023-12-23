@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Comportamiento extends Model
 {
@@ -13,14 +14,23 @@ class Comportamiento extends Model
     public $timestamps = false;
     protected $fillable = ['alumno_id', 'conducta_id', 'bimestre', "observacion", 'fecha', "sancion_id"];
 
+    public static function getComportamiento(string $id): Comportamiento{
+        return Comportamiento::with('conducta')->with('alumno')->with('sancion')->find($id);
+    }
+
     public function conducta(): BelongsTo
     {
-        return $this->belongsTo(Conducta::class);
+        return $this->belongsTo(Conducta::class, 'conducta_id');
     }
 
     public function alumno(): BelongsTo
     {
-        return $this->belongsTo(Alumno::class);
+        return $this->belongsTo(Alumno::class, 'alumno_id');
+    }
+
+    public function sancion(): BelongsTo
+    {
+        return $this->belongsTo(Sancion::class, 'sancion_id');
     }
 
     public static function crearComportamiento($alumno_id, $conducta_id, $observacion, $fecha, $bimestre, $sancion_id): Comportamiento{

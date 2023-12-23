@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 use \Datetime;
 use Barryvdh\DomPDF\Facade\Pdf;
 
+use function PHPUnit\Framework\isEmpty;
+
 class SesionPruebaController extends Controller
 {
     public function __construct()
@@ -28,6 +30,12 @@ class SesionPruebaController extends Controller
     public function index()
     {
         $sesiones = SesionPrueba::listarSesiones();
+        foreach($sesiones as &$sesion){
+            $sesion->total = $sesion->total_no_evaluados+$sesion->total_evaluados;
+            $sesion->progresoPorcentaje = round($sesion->total_evaluados*100/$sesion->total, 2);
+        }
+
+        unset($sesion);
         return view('sesiones.index', ['sesiones' => $sesiones]);
     }
 
@@ -69,6 +77,9 @@ class SesionPruebaController extends Controller
     {
         $resultados = ResultadoPrueba::listarResultadosDeSesion($id);
         $sesion = SesionPrueba::obtenerSesion($id);
+        if(empty($sesion)){
+            return redirect()->route('sesiones.index');
+        }
         error_log($resultados);
         // error_log($sesion);
         return view('sesiones.show', ['resultados' => $resultados, 'sesion' => $sesion]);
@@ -95,13 +106,14 @@ class SesionPruebaController extends Controller
         if($sesion->psicologo_id != Auth::id()){
             return redirect()->route('sesiones.index');
         }
-        if(isset($req->completado)){
-            $req->completado = 1;
+        $completado = $req->input("completado");
+        if(isset($completado)){
+             $completado = 1;
         } else {
-            $req->completado = 0;
+            $completado = 0;
         }
 
-        SesionPrueba::actualizarSesion($id, $req->completado, $sesion->psicologo_id, $req->prueba);
+        SesionPrueba::actualizarSesion($id, $completado, $sesion->psicologo_id, $req->prueba);
         return redirect()->route('sesiones.index');
     }
 
@@ -119,6 +131,9 @@ class SesionPruebaController extends Controller
         $resultado = ResultadoPrueba::obtenerResultadoDeAlumno($id, $alumno_id);
         $estados = EstadoResultadoPrueba::listarEstados();
         $sesion = SesionPrueba::obtenerSesion($id);
+        if(empty($sesion)){
+            return redirect()->route('sesiones.index');
+        }
         error_log($resultado);
         return view('sesiones.evaluar', ['resultado' => $resultado, 'estados' => $estados, 'sesion' => $sesion]);
     }
@@ -129,6 +144,11 @@ class SesionPruebaController extends Controller
         $observacion = $req->observacion;
         $recomendacion = $req->recomendacion;
         ResultadoPrueba::actualizarResultado($id, $alumno_id, $puntaje, $observacion, $recomendacion, $estado,new DateTime('now'));
+        $sesionEvaluada = SesionPrueba::obtenerSesion($id);
+        if($sesionEvaluada->total_no_evaluados == 0 && $sesionEvaluada->completado == 0){
+            $sesionEvaluada->completado = 1;
+            $sesionEvaluada->save();
+        }
         return redirect()->route('sesiones.show', $id);
     }
 
