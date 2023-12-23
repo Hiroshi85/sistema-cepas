@@ -3,10 +3,6 @@
 use App\Http\Controllers\Academia\AcademiaController;
 use App\Http\Controllers\Academia\AlumnoAcademiaController;
 use App\Http\Controllers\Academia\CicloAcademicoController;
-use App\Http\Controllers\AdmisionController;
-use App\Http\Controllers\AlumnoController;
-use App\Http\Controllers\ApoderadoController;
-use App\Http\Controllers\AulaController;
 
 use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\EmpleadoController;
@@ -32,6 +28,10 @@ use App\Http\Controllers\AdmisionMatriculas\ParentescoController;
 use App\Http\Controllers\AdmisionMatriculas\PostulanteController;
 use App\Http\Controllers\AdmisionMatriculas\VoucherController;
 use App\Http\Controllers\AdmisionMatriculas\InboxController;
+use App\Http\Controllers\AdmisionMatriculas\AlumnoController;
+use App\Http\Controllers\AdmisionMatriculas\AulaController;
+use App\Http\Controllers\AdmisionMatriculas\ApoderadoController;
+use App\Http\Controllers\AdmisionMatriculas\AdmisionController;
 use App\Http\Controllers\NotificationController;
 // DESEMPEÑO
 use App\Http\Controllers\AsignaturaController;
