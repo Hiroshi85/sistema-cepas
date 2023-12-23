@@ -153,8 +153,6 @@ class VoucherController extends Controller
             session()->flash(
                 'toast',
                 [
-                    // 'message' => "No pudo actualizar el voucher, por favor revise los datos ingresados e inténtelo de nuevo.",
-                    //return e->errors
                     'message' => $e->getMessage(),
                     'type' => 'error',
                 ]
@@ -183,7 +181,7 @@ class VoucherController extends Controller
             if($voucher->estado == "Verificado"){
                 $voucher->estado = "Verificado";
                 $voucher->observacion = null;
-                $notifiable = User::find($idUserApoderado)->first();
+                $notifiable = User::find($idUserApoderado);
                 $notifiable->notify(new PagoNotification($voucher, Auth::user(), "voucher verificado"));
             }
         }

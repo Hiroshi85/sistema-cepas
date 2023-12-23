@@ -72,6 +72,25 @@ $maxWidth = [
         x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
         x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
     >
+        @if(isset($header))
+            <div class="flex px-4 py-3 items-center border-b border-gray-200 dark:bg-gray-900">
+                <div class="flex-1 dark:border-neutral-700">
+                    {{ $header }}
+                </div>
+                <div class="px-4 py-3">
+                    <button
+                        type="button"
+                        class="dark:text-white w-10 h-10 dark:hover:bg-gray-50/50 hover:bg-gray-900/10 px-2 py-1 rounded-md flex items-center justify-center"
+                        x-on:click="show = false"
+                    >
+                        <span>
+                            <i class="fa-solid fa-x text-xl self-end"></i>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        @endif
+
         {{ $slot }}
     </div>
 </div>

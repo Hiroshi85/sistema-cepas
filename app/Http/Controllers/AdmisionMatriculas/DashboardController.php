@@ -62,8 +62,8 @@ class DashboardController extends Controller
             ->where('idaula', $idaulaSelected) 
             ->get() : Alumno::where('eliminado',0)->get();
         // ------------------ 
-
-        return session()->get('authUser')->hasAnyRole(['secretario(a)', 'admin']) ? 
+   
+        return session()->get('authUser')->hasAnyRole(['secretario(a)', 'director(a)', 'admin']) ? 
             view('admision-dashboard', compact('matricula', 'admision', 'events', 'aulas', 'alumnos', 'idaulaSelected')) 
                 : 
             view('admision-matriculas.apoderados.index',compact('matricula', 'admision'));

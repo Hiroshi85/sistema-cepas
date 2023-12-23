@@ -27,6 +27,7 @@ class UserSeeder extends Seeder
         
         $adminUser->assignRole("admin");
 
+        //Secretaria
         $tabla->insert([
             'name' => 'secretaria',
             'dni' => '78154464',
@@ -35,5 +36,15 @@ class UserSeeder extends Seeder
         ]);
         $secretariaUser = User::where('email', 'secretaria@gmail.com')->first();
         $secretariaUser->assignRole('secretario(a)');
+
+        //Director
+        $tabla->insert([
+            'name' => 'director',
+            'dni' => '78104465',
+            'email' => 'director@gmail.com',
+            'password' => bcrypt('password'),
+        ]);
+        $directorUser = User::where('email', 'director@gmail.com')->first();
+        $directorUser->assignRole('director(a)');
     }
 }

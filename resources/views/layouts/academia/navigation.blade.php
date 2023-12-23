@@ -2,7 +2,7 @@
     $navigation = [
         'Dashboard' => 'academia.dashboard',
         'Solicitudes' => [
-            'Nueva solicitud' => 'solicitud.index',
+            'Nueva solicitud' => 'academia.ciclo.index',
             // 'Alumnos' => 'alumno.index',
         ],
         // 'Admisión' => [

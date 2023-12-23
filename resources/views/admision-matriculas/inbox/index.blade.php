@@ -1,12 +1,12 @@
 <x-app-layout>
-    <div class="flex flex-row md:flex-col flex-wrap w-full h-screen overflow-hidden">
+    <div class="w-full overflow-hidden max-w-[1300px] mx-auto relative">
         <div class="max-h-[50px] md:h-full w-[90%] md:w-[40%]">
-            <button type="button" onclick="setSideBarVisibility()" class="z-50 inline-flex items-center p-2 my-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+            <button type="button" onclick="setSideBarVisibility()" class="z-50 inline-flex items-center p-2 my-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 fixed left-0">
                 <span class="sr-only">Open sidebar</span>
                 <i class="fa-solid fa-bars-staggered"></i>
              </button>
          
-            <aside id="default-sidebar" class="flex h-screen transition-transform -translate-x-full md:translate-x-0" aria-label="Sidebar"
+            <aside id="default-sidebar" class="absolute left-0 w-[90%] md:w-[40%] flex h-screen transition-transform -translate-x-full md:translate-x-0" aria-label="Sidebar"
             >
                 <div class="w-[50%] min-w-[140px] z-50 h-full px-3 py-4 overflow-y-auto bg-gray-100 dark:bg-gray-800">
                    <ul class="font-medium">
@@ -63,7 +63,7 @@
              </aside>
         </div>
         
-        <div class="overflow-y-auto w-full md:w-[60%] z-1 overflow-hidden">
+        <div class="overflow-y-auto w-full md:w-[60%] z-1 overflow-hidden ml-0 md:ml-[40%]">
             @if(isset($selectedNotification))
                 @include('admision-matriculas.inbox.details', ['selectedNotification' => $selectedNotification])
             @else

@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Academia\Solicitud;
 
 use App\Http\Traits\WithSorting;
 use App\Models\Academia\Solicitud;
+use App\Services\Academia\SolicitudService;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -13,6 +14,8 @@ class ListTable extends Component
     use WithPagination;
     use WithSorting;
     public $search = '';
+    public $ciclo;
+    public $status = 'pendiente';
     public $confirmingEmpleadoDeletion = false;
     public $selectedEmpleado = null;
     protected $listeners = ['sort', 'search'];
@@ -24,6 +27,11 @@ class ListTable extends Component
         'page' => ['except' => 1, 'as' => 'p'],
 
     ];
+
+    public function __construct($ciclo)
+    {
+        $this->ciclo = $ciclo;
+    }
 
     public function sort($field)
     {
@@ -37,18 +45,19 @@ class ListTable extends Component
         $this->resetPage();
     }
 
-    public function render()
+    public function render(SolicitudService $solicitudService)
     {
-        $solicitudes = Solicitud::listarSolicitudes(
+        $solicitudes = $solicitudService->ListElements(
+            $this->ciclo,
+            $this->status,
             $this->search,
             $this->sortBy,
             $this->sortDirection,
         );
 
-        Log::debug($solicitudes);
-
         return view('livewire.academia.solicitud.list-table', [
-            'solicitudes' => $solicitudes
+            'solicitudes' => $solicitudes,
+            'ciclo' => $this->ciclo,
         ]);
     }
 }

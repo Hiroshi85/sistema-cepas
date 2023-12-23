@@ -37,7 +37,7 @@ class PagoController extends Controller
     public function index()
     {
         //if the current user has secretario or admin role
-        $autoridad = session()->get('authUser')->hasAnyRole(['secretario(a)', 'admin']);
+        $autoridad = session()->get('authUser')->hasAnyRole(['secretario(a)', 'director(a)', 'admin']);
         
         $apoderados = null;
         if ($autoridad){

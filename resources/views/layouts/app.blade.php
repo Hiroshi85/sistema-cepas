@@ -38,6 +38,7 @@
     {{-- Styles --}}
     <link rel="stylesheet" href="{{ asset('assets') }}/css/styles.css">
     @livewireStyles
+    @stack('styles')
 </head>
 
 <body class="font-sans antialiased">

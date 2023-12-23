@@ -1,5 +1,12 @@
 <?php
 
+use App\Http\Controllers\Academia\AcademiaController;
+use App\Http\Controllers\Academia\AlumnoAcademiaController;
+use App\Http\Controllers\Academia\CicloAcademicoController;
+use App\Http\Controllers\AdmisionController;
+use App\Http\Controllers\AlumnoController;
+use App\Http\Controllers\ApoderadoController;
+use App\Http\Controllers\AulaController;
 
 use App\Http\Controllers\CandidatoController;
 use App\Http\Controllers\EmpleadoController;
@@ -15,10 +22,6 @@ use App\Http\Controllers\PuestoController;
 
 //ADMISION Y MATRICULAS
 use App\Http\Controllers\AdmisionMatriculas\DashboardController;
-use App\Http\Controllers\AdmisionMatriculas\AdmisionController;
-use App\Http\Controllers\AdmisionMatriculas\AlumnoController;
-use App\Http\Controllers\AdmisionMatriculas\ApoderadoController;
-use App\Http\Controllers\AdmisionMatriculas\AulaController;
 use App\Http\Controllers\AdmisionMatriculas\DocumentoAlumnoController;
 use App\Http\Controllers\AdmisionMatriculas\DocumentoApoderadoController;
 use App\Http\Controllers\AdmisionMatriculas\DocumentoPostulanteController;
@@ -52,6 +55,7 @@ use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\SesionPruebaController;
 use App\Http\Controllers\SancionController;
 use App\Http\Controllers\CitaController;
+use App\Http\Controllers\SeguimientoDashboard;
 
 // Materiales Escolares
 use App\Http\Controllers\FacturaController;
@@ -62,7 +66,7 @@ use App\Http\Controllers\ProveedorController;
 
 // ACADEMIA
 use App\Http\Controllers\Academia\SolicitudController;
-use App\Http\Controllers\SeguimientoDashboard;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -299,12 +303,18 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::prefix('academia')->group(function () {
-        Route::get('/', function () {
-            return view('academia-dashboard');
-        })->name('academia.dashboard');
+        Route::get('/', [AcademiaController::class, 'index'])->name('academia.dashboard');
 
-        Route::resource('solicitud', SolicitudController::class)->names('solicitud');
-        Route::PUT('solicitud/{id}/accionSolicitud', [SolicitudController::class, 'accionSolicitud'])->name('solicitud.accionSolicitud');
+
+        Route::prefix('ciclo/{ciclo}')->group(function () {
+            Route::resource('solicitud', SolicitudController::class)->names('academia.ciclo.solicitud');
+            Route::PUT('solicitud/{solicitud}/accionSolicitud', [SolicitudController::class, 'accionSolicitud'])->name('academia.ciclo.solicitud.accionSolicitud');
+
+            Route::resource('alumno', AlumnoAcademiaController::class)->names('academia.ciclo.alumno');
+        });
+
+        Route::resource('ciclo' , CicloAcademicoController::class)->names('academia.ciclo');
+
     });
 });
 // ACADEMIA
