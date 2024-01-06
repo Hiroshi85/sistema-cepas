@@ -247,4 +247,9 @@ class OfertaController extends Controller
         ]);
         return $pdf->stream('oferta.pdf');
     }
+
+    public function firmarContratoPdf(Oferta $oferta)
+    {
+        dd($oferta);
+    }
 }
