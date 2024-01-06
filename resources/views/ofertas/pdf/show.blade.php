@@ -63,7 +63,7 @@
 <body>
     <header style="border-bottom: 1px solid black">
         <img style="width: 100px; height: 100px; margin: auto"
-            src="https://scontent.ftru7-1.fna.fbcdn.net/v/t39.30808-6/362288740_800848801856233_7443396535582840428_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=a2f6c7&_nc_ohc=QHSp2ULputUAX-rpFCe&_nc_ht=scontent.ftru7-1.fna&oh=00_AfBCuHkEoG4WxGZ-7TYZ3jhCBJwnRO2qMtrbZxFqFs5QqA&oe=650C60B1"
+            src="https://lh5.googleusercontent.com/BtEhLQ6yzzWIuySVaDCwgB30K1h58mjgoLUcUYftOM-hoXZC03uY0DAHzwJCTWy3fwEtwG7r2t7bYu775i7dKXc=w16383"
             alt="CEPAS ESCUDO">
         <h2 style="text-transform: uppercase;font-size: 1.2rem">Institución Educativa Privada CEPAS</h2>
         <h3 style="text-transform: uppercase;font-size: 1rem">
