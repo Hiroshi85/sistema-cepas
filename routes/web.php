@@ -177,9 +177,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/ofertas/{oferta}.pdf', [OfertaController::class, 'loadSinglePdf'])->name('ofertas.pdf.show');
         Route::resource('/ofertas', OfertaController::class);
         Route::get('/ofertas/{postulacion}/create', [OfertaController::class, 'createForAPostulacion'])
-            ->name('ofertas.createForAPostulacion');
+        ->name('ofertas.createForAPostulacion');
         Route::put('/ofertas/{entrevista}/finalizar', [OfertaController::class, 'decisionCandidato'])
-            ->name('ofertas.decisionCandidato');
+        ->name('ofertas.decisionCandidato');
+        Route::get('/ofertas/{oferta}/firmar-contrato.pdf', [OfertaController::class, 'firmarContratoPdf'])->name('ofertas.firmarContratoPdf');
 
         Route::resource('/contratos', ContratoController::class);
 
