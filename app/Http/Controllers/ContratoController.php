@@ -8,6 +8,8 @@ use App\Models\Candidato;
 use App\Models\Empleado;
 use App\Models\EvaluacionCandidato;
 use App\Models\Oferta;
+use App\Models\Puesto;
+use DateTime;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -16,7 +18,7 @@ class ContratoController extends Controller
 {
 
     use ValidatesRequests;
-    public function rules()
+    public function rules($apartirDeOferta = false)
     {
         return [
             'tipo_contrato' => 'required|string|max:255',
@@ -24,7 +26,8 @@ class ContratoController extends Controller
             'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
             'descripcion' => 'nullable|string',
             'remuneracion' => 'required|numeric|min:0',
-            'empleado_id' => 'required|exists:empleados,id',
+            'empleado_id' => !$apartirDeOferta ? 'required|exists:empleados,id' : 'nullable',
+            'documento' => 'required|file|mimes:pdf,doc,docx|max:2048',
         ];
     }
 
@@ -46,6 +49,10 @@ class ContratoController extends Controller
             'remuneracion.min' => 'La remuneración no debe ser inferior a :min.',
             'empleado_id.required' => 'El ID del empleado es obligatorio.',
             'empleado_id.exists' => 'El ID del empleado seleccionado no existe en la tabla "empleados".',
+            'documento.required' => 'El documento es obligatorio.',
+            'documento.file' => 'El documento debe ser un archivo.',
+            'documento.mimes' => 'El documento debe ser un archivo de tipo: :values.',
+            'documento.max' => 'El documento no debe exceder los :max kilobytes.',
         ];
     }
 
@@ -71,12 +78,22 @@ class ContratoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
+    private function formatFileName($file)
+    {
+        $name = $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
+        $nameWithoutExtension = str_replace('.' . $extension, '', $name);
+        $name = str_replace(' ', '_', $nameWithoutExtension);
+        $name = $name . '_' . time() . '.' . $extension;
+        return $name;
+    }
+
     public function store(Request $request)
     {
-        date_default_timezone_set('America/Lima');
+        $crear_empleado = $request->input('crear_empleado') ?? false;
 
-        $validator = Validator::make($request->all(), $this->rules(), $this->messages());
-
+        $validator = Validator::make($request->all(), $this->rules($crear_empleado), $this->messages());
         if ($validator->fails()) {
 
             foreach ($validator->errors()->all() as $error) {
@@ -87,7 +104,46 @@ class ContratoController extends Controller
             }
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
-        Contrato::crearContrato($validator->validated());
+
+        $e = null;
+        $puesto = Puesto::find($request->input('puesto_id'));
+        if ($crear_empleado) {
+            $e = Empleado::crearEmpleado([
+                'nombre' => $request->input('nombre'),
+                'dni' => $request->input('dni'),
+                'fecha_nacimiento' => $request->input('fecha_nacimiento'),
+                'genero' => $request->input('genero'),
+                'direccion' => $request->input('direccion'),
+                'telefono' => $request->input('telefono'),
+                'email' => $request->input('email'),
+                'puesto_id' => $request->input('puesto_id'),
+                'esDocente' => $puesto->esDocente(),
+            ]);
+        }
+
+
+        date_default_timezone_set('America/Lima');
+
+
+
+
+        $nombreArchivo = null;
+        if ($request->hasFile('documento')) {
+            $archivo = $request->file('documento'); // Obtiene el archivo del campo de entrada de archivo
+            $rutaDestino = public_path('contratos'); // Define la ruta de la carpeta de destino
+            $nombreArchivo = $this->formatFileName($archivo); // Define el nombre del archivo
+            $archivo->move($rutaDestino, $nombreArchivo);
+        }
+
+        Contrato::crearContrato([
+            'tipo_contrato' => $request->input('tipo_contrato'),
+            'fecha_inicio' => $request->input('fecha_inicio'),
+            'fecha_fin' => $request->input('fecha_fin'),
+            'descripcion' => $request->input('descripcion'),
+            'remuneracion' => $request->input('remuneracion'),
+            'empleado_id' => $crear_empleado ? $e->id : $request->input('empleado_id'),
+            'documento' => $nombreArchivo,
+        ]);
 
         session()->flash('toast', [
             'message' => 'Contrato creado correctamente',
@@ -159,5 +215,12 @@ class ContratoController extends Controller
         ]);
 
         return redirect()->route('contratos.index');
+    }
+
+    public function createForAOferta(Oferta $oferta)
+    {
+        return view('contratos.oferta.create', [
+            'oferta' => $oferta,
+        ]);
     }
 }

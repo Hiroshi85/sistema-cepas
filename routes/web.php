@@ -183,6 +183,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/ofertas/{oferta}/firmar-contrato.pdf', [OfertaController::class, 'firmarContratoPdf'])->name('ofertas.firmarContratoPdf');
 
         Route::resource('/contratos', ContratoController::class);
+        Route::get('/contratos/oferta/{oferta}/create', [ContratoController::class, 'createForAOferta'])->name('contratos.createForAOferta');
 
         Route::resource('/puestos', PuestoController::class);
         Route::resource('/equipos', EquipoController::class);

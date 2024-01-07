@@ -16,7 +16,8 @@ class Contrato extends Model
         'fecha_fin',
         'descripcion',
         'remuneracion',
-        'empleado_id'
+        'empleado_id',
+        'documento'
     ];
 
 

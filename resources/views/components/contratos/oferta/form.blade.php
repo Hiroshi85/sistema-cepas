@@ -1,13 +1,13 @@
-@props(['contrato' => null, 'empleados' => []])
-
+@props(['oferta'])
 @php
-    $options_empleados = [];
-    foreach ($empleados as $empleado) {
-        $options_empleados[] = (object) [
-            'value' => $empleado->id,
-            'label' => $empleado->nombre,
-        ];
-    }
+    use Carbon\Carbon;
+
+    $options_empleados = [
+        (object) [
+            'value' => $oferta->postulacion->candidato->id,
+            'label' => $oferta->postulacion->candidato->nombre,
+        ],
+    ];
 
     $options_tipos_contratos = [
         (object) [
@@ -19,30 +19,64 @@
             'label' => 'Tiempo Parcial',
         ],
     ];
+    $contrato_fecha_fin = Carbon::parse($oferta->contrato_fecha_inicio)
+        ->addMonths($oferta->meses_contrato)
+        ->format('Y-m-d');
 @endphp
 
 
-<form method="POST" action="{{ $contrato ? route('contratos.update', $contrato) : route('contratos.store') }}"
-    class="flex flex-col md:grid md:grid-cols-2 gap-5"
-    enctype="multipart/form-data"
-    >
+<form id="form" action="{{ route('contratos.store') }}" method="POST" enctype="multipart/form-data"
+    class="flex flex-col md:grid md:grid-cols-2 gap-5">
     @csrf
-    {{ $contrato ? method_field('PUT') : '' }}
 
-    <x-input-group value="{{ $contrato ? $contrato->empleado->id : '' }}" label="Empleado" name="empleado_id" type="select"
-        required :options="$options_empleados" />
+    <h2
+        class="col-span-2 font-semibold text-xl text-gray-800 dark:text-gray-100 leading-tight border-b-2 border-gray-300 dark:border-gray-700">
+        Empleado</h2>
+    <input type="hidden" name="crear_empleado" value="true">
 
-    <x-input-group value="{{ $contrato ? $contrato->tipo_contrato : '' }}" label="Tipo de Contrato" name="tipo_contrato"
-        type="select" :options="$options_tipos_contratos" required />
-    <x-input-group value="{{ $contrato ? $contrato->fecha_inicio : '' }}" label="Inicio de Contrato" name="fecha_inicio"
+    <x-input-group value="{{ $oferta->postulacion->candidato->nombre }}" readonly label="Nombre" name="nombre"
+        type="text" required placeholder="Ingrese nombre del empleado" />
+
+    <x-input-group value="{{ $oferta->postulacion->candidato->email }}" label="Email" name="email" type="email"
+        required placeholder="Ingrese email del empleado" />
+
+    <x-input-group value="{{ $oferta->postulacion->candidato->dni }}" readonly label="DNI" name="dni"
+        type="text" required placeholder="Ingrese DNI del empleado" />
+
+    <x-input-group value="{{ $oferta->postulacion->candidato->fecha_nacimiento }}" label="Fecha de Nacimiento"
+        name="fecha_nacimiento" type="date" required />
+
+    <x-input-group value="{{ $oferta->postulacion->candidato->genero }}" readonly label="Género" name="genero"
+        type="text" required />
+
+    <x-input-group value="{{ $oferta->postulacion->candidato->direccion }}" label="Dirección" name="direccion"
+        type="text" required placeholder="Ingrese dirección del empleado" />
+
+    <x-input-group value="{{ $oferta->postulacion->candidato->telefono }}" label="Teléfono" name="telefono"
+        type="text" required placeholder="Ingrese teléfono del empleado" />
+
+    <x-input-group value="{{ $oferta->postulacion->plaza->puesto->nombre }}" name="puesto" readonly label="Puesto"
+        type="text" required />
+
+    <input type="hidden" name="puesto_id" value="{{ $oferta->postulacion->plaza->puesto->id }}">
+
+
+    <h2
+        class="col-span-2 font-semibold text-xl text-gray-800 dark:text-gray-100 leading-tight border-b-2 border-gray-300 dark:border-gray-700">
+        Contrato</h2>
+
+
+    <x-input-group value="" label="Tipo de Contrato" name="tipo_contrato" type="select" :options="$options_tipos_contratos"
+        required />
+    <x-input-group value="{{ $oferta->contrato_fecha_inicio }}" label="Inicio de Contrato" name="fecha_inicio"
         type="date" required />
-    <x-input-group value="{{ $contrato ? $contrato->fecha_fin : '' }}" label="Fin de Contrato" name="fecha_fin"
-        type="date" required />
-    <x-input-group value="{{ $contrato ? $contrato->remuneracion : '' }}" label="Remuneración (mensual)"
-        name="remuneracion" required placeholder="Ej: 1000.00" type="number" step="0.01" min="0"
-        max="99999999999999999999" />
-    <x-input-group value="{{ $contrato ? $contrato->descripcion : '' }}" label="Descripción" name="descripcion" required
+    <x-input-group value="{{ $contrato_fecha_fin }}" label="Fin de Contrato" name="fecha_fin" type="date"
+        required />
+    <x-input-group value="{{ $oferta->salario }}" label="Remuneración (mensual)" name="remuneracion" required
+        placeholder="Ej: 1000.00" type="number" step="0.01" min="0" max="99999999999999999999" />
+    <x-input-group value="" label="Descripción" name="descripcion" required
         placeholder="Escriba la descripción del contrato" type="textarea" />
+
     <div>
         <label class="mb-2 block font-medium text-sm text-gray-700 dark:text-gray-200" for="documento">
             Documento
@@ -77,13 +111,13 @@
                         @dragover.prevent="$event.dataTransfer.dropEffect = 'move'">
                         <template x-for="(_, index) in Array.from({ length: files.length })">
                             <div class="relative flex flex-col items-center overflow-hidden text-center bg-gray-100 border rounded cursor-move select-none"
-                                style="padding-top: 100%;" @dragstart="dragstart($event)" @dragend="fileDragging = null"
-                                :class="{ 'border-blue-600': fileDragging == index }" draggable="true"
-                                :data-index="index">
+                                style="padding-top: 100%;" @dragstart="dragstart($event)"
+                                @dragend="fileDragging = null" :class="{ 'border-blue-600': fileDragging == index }"
+                                draggable="true" :data-index="index">
                                 <button class="absolute top-0 right-0 z-50 p-1 bg-white rounded-bl focus:outline-none"
                                     type="button" @click="remove(index)">
-                                    <svg class="w-4 h-4 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
+                                    <svg class="w-4 h-4 text-gray-700" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                     </svg>
@@ -96,7 +130,8 @@
                                             d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
                                     </svg>
                                 </template>
-                                <template x-if="files[index].type.includes('application/') || files[index].type === ''">
+                                <template
+                                    x-if="files[index].type.includes('application/') || files[index].type === ''">
                                     <svg class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
@@ -135,7 +170,6 @@
         </div>
     </div>
 
-
     <div class="col-span-2">
         <x-primary-button type="submit" class="bg-green-500 hover:bg-green-700">
             {{ __('Guardar') }}
@@ -144,8 +178,6 @@
 
 
 </form>
-
-
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <script src="https://unpkg.com/create-file-list"></script>

@@ -18,6 +18,7 @@ class CreateContratosTable extends Migration
             $table->date('fecha_fin')->nullable();
             $table->text('descripcion');
             $table->decimal('remuneracion', 10, 2);
+            $table->text('documento')->nullable();
             $table->foreignId('empleado_id')->constrained('empleados');
             $table->timestamps();
         });
