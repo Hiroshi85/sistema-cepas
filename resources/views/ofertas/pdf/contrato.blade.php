@@ -147,8 +147,7 @@
         <p>
             <b>PRIMERO:</b> EL EMPLEADOR es una empresa dedicada a Enseñanza Secundaria la cual requiere cubrir las
             necesidades
-            de recursos humanos con el objeto de incrementar las actividades educativas, debido al aumento de la aumento
-            de la demanda durante el año escolar {{ Carbon::parse($oferta->contrato_fecha_inicio)->format('Y') }}.
+            de recursos humanos con el objeto de incrementar las actividades educativas, debido al aumento de la demanda durante el año escolar {{ Carbon::parse($oferta->contrato_fecha_inicio)->format('Y') }}.
         <p>
             <b>SEGUNDO:</b> Por el presente documento EL
             EMPLEADOR contrata a plazo fijo bajo la modalidad ya indicada en la cláusula precedente, los servicios de EL
