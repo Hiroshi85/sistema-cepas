@@ -27,6 +27,9 @@ class OfertaController extends Controller
             'salario' => 'required|numeric|min:0',
             'beneficios' => 'nullable|array',
             'beneficios.*' => 'nullable|string',
+            'estado' => 'nullable|string|in:aceptada,rechazada',
+            'contrato_fecha_inicio' => 'nullable|date|after_or_equal:today',
+            'meses_contrato' => 'nullable|numeric|min:0',
         ];
     }
     public function rulesDecision()
@@ -63,6 +66,13 @@ class OfertaController extends Controller
             'salario.min' => 'El campo Salario debe ser igual o mayor que 0.',
             'beneficios.array' => 'El campo Beneficios debe ser una arreglo.',
             'beneficios.*.string' => 'El Beneficio debe ser una cadena de texto.',
+            'estado.string' => 'El Estado debe ser una cadena de texto.',
+            'estado.in' => 'El Estado debe ser aceptada o rechazada.',
+            'contrato_fecha_inicio.date' => 'El campo Fecha de Inicio de Contrato debe ser una fecha válida.',
+            'contrato_fecha_inicio.after_or_equal' => 'El campo Fecha de Inicio de Contrato debe ser igual o posterior a la fecha actual.',
+            'meses_contrato.numeric' => 'El campo Meses de Contrato debe ser numérico.',
+            'meses_contrato.min' => 'El campo Meses de Contrato debe ser igual o mayor que 0.',
+
         ];
     }
 
@@ -162,7 +172,7 @@ class OfertaController extends Controller
             }
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
-        Oferta::actualizarOferta($oferta, $validator->validated());
+        Oferta::actualizarOferta($oferta->id, $validator->validated());
 
         session()->flash('toast', [
             'message' => 'Oferta actualizada correctamente',
@@ -250,6 +260,11 @@ class OfertaController extends Controller
 
     public function firmarContratoPdf(Oferta $oferta)
     {
-        dd($oferta);
+        $coordinadorRRHH = Empleado::obtenerCoordinadorRRHH();
+        $pdf = Pdf::loadView('ofertas.pdf.contrato', [
+            'oferta' => $oferta,
+            'coordinadorRRHH' => $coordinadorRRHH
+        ]);
+        return $pdf->stream('oferta.pdf');
     }
 }
