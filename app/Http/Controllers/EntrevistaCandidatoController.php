@@ -98,14 +98,14 @@ class EntrevistaCandidatoController extends Controller
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
 
-        EntrevistaCandidato::crearEntrevista($validator->validated());
+        $entre = EntrevistaCandidato::crearEntrevista($validator->validated());
 
         session()->flash('toast', [
             'type' => 'success',
             'message' => 'Entrevista registrada correctamente.'
         ]);
 
-        return redirect()->route('rrhh.entrevistas.index');
+        return redirect()->route('rrhh.entrevistas.show', $entre->id);
     }
 
     /**
@@ -177,7 +177,7 @@ class EntrevistaCandidatoController extends Controller
         ]);
         session()->flash('finalizarEntrevista');
 
-        return redirect()->route('rrhh.entrevistas.index');
+        return redirect()->route('rrhh.entrevistas.show', $id);
     }
 
     /**
