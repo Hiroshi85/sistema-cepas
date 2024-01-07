@@ -117,6 +117,20 @@
                                 @endswitch
                             </dd>
                         </div>
+                        {{-- embed pdf of contrato->documento (documento is path)  --}}
+                        <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                            @if ($contrato->documento)
+                                <dt class="text-sm font-medium leading-6 text-gray-900 dark:text-gray-100">Documento
+                                </dt>
+                                <dd
+                                    class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
+
+                                    <a href={{ "/contratos". "/" . $contrato->documento }} target="_blank"
+                                        class="text-indigo-600 dark:text-indigo-200 hover:text-indigo-900 dark:hover:text-indigo-300">Ver
+                                        documento</a>
+                                </dd>
+                            @endif
+
                     </dl>
                 </div>
             </div>
