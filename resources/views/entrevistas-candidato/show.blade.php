@@ -173,6 +173,7 @@
                                     @case('aprobada')
                                         <x-badge color="green">Aprobada </x-badge>
                                     @break
+
                                     @case('rechazada')
                                         <x-badge color="red">Rechazada </x-badge>
                                     @break
@@ -187,6 +188,17 @@
                                 <dd
                                     class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
                                     @livewire('rrhh-entrevistas.finalizar-entrevista-modal', ['entrevista' => $entrevista], key($entrevista->id))
+                                </dd>
+                            </div>
+                        @endif
+                        @if (!$entrevista->enCurso() && !$entrevista->evaluacion->haFinalizado())
+                            <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                <dd
+                                    class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
+                                    <a href="{{ route('rrhh.evaluaciones.show', $entrevista->evaluacion) }}"
+                                        class="bg-indigo-700 hover:bg-indigo-800 ease-in-out text-white py-2 px-5 rounded-sm">
+                                        Continuar con la evaluación
+                                    </a>
                                 </dd>
                             </div>
                         @endif
