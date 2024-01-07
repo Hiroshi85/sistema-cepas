@@ -63,7 +63,7 @@
 <body>
     <header style="border-bottom: 1px solid black">
         <img style="width: 100px; height: 100px; margin: auto"
-            src="https://lh5.googleusercontent.com/BtEhLQ6yzzWIuySVaDCwgB30K1h58mjgoLUcUYftOM-hoXZC03uY0DAHzwJCTWy3fwEtwG7r2t7bYu775i7dKXc=w16383"
+            src="{{ public_path('assets/cepas_escudo.png') }}"
             alt="CEPAS ESCUDO">
         <h2 style="text-transform: uppercase;font-size: 1.2rem">Institución Educativa Privada CEPAS</h2>
         <h3 style="text-transform: uppercase;font-size: 1rem">

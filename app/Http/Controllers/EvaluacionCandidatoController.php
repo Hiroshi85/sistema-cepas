@@ -203,7 +203,7 @@ class EvaluacionCandidatoController extends Controller
         ]);
         session()->flash('finalizarEvaluacion');
 
-        return redirect()->route('rrhh.evaluaciones.index');
+        return redirect()->route('rrhh.evaluaciones.show', $id);
     }
 
     /**

@@ -200,6 +200,16 @@
                                         {{ $evaluacion->puntaje_total }}
                                     </dd>
                                 </div>
+                                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+
+                                    <dd
+                                        class="mt-1 text-sm leading-6 text-gray-700 dark:text-gray-300 sm:col-span-2 sm:mt-0">
+                                        <a href="{{ route('postulaciones.show', $evaluacion->postulacion) }}"
+                                            class="bg-indigo-700 hover:bg-indigo-800 ease-in-out text-white py-2 px-5 rounded-sm">
+                                            Ver postulación
+                                        </a>
+                                    </dd>
+                                </div>
                             @endif
                         @endif
                     </dl>

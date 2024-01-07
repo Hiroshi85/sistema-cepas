@@ -27,6 +27,13 @@
         <x-input-group value="{{ $oferta ? $oferta->salario : '' }}" label="Salario Ofrecido" name="salario"
             type="text" placeholder="Ingrese el salario ofrececido en (S/.)" required>
         </x-input-group>
+        <x-input-group value="{{ $oferta ? $oferta->meses_contrato : '' }}" label="Tiempo de contrato "
+            placeholder="Ingrese el tiempo de contrato en meses" name="meses_contrato" type="number" min="0"
+            max="99" required>
+        </x-input-group>
+        <x-input-group value="{{ $oferta ? $oferta->contrato_fecha_inicio : '' }}" label="Fecha inicio de labores "
+            name="contrato_fecha_inicio" type="date" required>
+        </x-input-group>
         <x-input-group value="{{ $oferta ? $oferta->descripcion : '' }}" label="Descripcion" name="descripcion"
             type="textarea" placeholder="Ingrese la descripción de la oferta" required>
         </x-input-group>

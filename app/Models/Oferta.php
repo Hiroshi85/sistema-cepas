@@ -16,7 +16,9 @@ class Oferta extends Model
         'descripcion',
         'salario',
         'beneficios',
-        'estado'
+        'estado',
+        'contrato_fecha_inicio',
+        'meses_contrato'
     ];
 
     protected $casts = [
@@ -64,7 +66,7 @@ class Oferta extends Model
     public static function actualizarOferta($id, $data)
     {
         $oferta = Oferta::find($id);
-        $oferta->update($data);
+        Oferta::where('id', $id)->update($data);
         return $oferta;
     }
 
