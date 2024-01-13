@@ -2,8 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Contrato;
-use App\Models\Empleado;
+use App\Models\Rrhh\Contrato;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ContratoFactory extends Factory

@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\candidato;
-use App\Models\postulacion;
-use App\Models\Plaza;
+use App\Models\Rrhh\candidato;
+use App\Models\Rrhh\Plaza;
+use App\Models\Rrhh\postulacion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PostulacionFactory extends Factory

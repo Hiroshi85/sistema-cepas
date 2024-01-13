@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Candidatos;
 
 use App\Http\Traits\WithSorting;
-use App\Models\Candidato;
+use App\Models\Rrhh\Candidato;
 use Livewire\Component;
 use Livewire\WithPagination;
 

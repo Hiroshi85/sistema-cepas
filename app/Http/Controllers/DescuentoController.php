@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Descuento;
+use App\Models\Rrhh\Descuento;
 use Illuminate\Http\Request;
 
 class DescuentoController extends Controller

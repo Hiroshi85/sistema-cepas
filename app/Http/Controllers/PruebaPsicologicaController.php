@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\PruebaPsicologica;
+use App\Models\Rrhh\Empleado;
 use App\Models\TipoPrueba;
-use App\Models\Empleado;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Illuminate\Http\File;
-use Illuminate\Support\Facades\DB;
 
 class PruebaPsicologicaController extends Controller
 {

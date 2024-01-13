@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Equipos;
 
 use App\Http\Traits\WithSorting;
-use App\Models\Equipo;
+use App\Models\Rrhh\Equipo;
 use Livewire\Component;
 use Livewire\WithPagination;
 

@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\candidato;
+use App\Models\Rrhh\candidato;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CandidatoFactory extends Factory

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asignatura;
-use Illuminate\Http\Request;
-use App\Models\CursoAsignado;
 use App\Models\Aula;
-use App\Models\Empleado;
-use App\Models\Silabo;
+use App\Models\CursoAsignado;
 use App\Models\Evaluacion;
+use App\Models\Rrhh\Empleado;
+use App\Models\Silabo;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
@@ -45,7 +45,7 @@ class AsignaturaController extends Controller
         // Redireccionar a la página deseada después de guardar los datos
         return redirect()->route('cursos.index')->with('mensaje','Curso registrado correctamente.');
     }
- 
+
     public function destroy($id)
     {
         $curso=Asignatura::findorfail($id);
@@ -101,7 +101,7 @@ class AsignaturaController extends Controller
             'iddocente' => 'required',
             'horario' => 'required',
         ]);
-    
+
         // Crear una nueva instancia del modelo y asignar los valores
         $curso = new CursoAsignado();
         $curso->idcurso = $request->idcurso;
@@ -112,8 +112,8 @@ class AsignaturaController extends Controller
 
         // Guardar el registro en la base de datos
         $curso->save();
-        
-      
+
+
         // Redireccionar a la página deseada después de guardar los datos
         return redirect()->route('asignar')->with('mensaje','Curso asignado correctamente.');
     }
@@ -129,7 +129,7 @@ class AsignaturaController extends Controller
                 'iddocente' => 'required',
                 'horario' => 'required',
             ]);
-        
+
             // Crear una nueva instancia del modelo y asignar los valores
             $curso = CursoAsignado::FindOrFail($id);
             $old = $curso->$id;

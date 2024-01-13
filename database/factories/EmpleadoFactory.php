@@ -2,8 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Empleado;
-use App\Models\Puesto;
+use App\Models\Rrhh\Empleado;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EmpleadoFactory extends Factory

@@ -3,11 +3,9 @@
 namespace Database\Seeders;
 
 use App\Http\Controllers\EmpleadoController;
-use App\Models\Contrato;
-use App\Models\User;
-use App\Models\Empleado;
+use App\Models\Rrhh\Contrato;
+use App\Models\Rrhh\Empleado;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class ContratoSeeder extends Seeder
 {

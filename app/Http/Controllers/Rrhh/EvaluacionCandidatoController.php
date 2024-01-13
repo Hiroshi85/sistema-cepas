@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Rrhh;
 
 use App\Http\Controllers\Controller;
-use App\Models\EvaluacionCandidato;
-use App\Models\Postulacion;
+use App\Models\Rrhh\EvaluacionCandidato;
+use App\Models\Rrhh\Postulacion;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Barryvdh\DomPDF\Facade\Pdf;
 
- 
+
 class EvaluacionCandidatoController extends Controller
 {
 

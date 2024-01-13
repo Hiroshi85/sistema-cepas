@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Rrhh;
 
 use App\Http\Controllers\Controller;
-use App\Models\Empleado;
-use App\Models\Puesto;
+use App\Models\Rrhh\Empleado;
+use App\Models\Rrhh\Puesto;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class EmpleadoController extends Controller
 {

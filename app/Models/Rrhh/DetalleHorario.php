@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Rrhh;
 
+use App\Models\Asignatura;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

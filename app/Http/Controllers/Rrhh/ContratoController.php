@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Rrhh;
 
 use App\Http\Controllers\Controller;
-use App\Models\Contrato;
-use App\Models\Empleado;
-use App\Models\Oferta;
-use App\Models\Puesto;
+use App\Models\Rrhh\Contrato;
+use App\Models\Rrhh\Empleado;
+use App\Models\Rrhh\Oferta;
+use App\Models\Rrhh\Puesto;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;

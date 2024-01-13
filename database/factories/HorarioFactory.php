@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Empleado;
-use App\Models\Horario;
+use App\Models\Rrhh\Empleado;
+use App\Models\Rrhh\Horario;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class HorarioFactory extends Factory

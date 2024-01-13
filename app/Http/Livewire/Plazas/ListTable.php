@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Plazas;
 
 use App\Http\Traits\WithSorting;
-use App\Models\Plaza;
+use App\Models\Rrhh\Plaza;
 use Livewire\Component;
 use Livewire\WithPagination;
 

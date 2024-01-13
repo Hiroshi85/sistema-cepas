@@ -3,8 +3,8 @@
 namespace App\Http\Livewire\Postulaciones\Candidatos;
 
 use App\Http\Traits\WithSorting;
-use App\Models\Postulacion;
-use App\Models\Candidato;
+use App\Models\Rrhh\Candidato;
+use App\Models\Rrhh\Postulacion;
 use Livewire\Component;
 use Livewire\WithPagination;
 

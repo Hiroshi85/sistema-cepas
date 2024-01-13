@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Nomina;
-use App\Models\Prestacion;
+use App\Models\Rrhh\Nomina;
+use App\Models\Rrhh\Prestacion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PrestacionFactory extends Factory

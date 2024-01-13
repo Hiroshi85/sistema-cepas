@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\DetalleHorario;
+use App\Models\Rrhh\DetalleHorario;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DetalleHorarioFactory extends Factory

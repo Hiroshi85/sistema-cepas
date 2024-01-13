@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Plaza;
-use App\Models\Puesto;
+use App\Models\Rrhh\Plaza;
+use App\Models\Rrhh\Puesto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class PlazaFactory extends Factory

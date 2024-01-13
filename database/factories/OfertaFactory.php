@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Oferta;
-use App\Models\Puesto;
+use App\Models\Rrhh\Oferta;
+use App\Models\Rrhh\Puesto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class OfertaFactory extends Factory

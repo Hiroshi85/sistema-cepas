@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Ofertas;
 
 use App\Http\Traits\WithSorting;
-use App\Models\Oferta;
+use App\Models\Rrhh\Oferta;
 use Livewire\Component;
 use Livewire\WithPagination;
 

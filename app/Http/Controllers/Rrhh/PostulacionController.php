@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Rrhh;
 
 use App\Http\Controllers\Controller;
-use App\Models\Plaza;
-use App\Models\Postulacion;
-use App\Models\Candidato;
+use App\Models\Rrhh\Candidato;
+use App\Models\Rrhh\Plaza;
+use App\Models\Rrhh\Postulacion;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class PostulacionController extends Controller
 {

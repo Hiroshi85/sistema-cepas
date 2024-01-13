@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\SesionPrueba;
-use App\Models\Empleado;
-use App\Models\PruebaPsicologica;
-use App\Models\Aula;
 use App\Models\Alumno;
-use App\Models\ResultadoPrueba;
+use App\Models\Aula;
 use App\Models\EstadoResultadoPrueba;
-use Illuminate\Support\Facades\Auth;
-use \Datetime;
+use App\Models\PruebaPsicologica;
+use App\Models\ResultadoPrueba;
+use App\Models\SesionPrueba;
 use Barryvdh\DomPDF\Facade\Pdf;
-
-use function PHPUnit\Framework\isEmpty;
+use Datetime;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SesionPruebaController extends Controller
 {

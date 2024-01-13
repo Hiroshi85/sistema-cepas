@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Descuento;
-use App\Models\Nomina;
+use App\Models\Rrhh\Descuento;
+use App\Models\Rrhh\Nomina;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DescuentoFactory extends Factory

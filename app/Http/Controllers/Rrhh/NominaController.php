@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Rrhh;
 
 use App\Http\Controllers\Controller;
-use App\Models\Nomina;
+use App\Models\Rrhh\Nomina;
 use Illuminate\Http\Request;
 
 class NominaController extends Controller

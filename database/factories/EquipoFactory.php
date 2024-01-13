@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Equipo;
+use App\Models\Rrhh\Equipo;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EquipoFactory extends Factory

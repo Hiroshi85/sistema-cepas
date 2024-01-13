@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Rrhh;
 
 use App\Http\Controllers\Controller;
-use App\Models\Empleado;
-use App\Models\EntrevistaCandidato;
-use App\Models\EvaluacionCandidato;
+use App\Models\Rrhh\Empleado;
+use App\Models\Rrhh\EntrevistaCandidato;
+use App\Models\Rrhh\EvaluacionCandidato;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

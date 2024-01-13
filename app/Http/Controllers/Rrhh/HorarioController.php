@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Rrhh;
 
 use App\Http\Controllers\Controller;
-use App\Models\Horario;
+use App\Models\Rrhh\Horario;
 use Illuminate\Http\Request;
 
 class HorarioController extends Controller

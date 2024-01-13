@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Prestacion;
+use App\Models\Rrhh\Prestacion;
 use Illuminate\Http\Request;
 
 class PrestacionController extends Controller
