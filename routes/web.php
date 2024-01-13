@@ -4,17 +4,21 @@ use App\Http\Controllers\Academia\AcademiaController;
 use App\Http\Controllers\Academia\AlumnoAcademiaController;
 use App\Http\Controllers\Academia\CicloAcademicoController;
 
-use App\Http\Controllers\CandidatoController;
-use App\Http\Controllers\EmpleadoController;
-use App\Http\Controllers\EntrevistaCandidatoController;
-use App\Http\Controllers\EquipoController;
-use App\Http\Controllers\EvaluacionCandidatoController;
-use App\Http\Controllers\HorarioController;
-use App\Http\Controllers\NominaController;
-use App\Http\Controllers\PlazaController;
-use App\Http\Controllers\PostulacionController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PuestoController;
+
+// RRHH
+use App\Http\Controllers\Rrhh\CandidatoController;
+use App\Http\Controllers\Rrhh\EmpleadoController;
+use App\Http\Controllers\Rrhh\EntrevistaCandidatoController;
+use App\Http\Controllers\Rrhh\EquipoController;
+use App\Http\Controllers\Rrhh\EvaluacionCandidatoController;
+use App\Http\Controllers\Rrhh\HorarioController;
+use App\Http\Controllers\Rrhh\NominaController;
+use App\Http\Controllers\Rrhh\PlazaController;
+use App\Http\Controllers\Rrhh\PostulacionController;
+use App\Http\Controllers\Rrhh\PuestoController;
+use App\Http\Controllers\Rrhh\ContratoController;
+use App\Http\Controllers\Rrhh\OfertaController;
 
 //ADMISION Y MATRICULAS
 use App\Http\Controllers\AdmisionMatriculas\DashboardController;
@@ -50,8 +54,6 @@ use App\Http\Controllers\BuscarController;
 use App\Http\Controllers\PruebaArchivoController;
 use App\Http\Controllers\ConductaController;
 use App\Http\Controllers\ComportamientoController;
-use App\Http\Controllers\ContratoController;
-use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\SesionPruebaController;
 use App\Http\Controllers\SancionController;
 use App\Http\Controllers\CitaController;

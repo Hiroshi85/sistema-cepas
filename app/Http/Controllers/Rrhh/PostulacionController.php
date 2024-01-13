@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Rrhh;
 
+use App\Http\Controllers\Controller;
 use App\Models\Plaza;
 use App\Models\Postulacion;
 use App\Models\Candidato;

@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Rrhh;
 
+use App\Http\Controllers\Controller;
 use App\Models\Plaza;
 use App\Models\Puesto;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class PlazaController extends Controller
 {

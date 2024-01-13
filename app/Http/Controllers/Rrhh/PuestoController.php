@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Rrhh;
 
+use App\Http\Controllers\Controller;
 use App\Models\Equipo;
 use App\Models\Puesto;
 use Illuminate\Http\Request;

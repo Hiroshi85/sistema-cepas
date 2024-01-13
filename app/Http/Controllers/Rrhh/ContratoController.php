@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Rrhh;
 
-use App\Models\Plaza;
+use App\Http\Controllers\Controller;
 use App\Models\Contrato;
-use App\Models\Candidato;
 use App\Models\Empleado;
-use App\Models\EvaluacionCandidato;
 use App\Models\Oferta;
 use App\Models\Puesto;
-use DateTime;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
