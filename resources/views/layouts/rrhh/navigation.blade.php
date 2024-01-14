@@ -19,6 +19,12 @@
                     'permissions' => ['gestionar contratos'],
                     'parent' => 'personal',
                 ],
+                'Nóminas' => [
+                    'route' => 'nominas.index',
+                    'dropdown' => false,
+                    'permissions' => ['gestionar nominas'],
+                    'parent' => 'personal',
+                ],
                 'Puestos' => [
                     'route' => 'puestos.index',
                     'dropdown' => false,
@@ -75,7 +81,7 @@
                     'parent' => 'reclutamiento',
                 ],
             ],
-    
+
             'dropdown' => true,
             'permissions' => [],
             'name' => 'reclutamiento',
@@ -87,26 +93,26 @@
         array_pop($elements);
         return implode('.', $elements);
     }
-    
+
     function isDropdownActive($items)
     {
         $ruta_actual = request()
             ->route()
             ->getName();
         $ruta_base_actual = getBaseRoute($ruta_actual);
-    
+
         foreach ($items as $item) {
             $ruta_item = $item['route'];
             $ruta_base_item = getBaseRoute($ruta_item);
-    
+
             if (request()->routeIs($item['route']) || $ruta_base_actual == $ruta_base_item) {
                 return true;
             }
         }
-    
+
         return false;
     }
-    
+
 @endphp
 
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
