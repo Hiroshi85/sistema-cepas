@@ -13,7 +13,10 @@ class NominaController extends Controller
      */
     public function index()
     {
-        //
+        $nominas = Nomina::orderBy('id', 'desc')->paginate(10);
+        return view('rrhh.nominas.index', [
+            'nominas' => $nominas,
+        ]);
     }
 
     /**

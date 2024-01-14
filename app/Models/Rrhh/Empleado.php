@@ -111,4 +111,12 @@ class Empleado extends Model
     {
         return Empleado::where('puesto_id', '=', '1')->first();
     }
+
+    public static function obtenerContratoVigente($empleado_id)
+    {
+        return Contrato::where('empleado_id', '=', $empleado_id)
+            ->where('fecha_fin', '>=', now())
+            ->where('fecha_inicio', '<=', now())
+            ->first();
+    }
 }
