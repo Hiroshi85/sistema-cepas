@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(EquipoSeeder::class);
         $this->call(PuestoSeeder::class);
         $this->call(ContratoSeeder::class);
+        $this->call(NominaSeeder::class);
         $this->call(AsignaturaSeeder::class);
         $this->call(CandidatoSeeder::class);
 

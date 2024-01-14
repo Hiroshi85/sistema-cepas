@@ -17,14 +17,25 @@ class NominaFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'empleado_id' => Empleado::InRandomOrder()->first()->id,
-            'fecha_inicio' => $this->faker->date(),
-            'fecha_fin' => $this->faker->date(),
-            'sueldo_basico' => $this->faker->randomFloat(2, 1000, 5000),
-            'total_bruto' => $this->faker->randomFloat(2, 1000, 5000),
-            'total_neto' => $this->faker->randomFloat(2, 800, 4000),
+        $random_employee = Empleado::InRandomOrder()->first();
+        $inicio = $this->faker->dateTimeBetween('-1 years', 'now');
+        $fin = $this->faker->dateTimeBetween($inicio, 'now');
+        $contrato= Empleado::obtenerContratoVigente($random_employee->id);
+        $nomina = new Nomina([
+            'empleado_id' => $random_employee->id,
+            'fecha_inicio' => $inicio,
+            'fecha_fin' => $fin,
+            'sueldo_basico' => $contrato->remuneracion,
             'estado_pago' => $this->faker->randomElement(['pendiente', 'pagado']),
+        ]);
+        return [
+            'empleado_id' => $nomina->empleado_id,
+            'fecha_inicio' => $nomina->fecha_inicio,
+            'fecha_fin' => $nomina->fecha_fin,
+            'sueldo_basico' => $nomina->sueldo_basico,
+            'total_bruto' => $nomina->totalBruto(),
+            'total_neto' => $nomina->totalNeto(),
+            'estado_pago' => $nomina->estado_pago,
         ];
     }
 }
