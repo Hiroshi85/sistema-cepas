@@ -20,13 +20,14 @@ class RoleSeeder extends Seeder
         Role::create(['name' => 'director(a)']);
         Role::create(['name' => 'auxiliar']);
         Role::create(['name' => 'psicologo']);
-        
+
         $role2 = Role::create(['name' => 'Alumno']);
         $role3 = Role::create(['name' => 'Docente']);
         $role4 = Role::create(['name' => 'Coordinador Academico']);
         $coordinador_rrhh = Role::create(['name' => 'Coordinador de Recursos Humanos']);
         $espe_recluta = Role::create(['name' => 'Especialista en Reclutamiento']);
         $enc_evalua = Role::create(['name' => 'Encargado de Evaluación']);
+        $enc_nominas = Role::create(['name' => 'Encargado de Nóminas']);
 
         // ADMIN
         Permission::create(['name' => 'cursos.index'])->syncRoles($admin);
@@ -61,9 +62,14 @@ class RoleSeeder extends Seeder
         $postulaciones_ver = Permission::create(['name' => 'ver postulaciones']);
         $programarentrevistas = Permission::create(['name' => 'programar entrevistas']);
 
-        $coordinador_rrhh->givePermissionTo([$ofertas, $contratos, $empleados, $puestos, $equipos, $postulaciones_ver]);
+        // Permisos para el "Encargado de Nóminas"
+        $nominas = Permission::create(['name' => 'gestionar nominas']);
+        $nominas_ver = Permission::create(['name' => 'ver nominas']);
+
+        $coordinador_rrhh->givePermissionTo([$ofertas, $contratos, $empleados, $puestos, $equipos, $postulaciones_ver, $nominas_ver]);
         $espe_recluta->givePermissionTo([$candidatos, $plazas, $postulaciones, $programarentrevistas, $postulaciones_ver]);
         $enc_evalua->givePermissionTo([$evaluaciones, $entrevistas, $programarentrevistas, $postulaciones_ver]);
+        $enc_nominas->givePermissionTo([$nominas]);
 
         $admin->givePermissionTo(Permission::all());
     }
