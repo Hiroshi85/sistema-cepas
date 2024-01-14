@@ -98,7 +98,7 @@ class CandidatoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('rrhh.candidatos.index');
+        return redirect()->route('candidatos.index');
     }
 
     /**
@@ -131,7 +131,7 @@ class CandidatoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('rrhh.candidatos.index');
+        return redirect()->route('candidatos.index');
     }
 
     /**
@@ -149,6 +149,6 @@ class CandidatoController extends Controller
             ]
         );
 
-        return redirect()->route('rrhh.candidatos.index');
+        return redirect()->route('candidatos.index');
     }
 }

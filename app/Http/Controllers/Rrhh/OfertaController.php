@@ -128,7 +128,7 @@ class OfertaController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('rrhh.ofertas.index');
+        return redirect()->route('ofertas.index');
     }
 
     /**
@@ -180,7 +180,7 @@ class OfertaController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('rrhh.ofertas.index');
+        return redirect()->route('ofertas.index');
     }
 
     /**
@@ -194,7 +194,7 @@ class OfertaController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('rrhh.ofertas.index');
+        return redirect()->route('ofertas.index');
     }
 
     public function decisionCandidato(Request $request, $id)
@@ -246,7 +246,7 @@ class OfertaController extends Controller
             ]);
         }
 
-        return redirect()->route('rrhh.ofertas.index');
+        return redirect()->route('ofertas.index');
     }
     public function loadSinglePdf(Request $req)
     {

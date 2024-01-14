@@ -62,7 +62,7 @@ class PostulacionController extends Controller
                 'message' => 'Tienes que deseleccionar el candidato para crear uno nuevo',
                 'type' => 'error',
             ]);
-            return redirect()->route('rrhh.postulaciones.create')->withInput();
+            return redirect()->route('postulaciones.create')->withInput();
         }
         // if candidato_id is null, create a new candidato
         if ($request->input('candidato_id') == null) {
@@ -83,7 +83,7 @@ class PostulacionController extends Controller
                 'message' => 'El candidato ya se encuentra postulado a esta plaza',
                 'type' => 'error',
             ]);
-            return redirect()->route('rrhh.postulaciones.create')->withInput();
+            return redirect()->route('postulaciones.create')->withInput();
         }
 
         Postulacion::crearPostulacion($data);
@@ -93,7 +93,7 @@ class PostulacionController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('rrhh.postulaciones.index');
+        return redirect()->route('postulaciones.index');
     }
 
     /**
@@ -138,7 +138,7 @@ class PostulacionController extends Controller
                 'message' => 'El candidato ya se encuentra postulado a esta plaza',
                 'type' => 'error',
             ]);
-            return redirect()->route('rrhh.postulaciones.edit', $postulacion->id)->withInput();
+            return redirect()->route('postulaciones.edit', $postulacion->id)->withInput();
         }
 
 
@@ -149,7 +149,7 @@ class PostulacionController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('rrhh.postulaciones.index');
+        return redirect()->route('postulaciones.index');
     }
 
     /**
@@ -163,7 +163,7 @@ class PostulacionController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('rrhh.postulaciones.index');
+        return redirect()->route('postulaciones.index');
     }
 
     public function destroyByCandidato(Candidato $candidato)
@@ -174,7 +174,7 @@ class PostulacionController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('rrhh.postulaciones.index', ['mode' => 'candidato']);
+        return redirect()->route('postulaciones.index', ['mode' => 'candidato']);
     }
     public function destroyByPlaza(Plaza $plaza)
     {
@@ -184,7 +184,7 @@ class PostulacionController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('rrhh.postulaciones.index', ['mode' => 'plaza']);
+        return redirect()->route('postulaciones.index', ['mode' => 'plaza']);
     }
 
     public function loadSinglePdf(Request $req)

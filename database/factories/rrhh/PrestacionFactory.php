@@ -1,14 +1,14 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\rrhh;
 
-use App\Models\Rrhh\Descuento;
 use App\Models\Rrhh\Nomina;
+use App\Models\Rrhh\Prestacion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class DescuentoFactory extends Factory
+class PrestacionFactory extends Factory
 {
-    protected $model = Descuento::class;
+    protected $model = Prestacion::class;
 
     /**
      * Define the model's default state.
@@ -21,6 +21,7 @@ class DescuentoFactory extends Factory
             'nomina_id' => Nomina::InRandomOrder()->first()->id,
             'concepto' => $this->faker->word,
             'monto' => $this->faker->randomFloat(2, 0, 99999),
+            'fecha_aplicacion' => $this->faker->date(),
         ];
     }
 }

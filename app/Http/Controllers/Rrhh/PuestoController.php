@@ -81,7 +81,7 @@ class PuestoController extends Controller
 
         );
 
-        return redirect()->route('rrhh.puestos.index');
+        return redirect()->route('puestos.index');
     }
 
     /**
@@ -123,7 +123,7 @@ class PuestoController extends Controller
 
         );
 
-        return redirect()->route('rrhh.puestos.index');
+        return redirect()->route('puestos.index');
     }
 
     /**
@@ -142,6 +142,6 @@ class PuestoController extends Controller
 
         );
 
-        return redirect()->route('rrhh.puestos.index');
+        return redirect()->route('puestos.index');
     }
 }

@@ -88,7 +88,7 @@ class PlazaController extends Controller
                     'message' => 'Ya existe una plaza con el mismo puesto y en el plazo de tiempo indicado.'
                 ]
             );
-            return redirect()->route('rrhh.plazas.create')->withInput();
+            return redirect()->route('plazas.create')->withInput();
         }
 
         Plaza::crearPlaza($data);
@@ -101,7 +101,7 @@ class PlazaController extends Controller
             ]
         );
 
-        return redirect()->route('rrhh.plazas.index');
+        return redirect()->route('plazas.index');
     }
 
     /**
@@ -147,7 +147,7 @@ class PlazaController extends Controller
                 ]
             );
 
-            return redirect()->route('rrhh.plazas.edit', $plaza)->withInput();
+            return redirect()->route('plazas.edit', $plaza)->withInput();
         }
 
         Plaza::actualizarPlaza($plaza, $data);
@@ -160,7 +160,7 @@ class PlazaController extends Controller
             ]
         );
 
-        return redirect()->route('rrhh.plazas.index');
+        return redirect()->route('plazas.index');
     }
 
     /**
@@ -178,6 +178,6 @@ class PlazaController extends Controller
             ]
         );
 
-        return redirect()->route('rrhh.plazas.index');
+        return redirect()->route('plazas.index');
     }
 }

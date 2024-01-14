@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\rrhh;
 
 use App\Models\Rrhh\Contrato;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -25,6 +25,7 @@ class ContratoFactory extends Factory
             'descripcion' => $this->faker->text,
             'remuneracion' => $this->faker->randomFloat(2, 1000, 10000),
             'empleado_id' => 0,
+
         ];
     }
 }

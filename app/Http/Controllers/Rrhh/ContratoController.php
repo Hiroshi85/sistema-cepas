@@ -147,7 +147,7 @@ class ContratoController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('rrhh.contratos.index');
+        return redirect()->route('contratos.index');
     }
 
     /**
@@ -197,7 +197,7 @@ class ContratoController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('rrhh.contratos.index');
+        return redirect()->route('contratos.index');
     }
 
     /**
@@ -211,7 +211,7 @@ class ContratoController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('rrhh.contratos.index');
+        return redirect()->route('contratos.index');
     }
 
     public function createForAOferta(Oferta $oferta)

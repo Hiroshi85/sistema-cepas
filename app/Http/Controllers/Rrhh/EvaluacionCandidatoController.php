@@ -122,7 +122,7 @@ class EvaluacionCandidatoController extends Controller
             'message' => 'Evaluación registrada correctamente.'
         ]);
 
-        return redirect()->route('rrhh.evaluaciones.index');
+        return redirect()->route('evaluaciones.index');
     }
 
     /**
@@ -176,7 +176,7 @@ class EvaluacionCandidatoController extends Controller
             'message' => 'Evaluación actualizada correctamente.'
         ]);
 
-        return redirect()->route('rrhh.evaluaciones.index');
+        return redirect()->route('evaluaciones.index');
     }
 
     public function finalizarEvaluacion(Request $request, $id)
@@ -204,7 +204,7 @@ class EvaluacionCandidatoController extends Controller
         ]);
         session()->flash('finalizarEvaluacion');
 
-        return redirect()->route('rrhh.evaluaciones.show', $id);
+        return redirect()->route('evaluaciones.show', $id);
     }
 
     /**
@@ -219,7 +219,7 @@ class EvaluacionCandidatoController extends Controller
             'message' => 'Evaluación eliminada correctamente.'
         ]);
 
-        return redirect()->route('rrhh.evaluaciones.index');
+        return redirect()->route('evaluaciones.index');
     }
     public function loadSinglePdf(Request $req)
     {

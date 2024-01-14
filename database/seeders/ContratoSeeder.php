@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\Rrhh\EmpleadoController;
 use App\Models\Rrhh\Contrato;
 use App\Models\Rrhh\Empleado;
 use Illuminate\Database\Seeder;

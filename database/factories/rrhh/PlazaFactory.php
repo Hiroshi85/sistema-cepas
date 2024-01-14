@@ -1,14 +1,14 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\rrhh;
 
-use App\Models\Rrhh\Oferta;
+use App\Models\Rrhh\Plaza;
 use App\Models\Rrhh\Puesto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class OfertaFactory extends Factory
+class PlazaFactory extends Factory
 {
-    protected $model = Oferta::class;
+    protected $model = Plaza::class;
 
     /**
      * Define the model's default state.
@@ -20,10 +20,8 @@ class OfertaFactory extends Factory
         return [
             'puesto_id' => Puesto::inRandomOrder()->first()->id,
             'fecha_inicio' => $this->faker->date(),
-            'fecha_fin' => $this->faker->optional(0.3)->date(),
-            'descripcion' => $this->faker->text,
-            'salario' => $this->faker->randomFloat(2, 1000, 10000),
-            'beneficios' => $this->faker->optional(0.5)->text,
+            'fecha_fin' => $this->faker->optional()->date(),
+            'descripcion' => $this->faker->paragraph,
         ];
     }
 }

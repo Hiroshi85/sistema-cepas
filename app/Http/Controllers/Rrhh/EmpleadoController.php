@@ -109,7 +109,7 @@ class EmpleadoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('rrhh.empleados.index');
+        return redirect()->route('empleados.index');
     }
 
     /**
@@ -149,7 +149,7 @@ class EmpleadoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('rrhh.empleados.index');
+        return redirect()->route('empleados.index');
     }
 
     /**
@@ -165,7 +165,7 @@ class EmpleadoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('rrhh.empleados.index');
+        return redirect()->route('empleados.index');
     }
 
     //

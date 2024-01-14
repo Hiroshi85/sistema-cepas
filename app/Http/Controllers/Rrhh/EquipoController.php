@@ -63,7 +63,7 @@ class EquipoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('rrhh.equipos.index');
+        return redirect()->route('equipos.index');
     }
 
     /**
@@ -98,7 +98,7 @@ class EquipoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('rrhh.equipos.index');
+        return redirect()->route('equipos.index');
     }
 
     /**
@@ -115,6 +115,6 @@ class EquipoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('rrhh.equipos.index');
+        return redirect()->route('equipos.index');
     }
 }
