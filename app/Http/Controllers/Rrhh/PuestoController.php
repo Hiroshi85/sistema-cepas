@@ -45,7 +45,7 @@ class PuestoController extends Controller
      */
     public function index()
     {
-        return view('puestos.index');
+        return view('rrhh.puestos.index');
     }
 
     /**
@@ -54,7 +54,7 @@ class PuestoController extends Controller
     public function create()
     {
         return view(
-            'puestos.create',
+            'rrhh.puestos.create',
             ['equipos' => Equipo::obtenerTodos()]
         );
     }
@@ -81,7 +81,7 @@ class PuestoController extends Controller
 
         );
 
-        return redirect()->route('puestos.index');
+        return redirect()->route('rrhh.puestos.index');
     }
 
     /**
@@ -96,7 +96,7 @@ class PuestoController extends Controller
      */
     public function edit(Puesto $puesto)
     {
-        return view('puestos.edit', [
+        return view('rrhh.puestos.edit', [
             'puesto' => $puesto,
             'equipos' => Equipo::obtenerTodos(),
         ]);
@@ -123,7 +123,7 @@ class PuestoController extends Controller
 
         );
 
-        return redirect()->route('puestos.index');
+        return redirect()->route('rrhh.puestos.index');
     }
 
     /**
@@ -142,6 +142,6 @@ class PuestoController extends Controller
 
         );
 
-        return redirect()->route('puestos.index');
+        return redirect()->route('rrhh.puestos.index');
     }
 }

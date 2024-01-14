@@ -59,7 +59,7 @@ class ContratoController extends Controller
      */
     public function index()
     {
-        return view('contratos.index');
+        return view('rrhh.contratos.index');
     }
 
     /**
@@ -67,7 +67,7 @@ class ContratoController extends Controller
      */
     public function create()
     {
-        return view('contratos.create', [
+        return view('rrhh.contratos.create', [
             'empleados' => Empleado::obtenerEmpleadosSinContrato()
         ]);
     }
@@ -147,7 +147,7 @@ class ContratoController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('contratos.index');
+        return redirect()->route('rrhh.contratos.index');
     }
 
     /**
@@ -155,7 +155,7 @@ class ContratoController extends Controller
      */
     public function show(Contrato $contrato)
     {
-        return view('contratos.show', ['contrato' => $contrato]);
+        return view('rrhh.contratos.show', ['contrato' => $contrato]);
     }
 
     /**
@@ -165,7 +165,7 @@ class ContratoController extends Controller
     {
         // devolver solo las plazas cuya fecha de inicio ya haya pasado
         return view(
-            'contratos.edit',
+            'rrhh.contratos.edit',
             [
                 'contrato' => $contrato,
             ]
@@ -197,7 +197,7 @@ class ContratoController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('contratos.index');
+        return redirect()->route('rrhh.contratos.index');
     }
 
     /**
@@ -211,12 +211,12 @@ class ContratoController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('contratos.index');
+        return redirect()->route('rrhh.contratos.index');
     }
 
     public function createForAOferta(Oferta $oferta)
     {
-        return view('contratos.oferta.create', [
+        return view('rrhh.contratos.oferta.create', [
             'oferta' => $oferta,
         ]);
     }

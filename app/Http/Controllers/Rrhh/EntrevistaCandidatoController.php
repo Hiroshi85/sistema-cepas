@@ -61,7 +61,7 @@ class EntrevistaCandidatoController extends Controller
      */
     public function index()
     {
-        return view('entrevistas-candidato.index');
+        return view('rrhh.entrevistas-candidato.index');
     }
 
     /**
@@ -71,12 +71,12 @@ class EntrevistaCandidatoController extends Controller
     {
         $evaluaciones = EvaluacionCandidato::obtenerTodos();
         $entrevistadores = Empleado::obtenerEncargadosDeEvaluacion();
-        return view('entrevistas-candidato.create', compact('evaluaciones', 'entrevistadores'));
+        return view('rrhh.entrevistas-candidato.create', compact('evaluaciones', 'entrevistadores'));
     }
     public function createForAEvaluacion(EvaluacionCandidato $evaluacion)
     {
         $entrevistadores = Empleado::obtenerEncargadosDeEvaluacion();
-        return view('entrevistas-candidato.evaluacion.create', compact('evaluacion', 'entrevistadores'));
+        return view('rrhh.entrevistas-candidato.evaluacion.create', compact('evaluacion', 'entrevistadores'));
     }
 
     /**
@@ -115,7 +115,7 @@ class EntrevistaCandidatoController extends Controller
     public function show($id)
     {
         return view(
-            'entrevistas-candidato.show',
+            'rrhh.entrevistas-candidato.show',
             [
                 'entrevista' => EntrevistaCandidato::obtenerEntrevista($id),
             ]
@@ -128,7 +128,7 @@ class EntrevistaCandidatoController extends Controller
     public function edit($id)
     {
         return view(
-            'entrevistas-candidato.edit',
+            'rrhh.entrevistas-candidato.edit',
             [
                 'entrevista' => EntrevistaCandidato::obtenerEntrevista($id),
                 'entrevistadores' => Empleado::obtenerEncargadosDeEvaluacion(),

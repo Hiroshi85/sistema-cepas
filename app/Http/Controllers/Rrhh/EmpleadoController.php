@@ -73,7 +73,7 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        return view('empleados.index');
+        return view('rrhh.empleados.index');
     }
 
     /**
@@ -81,7 +81,7 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
-        return view('empleados.create', [
+        return view('rrhh.empleados.create', [
             'puestos' => Puesto::obtenerTodos(),
         ]);
     }
@@ -109,7 +109,7 @@ class EmpleadoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('empleados.index');
+        return redirect()->route('rrhh.empleados.index');
     }
 
     /**
@@ -117,7 +117,7 @@ class EmpleadoController extends Controller
      */
     public function show(Empleado $empleado)
     {
-        return view('empleados.show', compact('empleado'));
+        return view('rrhh.empleados.show', compact('empleado'));
     }
 
     /**
@@ -125,7 +125,7 @@ class EmpleadoController extends Controller
      */
     public function edit(Empleado $empleado)
     {
-        return view('empleados.edit', [
+        return view('rrhh.empleados.edit', [
             'empleado' => $empleado,
             'puestos' => Puesto::obtenerTodos(),
         ]);
@@ -149,7 +149,7 @@ class EmpleadoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('empleados.index');
+        return redirect()->route('rrhh.empleados.index');
     }
 
     /**
@@ -165,7 +165,7 @@ class EmpleadoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('empleados.index');
+        return redirect()->route('rrhh.empleados.index');
     }
 
     //

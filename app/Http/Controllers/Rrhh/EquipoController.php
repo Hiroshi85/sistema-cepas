@@ -36,7 +36,7 @@ class EquipoController extends Controller
      */
     public function index()
     {
-        return view('equipos.index');
+        return view('rrhh.equipos.index');
     }
 
     /**
@@ -44,7 +44,7 @@ class EquipoController extends Controller
      */
     public function create()
     {
-        return view('equipos.create');
+        return view('rrhh.equipos.create');
     }
 
     /**
@@ -63,7 +63,7 @@ class EquipoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('equipos.index');
+        return redirect()->route('rrhh.equipos.index');
     }
 
     /**
@@ -79,7 +79,7 @@ class EquipoController extends Controller
      */
     public function edit(Equipo $equipo)
     {
-        return view('equipos.edit', compact('equipo'));
+        return view('rrhh.equipos.edit', compact('equipo'));
     }
 
     /**
@@ -98,7 +98,7 @@ class EquipoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('equipos.index');
+        return redirect()->route('rrhh.equipos.index');
     }
 
     /**
@@ -115,6 +115,6 @@ class EquipoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('equipos.index');
+        return redirect()->route('rrhh.equipos.index');
     }
 }

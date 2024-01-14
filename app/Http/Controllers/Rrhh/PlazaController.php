@@ -59,7 +59,7 @@ class PlazaController extends Controller
      */
     public function index()
     {
-        return view('plazas.index');
+        return view('rrhh.plazas.index');
     }
 
     /**
@@ -67,7 +67,7 @@ class PlazaController extends Controller
      */
     public function create()
     {
-        return view('plazas.create', [
+        return view('rrhh.plazas.create', [
             'puestos' => Puesto::obtenerTodos(),
         ]);
     }
@@ -88,7 +88,7 @@ class PlazaController extends Controller
                     'message' => 'Ya existe una plaza con el mismo puesto y en el plazo de tiempo indicado.'
                 ]
             );
-            return redirect()->route('plazas.create')->withInput();
+            return redirect()->route('rrhh.plazas.create')->withInput();
         }
 
         Plaza::crearPlaza($data);
@@ -101,7 +101,7 @@ class PlazaController extends Controller
             ]
         );
 
-        return redirect()->route('plazas.index');
+        return redirect()->route('rrhh.plazas.index');
     }
 
     /**
@@ -117,7 +117,7 @@ class PlazaController extends Controller
      */
     public function edit(Plaza $plaza)
     {
-        return view('plazas.edit', [
+        return view('rrhh.plazas.edit', [
             'plaza' => $plaza,
             'puestos' => Puesto::orderBy('nombre')->get(),
         ]);
@@ -147,7 +147,7 @@ class PlazaController extends Controller
                 ]
             );
 
-            return redirect()->route('plazas.edit', $plaza)->withInput();
+            return redirect()->route('rrhh.plazas.edit', $plaza)->withInput();
         }
 
         Plaza::actualizarPlaza($plaza, $data);
@@ -160,7 +160,7 @@ class PlazaController extends Controller
             ]
         );
 
-        return redirect()->route('plazas.index');
+        return redirect()->route('rrhh.plazas.index');
     }
 
     /**
@@ -178,6 +178,6 @@ class PlazaController extends Controller
             ]
         );
 
-        return redirect()->route('plazas.index');
+        return redirect()->route('rrhh.plazas.index');
     }
 }

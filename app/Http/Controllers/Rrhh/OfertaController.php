@@ -83,7 +83,7 @@ class OfertaController extends Controller
      */
     public function index()
     {
-        return view('ofertas.index');
+        return view('rrhh.ofertas.index');
     }
 
     /**
@@ -91,14 +91,14 @@ class OfertaController extends Controller
      */
     public function create()
     {
-        return view('ofertas.create', [
+        return view('rrhh.ofertas.create', [
             'evaluaciones' => EvaluacionCandidato::obtenerFinalizadas()
         ]);
     }
     public function createForAPostulacion($id)
     {
         $postulacion = Postulacion::obtenerPostulacion($id);
-        return view('ofertas.postulacion.create', compact('postulacion'));
+        return view('rrhh.ofertas.postulacion.create', compact('postulacion'));
     }
 
     /**
@@ -128,7 +128,7 @@ class OfertaController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('ofertas.index');
+        return redirect()->route('rrhh.ofertas.index');
     }
 
     /**
@@ -136,7 +136,7 @@ class OfertaController extends Controller
      */
     public function show(Oferta $oferta)
     {
-        return view('ofertas.show', ['oferta' => $oferta]);
+        return view('rrhh.ofertas.show', ['oferta' => $oferta]);
     }
 
     /**
@@ -146,7 +146,7 @@ class OfertaController extends Controller
     {
         // devolver solo las plazas cuya fecha de inicio ya haya pasado
         return view(
-            'ofertas.edit',
+            'rrhh.ofertas.edit',
             [
                 'oferta' => $oferta,
                 'candidatos' => Candidato::obtenerTodos(),
@@ -180,7 +180,7 @@ class OfertaController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('ofertas.index');
+        return redirect()->route('rrhh.ofertas.index');
     }
 
     /**
@@ -194,7 +194,7 @@ class OfertaController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('ofertas.index');
+        return redirect()->route('rrhh.ofertas.index');
     }
 
     public function decisionCandidato(Request $request, $id)
@@ -246,13 +246,13 @@ class OfertaController extends Controller
             ]);
         }
 
-        return redirect()->route('ofertas.index');
+        return redirect()->route('rrhh.ofertas.index');
     }
     public function loadSinglePdf(Request $req)
     {
         $coordinadorRRHH = Empleado::obtenerCoordinadorRRHH();
         $oferta = Oferta::obtenerOferta($req->oferta);
-        $pdf = Pdf::loadView('ofertas.pdf.show', [
+        $pdf = Pdf::loadView('rrhh.ofertas.pdf.show', [
             'oferta' => $oferta,
             'coordinadorRRHH' => $coordinadorRRHH
         ]);
@@ -262,7 +262,7 @@ class OfertaController extends Controller
     public function firmarContratoPdf(Oferta $oferta)
     {
         $coordinadorRRHH = Empleado::obtenerCoordinadorRRHH();
-        $pdf = Pdf::loadView('ofertas.pdf.contrato', [
+        $pdf = Pdf::loadView('rrhh.ofertas.pdf.contrato', [
             'oferta' => $oferta,
             'coordinadorRRHH' => $coordinadorRRHH
         ]);

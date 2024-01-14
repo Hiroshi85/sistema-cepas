@@ -73,7 +73,7 @@ class CandidatoController extends Controller
 
     public function index()
     {
-        return view('candidatos.index');
+        return view('rrhh.candidatos.index');
     }
 
     /**
@@ -81,7 +81,7 @@ class CandidatoController extends Controller
      */
     public function create()
     {
-        return view('candidatos.create', ['title' => 'Nuevo candidato']);
+        return view('rrhh.candidatos.create', ['title' => 'Nuevo candidato']);
     }
 
     /**
@@ -98,7 +98,7 @@ class CandidatoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('candidatos.index');
+        return redirect()->route('rrhh.candidatos.index');
     }
 
     /**
@@ -106,7 +106,7 @@ class CandidatoController extends Controller
      */
     public function show(Candidato $candidato)
     {
-        return view('candidatos.show', ['title' => 'Ver candidato', 'candidato' => $candidato]);
+        return view('rrhh.candidatos.show', ['title' => 'Ver candidato', 'candidato' => $candidato]);
     }
 
     /**
@@ -114,7 +114,7 @@ class CandidatoController extends Controller
      */
     public function edit(Candidato $candidato)
     {
-        return view('candidatos.edit', ['title' => 'Editar candidato', 'candidato' => $candidato]);
+        return view('rrhh.candidatos.edit', ['title' => 'Editar candidato', 'candidato' => $candidato]);
     }
 
     /**
@@ -131,7 +131,7 @@ class CandidatoController extends Controller
                 'type' => 'success',
             ]
         );
-        return redirect()->route('candidatos.index');
+        return redirect()->route('rrhh.candidatos.index');
     }
 
     /**
@@ -149,6 +149,6 @@ class CandidatoController extends Controller
             ]
         );
 
-        return redirect()->route('candidatos.index');
+        return redirect()->route('rrhh.candidatos.index');
     }
 }

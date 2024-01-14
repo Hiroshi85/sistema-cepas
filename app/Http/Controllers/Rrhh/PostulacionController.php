@@ -38,7 +38,7 @@ class PostulacionController extends Controller
         Request $request
     ) {
         $mode =  $request->input('mode');
-        return view('postulaciones.index', compact('mode'));
+        return view('rrhh.postulaciones.index', compact('mode'));
     }
 
     /**
@@ -46,7 +46,7 @@ class PostulacionController extends Controller
      */
     public function create()
     {
-        return view('postulaciones.create', ['candidatos' => Candidato::obtenerTodos(), 'plazas' => Plaza::obtenerPlazasActivas()]);
+        return view('rrhh.postulaciones.create', ['candidatos' => Candidato::obtenerTodos(), 'plazas' => Plaza::obtenerPlazasActivas()]);
     }
 
     /**
@@ -62,7 +62,7 @@ class PostulacionController extends Controller
                 'message' => 'Tienes que deseleccionar el candidato para crear uno nuevo',
                 'type' => 'error',
             ]);
-            return redirect()->route('postulaciones.create')->withInput();
+            return redirect()->route('rrhh.postulaciones.create')->withInput();
         }
         // if candidato_id is null, create a new candidato
         if ($request->input('candidato_id') == null) {
@@ -83,7 +83,7 @@ class PostulacionController extends Controller
                 'message' => 'El candidato ya se encuentra postulado a esta plaza',
                 'type' => 'error',
             ]);
-            return redirect()->route('postulaciones.create')->withInput();
+            return redirect()->route('rrhh.postulaciones.create')->withInput();
         }
 
         Postulacion::crearPostulacion($data);
@@ -93,7 +93,7 @@ class PostulacionController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('postulaciones.index');
+        return redirect()->route('rrhh.postulaciones.index');
     }
 
     /**
@@ -101,7 +101,7 @@ class PostulacionController extends Controller
      */
     public function show(Postulacion $postulacion)
     {
-        return view('postulaciones.show', ['postulacion' => $postulacion]);
+        return view('rrhh.postulaciones.show', ['postulacion' => $postulacion]);
     }
 
     /**
@@ -111,7 +111,7 @@ class PostulacionController extends Controller
     {
         // devolver solo las plazas cuya fecha de inicio ya haya pasado
         return view(
-            'postulaciones.edit',
+            'rrhh.postulaciones.edit',
             [
                 'postulacion' => $postulacion,
                 'candidatos' => Candidato::obtenerTodos(),
@@ -138,7 +138,7 @@ class PostulacionController extends Controller
                 'message' => 'El candidato ya se encuentra postulado a esta plaza',
                 'type' => 'error',
             ]);
-            return redirect()->route('postulaciones.edit', $postulacion->id)->withInput();
+            return redirect()->route('rrhh.postulaciones.edit', $postulacion->id)->withInput();
         }
 
 
@@ -149,7 +149,7 @@ class PostulacionController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('postulaciones.index');
+        return redirect()->route('rrhh.postulaciones.index');
     }
 
     /**
@@ -163,7 +163,7 @@ class PostulacionController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('postulaciones.index');
+        return redirect()->route('rrhh.postulaciones.index');
     }
 
     public function destroyByCandidato(Candidato $candidato)
@@ -174,7 +174,7 @@ class PostulacionController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('postulaciones.index', ['mode' => 'candidato']);
+        return redirect()->route('rrhh.postulaciones.index', ['mode' => 'candidato']);
     }
     public function destroyByPlaza(Plaza $plaza)
     {
@@ -184,13 +184,13 @@ class PostulacionController extends Controller
             'type' => 'success',
         ]);
 
-        return redirect()->route('postulaciones.index', ['mode' => 'plaza']);
+        return redirect()->route('rrhh.postulaciones.index', ['mode' => 'plaza']);
     }
 
     public function loadSinglePdf(Request $req)
     {
         $postulacion = Postulacion::obtenerPostulacion($req->postulacion);
-        $pdf = Pdf::loadView('postulaciones.pdf.show', compact('postulacion'));
+        $pdf = Pdf::loadView('rrhh.postulaciones.pdf.show', compact('postulacion'));
         return $pdf->stream('postulacion.pdf');
     }
 }

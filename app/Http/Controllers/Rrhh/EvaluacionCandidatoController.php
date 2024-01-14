@@ -80,7 +80,7 @@ class EvaluacionCandidatoController extends Controller
      */
     public function index()
     {
-        return view('evaluaciones-candidato.index');
+        return view('rrhh.evaluaciones-candidato.index');
     }
 
     /**
@@ -89,11 +89,11 @@ class EvaluacionCandidatoController extends Controller
     public function create()
     {
         $postulaciones = Postulacion::obtenerTodos();
-        return view('evaluaciones-candidato.create', compact('postulaciones'));
+        return view('rrhh.evaluaciones-candidato.create', compact('postulaciones'));
     }
     public function createForAPostulacion(Postulacion $postulacion)
     {
-        return view('evaluaciones-candidato.postulacion.create', compact('postulacion'));
+        return view('rrhh.evaluaciones-candidato.postulacion.create', compact('postulacion'));
     }
 
     /**
@@ -131,7 +131,7 @@ class EvaluacionCandidatoController extends Controller
     public function show($id)
     {
         return view(
-            'evaluaciones-candidato.show',
+            'rrhh.evaluaciones-candidato.show',
             [
                 'evaluacion' => EvaluacionCandidato::obtenerEvaluacion($id),
             ]
@@ -144,7 +144,7 @@ class EvaluacionCandidatoController extends Controller
     public function edit($id)
     {
         return view(
-            'evaluaciones-candidato.edit',
+            'rrhh.evaluaciones-candidato.edit',
             [
                 'evaluacion' => EvaluacionCandidato::obtenerEvaluacion($id),
             ]
@@ -224,7 +224,7 @@ class EvaluacionCandidatoController extends Controller
     public function loadSinglePdf(Request $req)
     {
         $evaluacion = EvaluacionCandidato::obtenerEvaluacion($req->evaluacion);
-        $pdf = Pdf::loadView('evaluaciones-candidato.pdf.show', compact('evaluacion'));
+        $pdf = Pdf::loadView('rrhh.evaluaciones-candidato.pdf.show', compact('evaluacion'));
         return $pdf->stream('evaluacion.pdf');
     }
 }
