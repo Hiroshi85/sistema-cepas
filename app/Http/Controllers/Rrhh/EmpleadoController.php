@@ -172,33 +172,38 @@ class EmpleadoController extends Controller
 
     public static function createUser(Empleado $empleado): void
     {
-        $idp = $empleado->puesto_id;
+        $puestoId = $empleado->puesto_id;
 
-        $roles = [
+        $puestoIdsXRoles = [
             1 => 'Coordinador de Recursos Humanos',
             2 => 'Especialista en Reclutamiento',
             3 => 'Encargado de Evaluación',
+            4 => 'Empleado de Nóminas',
             5 => 'secretario(a)',
             6 => 'auxiliar',
             9 => 'Coordinador Academico',
             24 => 'psicologo',
         ];
+        $userData = [
+            'name' => $empleado->nombre,
+            'dni' => $empleado->dni,
+            'email' => $empleado->email,
+            'password' => Hash::make("password"),
+        ];
 
-        if (($idp <= 3) || ($idp >= 9 && $idp <= 19) || in_array($idp, [5, 6, 24])) {
-            $user = User::create([
-                'name' => $empleado->nombre,
-                'dni' => $empleado->dni,
-                'email' => $empleado->email,
-                'password' => Hash::make("password"),
-            ]);
+        $user = User::create($userData);
 
-            if (array_key_exists($idp, $roles)) {
-                $user->assignRole($roles[$idp]);
-            }
+        self::assignRolesToUser($user, $puestoId, $puestoIdsXRoles);
+    }
 
-            if (($idp >= 10 && $idp <= 19)) {
-                $user->assignRole('Docente');
-            }
+    private static function assignRolesToUser(User $user, int $puestoId, array $roles): void
+    {
+        $puestoDocenteIds = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+        if (array_key_exists($puestoId, $roles)) {
+            $user->assignRole($roles[$puestoId]);
+        }
+        if (in_array($puestoId, $puestoDocenteIds)) {
+            $user->assignRole('Docente');
         }
     }
 }

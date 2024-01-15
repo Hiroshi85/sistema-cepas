@@ -21,6 +21,9 @@ class NominaFactory extends Factory
         $inicio = $this->faker->dateTimeBetween('-1 years', 'now');
         $fin = $this->faker->dateTimeBetween($inicio, 'now');
         $contrato= Empleado::obtenerContratoVigente($random_employee->id);
+        if ($contrato == null) {
+            $contrato = Empleado::obtenerUltimoContrato($random_employee->id);
+        }
         $nomina = new Nomina([
             'empleado_id' => $random_employee->id,
             'fecha_inicio' => $inicio,
