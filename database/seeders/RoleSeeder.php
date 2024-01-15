@@ -27,7 +27,7 @@ class RoleSeeder extends Seeder
         $coordinador_rrhh = Role::create(['name' => 'Coordinador de Recursos Humanos']);
         $espe_recluta = Role::create(['name' => 'Especialista en Reclutamiento']);
         $enc_evalua = Role::create(['name' => 'Encargado de Evaluación']);
-        $enc_nominas = Role::create(['name' => 'Encargado de Nóminas']);
+        $enc_nominas = Role::create(['name' => 'Empleado de Nóminas']);
 
         // ADMIN
         Permission::create(['name' => 'cursos.index'])->syncRoles($admin);
@@ -62,7 +62,7 @@ class RoleSeeder extends Seeder
         $postulaciones_ver = Permission::create(['name' => 'ver postulaciones']);
         $programarentrevistas = Permission::create(['name' => 'programar entrevistas']);
 
-        // Permisos para el "Encargado de Nóminas"
+        // Permisos para el "Empleado de Nóminas"
         $nominas = Permission::create(['name' => 'gestionar nominas']);
         $nominas_ver = Permission::create(['name' => 'ver nominas']);
 

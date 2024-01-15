@@ -130,4 +130,11 @@ class Empleado extends Model
 
         return $empleados;
     }
+    
+    public static function obtenerUltimoContrato($empleado_id)
+    {
+        return Contrato::where('empleado_id', '=', $empleado_id)
+            ->orderBy('fecha_fin', 'desc')
+            ->first();
+    }
 }
