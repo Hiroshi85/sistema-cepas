@@ -122,7 +122,7 @@ class Empleado extends Model
 
     public static function obtenerEmpleadosVigentes()
     {
-        $empleados = Empleado::select('empleados.*')
+        $empleados = Empleado::select('empleados.*', 'contratos.remuneracion')
             ->join('contratos', 'contratos.empleado_id', '=', 'empleados.id')
             ->where('contratos.fecha_fin', '>=', now())
             ->where('contratos.fecha_inicio', '<=', now())
@@ -130,7 +130,7 @@ class Empleado extends Model
 
         return $empleados;
     }
-    
+
     public static function obtenerUltimoContrato($empleado_id)
     {
         return Contrato::where('empleado_id', '=', $empleado_id)
