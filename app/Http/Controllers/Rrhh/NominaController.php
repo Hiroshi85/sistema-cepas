@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Rrhh;
 
 use App\Http\Controllers\Controller;
+use App\Models\Rrhh\Empleado;
 use App\Models\Rrhh\Nomina;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,12 @@ class NominaController extends Controller
      */
     public function create()
     {
-        //
+        $empleados = Empleado::obtenerEmpleadosVigentes();
+        return view('rrhh.nominas.create'
+            , [
+                'empleados' => $empleados,
+            ]
+        );
     }
 
     /**

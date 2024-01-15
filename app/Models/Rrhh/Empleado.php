@@ -119,4 +119,15 @@ class Empleado extends Model
             ->where('fecha_inicio', '<=', now())
             ->first();
     }
+
+    public static function obtenerEmpleadosVigentes()
+    {
+        $empleados = Empleado::select('empleados.*')
+            ->join('contratos', 'contratos.empleado_id', '=', 'empleados.id')
+            ->where('contratos.fecha_fin', '>=', now())
+            ->where('contratos.fecha_inicio', '<=', now())
+            ->get();
+
+        return $empleados;
+    }
 }
