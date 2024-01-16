@@ -37,14 +37,14 @@
                    :options="$empleados_options"/>
 
     <x-input-group
-            class="hidden"
-            value="{{ $nomina ? $nomina->fecha_inicio : '' }}" label="Inicio de Periodo"
-            name="fecha_inicio" type="date" required/>
+        class="hidden"
+        value="{{ $nomina ? $nomina->fecha_inicio : '' }}" label="Inicio de Periodo"
+        name="fecha_inicio" type="date" required/>
 
     <x-input-group
-            class="hidden"
-            value="{{ $nomina ? $nomina->fecha_fin : '' }}" label="Fin de Periodo"
-            name="fecha_fin" type="date" required/>
+        class="hidden"
+        value="{{ $nomina ? $nomina->fecha_fin : '' }}" label="Fin de Periodo"
+        name="fecha_fin" type="date" required/>
 
     <x-input-group label="Periodo"
                    type="select"
@@ -65,13 +65,24 @@
 
     {{-- PRESTACIONES --}}
     <div
-            id="prestaciones-group" class="hidden col-span-1 col-start-1 "
+        id="prestaciones-group" class="hidden col-span-1 col-start-1 "
     >
         <h2 class="text-md mb-2 ">Prestaciones</h2>
 
         @livewire('nominas.prestaciones-multi-input', [
         'prestaciones' => $nomina ? $nomina->prestaciones : [],
         'tipos_prestacion' => $tipos_prestacion,
+        ])
+    </div>
+    {{-- DESCUENTOS --}}
+    <div
+        id="descuentos-group" class="hidden col-span-1 "
+    >
+        <h2 class="text-md mb-2 ">Descuentos</h2>
+
+        @livewire('nominas.descuentos-multi-input', [
+        'descuentos' => $nomina ? $nomina->descuentos : [],
+        'tipos_descuento' => $tipos_descuento,
         ])
     </div>
 
@@ -105,6 +116,7 @@
 
         const prestaciones_group = document.getElementById('prestaciones-group');
 
+        const descuentos_group = document.getElementById('descuentos-group');
 
         empleado_id.addEventListener('change', (e) => {
             const empleadoId = e.target.value;
@@ -114,6 +126,7 @@
             empleado_id_value = empleadoId;
 
             showPrestacionesGroup();
+            showDescuentosGroup();
         });
 
         periodo.addEventListener('change', (e) => {
@@ -125,6 +138,7 @@
             Livewire.emit('mesSelected', periodo.mes);
 
             showPrestacionesGroup();
+            showDescuentosGroup();
         });
 
 
@@ -133,6 +147,14 @@
                 prestaciones_group.classList.remove('hidden');
             } else {
                 prestaciones_group.classList.add('hidden');
+            }
+        }
+
+        const showDescuentosGroup = () => {
+            if (empleado_id_value && periodo.value) {
+                descuentos_group.classList.remove('hidden');
+            } else {
+                descuentos_group.classList.add('hidden');
             }
         }
 

@@ -132,11 +132,115 @@ class Nomina extends Model
         }
         return $gratificacion;
     }
+
     public static function calcularVacaciones(Empleado $empleado)
     {
         $ultimo_contrato = $empleado->obtenerUltimoContrato();
         return $ultimo_contrato ? $ultimo_contrato->remuneracion : 0;
 
+    }
+
+    public static function calcularAfiliacionAFP(Empleado $empleado)
+    {
+        $ultimo_contrato = $empleado->obtenerUltimoContrato();
+        return $ultimo_contrato ? $ultimo_contrato->remuneracion * 0.1 : 0;
+    }
+
+    public static function calcularEssalud(Empleado $empleado)
+    {
+        $ultimo_contrato = $empleado->obtenerUltimoContrato();
+        return $ultimo_contrato ? $ultimo_contrato->remuneracion * 0.09 : 0;
+    }
+
+    public static function calcularImpuestoRentaTotal(Empleado $empleado)
+    {
+        $renta_bruta_anual = Nomina::sumarTodosLosBeneficiosDelAnio($empleado);
+        $uit = 4300;
+        $renta_neta_anual = $renta_bruta_anual - ($uit * 7);
+        $impuesto_renta = 0;
+
+        if ($renta_neta_anual <= 0) {
+            $impuesto_renta = 0;
+        } else if ($renta_neta_anual <= (5 * $uit)) {
+            $impuesto_renta = 0.8 * $renta_neta_anual;
+        } else if ($renta_neta_anual <= (20 * $uit)) {
+            $impuesto_renta = 0.14 * $renta_neta_anual;
+        } else if ($renta_neta_anual <= (35 * $uit)) {
+            $impuesto_renta = 0.17 * $renta_neta_anual;
+        } else if ($renta_neta_anual <= (45 * $uit)) {
+            $impuesto_renta = 0.2 * $renta_neta_anual;
+        } else {
+            $impuesto_renta = 0.3 * $renta_neta_anual;
+        }
+
+        return $impuesto_renta;
+    }
+
+
+    public static function calcularImpuestoRentaMensual(Empleado $empleado, $mes)
+    {
+        $impuesto_renta_anual = Nomina::calcularImpuestoRentaTotal($empleado);
+
+        $enero_a_marzo = [1, 2, 3];
+        $abril = [4];
+        $mayo_a_julio = [5, 7];
+        $agosto = [8];
+        $setiembre_a_noviembre = [9, 10, 11];
+        $diciembre = [12];
+
+//        $impuesto_renta_acumulado_enero_a_marzo = $impuesto_renta_anual / 12 * 3;
+//        $impuesto_renta_acumulado_abril =( $impuesto_renta_anual - $impuesto_renta_acumulado_enero_a_marzo ) / 9;
+//        $impuesto_renta_acumulado_mayo_a_julio = ( $impuesto_renta_anual - $impuesto_renta_acumulado_abril - $impuesto_renta_acumulado_enero_a_marzo ) / 8 * 3 ;
+//        $impuesto_renta_acumulado_agosto = ( $impuesto_renta_anual - $impuesto_renta_acumulado_mayo_a_julio - $impuesto_renta_acumulado_abril - $impuesto_renta_acumulado_enero_a_marzo) / 5 ;
+//        $impuesto_renta_acumulado_setiembre_a_noviembre = ( $impuesto_renta_anual - $impuesto_renta_acumulado_agosto  - $impuesto_renta_acumulado_mayo_a_julio - $impuesto_renta_acumulado_abril - $impuesto_renta_acumulado_enero_a_marzo) / 4 * 3;
+//        $impuesto_renta_acumulado_diciembre = ( $impuesto_renta_anual - $impuesto_renta_acumulado_setiembre_a_noviembre -  $impuesto_renta_acumulado_agosto  - $impuesto_renta_acumulado_mayo_a_julio - $impuesto_renta_acumulado_abril - $impuesto_renta_acumulado_enero_a_marzo) ;
+
+        $impuesto_renta_acumulado_enero_a_marzo = $impuesto_renta_anual / 12 * 3;
+        $impuesto_renta_enero_a_marzo = $impuesto_renta_acumulado_enero_a_marzo / 3;
+        $impuesto_renta_acumulado_enero_a_abril = ($impuesto_renta_anual - $impuesto_renta_acumulado_enero_a_marzo);
+        $impuesto_renta_abril = $impuesto_renta_acumulado_enero_a_abril / 9;
+        $impuesto_renta_acumulado_enero_a_mayo = ($impuesto_renta_anual - $impuesto_renta_acumulado_enero_a_marzo - $impuesto_renta_abril);
+        $impuesto_renta_mayo = $impuesto_renta_acumulado_enero_a_mayo / 8 * 3;
+        $impuesto_renta_acumulado_enero_a_agosto = ($impuesto_renta_anual - $impuesto_renta_acumulado_enero_a_marzo - $impuesto_renta_abril - $impuesto_renta_mayo);
+        $impuesto_renta_agosto = $impuesto_renta_acumulado_enero_a_agosto / 5;
+        $impuesto_renta_acumulado_enero_a_setiembre = ($impuesto_renta_anual - $impuesto_renta_acumulado_enero_a_marzo - $impuesto_renta_abril - $impuesto_renta_mayo - $impuesto_renta_agosto);
+        $impuesto_renta_setiembre = $impuesto_renta_acumulado_enero_a_setiembre / 4 * 3;
+        $impuesto_renta_acumulado_enero_a_diciembre = ($impuesto_renta_anual - $impuesto_renta_acumulado_enero_a_marzo - $impuesto_renta_abril - $impuesto_renta_mayo - $impuesto_renta_agosto - $impuesto_renta_setiembre);
+        $impuesto_renta_diciembre = $impuesto_renta_acumulado_enero_a_diciembre ;
+
+
+
+
+        if (in_array($mes, $enero_a_marzo)) {
+            $impuesto_renta_mensual = $impuesto_renta_enero_a_marzo;
+        } else if (in_array($mes, $abril)) {
+            $impuesto_renta_mensual = $impuesto_renta_abril;
+        } else if (in_array($mes, $mayo_a_julio)) {
+            $impuesto_renta_mensual = $impuesto_renta_mayo;
+        } else if (in_array($mes, $agosto)) {
+            $impuesto_renta_mensual = $impuesto_renta_agosto;
+        } else if (in_array($mes, $setiembre_a_noviembre)) {
+            $impuesto_renta_mensual = $impuesto_renta_setiembre;
+        } else if (in_array($mes, $diciembre)) {
+            $impuesto_renta_mensual = $impuesto_renta_diciembre;
+        } else {
+            $impuesto_renta_mensual = 0;
+        }
+        return $impuesto_renta_mensual;
+    }
+
+
+    public static function sumarTodosLosBeneficiosDelAnio(Empleado $empleado)
+    {
+        $beneficios = 0;
+        $beneficios += Nomina::calcularGratificacion(7, $empleado);
+        $beneficios += Nomina::calcularGratificacion(12, $empleado);
+        $beneficios += Nomina::calcularVacaciones($empleado);
+        $contrato = $empleado->obtenerUltimoContrato();
+        for ($i = 1; $i <= 12; $i++) {
+            $beneficios += $contrato->remuneracion;
+        }
+        return $beneficios;
     }
 
 
