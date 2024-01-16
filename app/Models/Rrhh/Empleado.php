@@ -130,11 +130,25 @@ class Empleado extends Model
 
         return $empleados;
     }
-
-    public static function obtenerUltimoContrato($empleado_id)
+    public function obtenerUltimoContrato()
     {
-        return Contrato::where('empleado_id', '=', $empleado_id)
+        return Contrato::where('empleado_id', '=', $this->id)
             ->orderBy('fecha_fin', 'desc')
             ->first();
+    }
+
+    public function obtenerMesesTrabajados()
+    {
+        $contrato = $this->obtenerUltimoContrato();
+        $fecha_inicio = $contrato->fecha_inicio;
+        $fecha_fin = $contrato->fecha_fin;
+        $fecha_inicio = strtotime($fecha_inicio);
+        $fecha_fin = strtotime($fecha_fin);
+        $meses = 0;
+        while ($fecha_inicio <= $fecha_fin) {
+            $meses++;
+            $fecha_inicio = strtotime('+1 month', $fecha_inicio);
+        }
+        return $meses;
     }
 }

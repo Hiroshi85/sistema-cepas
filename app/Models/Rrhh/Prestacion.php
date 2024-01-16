@@ -2,6 +2,7 @@
 
 namespace App\Models\Rrhh;
 
+use App\Models\TipoPrestacion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +13,7 @@ class Prestacion extends Model
 
     protected $fillable = [
         'nomina_id',
-        'concepto',
+        'tipo_prestacion_id',
         'monto'
     ];
 
@@ -20,5 +21,10 @@ class Prestacion extends Model
     public function Nomina(): BelongsTo
     {
         return $this->belongsTo(Nomina::class);
+    }
+
+    public function tipoPrestacion(): BelongsTo
+    {
+        return $this->belongsTo(TipoPrestacion::class);
     }
 }
