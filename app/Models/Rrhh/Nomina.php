@@ -50,7 +50,7 @@ class Nomina extends Model
 
     public function totalNeto(): float
     {
-        return $this->totalBruto() - $this->totoalDescuentos() + $this->totalPrestaciones();
+        return $this->totalBruto() - $this->totoalDescuentos();
     }
 
     public function totalBruto(): float
@@ -187,13 +187,6 @@ class Nomina extends Model
         $agosto = [8];
         $setiembre_a_noviembre = [9, 10, 11];
         $diciembre = [12];
-
-//        $impuesto_renta_acumulado_enero_a_marzo = $impuesto_renta_anual / 12 * 3;
-//        $impuesto_renta_acumulado_abril =( $impuesto_renta_anual - $impuesto_renta_acumulado_enero_a_marzo ) / 9;
-//        $impuesto_renta_acumulado_mayo_a_julio = ( $impuesto_renta_anual - $impuesto_renta_acumulado_abril - $impuesto_renta_acumulado_enero_a_marzo ) / 8 * 3 ;
-//        $impuesto_renta_acumulado_agosto = ( $impuesto_renta_anual - $impuesto_renta_acumulado_mayo_a_julio - $impuesto_renta_acumulado_abril - $impuesto_renta_acumulado_enero_a_marzo) / 5 ;
-//        $impuesto_renta_acumulado_setiembre_a_noviembre = ( $impuesto_renta_anual - $impuesto_renta_acumulado_agosto  - $impuesto_renta_acumulado_mayo_a_julio - $impuesto_renta_acumulado_abril - $impuesto_renta_acumulado_enero_a_marzo) / 4 * 3;
-//        $impuesto_renta_acumulado_diciembre = ( $impuesto_renta_anual - $impuesto_renta_acumulado_setiembre_a_noviembre -  $impuesto_renta_acumulado_agosto  - $impuesto_renta_acumulado_mayo_a_julio - $impuesto_renta_acumulado_abril - $impuesto_renta_acumulado_enero_a_marzo) ;
 
         $impuesto_renta_acumulado_enero_a_marzo = $impuesto_renta_anual / 12 * 3;
         $impuesto_renta_enero_a_marzo = $impuesto_renta_acumulado_enero_a_marzo / 3;
