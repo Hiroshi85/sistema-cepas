@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Rrhh;
 use App\Http\Controllers\Controller;
 use App\Models\Rrhh\Empleado;
 use App\Models\Rrhh\Nomina;
+use App\Models\TipoDescuento;
+use App\Models\TipoPrestacion;
 use Illuminate\Http\Request;
 
 class NominaController extends Controller
@@ -26,9 +28,17 @@ class NominaController extends Controller
     public function create()
     {
         $empleados = Empleado::obtenerEmpleadosVigentes();
+        $tipos_prestacion = TipoPrestacion::all();
+        $tipos_descuento = TipoDescuento::all();
+
+        $periodos = Nomina::obtenerPeriodos();
+
         return view('rrhh.nominas.create'
             , [
                 'empleados' => $empleados,
+                'tipos_prestacion' => $tipos_prestacion,
+                'tipos_descuento' => $tipos_descuento,
+                'periodos' => $periodos,
             ]
         );
     }
@@ -38,7 +48,7 @@ class NominaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

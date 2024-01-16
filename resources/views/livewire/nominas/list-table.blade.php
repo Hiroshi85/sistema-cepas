@@ -21,7 +21,7 @@
                     Sueldo
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Total Deducciones
+                    Total Descuentos
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Total Prestaciones
