@@ -188,36 +188,33 @@ class Nomina extends Model
         $setiembre_a_noviembre = [9, 10, 11];
         $diciembre = [12];
 
-        $impuesto_renta_acumulado_enero_a_marzo = $impuesto_renta_anual / 12 * 3;
-        $impuesto_renta_enero_a_marzo = $impuesto_renta_acumulado_enero_a_marzo / 3;
-        $impuesto_renta_acumulado_enero_a_abril = ($impuesto_renta_anual - $impuesto_renta_acumulado_enero_a_marzo);
-        $impuesto_renta_abril = $impuesto_renta_acumulado_enero_a_abril / 9;
-        $impuesto_renta_acumulado_enero_a_mayo = ($impuesto_renta_anual - $impuesto_renta_acumulado_enero_a_marzo - $impuesto_renta_abril);
-        $impuesto_renta_mayo = $impuesto_renta_acumulado_enero_a_mayo / 8 * 3;
-        $impuesto_renta_acumulado_enero_a_agosto = ($impuesto_renta_anual - $impuesto_renta_acumulado_enero_a_marzo - $impuesto_renta_abril - $impuesto_renta_mayo);
-        $impuesto_renta_agosto = $impuesto_renta_acumulado_enero_a_agosto / 5;
-        $impuesto_renta_acumulado_enero_a_setiembre = ($impuesto_renta_anual - $impuesto_renta_acumulado_enero_a_marzo - $impuesto_renta_abril - $impuesto_renta_mayo - $impuesto_renta_agosto);
-        $impuesto_renta_setiembre = $impuesto_renta_acumulado_enero_a_setiembre / 4 * 3;
-        $impuesto_renta_acumulado_enero_a_diciembre = ($impuesto_renta_anual - $impuesto_renta_acumulado_enero_a_marzo - $impuesto_renta_abril - $impuesto_renta_mayo - $impuesto_renta_agosto - $impuesto_renta_setiembre);
-        $impuesto_renta_diciembre = $impuesto_renta_acumulado_enero_a_diciembre ;
+        // calcular cuanto pagar cada mes, segun las retenciones efectuadas
+        $pagar_enero_a_marzo = $impuesto_renta_anual / 12;
+        $retenciones_efectuadas = $pagar_enero_a_marzo * 3;
+        $pagar_abril = ($impuesto_renta_anual - $retenciones_efectuadas) / 9;
+        $retenciones_efectuadas += $pagar_abril;
+        $pagar_mayo_a_julio = ($impuesto_renta_anual - $retenciones_efectuadas) / 8;
+        $retenciones_efectuadas += $pagar_mayo_a_julio * 3;
+        $pagar_agosto = ($impuesto_renta_anual - $retenciones_efectuadas) / 5;
+        $retenciones_efectuadas += $pagar_agosto;
+        $pagar_setiembre_a_noviembre = ($impuesto_renta_anual - $retenciones_efectuadas) / 4;
+        $retenciones_efectuadas += $pagar_setiembre_a_noviembre * 3;
+        $pagar_diciembre = ($impuesto_renta_anual - $retenciones_efectuadas);
 
 
-
-
+        $impuesto_renta_mensual = 0;
         if (in_array($mes, $enero_a_marzo)) {
-            $impuesto_renta_mensual = $impuesto_renta_enero_a_marzo;
+            $impuesto_renta_mensual = $pagar_enero_a_marzo;
         } else if (in_array($mes, $abril)) {
-            $impuesto_renta_mensual = $impuesto_renta_abril;
+            $impuesto_renta_mensual = $pagar_abril;
         } else if (in_array($mes, $mayo_a_julio)) {
-            $impuesto_renta_mensual = $impuesto_renta_mayo;
+            $impuesto_renta_mensual = $pagar_mayo_a_julio;
         } else if (in_array($mes, $agosto)) {
-            $impuesto_renta_mensual = $impuesto_renta_agosto;
+            $impuesto_renta_mensual = $pagar_agosto;
         } else if (in_array($mes, $setiembre_a_noviembre)) {
-            $impuesto_renta_mensual = $impuesto_renta_setiembre;
+            $impuesto_renta_mensual = $pagar_setiembre_a_noviembre;
         } else if (in_array($mes, $diciembre)) {
-            $impuesto_renta_mensual = $impuesto_renta_diciembre;
-        } else {
-            $impuesto_renta_mensual = 0;
+            $impuesto_renta_mensual = $pagar_diciembre;
         }
         return $impuesto_renta_mensual;
     }
