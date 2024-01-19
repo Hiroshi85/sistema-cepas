@@ -106,7 +106,7 @@ class EntrevistaCandidatoController extends Controller
             'message' => 'Entrevista registrada correctamente.'
         ]);
 
-        return redirect()->route('entrevistas.show', $entre->id);
+        return redirect()->route('rrhh.entrevistas.show', $entre->id);
     }
 
     /**
@@ -162,7 +162,7 @@ class EntrevistaCandidatoController extends Controller
             'message' => 'Entrevista actualizada correctamente.'
         ]);
 
-        return redirect()->route('entrevistas.index');
+        return redirect()->route('rrhh.entrevistas.index');
     }
 
 
@@ -178,7 +178,7 @@ class EntrevistaCandidatoController extends Controller
         ]);
         session()->flash('finalizarEntrevista');
 
-        return redirect()->route('entrevistas.show', $id);
+        return redirect()->route('rrhh.entrevistas.show', $id);
     }
 
     /**
@@ -193,6 +193,6 @@ class EntrevistaCandidatoController extends Controller
             'message' => 'Entrevista eliminada correctamente.'
         ]);
 
-        return redirect()->route('entrevistas.index');
+        return redirect()->route('rrhh.entrevistas.index');
     }
 }
