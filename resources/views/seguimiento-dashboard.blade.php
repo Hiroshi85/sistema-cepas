@@ -91,6 +91,7 @@
                             </div>
                         </div>
                         <div class="col-span-1">
+                            @role('admin|psicologo')
                             <div class="px-1 py-4">
                                 <h3 class="text-xl font-bold"> Sesiones a evaluar</h3>
                                 @if($sesiones->isEmpty())
@@ -115,6 +116,7 @@
                                     @endforeach
                                 </div>
                             </div>
+                            @endrole
                         </div>
                     </div>
 

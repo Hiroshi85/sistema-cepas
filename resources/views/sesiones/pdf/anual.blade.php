@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Resultados {{$año}} - Dpto Psicología</title>
+    <title>Resultados {{$año}} - Dpto Tutoría</title>
     <!-- Enlace a Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
@@ -24,7 +24,7 @@
             <img src="assets/cepas_escudo.png" width="100">
         </div>
         <div class="col-12">
-            <p class="h4"><strong>Resultados {{$año}} - Dpto Psicología</strong></p>
+            <p class="h4"><strong>Resultados {{$año}} - Dpto Tutoría</strong></p>
         </div>
     </div>
 
@@ -68,7 +68,7 @@
         <div class="pt-2">
             <p> ___________________________</p>
         </div>
-        <p>{{$psicologo}}<br>Psicologo</p>
+        <p>{{$psicologo}}<br>Psicólogo</p>
     </div>
 
 </body>

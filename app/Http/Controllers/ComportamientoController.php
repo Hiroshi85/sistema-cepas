@@ -107,6 +107,7 @@ class ComportamientoController extends Controller
     }
 
     public function generarReporteAnual(string $id){
+        $notasBimestrales = [];
         $comportamientosAnual = Comportamiento::listarComportamientoDeAlumnoAnual($id);
         $comportamientosAnual = $comportamientosAnual->jsonserialize();
         foreach ($comportamientosAnual as &$bimestre) {
@@ -117,11 +118,13 @@ class ComportamientoController extends Controller
             if($nota > 20) $nota=20;
             if($nota < 0) $nota=0;
             $bimestre['nota'] = $nota;
+            array_push($notasBimestrales, $nota);
         }
         unset($bimestre);
+        $promedioAnual = array_sum($notasBimestrales) / count($notasBimestrales);
         $alumno = Alumno::getAlumnoById($id);
         $auxiliar = Auth::user()->name;
-        $pdf = Pdf::loadView('comportamiento.pdf.anual', compact('comportamientosAnual', 'alumno', 'auxiliar'));
+        $pdf = Pdf::loadView('comportamiento.pdf.anual', compact('comportamientosAnual', 'alumno', 'auxiliar', 'promedioAnual'));
         $nombre_archivo = $alumno->nombre_apellidos.' - Anual.pdf';
         return $pdf->stream($nombre_archivo);
     }
