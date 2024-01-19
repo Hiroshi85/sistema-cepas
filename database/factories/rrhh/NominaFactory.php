@@ -22,14 +22,16 @@ class NominaFactory extends Factory
         $fin = $this->faker->dateTimeBetween($inicio, 'now');
         $contrato= Empleado::obtenerContratoVigente($random_employee->id);
         if ($contrato == null) {
-            $contrato = Empleado::obtenerUltimoContrato($random_employee->id);
+            $contrato = $random_employee->obtenerUltimoContrato();
         }
         $nomina = new Nomina([
             'empleado_id' => $random_employee->id,
             'fecha_inicio' => $inicio,
             'fecha_fin' => $fin,
             'sueldo_basico' => $contrato->remuneracion,
-            'estado_pago' => $this->faker->randomElement(['pendiente', 'pagado']),
+            'estado_pago' => 'pagado',
+            'dias_laborados' => $this->faker->numberBetween(25, 30),
+            'fecha_pago' => $this->faker->dateTimeBetween($fin, 'now'),
         ]);
         return [
             'empleado_id' => $nomina->empleado_id,
@@ -39,6 +41,8 @@ class NominaFactory extends Factory
             'total_bruto' => $nomina->totalBruto(),
             'total_neto' => $nomina->totalNeto(),
             'estado_pago' => $nomina->estado_pago,
+            'dias_laborados' => $nomina->dias_laborados,
+            'fecha_pago' => $nomina->fecha_pago,
         ];
     }
 }

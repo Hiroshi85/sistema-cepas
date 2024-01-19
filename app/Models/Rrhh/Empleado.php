@@ -128,10 +128,54 @@ class Empleado extends Model
             ->first();
     }
 
-    public static function obtenerUltimoContrato($empleado_id)
+    public static function obtenerEmpleadosVigentes()
     {
-        return Contrato::where('empleado_id', '=', $empleado_id)
+        $empleados = Empleado::select('empleados.*', 'contratos.remuneracion')
+            ->join('contratos', 'contratos.empleado_id', '=', 'empleados.id')
+            ->where('contratos.fecha_fin', '>=', now())
+            ->where('contratos.fecha_inicio', '<=', now())
+            ->get();
+
+        return $empleados;
+    }
+    public function obtenerUltimoContrato()
+    {
+        return Contrato::where('empleado_id', '=', $this->id)
             ->orderBy('fecha_fin', 'desc')
             ->first();
     }
+
+    public function obtenerMesesTrabajados()
+    {
+        $contrato = $this->obtenerUltimoContrato();
+        $fecha_inicio = $contrato->fecha_inicio;
+        $fecha_fin = $contrato->fecha_fin;
+        $fecha_inicio = strtotime($fecha_inicio);
+        $fecha_fin = strtotime($fecha_fin);
+        $meses = 0;
+        while ($fecha_inicio <= $fecha_fin) {
+            $meses++;
+            $fecha_inicio = strtotime('+1 month', $fecha_inicio);
+        }
+        return $meses;
+    }
+
+    public function esteMesYaRecibioNomina(): bool
+    {
+        $nomina = Nomina::where('empleado_id', '=', $this->id)
+            ->where('fecha_inicio', '<=', now())
+            ->where('fecha_fin', '>=', now())
+            ->first();
+        return $nomina != null;
+    }
+
+    public function yaRecibioNominaElPeriodo($fecha_inicio, $fecha_fin): bool
+    {
+        $nomina = Nomina::where('empleado_id', '=', $this->id)
+            ->where('fecha_inicio', '<=', $fecha_inicio )
+            ->where('fecha_fin', '>=', $fecha_fin)
+            ->first();
+        return $nomina != null;
+    }
+
 }
