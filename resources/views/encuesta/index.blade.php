@@ -47,13 +47,13 @@
                 </div>
                 <br>
                 @foreach ($cursos as $c)
-                    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 overflow-hidden shadow-sm sm:rounded-lg">
-                        <div>
+                    <div class="bg-white dark:bg-gray-800 dark:text-gray-100 overflow-hidden shadow-sm sm:rounded-lg flex items-center">
+                        <div class="w-2/3">
                             <h1 class="mx-10 my-3" >Curso: {{$c->curso->nombre}}</h1>
                             <p class="mx-10 my-3" >Docente: {{$c->docente->nombre}}</p>
                             <p class="mx-10 my-3" >Aula: {{$c->aula->grado}} {{$c->aula->seccion}} </p>
                         </div>
-                        <div>
+                        <div class="w-1/3">
                             <a href="{{route('resultadosPorCurso',$c->iddetalle)}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                                 Ver resultados
                             </a>

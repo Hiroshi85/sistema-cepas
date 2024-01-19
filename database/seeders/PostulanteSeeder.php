@@ -24,12 +24,12 @@ class PostulanteSeeder extends Seeder
     public function run(): void
     {
         for ($i=0; $i < 5 ; $i++) {
-            //create admision and matricula since 2019 to 2023
+            //create admision and matricula since 2020 to 2024
             $fechaApertura = null;
             if ($i == 4 )
                 $fechaApertura = Carbon::now('America/Lima');
             else
-                $fechaApertura = Carbon::create(2019 + $i, rand(1, 12), rand(1, 28));
+                $fechaApertura = Carbon::create(2020 + $i, rand(1, 12), rand(1, 28));
             $fechaCierre = $fechaApertura->copy()->addMonth();
             Admision::create([
                 'año' => (string) $fechaApertura->year,
