@@ -68,6 +68,7 @@ use App\Http\Controllers\ProveedorController;
 
 // ACADEMIA
 use App\Http\Controllers\Academia\SolicitudController;
+use App\Http\Controllers\Academia\DocenteController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -318,6 +319,8 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::resource('ciclo' , CicloAcademicoController::class)->names('academia.ciclo');
+        Route::resource('docente', DocenteController::class)->names('academia.docente');
+
 
     });
 });

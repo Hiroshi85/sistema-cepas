@@ -2,6 +2,7 @@
 
 namespace App\Models\Rrhh;
 
+use App\Models\Academia\DocenteAcademia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -87,6 +88,13 @@ class Empleado extends Model
     public static function crearEmpleado($data)
     {
         $empleado = Empleado::create($data);
+
+        if ($empleado->puesto_id == 25) {
+            DocenteAcademia::create([
+                'empleado_id' => $empleado->id,
+            ]);
+        }
+
         return $empleado;
     }
 

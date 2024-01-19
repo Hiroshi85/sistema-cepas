@@ -5,6 +5,9 @@
             'Nueva solicitud' => 'academia.ciclo.index',
             // 'Alumnos' => 'alumno.index',
         ],
+        'Docentes' => [
+            'Lista de docentes' => 'academia.docente.index',
+        ],
         // 'Admisión' => [
         //     'Postulantes' => 'postulante.index',
         //     'Apoderados' => 'apoderado.index',
