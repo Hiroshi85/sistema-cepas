@@ -181,5 +181,10 @@ class AsignaturaController extends Controller
             DB::statement($sentenciaSql);
     }
 
+    public function getDetallesCursoPorAula($aulaId)
+    {
+        $detallesCurso = DetalleCurso::where('idaula', $aulaId)->get();
+        return response()->json($detallesCurso);
+    }
 
 }

@@ -45,6 +45,7 @@ use App\Http\Controllers\EvaluacionController;
 use App\Http\Controllers\EvaluacionDocenteController;
 use App\Http\Controllers\AsistenciaController;
 use App\Http\Controllers\CalificacionController;
+use App\Http\Controllers\EncuestaController;
 use Illuminate\Support\Facades\Route;
 
 //SEGUIMIENTO
@@ -283,6 +284,14 @@ Route::prefix('desempeño')->group(function () {
     //EvaluarDocentes
     Route::resource('evaluaciondocentes', EvaluacionDocenteController::class)->names('evaluaciondocente');
     Route::get('evaluardocentes/', [EvaluacionDocenteController::class, 'mostrardocentes'])->name('evaluardocentes');
+
+    // Encuestas
+    Route::get('procesoEncuestas', [EncuestaController::class,'index'])->name('procesoEncuestas');
+    Route::get('iniciarEncuestas', [EncuestaController::class,'crearEncuestas'])->name('iniciarEncuestas');
+    Route::get('misEncuestas/{id}',[EncuestaController::class,'verMisEncuestas'])->name('vermisEncuestas');
+    Route::get('encuesta/{id}',[EncuestaController::class,'accederEncuesta'])->name('verEncuesta');
+    Route::get('resultadosporcurso/{id}', [EncuestaController::class, 'resultadosporcurso'])->name('resultadosPorCurso');
+    Route::put('/encuesta/{id}', [EncuestaController::class, 'update'])->name('registrarEncuesta');
 });
 
 // Materiales Escolares

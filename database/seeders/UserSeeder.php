@@ -27,6 +27,19 @@ class UserSeeder extends Seeder
         
         $adminUser->assignRole("admin");
 
+        // Coordinador academico
+        $tabla = DB::table('users');
+        $tabla->insert([
+            'name' => 'coordinador',
+            'dni' => '99999909',
+            'email' => 'coordinador@gmail.com',
+            'password' => bcrypt('password'),
+        ]);
+
+        $coordUser = User::where('email', 'coordinador@gmail.com')->first();
+        // Asignar el rol 'admin' al usuario
+        
+        $coordUser->assignRole("Coordinador Academico");
         //Secretaria
         $tabla->insert([
             'name' => 'secretaria',

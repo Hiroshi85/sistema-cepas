@@ -15,15 +15,26 @@ return new class extends Migration
             $table->id("idencuesta");
             $table->unsignedBigInteger("idalumno");
             $table->unsignedBigInteger("idcurso");
-            $table->string("estado")->default(0);
-            $table->date("fecha")->nullable();
-            $table->string("resultados");
+            $table->string("estado")->default(1);
+            $table->date("fecha")->nullable()->default(now()->toDateString());
+            $table->string("resultados", 10)->default($this->generateRandomString());
             $table->foreign('idalumno')->references('idalumno')->on('alumnos');
             $table->foreign('idcurso')->references('iddetalle')->on('detallecurso');
             $table->timestamps();
         });
     }
 
+    protected function generateRandomString($length = 10)
+    {
+        $characters = '12345'; // Allowed characters
+        $randomString = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        return $randomString;
+    }
     /**
      * Reverse the migrations.
      */
