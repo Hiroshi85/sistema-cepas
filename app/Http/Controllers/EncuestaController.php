@@ -7,6 +7,7 @@ use App\Models\Encuesta;
 use App\Models\Aula;
 use Illuminate\Support\Facades\DB;
 use App\Models\CursoAsignado;
+use App\Models\Rrhh\Empleado;
 
 class EncuestaController extends Controller
 {
@@ -30,10 +31,15 @@ class EncuestaController extends Controller
     }
 
     public function resultadosporcurso($id){
-        $encuestas = Encuesta::where('idcurso', '=', $id)->where('estado','=',1)->get();
+        $encuestas = Encuesta::where('idcurso', '=', $id)->where('estado','=',1)->get()->pluck('resultados');
+        //dd($encuestas);
         $respondidas = $encuestas->count();
-        $total = Encuesta::all()->count();
-        return view('encuesta.resultadosporcurso', ['encuestas'=> $encuestas,'total' => $total, 'respondidas',$respondidas]);
+        //dd($respondidas);
+        $total = Encuesta::where('idcurso', '=', $id)->count();
+        $iddocente = CursoAsignado::where('iddetalle', $id)->value('iddocente');
+        $docente = Empleado::findOrFail($iddocente);
+        //dd($docente->nombres);
+        return view('encuesta.resultadosporcurso', ['encuestas'=> $encuestas,'total' => $total, 'respondidas'=>$respondidas,'docente'=>$docente]);
     }
 
     public function crearEncuestas()
