@@ -1,6 +1,7 @@
 @props([
     'empleado' => null,
     'puestos' => null,
+    'puestoId' => 0,
 ])
 
 @php
@@ -14,7 +15,7 @@
             'label' => 'Femenino',
         ],
     ];
-    
+
     $puestos_options = $puestos->map(function ($puesto) {
         return (object) [
             'value' => $puesto->id,
@@ -50,7 +51,7 @@
     <x-input-group value="{{ $empleado ? $empleado->telefono : '' }}" label="Teléfono" name="telefono" type="text"
         required placeholder="Ingrese teléfono del empleado" />
 
-    <x-input-group value="{{ $empleado ? $empleado->puesto_id : '' }}" label="Puesto" name="puesto_id" type="select"
+    <x-input-group value="{{ $empleado ? $empleado->puesto_id : $puestoId }}" label="Puesto" name="puesto_id" type="select"
         required :options="$puestos_options" />
 
     <div class="col-span-2">

@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Empleados;
 
 use App\Http\Traits\WithSorting;
-use App\Models\Empleado;
+use App\Models\Rrhh\Empleado;
 use Livewire\Component;
 use Livewire\WithPagination;
 

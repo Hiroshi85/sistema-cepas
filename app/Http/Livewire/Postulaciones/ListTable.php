@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Postulaciones;
 
 use App\Http\Traits\WithSorting;
-use App\Models\Postulacion;
+use App\Models\Rrhh\Postulacion;
 use Livewire\Component;
 use Livewire\WithPagination;
 

@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Puestos;
 
 use App\Http\Traits\WithSorting;
-use App\Models\Puesto;
+use App\Models\Rrhh\Puesto;
 use Livewire\Component;
 use Livewire\WithPagination;
 

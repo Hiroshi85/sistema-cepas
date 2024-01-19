@@ -19,8 +19,9 @@ class CreateOfertasTable extends Migration
             $table->decimal('salario', 10, 2);
             $table->text('beneficios')->nullable();
             $table->enum('estado', ['aceptada', 'rechazada', 'pendiente'])->default('Pendiente');
+            $table->date('contrato_fecha_inicio')->nullable();
+            $table->integer('meses_contrato')->nullable();
             $table->timestamps();
-
             $table->unsignedBigInteger('postulacion_id');
             $table->foreign('postulacion_id')->references('id')->on('postulaciones')->onDelete('cascade');
         });

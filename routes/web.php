@@ -1,24 +1,27 @@
 <?php
 
+use App\Http\Controllers\Academia\AcademiaController;
+use App\Http\Controllers\Academia\AlumnoAcademiaController;
+use App\Http\Controllers\Academia\CicloAcademicoController;
 
-use App\Http\Controllers\CandidatoController;
-use App\Http\Controllers\EmpleadoController;
-use App\Http\Controllers\EntrevistaCandidatoController;
-use App\Http\Controllers\EquipoController;
-use App\Http\Controllers\EvaluacionCandidatoController;
-use App\Http\Controllers\HorarioController;
-use App\Http\Controllers\NominaController;
-use App\Http\Controllers\PlazaController;
-use App\Http\Controllers\PostulacionController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PuestoController;
 
-//ADMISION Y MATRICULAS 
+// RRHH
+use App\Http\Controllers\Rrhh\CandidatoController;
+use App\Http\Controllers\Rrhh\EmpleadoController;
+use App\Http\Controllers\Rrhh\EntrevistaCandidatoController;
+use App\Http\Controllers\Rrhh\EquipoController;
+use App\Http\Controllers\Rrhh\EvaluacionCandidatoController;
+use App\Http\Controllers\Rrhh\HorarioController;
+use App\Http\Controllers\Rrhh\NominaController;
+use App\Http\Controllers\Rrhh\PlazaController;
+use App\Http\Controllers\Rrhh\PostulacionController;
+use App\Http\Controllers\Rrhh\PuestoController;
+use App\Http\Controllers\Rrhh\ContratoController;
+use App\Http\Controllers\Rrhh\OfertaController;
+
+//ADMISION Y MATRICULAS
 use App\Http\Controllers\AdmisionMatriculas\DashboardController;
-use App\Http\Controllers\AdmisionMatriculas\AdmisionController;
-use App\Http\Controllers\AdmisionMatriculas\AlumnoController;
-use App\Http\Controllers\AdmisionMatriculas\ApoderadoController;
-use App\Http\Controllers\AdmisionMatriculas\AulaController;
 use App\Http\Controllers\AdmisionMatriculas\DocumentoAlumnoController;
 use App\Http\Controllers\AdmisionMatriculas\DocumentoApoderadoController;
 use App\Http\Controllers\AdmisionMatriculas\DocumentoPostulanteController;
@@ -29,6 +32,10 @@ use App\Http\Controllers\AdmisionMatriculas\ParentescoController;
 use App\Http\Controllers\AdmisionMatriculas\PostulanteController;
 use App\Http\Controllers\AdmisionMatriculas\VoucherController;
 use App\Http\Controllers\AdmisionMatriculas\InboxController;
+use App\Http\Controllers\AdmisionMatriculas\AlumnoController;
+use App\Http\Controllers\AdmisionMatriculas\AulaController;
+use App\Http\Controllers\AdmisionMatriculas\ApoderadoController;
+use App\Http\Controllers\AdmisionMatriculas\AdmisionController;
 use App\Http\Controllers\NotificationController;
 // DESEMPEÑO
 use App\Http\Controllers\AsignaturaController;
@@ -38,6 +45,7 @@ use App\Http\Controllers\EvaluacionController;
 use App\Http\Controllers\EvaluacionDocenteController;
 use App\Http\Controllers\AsistenciaController;
 use App\Http\Controllers\CalificacionController;
+use App\Http\Controllers\EncuestaController;
 use Illuminate\Support\Facades\Route;
 
 //SEGUIMIENTO
@@ -47,10 +55,10 @@ use App\Http\Controllers\BuscarController;
 use App\Http\Controllers\PruebaArchivoController;
 use App\Http\Controllers\ConductaController;
 use App\Http\Controllers\ComportamientoController;
-use App\Http\Controllers\ContratoController;
-use App\Http\Controllers\OfertaController;
 use App\Http\Controllers\SesionPruebaController;
 use App\Http\Controllers\SancionController;
+use App\Http\Controllers\CitaController;
+use App\Http\Controllers\SeguimientoDashboard;
 
 // Materiales Escolares
 use App\Http\Controllers\FacturaController;
@@ -61,6 +69,7 @@ use App\Http\Controllers\ProveedorController;
 
 // ACADEMIA
 use App\Http\Controllers\Academia\SolicitudController;
+use App\Http\Controllers\Academia\DocenteController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -84,7 +93,7 @@ Route::get('/dashboard', function () {
         case 'apoderado':
             return redirect()->route('admision-matriculas.dashboard');
             break;
-        
+
         default:
             return view('dashboard');
             break;
@@ -94,9 +103,7 @@ Route::get('/dashboard', function () {
 
 //Seguimiento Escolar
 Route::prefix('seguimiento')->middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return view('seguimiento-dashboard');
-    })->name('seguimiento.dashboard');
+    Route::get('/', [SeguimientoDashboard::class, 'index'])->name('seguimiento.dashboard');
     Route::resource('asistenciaxdias', AsistenciaXDiaController::class);
     Route::resource('pruebas', PruebaPsicologicaController::class);
     Route::resource('conductas', ConductaController::class);
@@ -109,6 +116,7 @@ Route::prefix('seguimiento')->middleware('auth')->group(function () {
         Route::get('/alumnos/{id}', [ComportamientoController::class, 'getByAlumno'])->name('comportamientos.get');
         Route::get('/delete/{id}', [ComportamientoController::class, 'destroy'])->name('comportamientos.destroy');
 
+        Route::get('/{id}/acta', [ComportamientoController::class, 'generarActa'])->name('comportamientos.pdf.alumno');
         Route::get('/alumnos/{id}/pdfbimestral', [ComportamientoController::class, 'generarReporteBimestral'])->name('comportamientos.pdf.bimestral');
         Route::get('/alumnos/{id}/pdfanual', [ComportamientoController::class, 'generarReporteAnual'])->name('comportamientos.pdf.anual');
     });
@@ -121,6 +129,8 @@ Route::prefix('seguimiento')->middleware('auth')->group(function () {
     Route::get('sesiones/showAnual', [SesionPruebaController::class, 'showReporteAnual'])->name('sesiones.showAnual');
     Route::resource('sesiones', SesionPruebaController::class);
     Route::resource('sanciones', SancionController::class);
+    Route::get('citas/alumnoApoderado', [CitaController::class, 'getAlumnoApoderado'])->name('citas.alumnoapoderado');
+    Route::resource('citas', CitaController::class);
 });
 
 //RRHH
@@ -171,11 +181,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/ofertas/{oferta}.pdf', [OfertaController::class, 'loadSinglePdf'])->name('ofertas.pdf.show');
         Route::resource('/ofertas', OfertaController::class);
         Route::get('/ofertas/{postulacion}/create', [OfertaController::class, 'createForAPostulacion'])
-            ->name('ofertas.createForAPostulacion');
+        ->name('ofertas.createForAPostulacion');
         Route::put('/ofertas/{entrevista}/finalizar', [OfertaController::class, 'decisionCandidato'])
-            ->name('ofertas.decisionCandidato');
+        ->name('ofertas.decisionCandidato');
+        Route::get('/ofertas/{oferta}/firmar-contrato.pdf', [OfertaController::class, 'firmarContratoPdf'])->name('ofertas.firmarContratoPdf');
 
         Route::resource('/contratos', ContratoController::class);
+        Route::get('/contratos/oferta/{oferta}/create', [ContratoController::class, 'createForAOferta'])->name('contratos.createForAOferta');
 
         Route::resource('/puestos', PuestoController::class);
         Route::resource('/equipos', EquipoController::class);
@@ -272,6 +284,14 @@ Route::prefix('desempeño')->group(function () {
     //EvaluarDocentes
     Route::resource('evaluaciondocentes', EvaluacionDocenteController::class)->names('evaluaciondocente');
     Route::get('evaluardocentes/', [EvaluacionDocenteController::class, 'mostrardocentes'])->name('evaluardocentes');
+
+    // Encuestas
+    Route::get('procesoEncuestas', [EncuestaController::class,'index'])->name('procesoEncuestas');
+    Route::get('iniciarEncuestas', [EncuestaController::class,'crearEncuestas'])->name('iniciarEncuestas');
+    Route::get('misEncuestas/{id}',[EncuestaController::class,'verMisEncuestas'])->name('vermisEncuestas');
+    Route::get('encuesta/{id}',[EncuestaController::class,'accederEncuesta'])->name('verEncuesta');
+    Route::get('resultadosporcurso/{id}', [EncuestaController::class, 'resultadosporcurso'])->name('resultadosPorCurso');
+    Route::put('/encuesta/{id}', [EncuestaController::class, 'update'])->name('registrarEncuesta');
 });
 
 // Materiales Escolares
@@ -297,12 +317,20 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::prefix('academia')->group(function () {
-        Route::get('/', function () {
-            return view('academia-dashboard');
-        })->name('academia.dashboard');
+        Route::get('/', [AcademiaController::class, 'index'])->name('academia.dashboard');
 
-        Route::resource('solicitud', SolicitudController::class)->names('solicitud');
-        Route::PUT('solicitud/{id}/accionSolicitud', [SolicitudController::class, 'accionSolicitud'])->name('solicitud.accionSolicitud');
+
+        Route::prefix('ciclo/{ciclo}')->group(function () {
+            Route::resource('solicitud', SolicitudController::class)->names('academia.ciclo.solicitud');
+            Route::PUT('solicitud/{solicitud}/accionSolicitud', [SolicitudController::class, 'accionSolicitud'])->name('academia.ciclo.solicitud.accionSolicitud');
+
+            Route::resource('alumno', AlumnoAcademiaController::class)->names('academia.ciclo.alumno');
+        });
+
+        Route::resource('ciclo' , CicloAcademicoController::class)->names('academia.ciclo');
+        Route::resource('docente', DocenteController::class)->names('academia.docente');
+
+
     });
 });
 // ACADEMIA

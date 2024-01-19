@@ -2,12 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Http\Controllers\EmpleadoController;
-use App\Models\Contrato;
-use App\Models\User;
-use App\Models\Empleado;
+use App\Http\Controllers\Rrhh\EmpleadoController;
+use App\Models\Rrhh\Contrato;
+use App\Models\Rrhh\Empleado;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class ContratoSeeder extends Seeder
 {
@@ -55,39 +53,42 @@ class ContratoSeeder extends Seeder
         Contrato::factory()->count(1)->create([
             'empleado_id' => $this->createEmpleadoAndUser(8),
         ]);
-        Contrato::factory()->count(4)->create([
-            'empleado_id' => $this->createEmpleadoAndUser(9),
-        ]);
-        Contrato::factory()->count(4)->create([
-            'empleado_id' => $this->createEmpleadoAndUser(10),
-        ]);
-        Contrato::factory()->count(4)->create([
-            'empleado_id' => $this->createEmpleadoAndUser(11),
-        ]);
-        Contrato::factory()->count(4)->create([
-            'empleado_id' => $this->createEmpleadoAndUser(12),
-        ]);
-        Contrato::factory()->count(4)->create([
-            'empleado_id' => $this->createEmpleadoAndUser(13),
-        ]);
-        Contrato::factory()->count(4)->create([
-            'empleado_id' => $this->createEmpleadoAndUser(14),
-        ]);
-        Contrato::factory()->count(4)->create([
-            'empleado_id' => $this->createEmpleadoAndUser(15),
-        ]);
-        Contrato::factory()->count(4)->create([
-            'empleado_id' => $this->createEmpleadoAndUser(16),
-        ]);
-        Contrato::factory()->count(4)->create([
-            'empleado_id' => $this->createEmpleadoAndUser(17),
-        ]);
-        Contrato::factory()->count(4)->create([
-            'empleado_id' => $this->createEmpleadoAndUser(18),
-        ]);
-        Contrato::factory()->count(1)->create([
-            'empleado_id' => $this->createEmpleadoAndUser(19),
-        ]);
+
+        for ($i=0; $i < 4; $i++) {
+            Contrato::factory()->create([
+                'empleado_id' => $this->createEmpleadoAndUser(9),
+            ]);
+            Contrato::factory()->create([
+                'empleado_id' => $this->createEmpleadoAndUser(10),
+            ]);
+            Contrato::factory()->create([
+                'empleado_id' => $this->createEmpleadoAndUser(11),
+            ]);
+            Contrato::factory()->create([
+                'empleado_id' => $this->createEmpleadoAndUser(12),
+            ]);
+            Contrato::factory()->create([
+                'empleado_id' => $this->createEmpleadoAndUser(13),
+            ]);
+            Contrato::factory()->create([
+                'empleado_id' => $this->createEmpleadoAndUser(14),
+            ]);
+            Contrato::factory()->create([
+                'empleado_id' => $this->createEmpleadoAndUser(15),
+            ]);
+            Contrato::factory()->create([
+                'empleado_id' => $this->createEmpleadoAndUser(16),
+            ]);
+            Contrato::factory()->create([
+                'empleado_id' => $this->createEmpleadoAndUser(17),
+            ]);
+            Contrato::factory()->create([
+                'empleado_id' => $this->createEmpleadoAndUser(18),
+            ]);
+            Contrato::factory()->count(1)->create([
+                'empleado_id' => $this->createEmpleadoAndUser(19),
+            ]);
+        }
         Contrato::factory()->count(1)->create([
             'empleado_id' => $this->createEmpleadoAndUser(20),
         ]);

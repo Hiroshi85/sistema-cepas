@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Candidato;
+use App\Models\Rrhh\Candidato;
 use Illuminate\Database\Seeder;
 
 class CandidatoSeeder extends Seeder

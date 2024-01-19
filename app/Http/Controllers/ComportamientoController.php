@@ -15,8 +15,8 @@ class ComportamientoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('role:auxiliar|admin|Docente')->except(['generarReporteBimestral']);
-        $this->middleware('role:auxiliar|admin')->only(['generarReporteBimestral']);
+        $this->middleware('role:auxiliar|admin|Docente')->except(['generarReporteBimestral', 'generarActa']);
+        $this->middleware('role:auxiliar|admin')->only(['generarReporteBimestral', 'generarActa']);
     }
 
     /**
@@ -81,6 +81,18 @@ class ComportamientoController extends Controller
         return ['alumnos' => $alumnos];
     }
 
+    public function generarActa(string $id){
+        $comportamiento = Comportamiento::getComportamiento($id);
+        $nombreResponsable = Auth::user()->name;
+        if(!$comportamiento){
+            return response()->json(['message'=>'No se encontró el comportamiento'], 404);
+        }
+        $hoy = Carbon::now();
+        $pdf = Pdf::loadView('sancion.pdf.acta', compact('comportamiento', 'hoy', 'nombreResponsable'));
+        $nombre_archivo = 'acta-'.$id.'.pdf';
+        return $pdf->stream($nombre_archivo);
+    }
+
     public function generarReporteBimestral(Request $req, string $id){
         $conglomerado = $this->getByAlumno($req, $id);
         $bimestre = $req->query('bimestre');
@@ -95,6 +107,7 @@ class ComportamientoController extends Controller
     }
 
     public function generarReporteAnual(string $id){
+        $notasBimestrales = [];
         $comportamientosAnual = Comportamiento::listarComportamientoDeAlumnoAnual($id);
         $comportamientosAnual = $comportamientosAnual->jsonserialize();
         foreach ($comportamientosAnual as &$bimestre) {
@@ -105,11 +118,13 @@ class ComportamientoController extends Controller
             if($nota > 20) $nota=20;
             if($nota < 0) $nota=0;
             $bimestre['nota'] = $nota;
+            array_push($notasBimestrales, $nota);
         }
         unset($bimestre);
+        $promedioAnual = array_sum($notasBimestrales) / count($notasBimestrales);
         $alumno = Alumno::getAlumnoById($id);
         $auxiliar = Auth::user()->name;
-        $pdf = Pdf::loadView('comportamiento.pdf.anual', compact('comportamientosAnual', 'alumno', 'auxiliar'));
+        $pdf = Pdf::loadView('comportamiento.pdf.anual', compact('comportamientosAnual', 'alumno', 'auxiliar', 'promedioAnual'));
         $nombre_archivo = $alumno->nombre_apellidos.' - Anual.pdf';
         return $pdf->stream($nombre_archivo);
     }

@@ -7,7 +7,10 @@
 @endphp
 
 
-<form method="POST" action="{{ $sol ? route('solicitud.update', $sol) : route('solicitud.store') }}"
+<form method="POST" action="{{ $sol ? route('academia.ciclo.solicitud.update', [
+    'ciclo' => $ciclo,
+    'solicitud' => $sol
+]) : route('academia.ciclo.solicitud.store', $ciclo) }}"
     class="flex flex-col gap-5">
     @csrf
     {{ $sol ? method_field('PUT') : '' }}
@@ -19,7 +22,7 @@
         <select id="idalumno" name="idalumno" data-te-select-init data-te-select-filter="true" data-te-select-option-height="52" required>
             @foreach ($alumnos as $alumno)
                 <option value="{{$alumno->idalumno}}" data-te-select-secondary-text="{{$alumno->dni}}">{{$alumno->nombre_apellidos}}</option>
-            @endforeach                                    
+            @endforeach
         </select>
     </div>
 
@@ -36,7 +39,7 @@
         <select id="idcarrera" name="idcarrera" data-te-select-init data-te-select-filter="true" data-te-select-option-height="52" required>
             @foreach ($carreras as $carrera)
                 <option value="{{$carrera->id}}" data-te-select-secondary-text="{{strtoupper($carrera->facultad->nombre).' - Area '.$carrera->area->nombre}}">{{ucfirst($carrera->nombre)}}</option>
-            @endforeach                                    
+            @endforeach
         </select>
     </div>
 

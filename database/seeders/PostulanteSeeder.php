@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Admision;
 use App\Models\Alumno;
 use App\Models\AlumnoMatricula;
+use App\Models\ApoderadoPostulante;
 use App\Models\Matricula;
 use App\Models\Postulante;
 use App\Models\PostulanteAdmision;
@@ -22,7 +23,7 @@ class PostulanteSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i=0; $i < 5 ; $i++) { 
+        for ($i=0; $i < 5 ; $i++) {
             //create admision and matricula since 2019 to 2023
             $fechaApertura = null;
             if ($i == 4 )
@@ -32,22 +33,22 @@ class PostulanteSeeder extends Seeder
             $fechaCierre = $fechaApertura->copy()->addMonth();
             Admision::create([
                 'año' => (string) $fechaApertura->year,
-                'fecha_apertura' => $fechaApertura->toDateString(), 
-                'fecha_cierre' => $fechaCierre->toDateString(), 
+                'fecha_apertura' => $fechaApertura->toDateString(),
+                'fecha_cierre' => $fechaCierre->toDateString(),
                 'tarifa' => 50,
                 'estado' => $i == 4 ? 'Aperturada' : 'Cerrada',
-            ]); 
+            ]);
 
             Matricula::create([
                 'año' => (string) $fechaApertura->year,
                 'fecha_apertura' => $fechaApertura->toDateString(),
-                'fecha_cierre' => $fechaCierre->toDateString(), 
+                'fecha_cierre' => $fechaCierre->toDateString(),
                 'tarifa' => 300,
                 'estado' => $i == 4 ? 'Aperturada' : 'Cerrada',
             ]);
         }
-    
-        // Poblando postulantes y alumnos en el proceso del año actual 
+
+        // Poblando postulantes y alumnos en el proceso del año actual
         $faker = Factory::create();
         for ($i = 1; $i<= 10; $i++){
             Postulante::factory(50)->create(
@@ -58,7 +59,7 @@ class PostulanteSeeder extends Seeder
                     $this->crearAlumno($postulante);
                 }
                 if($postulante->estado != 'Registrado')
-                    // Crear historial de postulación   
+                    // Crear historial de postulación
                     $this->crearHistoriaPostulacion($postulante);
                 else
                 {
@@ -70,11 +71,13 @@ class PostulanteSeeder extends Seeder
                             'idadmision' => $i,
                             'fecha_registro' => Carbon::create(2018 + $i, rand(1, 12), rand(1, 28)),
                             'resultado' => $faker->randomElement(['En postulación','Entrevista pendiente', 'Rechazado'])
-                        ]);   
+                        ]);
                     }
                 }
-            });     
+            });
         }
+
+        $this->createApoderadoPostulante();
     }
 
     private function crearHistoriaPostulacion($postulante){
@@ -85,9 +88,9 @@ class PostulanteSeeder extends Seeder
             'resultado' => $postulante->estado,
         ]);
     }
-    
+
     private function crearHistoriaMatricula($alumno){
-        for ($i=5; $i > 5-$alumno->aula->grado ; $i--) { 
+        for ($i=5; $i > 5-$alumno->aula->grado ; $i--) {
             $matricula = Matricula::findOrFail($i);
             $matricula->total_alumnos++; //total alumnos entre matriculados y no matriculados
             $matricula->save();
@@ -124,5 +127,12 @@ class PostulanteSeeder extends Seeder
                 $this->crearHistoriaMatricula($alumno);
             }
         );
+    }
+
+    private function createApoderadoPostulante(){
+        $postulantes = Postulante::all();
+        foreach($postulantes as $p){
+            ApoderadoPostulante::createApoderadoPostulante(rand(1,15), $p->idpostulante);
+        }
     }
 }

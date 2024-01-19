@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Rrhh\Empleado;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Empleado;
-use App\Models\Asignatura;
-use App\Models\Aula;
 
 
 class CursoAsignado extends Model
@@ -42,5 +40,9 @@ class CursoAsignado extends Model
     public function calificacion(){
         return $this->hasMany(Calificacion::class,'idcurso','iddetalle');
     }
-    
+
+    public function asignatura(){
+        return $this->hasMany(Calificacion::class,'idcurso','iddetalle');
+    }
+
 }

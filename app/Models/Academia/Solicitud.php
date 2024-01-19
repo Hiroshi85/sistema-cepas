@@ -6,6 +6,7 @@ use App\Models\Academia\Cursos\Carrera;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Alumno;
+use Illuminate\Support\Facades\Log;
 
 class Solicitud extends Model
 {
@@ -15,7 +16,7 @@ class Solicitud extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['idalumno', 'observaciones', 'fecha_solicitud', 'estado','idcarrera'];
+    protected $fillable = ['idalumno', 'observaciones', 'fecha_solicitud', 'estado','idcarrera', 'idciclo_academico', 'public_id'];
 
     public $timestamps = false;
 
@@ -33,19 +34,9 @@ class Solicitud extends Model
         return $this->hasOne(DocumentoSolicitud::class, 'idsolicitud');
     }
 
-    public static function listarSolicitudes(
-        $search = '',
-        $sortBy = 'nombre',
-        $sortDirection = 'asc',
-        $paginate = 10
-    ) {
-        return Solicitud::
-        select('solicitud_academia.*', 'alumnos.nombre_apellidos as alumnoNombre', 'alumnos.dni as alumnoDni', 'carreras_unt.nombre as carreraNombre')->
-            join('alumnos', 'solicitud_academia.idalumno', '=', 'alumnos.idalumno')->
-            join('carreras_unt', 'solicitud_academia.idcarrera', '=', 'carreras_unt.id')->
-            where('alumnos.nombre_apellidos', 'LIKE', "%{$search}%")->
-            orderBy($sortBy, $sortDirection)
-
-            ->paginate($paginate);
+    public function getRouteKeyName(): string
+    {
+        return 'public_id';
     }
+
 }

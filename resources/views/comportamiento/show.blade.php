@@ -130,7 +130,7 @@
             var puntos = nuevaFila.insertCell();
             var fecha = nuevaFila.insertCell();
             var sancion = nuevaFila.insertCell();
-            var eliminar = nuevaFila.insertCell();
+            var operaciones = nuevaFila.insertCell();
 
             nuevaFila.className = "text-center";
             conducta.className = "px-6 py-4 whitespace-nowrap";
@@ -138,14 +138,20 @@
             puntos.className = "px-6 py-4 whitespace-nowrap";
             fecha.className = "px-6 py-4 whitespace-nowrap";
             sancion.className = "px-6 py-4 whitespace-nowrap";
-            eliminar.className = "px-6 py-4 whitespace-nowrap";
+            operaciones.className = "px-6 py-4 whitespace-nowrap";
 
             conducta.innerHTML = element.nombre;
             observacion.innerHTML = element.observacion ?? "-";
             puntos.innerHTML = element.puntaje;
             fecha.innerHTML = element.fecha;
             sancion.innerHTML =  element.sancion ?? '-';
-            eliminar.innerHTML = '<a class="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer" onclick="eliminarReg('+element.id+')">Eliminar</a>';
+            operaciones.innerHTML = `<div class="flex gap-2 justify-center w-100">
+                <a class="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer" onclick="eliminarReg(${element.id})">Eliminar</a>`;
+            if(element.puntaje<=0){
+                operaciones.innerHTML+= `<a class="font-medium text-green-600 dark:text-red-500 hover:underline cursor-pointer" onclick="generarActa(${element.id})">Generar acta</a>`
+            }
+
+            operaciones.innerHTML+= '</div>'
         });
         nota.innerHTML = `Nota conductual: ${data.nota}`;
 
@@ -154,6 +160,10 @@
         .catch(error => {
             console.log(error);
         });
+  }
+
+  function generarActa(idSancion){
+    window.open(`/seguimiento/comportamientos/${idSancion}/acta`, "_blank");
   }
 
   // Asociar la función al evento de clic del botón

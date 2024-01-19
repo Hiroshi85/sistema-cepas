@@ -91,6 +91,7 @@ class PuestoSeeder extends Seeder
             'nombre' => 'Docente especialista en Educación Religiosa',
             'equipo_id' => 4,
         ]);
+
         $tabla->insert([
             'nombre' => 'Coordinador de Asuntos Legales',
             'equipo_id' => 5,
@@ -110,6 +111,10 @@ class PuestoSeeder extends Seeder
         $tabla->insert([
             'nombre' => 'Psicólogo',
             'equipo_id' => 7,
+        ]);
+        $tabla->insert([
+            'nombre' => 'Docente Academia',
+            'equipo_id' => 4,
         ]);
     }
 }

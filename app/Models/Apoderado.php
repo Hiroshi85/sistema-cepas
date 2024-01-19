@@ -20,4 +20,8 @@ class Apoderado extends Model
     public function apoderado_postulantes(){
         return $this->belongsToMany(Postulante::class, 'apoderado_postulante', 'idpostulante', 'idapoderado');
     }
+
+    public static function getApoderadoById(string $id){
+        return Apoderado::find($id);
+    }
 }

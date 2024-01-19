@@ -25,19 +25,24 @@
             <img src="assets/cepas_escudo.png" width="100">
         </div>
         <div class="col-12">
-            <p class="h4"><strong>Reporte Año 2023 de Comportamientos</strong></p>
+            <p class="h4"><strong>Reporte Año 2023 de conducta</strong></p>
         </div>
     </div>
 
     <div class="row">
         <div class="col">
             <p><strong>Alumno:</strong> {{ $alumno->nombre_apellidos }}</p>
-            <div>
-                <p><strong>Grado:</strong> {{ $alumno->aula->grado.$alumno->aula->seccion }}
-                    <span class="mx-10 w-10"></span>
+            <div class="my-1">
+                <span>
+                    <strong>Grado:</strong> {{ $alumno->aula->grado.$alumno->aula->seccion }}
+                </span>
+                <span>
+                    <strong>Nota promedio conducta anual:</strong> {{ $promedioAnual }}
+                </span>
             </div>
         </div>
     </div>
+    <hr>
     @foreach ($comportamientosAnual as $bimestre)
         @if(count($bimestre['resultados'])!=0)
             <p class="h6"><strong>Bimestre {{$bimestre['resultados'][0]->bimestre}} </strong></p>

@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\EntrevistasCandidato;
 
 use App\Http\Traits\WithSorting;
-use App\Models\EntrevistaCandidato;
+use App\Models\Rrhh\EntrevistaCandidato;
 use Livewire\Component;
 use Livewire\WithPagination;
 

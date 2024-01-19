@@ -13,4 +13,20 @@ class ApoderadoPostulante extends Model
     protected $fillable = ['idapoderado', 'idpostulante', 'parentesco', 'convivencia', 'eliminado'];
     public $timestamps = false;
 
+    public static function getItemPorIdPostulante(string $idpostulante){
+        return ApoderadoPostulante::where('idpostulante', $idpostulante)->first();
+    }
+
+    public static function createApoderadoPostulante($idapoderado, $idpostulante){
+        return ApoderadoPostulante::create([
+            'idapoderado' => $idapoderado,
+            'idpostulante' => $idpostulante,
+            'parentesco' => 'Padre',
+            'convivencia' => 'si'
+        ]);
+    }
+
+    public static function getItemPorIdApoderado(string $idapoderado){
+        return ApoderadoPostulante::where('idapoderado', $idapoderado)->first();
+    }
 }

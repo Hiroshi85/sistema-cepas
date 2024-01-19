@@ -12,12 +12,11 @@
             </span>
         </h2>
     </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-950 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <a href={{route('solicitud.index')}} class="bg-blue-500 px-3 py-2 rounded-md mb-5">Volver</a>
+                    <a href="{{route('academia.ciclo.solicitud.index', $ciclo)}}" class="bg-blue-500 px-3 py-2 rounded-md mb-5">Volver</a>
                     <div class="flex mt-5">
                         <div class="flex-1 flex flex-col gap-3">
                             {{-- Datos --}}
@@ -30,7 +29,6 @@
                                                 class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-700 dark:text-yellow-100">
                                                 Pendiente
                                             </span>
-                                            
                                         @elseif ($solicitud->estado == 'aceptado')
                                             <span
                                                 class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
@@ -41,7 +39,6 @@
                                                 class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
                                                 Rechazada
                                             </span>
-                                            
                                         @endif
                                     </div>
                                 </div>
@@ -59,7 +56,6 @@
                                             </span>
                                         </div>
                                     </div>
-    
                                     <div class="flex">
                                         <div class="w-1/3">
                                             <span class="font-bold">
@@ -75,14 +71,11 @@
                                                 <span class="text-sm">
                                                     {{ $solicitud->alumno->dni }}
                                                 </span>
-                                                
                                             @endif
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             {{-- Solicitante --}}
                             <div class="">
                                 <h4 class="font-extrabold text-2xl">Solicitante:</h4>
@@ -100,7 +93,6 @@
                                             </span>
                                         </div>
                                     </div>
-    
                                     <div class="flex">
                                         <div class="w-1/3">
                                             <span class="font-bold">
@@ -115,8 +107,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                             {{-- Carrera --}}
                             <div class="">
                                 <h4 class="font-extrabold text-2xl">Carrera:</h4>
@@ -134,7 +124,6 @@
                                             </span>
                                         </div>
                                     </div>
-    
                                     <div class="flex">
                                         <div class="w-1/3">
                                             <span class="font-bold">
@@ -147,7 +136,6 @@
                                             </span>
                                         </div>
                                     </div>
-
                                     <div class="flex">
                                         <div class="w-1/3">
                                             <span class="font-bold">
@@ -162,32 +150,24 @@
                                     </div>
                                 </div>
                             </div>
-
-                            
-
                         </div>
-
                         {{-- Detalles --}}
                         <div class="w-[40%]">
                             <h4 class="font-bold text-2xl">Decisión</h4>
-
                             @if ($solicitud->estado == 'pendiente')
-                                <form action={{route('solicitud.accionSolicitud', $solicitud->id)}} method="POST">
+                                <form action={{route('academia.ciclo.solicitud.accionSolicitud', [$ciclo, $solicitud])}} method="POST">
                                     @csrf
                                     @method('PUT')
-
                                     <x-input-group value="{{ old('observaciones') }}" label="Observaciones" name="observaciones" type="textarea"
                                         class="mb-2"
                                         placeholder="Observaciones..." />
-
                                     <x-primary-button type="submit" class="bg-green-500 hover:bg-green-700" name="accion" value="aceptar">
                                         {{ __('Aprobar') }}
                                     </x-primary-button>
-
                                     <x-primary-button type="submit" class="bg-red-500 hover:bg-red-700" name="accion" value="rechazar">
                                         {{ __('Rechazar') }}
                                     </x-primary-button>
-                                </form> 
+                                </form>
                             @else
                                 <span class="font-bold">
                                     Desisión:
@@ -201,18 +181,14 @@
                                 <p class="ml-5">
                                     {{ $solicitud->documento->observaciones}}
                                 </p>
-
                                 <div class="h-[1px] w-full bg-gray-500 my-5"></div>
-
                                 <h4 class="font-bold text-2xl">Cambiar decisión</h4>
-                                <form action={{route('solicitud.accionSolicitud', $solicitud->id)}} method="POST">
+                                <form action="{{route('academia.ciclo.solicitud.accionSolicitud', [$ciclo, $solicitud])}}" method="POST">
                                     @csrf
                                     @method('PUT')
-
                                     <x-input-group value="{{ old('observaciones') }}" label="Observaciones" name="observaciones" type="textarea"
                                         class="mb-2"
                                         placeholder="Observaciones..." />
-
                                     @if ($solicitud->estado == 'aceptado')
                                         <x-primary-button type="submit" class="bg-red-500 hover:bg-red-700" name="accion" value="rechazar">
                                             {{ __('Rechazar') }}
@@ -222,16 +198,10 @@
                                             {{ __('Aprobar') }}
                                         </x-primary-button>
                                     @endif
-
-
-                                </form> 
-
+                                </form>
                             @endif
-
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>

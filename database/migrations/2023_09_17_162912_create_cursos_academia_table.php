@@ -54,24 +54,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('cursos_academia', function (Blueprint $table) {
-            $table->id();
-
-            $table->string('nombre');
-
-            $table->string('descripcion')->nullable();
-
-            $table->boolean('eliminado')->default(false);
-
-            // NOTE: this slug should be unique.
-            $table->string('slug');
-
-            $table->unsignedBigInteger('idarea');
-            $table->foreign('idarea')->references('id')->on('areas_unt');
-
-            $table->timestamps();
-        });
-
 
 
 

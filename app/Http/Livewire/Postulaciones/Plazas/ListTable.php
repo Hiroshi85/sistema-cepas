@@ -3,8 +3,8 @@
 namespace App\Http\Livewire\Postulaciones\Plazas;
 
 use App\Http\Traits\WithSorting;
-use App\Models\Plaza;
-use App\Models\Postulacion;
+use App\Models\Rrhh\Plaza;
+use App\Models\Rrhh\Postulacion;
 use Livewire\Component;
 use Livewire\WithPagination;
 

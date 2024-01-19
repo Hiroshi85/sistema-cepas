@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Contratos;
 
 use App\Http\Traits\WithSorting;
-use App\Models\Contrato;
+use App\Models\Rrhh\Contrato;
 use Livewire\Component;
 use Livewire\WithPagination;
 
