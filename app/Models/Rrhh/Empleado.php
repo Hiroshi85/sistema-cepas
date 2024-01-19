@@ -151,4 +151,23 @@ class Empleado extends Model
         }
         return $meses;
     }
+
+    public function esteMesYaRecibioNomina(): bool
+    {
+        $nomina = Nomina::where('empleado_id', '=', $this->id)
+            ->where('fecha_inicio', '<=', now())
+            ->where('fecha_fin', '>=', now())
+            ->first();
+        return $nomina != null;
+    }
+
+    public function yaRecibioNominaElPeriodo($fecha_inicio, $fecha_fin): bool
+    {
+        $nomina = Nomina::where('empleado_id', '=', $this->id)
+            ->where('fecha_inicio', '<=', $fecha_inicio )
+            ->where('fecha_fin', '>=', $fecha_fin)
+            ->first();
+        return $nomina != null;
+    }
+
 }
