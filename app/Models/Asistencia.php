@@ -17,4 +17,8 @@ class Asistencia extends Model
     public function alumno(){
         return $this->hasOne(Alumno::class,'idalumno','idalumno');
     }
+
+    public function cursoasignado(){
+        return $this->hasOne(CursoAsignado::class,'iddetalle','idcurso');
+    }
 }

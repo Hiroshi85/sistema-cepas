@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ConductaSeeder::class);
         $this->call(EstadoResultadoPruebaSeeder::class);
 
+        $this->call(AsignacionSeeder::class);
+
         $this->call(ApoderadoSeeder::class);
         $this->call(PostulanteSeeder::class);
         $this->call(CursosSeeder::class);

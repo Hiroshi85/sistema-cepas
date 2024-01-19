@@ -24,9 +24,8 @@ return new class extends Migration
             $table->char("s6",1)->default('F');
             $table->char("s7",1)->default('F');
             $table->char("s8",1)->default('F');
-            
-            $table->foreign('idcurso')->references('id')->on('asignaturas');
             $table->foreign('idalumno')->references('idalumno')->on('alumnos');
+            $table->foreign('idcurso')->references('iddetalle')->on('detallecurso');
         });
     }
 

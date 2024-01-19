@@ -41,4 +41,8 @@ class CursoAsignado extends Model
         return $this->hasMany(Calificacion::class,'idcurso','iddetalle');
     }
 
+    public function asignatura(){
+        return $this->hasMany(Calificacion::class,'idcurso','iddetalle');
+    }
+
 }

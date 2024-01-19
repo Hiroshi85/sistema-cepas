@@ -52,6 +52,20 @@
                         </x-nav-link>
                     </div>
                 @endcan
+                @can('iniciarencuestas')
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('procesoEncuestas')">
+                            {{ __('Activar Encuestas') }}
+                        </x-nav-link>
+                    </div>
+                @endcan
+                @can('misencuestas')
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('vermisEncuestas', ['id' => '1'])">
+                            {{ __('Encuestas') }}
+                        </x-nav-link>
+                    </div>
+                @endcan
             </div>
 
             <!-- Settings Dropdown -->

@@ -233,8 +233,8 @@
                     @else
                         <p>No se encontraron cursos asignados.</p>
                     @endif
-                    <?php if ($asignados->count()>=20): ?>
-                        <div class="mx-5  px-4 py-4 bg-white border-b dark:bg-gray-900 dark:border-gray-700">$asignados->links()</div>
+                    <?php if ($asignados->count()>=10): ?>
+                        <div class="mx-5  px-4 py-4 bg-white border-b dark:bg-gray-900 dark:border-gray-700">{{$asignados->links()}}</div>
                     <?php endif; ?> 
             </div>
         </div>

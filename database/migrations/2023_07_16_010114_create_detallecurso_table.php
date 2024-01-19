@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('idaula')->references('idaula')->on('aulas');
             $table->foreign('iddocente')->references('id')->on('empleados');
             // Campo para el Soft Delete
-            $table->integer("estado");
+            $table->integer("estado")->default(1);
         });
     }
 
