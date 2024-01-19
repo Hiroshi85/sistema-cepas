@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Rrhh;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Rrhh\StoreNominaRequest;
 use App\Models\Rrhh\Descuento;
 use App\Models\Rrhh\Empleado;
 use App\Models\Rrhh\Nomina;
@@ -17,37 +18,6 @@ class NominaController extends Controller
      * Display a listing of the resource.
      */
 
-
-    public  function  rules(){
-        return [
-            'empleado_id' => 'required',
-            'periodo' => 'required',
-            'prestaciones' => 'required|array',
-            'prestaciones.*.tipo_prestacion_id' => 'required|exists:tipos_prestacion,id',
-            'prestaciones.*.monto' => 'required',
-            'descuentos' => 'required|array',
-            'descuentos.*.tipo_descuento_id' => 'required|exists:tipos_descuento,id',
-            'descuentos.*.monto' => 'required',
-        ];
-
-    }
-
-    public function messages()
-    {
-        return [
-            'empleado_id.required' => 'El empleado es requerido',
-            'periodo.required' => 'El periodo es requerido',
-            'prestaciones.required' => 'Las prestaciones son requeridas',
-            'prestaciones.*.tipo_prestacion_id.required' => 'El tipo de prestación es requerido',
-            'prestaciones.*.tipo_prestacion_id.exists' => 'El tipo de prestación no existe',
-            'prestaciones.*.monto.required' => 'El monto es requerido',
-            'descuentos.required' => 'Los descuentos son requeridos',
-            'descuentos.*.tipo_descuento_id.required' => 'El tipo de descuento es requerido',
-            'descuentos.*.tipo_descuento_id.exists' => 'El tipo de descuento no existe',
-            'descuentos.*.monto.required' => 'El monto es requerido',
-        ];
-
-    }
 
     public function index()
     {
@@ -81,10 +51,8 @@ class NominaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreNominaRequest $request)
     {
-        $request->validate($this->rules(), $this->messages());
-
         $nomina = new Nomina(
             [
                 'empleado_id' => $request->empleado_id,
@@ -121,6 +89,13 @@ class NominaController extends Controller
             $nomina->descuentos()->save($descuento);
         }
 
+        session()->flash(
+            'toast',
+            [
+                'message' => "Nómina del empleado {$nomina->empleado->nombre} generada correctamente",
+                'type' => 'success',
+            ]
+        );
         return redirect()->route('nominas.index')->with('success', 'Nómina creada exitosamente');
 
     }

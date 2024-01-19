@@ -88,7 +88,14 @@
 
 
     <div>
-
+        @error('prestaciones')
+        <p class="text-red-500 text-xs italic">{{ $message }}</p>
+        @enderror
+    </div>
+    <div>
+        @error('descuentos')
+        <p class="text-red-500 text-xs italic">{{ $message }}</p>
+        @enderror
     </div>
 
     <div class="col-span-2">
