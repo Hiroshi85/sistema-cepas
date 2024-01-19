@@ -66,7 +66,7 @@
         <div class="pt-2">
             <p> ___________________________</p>
         </div>
-        <p>{{$psicologo}}<br>Psicologo</p>
+        <p>{{$psicologo}}<br>Psicólogo</p>
     </div>
 
 </body>

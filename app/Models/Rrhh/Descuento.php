@@ -12,7 +12,7 @@ class Descuento extends Model
 
     protected $fillable = [
         'nomina_id',
-        'concepto',
+        'tipo_descuento_id',
         'monto',
     ];
 

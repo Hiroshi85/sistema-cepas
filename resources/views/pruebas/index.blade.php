@@ -2,7 +2,7 @@
     <x-slot name="header">
         <h2 class="flex-1 font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Prueba psicologica') }}
-        </h2>                    
+        </h2>
     </x-slot>
 
     <div class="py-12">
@@ -12,7 +12,7 @@
                     <a class="text-gray-800 dark:text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow hover:bg-gray-200 transition duration-300 ease-in-out"
                     href="{{ route('pruebas.create') }}">
                         Registrar prueba psicologica
-                    </a>                    
+                    </a>
                 </div>
             </div>
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -47,24 +47,28 @@
                                     @if(!is_null($item->file_url))
                                         <a href="{{route('files', $item->id)}}" class="font-medium text-blue-600 dark:text-blue-800 hover:underline">Archivo</a>
                                     @endif
-                                    
+
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex">
-                                            <a href="{{route('pruebas.edit', $item->id)}}" class="flex-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"> Editar</a>
-                                            <form class="flex-1" action="{{ route('pruebas.destroy', $item->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar esto?')" class="font-medium text-red-600 dark:text-red-500 hover:underline">Eliminar</button>
-                                            </form>                                              
+                                            @if($item->psicologo_id == Auth::user()->id)
+                                                <a href="{{route('pruebas.edit', $item->id)}}" class="flex-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"> Editar</a>
+                                                <form class="flex-1" action="{{ route('pruebas.destroy', $item->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar esto?')" class="font-medium text-red-600 dark:text-red-500 hover:underline">Eliminar</button>
+                                                </form>
+                                            @else
+                                                -
+                                            @endif
                                         </div>
                                     </td>
-                                </tr>    
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
-                    
+
                     {{-- Fin tabla --}}
                 </div>
             </div>

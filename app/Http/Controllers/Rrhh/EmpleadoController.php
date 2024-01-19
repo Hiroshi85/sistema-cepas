@@ -79,10 +79,20 @@ class EmpleadoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
+        $puesto = $request->puesto;
+        $puestoId = 0;
+
+        if ($puesto != null){
+            if ($puesto == "docente-academia"){
+                $puestoId == 24;
+            }
+        }
+
         return view('rrhh.empleados.create', [
             'puestos' => Puesto::obtenerTodos(),
+            'puestoId' => $puestoId,
         ]);
     }
 
@@ -94,7 +104,7 @@ class EmpleadoController extends Controller
         $data = $this->validate($request, $this->rules(), $this->messages());
 
         // if the equipo is docentes, then the esDocente field is true
-        if ($data['puesto_id'] >= 10 && $data['puesto_id'] <= 19) {
+        if (($data['puesto_id'] >= 10 && $data['puesto_id'] <= 19) || ($data['puesto_id'] == 25)) {
             $data['esDocente'] = 1;
         } else {
             $data['esDocente'] = 0;
