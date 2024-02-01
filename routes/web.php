@@ -70,6 +70,7 @@ use App\Http\Controllers\ProveedorController;
 // ACADEMIA
 use App\Http\Controllers\Academia\SolicitudController;
 use App\Http\Controllers\Academia\DocenteController;
+use App\Http\Controllers\Academia\Cursos\CursoAcademiaController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -88,7 +89,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    $userRol = session()->get('authUser')->getRoleNames()->first();
+    $userRol = auth()->user()->getRoleNames()->first();
     switch ($userRol) {
         case 'apoderado':
             return redirect()->route('admision-matriculas.dashboard');
@@ -318,6 +319,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::prefix('academia')->group(function () {
         Route::get('/', [AcademiaController::class, 'index'])->name('academia.dashboard');
+
+        Route::resource('cursos', CursoAcademiaController::class)->names('academia.cursos');
 
 
         Route::prefix('ciclo/{ciclo}')->group(function () {

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('docentes_academia', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('empleado_id');
+            $table->unsignedBigInteger('empleado_id')->nullable();
             $table->foreign('empleado_id')->references('id')->on('empleados');
             $table->unsignedBigInteger('especialidad_id');
             $table->foreign('especialidad_id')->references('id')->on('carreras_unt');

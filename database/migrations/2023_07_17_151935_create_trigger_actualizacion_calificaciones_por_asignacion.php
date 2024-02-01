@@ -17,12 +17,12 @@ return new class extends Migration
             FOR EACH ROW
             BEGIN
                 IF (NEW.idcurso  <> OLD.idcurso) OR (NEW.idaula <> OLD.idaula) THEN
-                    DELETE FROM CALIFICACION
+                    DELETE FROM calificacion
                     WHERE idcurso = OLD.iddetalle;
 
-                    INSERT INTO CALIFICACION (idalumno, idcurso)
+                    INSERT INTO calificacion (idalumno, idcurso)
                     SELECT idalumno, NEW.iddetalle
-                    FROM ALUMNOS
+                    FROM alumnos
                     WHERE idaula = NEW.idaula;
                 END IF;
             END;

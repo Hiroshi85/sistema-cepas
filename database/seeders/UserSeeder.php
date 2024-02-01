@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
 
         $adminUser = User::where('email', 'admin@gmail.com')->first();
         // Asignar el rol 'admin' al usuario
-        
+
         $adminUser->assignRole("admin");
 
         // Coordinador academico
@@ -33,19 +33,19 @@ class UserSeeder extends Seeder
             'name' => 'coordinador',
             'dni' => '99999909',
             'email' => 'coordinador@gmail.com',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('12341234'),
         ]);
 
         $coordUser = User::where('email', 'coordinador@gmail.com')->first();
         // Asignar el rol 'admin' al usuario
-        
+
         $coordUser->assignRole("Coordinador Academico");
         //Secretaria
         $tabla->insert([
             'name' => 'secretaria',
             'dni' => '78154464',
             'email' => 'secretaria@gmail.com',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('p4s$w0rdTrEWd'),
         ]);
         $secretariaUser = User::where('email', 'secretaria@gmail.com')->first();
         $secretariaUser->assignRole('secretario(a)');
@@ -55,7 +55,7 @@ class UserSeeder extends Seeder
             'name' => 'director',
             'dni' => '78104465',
             'email' => 'director@gmail.com',
-            'password' => bcrypt('password'),
+            'password' => bcrypt('p4s$w0rdTrEWd'),
         ]);
         $directorUser = User::where('email', 'director@gmail.com')->first();
         $directorUser->assignRole('director(a)');

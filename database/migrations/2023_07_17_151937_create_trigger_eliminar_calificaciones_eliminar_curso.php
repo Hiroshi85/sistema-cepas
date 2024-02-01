@@ -19,10 +19,10 @@ return new class extends Migration
             FOR EACH ROW
             BEGIN
                 IF NEW.estado  <> OLD.estado THEN
-                    DELETE FROM CALIFICACION
+                    DELETE FROM calificacion
                     WHERE idcurso = OLD.iddetalle;
 
-                    DELETE FROM ASISTENCIA_ASIGNATURA
+                    DELETE FROM asistencia_asignatura
                     WHERE idcurso = OLD.iddetalle;
 
                 END IF;

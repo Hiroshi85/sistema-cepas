@@ -13,14 +13,14 @@ return new class extends Migration
         // Crea el trigger utilizando el método unprepared
         DB::unprepared("
             CREATE TRIGGER tr_insertar_asistencias_insert_alumno
-            AFTER INSERT ON ALUMNOS
+            AFTER INSERT ON alumnos
             FOR EACH ROW
             BEGIN
                 DECLARE i INT DEFAULT 1;
 
                 IF NEW.estado = 'Matriculado' THEN
                     WHILE i <= 4 DO
-                        INSERT INTO asistencia_asignatura (idalumno, idcurso, bimestre) 
+                        INSERT INTO asistencia_asignatura (idalumno, idcurso, bimestre)
                         SELECT NEW.idalumno, iddetalle, i FROM detallecurso WHERE idaula = NEW.idaula;
                         SET i = i + 1;
                     END WHILE;

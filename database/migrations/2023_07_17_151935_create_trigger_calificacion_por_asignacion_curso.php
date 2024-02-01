@@ -15,11 +15,11 @@ return new class extends Migration
             CREATE TRIGGER tr_insertar_calificaciones
             AFTER INSERT ON detallecurso
             FOR EACH ROW
-            BEGIN            
+            BEGIN
                 -- Insertar registros en la tabla CALIFICACION para todos los alumnos de la aula
-                INSERT INTO CALIFICACION (idalumno, idcurso)
+                INSERT INTO calificacion (idalumno, idcurso)
                 SELECT idalumno, NEW.iddetalle AS idcurso
-                FROM ALUMNOS
+                FROM alumnos
                 WHERE idaula = NEW.idaula;
             END
         ');

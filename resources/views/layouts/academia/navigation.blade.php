@@ -8,6 +8,7 @@
         'Docentes' => [
             'Lista de docentes' => 'academia.docente.index',
         ],
+        'Cursos' => 'academia.cursos.index',
         // 'Admisión' => [
         //     'Postulantes' => 'postulante.index',
         //     'Apoderados' => 'apoderado.index',
