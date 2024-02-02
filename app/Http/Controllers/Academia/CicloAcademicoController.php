@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Academia\CicloAcademicoRequest;
 use App\Models\Academia\CicloAcademico;
 use App\Services\Academia\CicloAcademicoService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -97,4 +98,15 @@ class CicloAcademicoController extends Controller
     {
         //
     }
+
+    public function loadSinglePdf($idciclo)
+    {
+        $ciclo = CicloAcademico::findOrFail($idciclo);         
+        //  dd($ciclo->alumnos[0]->alumno->nombre_apellidos);
+        $alumnos = $ciclo->alumnos->where('eliminado', 0)->sortBy('alumno.nombre_apellidos');
+
+        $pdf = Pdf::loadView('academia.alumnos.pdf.show', compact('ciclo', 'alumnos'));
+        return $pdf->stream('lista-'.$ciclo->nombre.'.pdf');
+    }
+
 }

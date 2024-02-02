@@ -9,7 +9,14 @@
     <div class="p-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-900 shadow-sm overflow-hidden sm:rounded-lg w-full">
-                <div class="p-6 text-gray-900 dark:text-whi     te flex flex-col gap-2 ">
+                <div class="px-6 py-2 flex justify-end w-full">
+                    <a href={{ route('academia.ciclo.pdf.show', ['ciclo'=>1]) }}
+                        target="_blank"
+                        class="bg-emerald-500 rounded-lg p-2 pl-3 text-center text-slate-100 dark:text-slate-900 hover:scale-105">
+                        @livewire('icons.pdf')
+                    </a>
+                </div>
+                <div class="p-6 text-gray-900 dark:text-white flex flex-col gap-2 ">
                     @livewire('academia.alumnos-academia.list-table', [
                         'ciclo' => $ciclo
                     ])

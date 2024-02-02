@@ -182,9 +182,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/ofertas/{oferta}.pdf', [OfertaController::class, 'loadSinglePdf'])->name('ofertas.pdf.show');
         Route::resource('/ofertas', OfertaController::class);
         Route::get('/ofertas/{postulacion}/create', [OfertaController::class, 'createForAPostulacion'])
-        ->name('ofertas.createForAPostulacion');
+            ->name('ofertas.createForAPostulacion');
         Route::put('/ofertas/{entrevista}/finalizar', [OfertaController::class, 'decisionCandidato'])
-        ->name('ofertas.decisionCandidato');
+            ->name('ofertas.decisionCandidato');
         Route::get('/ofertas/{oferta}/firmar-contrato.pdf', [OfertaController::class, 'firmarContratoPdf'])->name('ofertas.firmarContratoPdf');
 
         Route::resource('/contratos', ContratoController::class);
@@ -209,7 +209,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('/postulante', PostulanteController::class);
         //Estudiantes
         Route::resource('/alumno', AlumnoController::class);
-        Route::get('/aula/alumnos/{idaula}/lista.pdf',[AlumnoController::class, 'loadSinglePdf'])->name('lista.pdf.show');
+        Route::get('/aula/alumnos/{idaula}/lista.pdf', [AlumnoController::class, 'loadSinglePdf'])->name('lista.pdf.show');
         //Aulas
         Route::resource('/aula', AulaController::class);
         //Entrevistas
@@ -234,7 +234,6 @@ Route::middleware('auth')->group(function () {
         Route::get('cancelar/{ruta}', function ($ruta) {
             return redirect()->route($ruta);
         })->name('cancelar');
-
     });
 });
 // Sistema apoderados
@@ -287,10 +286,10 @@ Route::prefix('desempeño')->group(function () {
     Route::get('evaluardocentes/', [EvaluacionDocenteController::class, 'mostrardocentes'])->name('evaluardocentes');
 
     // Encuestas
-    Route::get('procesoEncuestas', [EncuestaController::class,'index'])->name('procesoEncuestas');
-    Route::get('iniciarEncuestas', [EncuestaController::class,'crearEncuestas'])->name('iniciarEncuestas');
-    Route::get('misEncuestas/{id}',[EncuestaController::class,'verMisEncuestas'])->name('vermisEncuestas');
-    Route::get('encuesta/{id}',[EncuestaController::class,'accederEncuesta'])->name('verEncuesta');
+    Route::get('procesoEncuestas', [EncuestaController::class, 'index'])->name('procesoEncuestas');
+    Route::get('iniciarEncuestas', [EncuestaController::class, 'crearEncuestas'])->name('iniciarEncuestas');
+    Route::get('misEncuestas/{id}', [EncuestaController::class, 'verMisEncuestas'])->name('vermisEncuestas');
+    Route::get('encuesta/{id}', [EncuestaController::class, 'accederEncuesta'])->name('verEncuesta');
     Route::get('resultadosporcurso/{id}', [EncuestaController::class, 'resultadosporcurso'])->name('resultadosPorCurso');
     Route::put('/encuesta/{id}', [EncuestaController::class, 'update'])->name('registrarEncuesta');
 });
@@ -327,13 +326,14 @@ Route::middleware('auth')->group(function () {
             Route::resource('solicitud', SolicitudController::class)->names('academia.ciclo.solicitud');
             Route::PUT('solicitud/{solicitud}/accionSolicitud', [SolicitudController::class, 'accionSolicitud'])->name('academia.ciclo.solicitud.accionSolicitud');
 
-            Route::resource('alumno', AlumnoAcademiaController::class)->names('academia.ciclo.alumno');
+            Route::resource('alumno', AlumnoAcademiaController::class)->names('academia.ciclo.alumno');           
         });
 
-        Route::resource('ciclo' , CicloAcademicoController::class)->names('academia.ciclo');
+        Route::resource('ciclo', CicloAcademicoController::class)->names('academia.ciclo');
+        //PDF
+        Route::get('/ciclo/{ciclo}/reporte.pdf', [CicloAcademicoController::class, 'loadSinglePdf'])->name('academia.ciclo.pdf.show');
+        
         Route::resource('docente', DocenteController::class)->names('academia.docente');
-
-
     });
 });
 // ACADEMIA

@@ -43,9 +43,6 @@ return new class extends Migration
             $table->unsignedBigInteger('idciclo_academico');
             $table->foreign('idciclo_academico')->references('id')->on('ciclo_academico');
 
-            $table->unsignedBigInteger('iddocente');
-            $table->foreign('iddocente')->references('id')->on('docentes');
-
             $table->timestamps();
         });
     }
