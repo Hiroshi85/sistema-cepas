@@ -1,8 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Postulantes') }}
-        </h2>
+        <div class="w-full flex justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Postulantes') }}
+            </h2>
+            <h3 class="font-bold text-xl text-gray-800 dark:text-gray-200">
+                @If(Auth::user()->hasRole('apoderado'))
+                    {{ __('Sistema de apoderados') }}
+                @endif 
+            </h3>
+        </div>
     </x-slot>
     
     {{-- CRUD for postulantes --}}
@@ -159,7 +166,7 @@
                                     @if (count($postulantes) == 0)
                                     <tr>
                                         <td colspan="2">
-                                            <h6 class="mt-4 mb-0 leading-normal text-size-sm dark:text-white">No hay registros</h6>
+                                            <h6 class="mt-4 mb-0 leading-normal text-size-sm dark:text-white">No se encontraron registros</h6>
                                         </td>
                                     </tr>
                                     @else

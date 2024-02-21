@@ -11,7 +11,7 @@
             <div class="p-6 text-gray-900 dark:text-gray-100 flex flex-col md:flex-row gap-6">
                 {{-- CONTENT --}}
                 <div
-                    class="flex flex-col rounded-lg bg-white p-6 dark:bg-gray-900 w-full w-[50%]">
+                    class="flex flex-col rounded-lg bg-[#F3F4F6] p-6 dark:bg-gray-900 w-full w-[50%]">
                     <div class="flex md:flex-row justify-between">
                         <h5
                         class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
@@ -46,7 +46,7 @@
                 </div>
                 {{-- --------------------------- --}}
                 <div
-                    class="flex flex-col rounded-lg bg-white p-6 dark:bg-gray-900 w-full w-[50%]">
+                    class="flex flex-col rounded-lg bg-[#F3F4F6] p-6 dark:bg-gray-900 w-full w-[50%]">
                     <div class="flex md:flex-row justify-between">
                         <h5
                         class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">

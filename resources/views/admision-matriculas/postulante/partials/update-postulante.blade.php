@@ -1,14 +1,8 @@
 <section class="flex gap-4">
-    <div class="basis-10/12">
-        {{-- <header>
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                {{ __('Postulante') }}
-            </h2>
-        </header> --}}
-    
-        <form method="post" action="{{ route('postulante.update', $postulante->idpostulante) }}" class="mt-6 space-y-6">
+        <form method="post" action="{{ route('postulante.update', $postulante->idpostulante) }}" class="space-y-6 grid grid-cols-1 lg:grid-cols-3">
             @csrf
             @method('patch')
+           <div class="col-span-2">
             <div class="flex flex-row gap-4 flex-wrap">
                 <div class="grow basis-1/2">
                     <x-input-label for="nombre" :value="__('Apellidos y Nombres')" />
@@ -69,7 +63,7 @@
                     <x-input-label class="px-2" for="estado" :value="__('Estado')" />
                 <select 
                     id="estado" name="estado"
-                    class="@if($blockstate == true) {{"pointer-events-none"}} @endif w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                    class="@if($blockstate == true) {{"pointer-events-none"}} @endif w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm disabled:bg-[#E9ECEF]"
                     @if (Auth::user()->hasRole('apoderado'))
                         disabled
                     @endif
@@ -94,7 +88,7 @@
                 </div>
             </div>
         
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-4 mt-6">
                 <x-primary-button>{{ __('Actualizar') }}</x-primary-button>
     
                 <a href="{{ route('cancelar', ['ruta'=>'postulante.index']) }}">
@@ -103,11 +97,19 @@
                     </x-secondary-button>
                 </a>
             </div>
+           </div>
+       
+           <div class="lg:m-8 flex flex-col">
+            <img src="{{ asset('assets') }}/postulante.png" class="rounded-lg w-full">
+            <div class="space-x-2 mt-2">
+                <button type="button" class="bg-slate-900 dark:bg-slate-600 text-white px-3 py-1 rounded-md">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button type="button" class="bg-red-500 text-white px-3 py-1 rounded-md">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+           </div>
+
         </form>
-    
-    </div>
- 
-    <div class="basis-2/12">
-        <img src="{{ asset('assets') }}/postulante.png" class="rounded-lg w-full">
-    </div>
 </section>

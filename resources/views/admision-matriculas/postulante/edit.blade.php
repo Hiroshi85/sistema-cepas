@@ -1,4 +1,16 @@
-<x-app-layout>    
+<x-app-layout>   
+    <x-slot name="header">
+        <div class="w-full flex justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Mis postulantes') }}
+            </h2>
+            <h3 class="font-bold text-xl text-gray-800 dark:text-gray-200">
+                @If(Auth::user()->hasRole('apoderado'))
+                    {{ __('Sistema de apoderados') }}
+                @endif 
+            </h3>
+        </div>
+    </x-slot>
     <div class="flex flex-col md:flex-row"> 
         <div class="pb-4 md:py-12">
             <div class="mx-auto sm:px-6 lg:px-8 space-y-6">
