@@ -20,4 +20,10 @@ class CursoAcademia extends Model
         'nombre',
         'descripcion'
     ];
+
+    // relationships
+    public function areas()
+    {
+        return $this->belongsToMany(Area::class, 'curso_area', 'idcurso', 'idarea');
+    }
 }

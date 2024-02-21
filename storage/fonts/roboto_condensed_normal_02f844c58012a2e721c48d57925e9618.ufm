@@ -1,6 +1,6 @@
 StartFontMetrics 4.1
 Notice Converted by PHP-font-lib
-Comment https://github.com/PhenX/php-font-lib
+Comment https://github.com/dompdf/php-font-lib
 EncodingScheme FontSpecific
 Copyright Copyright 2011 Google Inc. All Rights Reserved.
 FontName Roboto Condensed
@@ -16,8 +16,10 @@ IsFixedPitch false
 UnderlineThickness 49
 UnderlinePosition -73
 FontHeightOffset 0
-Ascender 928
-Descender -244
+CapHeight 711
+XHeight 528
+Ascender 750
+Descender -203
 FontBBox -737 -271 998 1056
 StartCharMetrics 1031
 U 0 ; WX 0 ; N uni0000 ; G 1

@@ -7,13 +7,13 @@
 
 <form
     action="{{ $cur
-        ? route('academia.cursos.edit', [
+        ? route('academia.cursos.update', [
             'curso' => $cur,
         ])
         : route('academia.cursos.store') }}"
     class="flex flex-col gap-5" method="POST">
     @csrf
-    @method('POST')
+    {{ $cur ? method_field('PUT') : method_field('POST') }}
     <div class="flex flex-col gap-2">
         <x-input-group value="{{ $cur ? $cur->nombre : '' }}" label="Nombre del curso" name="nombre" type="text"
             required />
@@ -25,8 +25,17 @@
             <label for="none">Areas</label>
             <div class="flex gap-5">
                 @foreach ($areas as $area)
+                    @php
+                        $checked = false;
+                        if ($cur) {
+                            $checked = $cur->areas->contains($area);
+                        }
+                    @endphp
+
                     <label class="flex items-center gap-1">
-                        <input type="checkbox" name="areas[]" value="{{ $area->id }}" class="rounded-md text-blue-800">
+                        <input type="checkbox" name="areas[]" value="{{ $area->id }}" class="rounded-md text-blue-800" {{
+                            $checked ? 'checked' : ''
+                        }}>
                         <span></span>
                         {{ $area->nombre }}
                     </label>

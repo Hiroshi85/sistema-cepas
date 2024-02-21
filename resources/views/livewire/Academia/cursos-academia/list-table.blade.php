@@ -16,11 +16,16 @@
                 <tr>
                     <th scope="col" class="px-6 py-3">
                         Nombre
-                        @livewire('common.sort-button', ['field' => 'alumnos.nombre'])
+                        @livewire('common.sort-button', ['field' => 'nombre'])
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Descripcion
-                        @livewire('common.sort-button', ['field' => 'carreras_unt.nombre'])
+                        @livewire('common.sort-button', ['field' => 'descripcion'])
+                    </th>
+
+                    <th scope="col" class="px-6 py-3">
+                        Areas
+                        @livewire('common.sort-button', ['field' => 'nombre'])
                     </th>
                     <th scope="col" class="px-6 py-3">
                         <span class="sr-only">Actions</span>
@@ -39,6 +44,16 @@
                         </th>
                         <td class="px-6 py-4 capitalize">
                             {{ $curso->descripcion }}
+                        </td>
+
+                        <td class="px-6 py-4 capitalize">
+                            <div class="flex gap-1">
+                                @foreach ($curso->areas as $area)
+                                    <span class="bg-gray-200 dark:bg-gray-600 dark:text-gray-400 text-gray-700 px-2 py-1 rounded-full">
+                                        {{ $area->nombre }}
+                                    </span>
+                                @endforeach
+                            </div>
                         </td>
                         <td class="px-6 py-4 text-right inline-flex gap-2 items-center justify-center">
                             <a href="{{ route('academia.cursos.show', [

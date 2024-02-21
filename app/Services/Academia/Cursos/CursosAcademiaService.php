@@ -14,6 +14,7 @@ class CursosAcademiaService {
     ) {
         return CursoAcademia::
             where('nombre', 'LIKE', "%{$search}%")
+            ->with('areas')
             ->orderBy($sortBy, $sortDirection)
             ->paginate($paginate);
     }
