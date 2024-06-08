@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\rrhh;
+namespace Database\Factories\Rrhh;
 
 use App\Models\Rrhh\candidato;
 use App\Models\Rrhh\Plaza;

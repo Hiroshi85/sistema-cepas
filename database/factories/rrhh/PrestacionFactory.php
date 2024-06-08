@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\rrhh;
+namespace Database\Factories\Rrhh;
 
 use App\Models\Rrhh\Nomina;
 use App\Models\Rrhh\Prestacion;

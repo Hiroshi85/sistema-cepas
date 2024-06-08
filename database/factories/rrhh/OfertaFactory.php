@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\rrhh;
+namespace Database\Factories\Rrhh;
 
 use App\Models\Rrhh\Oferta;
 use App\Models\Rrhh\Puesto;
