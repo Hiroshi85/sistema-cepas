@@ -236,7 +236,7 @@
                 // --------------------------------------------------------------------
                 
                 var matriculadosChart = growthChartOptions
-                matriculadosChart.series = [{{round($alumnos->where('estado',"Matriculado")->count()/$alumnos->count()*100, 0)}}]
+                matriculadosChart.series = [{{$alumnos->where('estado',"Matriculado")->count()/($alumnos->count() > 0 ? $alumnos->count()*100 : 1)}}]
                 matriculadosChart.labels = ['Matriculados']
                 var growthChart = new ApexCharts(document.querySelector('#growthChart'), matriculadosChart);
                 growthChart.render()
