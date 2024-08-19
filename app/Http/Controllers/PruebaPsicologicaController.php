@@ -8,6 +8,8 @@ use App\Models\TipoPrueba;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use League\Flysystem\UnableToSetVisibility;
 
 class PruebaPsicologicaController extends Controller
 {
@@ -134,9 +136,26 @@ class PruebaPsicologicaController extends Controller
     }
 
     private function uploadFile(Request $req){
-        $archivo = $req->file('archivo');
-        $path = Storage::putFile('files', $archivo);
-        error_log($path);
-        return $path;
+        // $path = Storage::putFile('files', $archivo);
+        // error_log($path);
+
+        try {
+            $file = $req->file('archivo');
+            $file_name = time() . '_' . $file->getClientOriginalName();
+            error_log("Nombre: ".$file_name);
+            $storeFile = $file->storeAs("psicologia", $file_name, "gcs");
+            return $storeFile;
+            // $disk = Storage::disk('gcs');
+            // $fetchFile = $disk->url($storeFile);
+        } catch(\League\Flysystem\UnableToWriteFile|UnableToSetVisibility $e) {
+            throw_if($this->throwsExceptions(), $e);
+            return false;
+        }
+
+        // error_log("UUID: ".$uuid);
+        // $disk = Storage::disk('gcs');
+        // $funciona = $disk->put('psicologia/'.$uuid, $archivo);
+        // error_log($funciona ? "Sí funciona" : "No funciona");
+
     }
 }
