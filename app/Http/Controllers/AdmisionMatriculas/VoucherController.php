@@ -9,6 +9,7 @@ use App\Notifications\admision_matriculas\PagoNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Storage;
 
 class VoucherController extends Controller
 {
@@ -85,11 +86,15 @@ class VoucherController extends Controller
         $voucher->metodo_pago = $request->get('idmetodopago');
         $voucher->observacion = $request->get('observacion');
         if ($request->hasFile('voucher')) {
-            $file = $request->file('voucher');
-            $path = "assets/img/docs/";
-            $time = time().'-'.$file->getClientOriginalName();
-            $upload = $request->file('voucher')->move($path, $time);
-            $voucher->voucher = $path.$time;
+            // $file = $request->file('voucher')->store('public/vouchers', 's3');
+            // $path = "assets/img/docs/";
+            // $time = time().'-'.$file->getClientOriginalName();
+            // $upload = $request->file('voucher')->move($path, $time);
+            // $voucher->voucher = $path.$time;
+            // Save it to S3 bucket
+            // $path = $file->store('vouchers', 's3');
+            $url = $this->upload($request);
+            $voucher->voucher = $url;
         }
     
         $voucher->estado = "Registrado";
@@ -187,11 +192,14 @@ class VoucherController extends Controller
         }
 
         if ($request->hasFile('voucher')) {
-            $file = $request->file('voucher');
-            $path = "assets/img/docs/";
-            $time = time().'-'.$file->getClientOriginalName();
-            $upload = $request->file('voucher')->move($path, $time);
-            $voucher->voucher = $path.$time;
+            // $file = $request->file('voucher');
+            // $path = "assets/img/docs/";
+            // $time = time().'-'.$file->getClientOriginalName();
+            // $upload = $request->file('voucher')->move($path, $time);
+            // $voucher->voucher = $path.$time;
+            // Save it to S3 bucket instead
+            $url = $this->upload($request);
+            $voucher->voucher = $url;
         }
 
         $voucher->save();
@@ -231,5 +239,21 @@ class VoucherController extends Controller
         );
 
         return redirect()->back()->with('datos','deleted');
+    }
+
+    public function upload(Request $request)
+    {
+        // Obtener el archivo de la solicitud
+        $image = $request->file('voucher');
+
+        // Crear un nombre único para la imagen
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+
+        // Subir la imagen al bucket S3
+        $path = Storage::disk('s3')->put($imageName, file_get_contents($image));
+        // Generar la URL de la imagen
+        $imageUrl = Storage::disk('s3')->url($imageName);
+        // Retornar la URL o hacer cualquier otra acción
+        return $imageUrl;
     }
 }
